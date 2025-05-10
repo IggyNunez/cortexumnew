@@ -45,7 +45,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   const renderImageLogo = () => {
     return (
       <img 
-        src="/images/cortexuum-logo.png"
+        src={cortexuumLogo}
         alt="Cortexuum Logo" 
         className={`${imgSizeMap[size]}`}
       />
@@ -56,7 +56,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   const renderSvgLogo = () => {
     return (
       <img 
-        src="/images/cortexuum-logo.png"
+        src={cortexuumLogo}
         alt="Cortexuum Logo" 
         className={`${imgSizeMap[size]}`}
       />

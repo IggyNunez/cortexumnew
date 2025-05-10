@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CortexuumLogo from "./CortexuumLogo";
+import cortexuumLogo from '../assets/cortexuum-logo.png';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -55,7 +56,7 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
               <img 
-                src="/images/cortexuum-logo.png" 
+                src={cortexuumLogo} 
                 alt="Cortexuum AI Marketing Agency"
                 className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105 duration-300"
               />
