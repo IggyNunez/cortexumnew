@@ -9,6 +9,8 @@ import {
   type Conversation,
   type InsertConversation
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -26,82 +28,61 @@ export interface IStorage {
   getConversationsByVisitorId(visitorId: string): Promise<Conversation[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private leads: Map<number, Lead>;
-  private conversations: Map<number, Conversation>;
-  private currentUserId: number;
-  private currentLeadId: number;
-  private currentConversationId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.leads = new Map();
-    this.conversations = new Map();
-    this.currentUserId = 1;
-    this.currentLeadId = 1;
-    this.currentConversationId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const result = await db.select().from(users).where(eq(users.id, id));
+    return result.length ? result[0] : undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const result = await db.select().from(users).where(eq(users.username, username));
+    return result.length ? result[0] : undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const result = await db.insert(users).values(insertUser).returning();
+    return result[0];
   }
   
   // Lead methods
   async createLead(insertLead: InsertLead): Promise<Lead> {
-    const id = this.currentLeadId++;
-    const created_at = new Date();
+    // Filter out undefined optional fields for proper database insertion
+    const leadData: Record<string, any> = {};
     
-    // Handle the message field properly (null if undefined)
-    const message = insertLead.message === undefined ? null : insertLead.message;
+    Object.entries(insertLead).forEach(([key, value]) => {
+      if (value !== undefined) {
+        leadData[key] = value;
+      }
+    });
     
-    const lead: Lead = { 
-      ...insertLead, 
-      id, 
-      created_at,
-      message 
-    };
-    
-    this.leads.set(id, lead);
-    return lead;
+    const result = await db.insert(leads).values(leadData).returning();
+    return result[0];
   }
   
   async getLeads(): Promise<Lead[]> {
-    return Array.from(this.leads.values());
+    return await db.select().from(leads).orderBy(desc(leads.created_at));
   }
   
   async getLead(id: number): Promise<Lead | undefined> {
-    return this.leads.get(id);
+    const result = await db.select().from(leads).where(eq(leads.id, id));
+    return result.length ? result[0] : undefined;
   }
   
   // Conversation methods
   async saveConversation(insertConversation: InsertConversation): Promise<Conversation> {
-    const id = this.currentConversationId++;
-    const created_at = new Date();
-    const conversation: Conversation = { ...insertConversation, id, created_at };
-    this.conversations.set(id, conversation);
-    return conversation;
+    const result = await db.insert(conversations).values(insertConversation).returning();
+    return result[0];
   }
   
   async getConversationsByVisitorId(visitorId: string): Promise<Conversation[]> {
-    return Array.from(this.conversations.values())
-      .filter(conversation => conversation.visitor_id === visitorId)
-      .sort((a, b) => a.created_at.getTime() - b.created_at.getTime());
+    return await db
+      .select()
+      .from(conversations)
+      .where(eq(conversations.visitor_id, visitorId))
+      .orderBy(conversations.created_at);
   }
 }
 
-export const storage = new MemStorage();
+// Switch from in-memory storage to database storage
+export const storage = new DatabaseStorage();

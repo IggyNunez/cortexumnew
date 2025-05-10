@@ -21,6 +21,17 @@ export const leads = pgTable("leads", {
   company: text("company").notNull(),
   phone: text("phone").notNull(),
   message: text("message"),
+  
+  // Business qualification fields
+  business_type: text("business_type"),
+  company_size: text("company_size"),
+  annual_revenue: text("annual_revenue"),
+  client_value: text("client_value"),
+  marketing_needs: text("marketing_needs"),
+  timeline: text("timeline"),
+  budget: text("budget"),
+  source: text("source"),
+  
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -30,6 +41,14 @@ export const insertLeadSchema = createInsertSchema(leads).pick({
   company: true,
   phone: true,
   message: true,
+  business_type: true,
+  company_size: true,
+  annual_revenue: true,
+  client_value: true,
+  marketing_needs: true,
+  timeline: true,
+  budget: true,
+  source: true,
 });
 
 // Chatbot conversation records
