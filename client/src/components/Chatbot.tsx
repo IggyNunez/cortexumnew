@@ -206,11 +206,11 @@ const Chatbot = () => {
               ))}
               {isLoading && (
                 <div className="flex justify-start mb-4">
-                  <div className="bg-gray-100 text-gray-800 rounded-lg rounded-tl-none px-4 py-2">
+                  <div className="bg-gray-100 text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm">
                     <div className="flex space-x-2">
-                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                      <div className="h-2.5 w-2.5 bg-primary/50 rounded-full animate-bounce"></div>
+                      <div className="h-2.5 w-2.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                      <div className="h-2.5 w-2.5 bg-primary/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
                     </div>
                   </div>
                 </div>
@@ -220,11 +220,11 @@ const Chatbot = () => {
 
             {/* Chat input */}
             <div className="p-4 border-t">
-              <div className="flex items-center bg-gray-100 rounded-full overflow-hidden">
+              <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
                 <button 
                   onClick={handleVoiceRecording}
-                  className={`p-2 ${isRecording ? 'text-red-500' : 'text-gray-500'} hover:text-primary transition-colors`}
-                  aria-label="Voice Input"
+                  className={`p-3 ${isRecording ? 'text-red-500' : 'text-gray-600'} hover:text-primary transition-colors focus:outline-none`}
+                  aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
                 >
                   <Mic className="h-5 w-5" />
                 </button>
@@ -234,32 +234,33 @@ const Chatbot = () => {
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 py-2 px-3 bg-transparent border-none focus:outline-none"
+                  className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none text-gray-800 text-base"
                   disabled={isLoading || isRecording}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={message.trim() === "" || isLoading}
-                  className={`p-2 ${
+                  className={`p-3 ${
                     message.trim() === "" || isLoading
                       ? "text-gray-400"
                       : "text-primary hover:text-primary/80"
-                  } transition-colors`}
+                  } transition-colors focus:outline-none`}
                   aria-label="Send message"
                 >
                   <Send className="h-5 w-5" />
                 </button>
               </div>
-              <div className="text-center mt-2 text-xs text-gray-500">
+              <div className="text-center mt-3 text-xs text-gray-600 font-medium">
                 {isPlaying ? (
                   <button 
                     onClick={stopAudio}
-                    className="text-primary hover:underline"
+                    className="text-primary hover:underline focus:outline-none font-bold"
+                    aria-label="Stop audio playback"
                   >
                     Stop Audio
                   </button>
                 ) : (
-                  "Voice-enabled AI powered by Hume API"
+                  "Voice-enabled AI powered by ElevenLabs"
                 )}
               </div>
             </div>

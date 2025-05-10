@@ -124,17 +124,17 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center shadow-md">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mr-3 shadow-sm">
                 <Volume2 className="h-4 w-4" />
               </div>
-              <h3 className="font-medium">AI Assistant (Voice-Enabled)</h3>
+              <h3 className="font-bold text-white text-with-shadow">AI Assistant (Voice-Enabled)</h3>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/10 rounded-full"
-              aria-label="Close"
+              className="p-2 hover:bg-white/20 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+              aria-label="Close chatbot"
             >
               <X className="h-5 w-5" />
             </button>
@@ -150,11 +150,11 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 <div
                   className={`max-w-[85%] rounded-lg px-4 py-3 ${
                     message.isUser
-                      ? "bg-primary text-white rounded-tr-none"
+                      ? "bg-primary text-white rounded-tr-none shadow"
                       : "bg-white text-gray-800 rounded-tl-none shadow-sm"
                   }`}
                 >
-                  <p>{message.content}</p>
+                  <p className="text-base leading-relaxed font-medium">{message.content}</p>
                 </div>
               </div>
             ))}
@@ -162,9 +162,9 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
               <div className="flex justify-start mb-4">
                 <div className="bg-white text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm">
                   <div className="flex space-x-2">
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                    <div className="h-2.5 w-2.5 bg-primary/50 rounded-full animate-bounce"></div>
+                    <div className="h-2.5 w-2.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                    <div className="h-2.5 w-2.5 bg-primary/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
                   </div>
                 </div>
               </div>
@@ -174,11 +174,11 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
 
           {/* Input */}
           <div className="p-4 border-t bg-white">
-            <div className="flex items-center bg-gray-100 rounded-full overflow-hidden">
+            <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
               <button
                 onClick={handleVoiceInput}
-                className={`p-3 ${isRecording ? "text-red-500" : "text-gray-500"}`}
-                aria-label="Voice input"
+                className={`p-3 ${isRecording ? "text-red-500" : "text-gray-600"} hover:text-primary transition-colors focus:outline-none`}
+                aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
               >
                 <Mic className="h-5 w-5" />
               </button>
@@ -188,7 +188,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none"
+                className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none text-gray-800 text-base"
                 disabled={isLoading || isRecording}
               />
               <button
@@ -197,23 +197,24 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 className={`p-3 ${
                   inputValue.trim() === "" || isLoading
                     ? "text-gray-400"
-                    : "text-primary"
-                }`}
+                    : "text-primary hover:text-primary/80"
+                } transition-colors focus:outline-none`}
                 aria-label="Send message"
               >
                 <Send className="h-5 w-5" />
               </button>
             </div>
-            <div className="text-center mt-2 text-xs text-gray-500">
+            <div className="text-center mt-3 text-xs text-gray-600 font-medium">
               {isPlaying ? (
                 <button 
                   onClick={stopAudio}
-                  className="text-primary hover:underline"
+                  className="text-primary hover:underline focus:outline-none font-bold"
+                  aria-label="Stop audio playback"
                 >
                   Stop Audio
                 </button>
               ) : (
-                "Voice-enabled AI powered by Hume API"
+                "Voice-enabled AI powered by ElevenLabs"
               )}
             </div>
           </div>
