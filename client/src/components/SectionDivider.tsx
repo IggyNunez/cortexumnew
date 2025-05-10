@@ -16,11 +16,11 @@ interface SectionDividerProps {
 
 const SectionDivider: React.FC<SectionDividerProps> = ({
   gradient = 'brain-blue',  // Default to a brain-inspired gradient
-  height = '120px',
-  parallaxSpeed = 0.2,
+  height = '80px', // Reduced height for less intrusive dividers
+  parallaxSpeed = 0.05, // Much reduced parallax speed
   className = '',
-  reverse = true,
-  sticky = false,
+  reverse = false,
+  sticky = false, // Disable sticky by default
   zIndex,
 }) => {
   // Map gradient types to classes - updated with brain logo colors
@@ -36,12 +36,12 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
     none: '',
   };
 
-  // Use enhanced parallax effect on the divider
+  // Use a very subtle parallax effect on the divider
   const dividerRef = useParallax<HTMLDivElement>({ 
     speed: parallaxSpeed, 
     reverse, 
-    sticky,
-    stickyThreshold: 0.3,  // Smoother transitions
+    sticky: false, // Never use sticky on dividers
+    disabled: sticky, // If sticky is true, disable parallax completely
   });
 
   return (

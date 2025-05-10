@@ -55,11 +55,20 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
-              <img 
-                src={cortexuumLogo} 
-                alt="Cortexuum AI Marketing Agency"
-                className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105 duration-300"
-              />
+              {scrolled ? (
+                <img 
+                  src={cortexuumLogo} 
+                  alt="Cortexuum AI Marketing Agency"
+                  className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105 duration-300"
+                />
+              ) : (
+                <CortexuumLogo 
+                  variant="white" 
+                  size="md" 
+                  showText={true} 
+                  className="transition-transform group-hover:scale-105 duration-300"
+                />
+              )}
             </a>
           </div>
 

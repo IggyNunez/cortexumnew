@@ -28,114 +28,69 @@ const Home = () => {
       <Navbar />
       <Hero />
       
-      {/* Add gradient divider with parallax effect - updated with brain-inspired gradients */}
-      <SectionDivider gradient="brain-blue" height="120px" parallaxSpeed={0.15} />
+      {/* Simple gradient divider */}
+      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.05} />
       
-      {/* Apply sticky parallax effect to the first client logos section */}
+      {/* Client logos section */}
       <ParallaxSection 
-        speed={0.08} 
+        speed={0.03} 
         className="fade-section" 
-        sticky={true} 
-        stickyThreshold={0.25}
-        minHeight="100vh"
+        sticky={false}
+        minHeight="auto"
         zIndex={1}
       >
         <ClientLogos />
       </ParallaxSection>
       
-      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.2} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
-      {/* Services section with sticky parallax */}
-      <ParallaxSection 
-        speed={0.1} 
-        reverse={true} 
-        className="fade-section" 
-        sticky={true}
-        stickyThreshold={0.2}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      {/* Services section - simple regular section */}
+      <section id="services" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ServicesSection />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-magenta" height="150px" parallaxSpeed={0.15} zIndex={2} />
+      <SectionDivider gradient="brain-magenta" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
-      {/* Benefits section with sticky effect */}
-      <ParallaxSection 
-        speed={0.08} 
-        className="fade-section" 
-        sticky={true}
-        stickyThreshold={0.25}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      {/* Benefits section - no sticky effect for simpler scrolling */}
+      <section id="benefits" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <BenefitsSection />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-blue" height="150px" parallaxSpeed={0.2} zIndex={2} />
+      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
-      {/* Testimonials with subtle parallax */}
-      <ParallaxSection 
-        speed={0.12} 
-        reverse={true} 
-        className="fade-section"
-        sticky={true}
-        stickyThreshold={0.2}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      {/* Testimonials section */}
+      <section id="testimonials" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <TestimonialsSection />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.15} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Why hire us section */}
-      <ParallaxSection 
-        speed={0.08} 
-        className="fade-section"
-        sticky={true}
-        stickyThreshold={0.25}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      <section id="why-hire-us" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <WhyHireUsSection />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-magenta" height="150px" parallaxSpeed={0.2} zIndex={2} />
+      <SectionDivider gradient="brain-magenta" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Content funnel section */}
-      <ParallaxSection 
-        speed={0.08} 
-        className="fade-section"
-        sticky={true}
-        stickyThreshold={0.25}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      <section id="content-funnel" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ContentFunnelSection />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-blue" height="150px" parallaxSpeed={0.2} zIndex={2} />
+      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Future insights section */}
-      <ParallaxSection 
-        speed={0.12} 
-        reverse={true} 
-        className="fade-section"
-        sticky={true}
-        stickyThreshold={0.2}
-        minHeight="100vh"
-        zIndex={1}
-      >
+      <section id="future-insights" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <FutureInsights />
-      </ParallaxSection>
+      </section>
       
-      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.15} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
-      {/* Contact section - no sticky effect for last section */}
+      {/* Contact section */}
       <ParallaxSection 
         speed={0.05} 
         className="fade-section"
+        sticky={false}
         zIndex={1}
       >
         <ContactSection />

@@ -17,22 +17,22 @@ interface ParallaxSectionProps {
 
 const ParallaxSection: React.FC<ParallaxSectionProps> = ({
   children,
-  speed = 0.15,
+  speed = 0.05, // Reduced default speed for more subtle effect
   reverse = false,
   className = '',
   backgroundColor = 'transparent',
   disabled = false,
   sticky = false,
-  stickyThreshold = 0.2,
-  minHeight = '100vh',
-  perspective = 1000,
+  stickyThreshold = 0.15, // Reduced threshold for smoother transitions
+  minHeight = 'auto', // Default to auto height rather than 100vh
+  perspective = 0, // Disable perspective by default
   zIndex,
 }) => {
-  // Use parallax effect with sticky option
+  // Use parallax effect with sticky option - much more subtle now
   const sectionRef = useParallax<HTMLDivElement>({ 
     speed, 
     reverse, 
-    disabled,
+    disabled: disabled || sticky, // Disable parallax when sticky is enabled to avoid conflicts
     sticky,
     stickyThreshold,
   });
