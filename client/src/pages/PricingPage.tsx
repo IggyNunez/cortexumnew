@@ -310,7 +310,7 @@ const PricingPage = () => {
                   className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
                   onClick={() => window.location.href = '#pricing'}
                 >
-                  See our AI solution pricing
+                  Apply for AI Solutions
                 </Button>
               </div>
             </div>

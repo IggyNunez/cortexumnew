@@ -8,14 +8,12 @@ import CustomPlanForm from './CustomPlanForm';
 const PricingSection = () => {
   const [, setLocation] = useLocation();
   const [showCustomPlanForm, setShowCustomPlanForm] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>('custom');
 
   const handleSelectPlan = (planId: string) => {
-    if (planId === 'custom') {
-      setShowCustomPlanForm(true);
-    } else {
-      // Standard plans go to checkout
-      setLocation('/checkout');
-    }
+    // Set the selected plan type and show the form
+    setSelectedPlan(planId);
+    setShowCustomPlanForm(true);
   };
 
   return (
@@ -62,7 +60,7 @@ const PricingSection = () => {
                 className="w-full" 
                 onClick={() => handleSelectPlan('starter')}
               >
-                Get Started
+                Apply Now
               </Button>
             </CardFooter>
           </Card>
@@ -105,7 +103,7 @@ const PricingSection = () => {
                 className="w-full" 
                 onClick={() => handleSelectPlan('professional')}
               >
-                Choose Plan
+                Apply Now
               </Button>
             </CardFooter>
           </Card>
@@ -146,7 +144,7 @@ const PricingSection = () => {
                 className="w-full" 
                 onClick={() => handleSelectPlan('enterprise')}
               >
-                Contact Sales
+                Apply Now
               </Button>
             </CardFooter>
           </Card>
@@ -204,7 +202,10 @@ const PricingSection = () => {
                 className="bg-white rounded-lg shadow-xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                <CustomPlanForm onClose={() => setShowCustomPlanForm(false)} />
+                <CustomPlanForm 
+                  onClose={() => setShowCustomPlanForm(false)} 
+                  planType={selectedPlan}
+                />
               </div>
             </div>
           </div>

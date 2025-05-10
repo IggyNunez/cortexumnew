@@ -75,9 +75,10 @@ const contactOptions = [
 
 interface CustomPlanFormProps {
   onClose: () => void;
+  planType?: string;
 }
 
-const CustomPlanForm = ({ onClose }: CustomPlanFormProps) => {
+const CustomPlanForm = ({ onClose, planType = 'custom' }: CustomPlanFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
@@ -110,12 +111,12 @@ const CustomPlanForm = ({ onClose }: CustomPlanFormProps) => {
         company: data.company,
         phone: data.phone,
         message: data.specific_needs,
-        business_type: 'custom-plan',
+        business_type: planType,
         company_size: data.company_size,
         budget: data.budget,
         timeline: data.timeframe,
         marketing_needs: data.marketing_channels?.join(', '),
-        source: 'custom-plan-form'
+        source: 'plan-application-form'
       });
 
       if (!response.ok) {
@@ -160,10 +161,10 @@ const CustomPlanForm = ({ onClose }: CustomPlanFormProps) => {
               <CheckCircle className="h-16 w-16 text-green-500" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              Custom Plan Request Submitted!
+              Application Submitted Successfully!
             </h3>
             <p className="text-gray-600 mb-6 max-w-md mx-auto">
-              Thank you for your interest. Our team will review your requirements and get back to you within 24 hours.
+              Thank you for your interest in our {planType === 'custom' ? 'custom' : planType} plan. Our team will review your application and contact you within 24 hours to discuss next steps.
             </p>
             <Button onClick={onClose}>
               Return to Pricing
