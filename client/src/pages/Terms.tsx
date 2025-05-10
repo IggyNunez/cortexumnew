@@ -57,7 +57,7 @@ const Terms = () => {
 
             <h2>4. AI Technology and Voice Synthesis</h2>
             <p>
-              Our Service utilizes artificial intelligence and voice synthesis technology powered by third-party providers including ElevenLabs. By using our Service, you acknowledge that:
+              Our Service utilizes artificial intelligence and voice synthesis technology powered by third-party providers. By using our Service, you acknowledge that:
             </p>
             <ul>
               <li>AI-generated content may not always be accurate or appropriate for all contexts.</li>

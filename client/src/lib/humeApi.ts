@@ -151,11 +151,11 @@ export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSp
 };
 
 /**
- * Synthesizes speech for the given text using ElevenLabs API
+ * Synthesizes speech for the given text using AI voice technology
  */
 export const synthesizeSpeech = async (text: string): Promise<void> => {
   try {
-    // Use our server endpoint to generate speech with ElevenLabs
+    // Use our server endpoint to generate speech with AI voice synthesis
     const response = await fetch('/api/synthesize', {
       method: 'POST',
       headers: {
@@ -180,7 +180,7 @@ export const synthesizeSpeech = async (text: string): Promise<void> => {
     
     return Promise.resolve();
   } catch (error) {
-    console.error('Error generating speech with ElevenLabs:', error);
+    console.error('Error generating speech with AI voice technology:', error);
     
     // Fallback to browser's built-in speech synthesis
     if ('speechSynthesis' in window) {

@@ -63,7 +63,7 @@ const Hero = () => {
       else if (lowerQuestion.includes("services") || lowerQuestion.includes("offer") || lowerQuestion.includes("solution")) {
         response = "We offer AI-powered automation for content creation, client reporting, data analysis, lead generation, and campaign optimization - all tailored to marketing agencies.";
       }
-      else if (lowerQuestion.includes("voice") || lowerQuestion.includes("elevenlabs") || lowerQuestion.includes("assistant")) {
+      else if (lowerQuestion.includes("voice") || lowerQuestion.includes("speech") || lowerQuestion.includes("assistant")) {
         response = "Our voice-enabled AI assistants use advanced technology for natural-sounding text-to-speech. We can implement this technology for your agency and customize it for your clients' specific needs and branding.";
       }
       else if (lowerQuestion.includes("create") || lowerQuestion.includes("how") || lowerQuestion.includes("get")) {

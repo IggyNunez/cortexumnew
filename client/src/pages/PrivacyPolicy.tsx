@@ -49,7 +49,7 @@ const PrivacyPolicy = () => {
 
             <h2>5. AI Voice Technology and Data Processing</h2>
             <p>
-              Our website uses ElevenLabs voice synthesis technology. When you interact with our voice-enabled AI assistant, your text inputs may be processed to generate voice responses. We ensure this data is processed securely and in accordance with applicable data protection laws.
+              Our website uses advanced voice synthesis technology. When you interact with our voice-enabled AI assistant, your text inputs may be processed to generate voice responses. We ensure this data is processed securely and in accordance with applicable data protection laws.
             </p>
 
             <h2>6. Data Security</h2>
