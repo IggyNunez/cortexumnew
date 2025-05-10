@@ -21,6 +21,10 @@ const ClientLogos = () => {
     {
       name: "Cortexuum",
       logo: "CX"
+    },
+    {
+      name: "Sunday Golf",
+      logo: "SG"
     }
   ];
 
@@ -28,7 +32,7 @@ const ClientLogos = () => {
     <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2 
-          className="text-center text-gray-500 text-lg mb-8"
+          className="text-center text-gray-700 text-lg mb-8 font-semibold"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -47,10 +51,10 @@ const ClientLogos = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="flex flex-col items-center">
-                <span className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold">
+                <span className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary font-bold shadow-sm">
                   {client.logo}
                 </span>
-                <span className="text-sm text-gray-500 mt-2">{client.name}</span>
+                <span className="text-sm text-gray-700 font-medium mt-2 text-center">{client.name}</span>
               </div>
             </motion.div>
           ))}

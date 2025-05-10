@@ -37,6 +37,17 @@ const CaseStudiesSection = () => {
       image: "bommorito"
     },
     {
+      client: "Sunday Golf",
+      title: "Amazon Store Optimization",
+      description: "How Sunday Golf automated their Amazon store reports and optimized their ad campaigns for better performance.",
+      metrics: [
+        { label: "Ad ROI", value: "+123%" },
+        { label: "Reporting Time", value: "-85%" },
+        { label: "Sales Growth", value: "47%" }
+      ],
+      image: "sundaygolf"
+    },
+    {
       client: "FormRx",
       title: "AI-Driven Lead Generation",
       description: "How FormRx increased qualified leads by 89% using our voice-enabled Hume API chatbot.",
@@ -54,16 +65,16 @@ const CaseStudiesSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Success Stories with <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Real Results</span>
+            Success Stories with <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent font-extrabold">Real Results</span>
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="text-xl text-gray-700 max-w-3xl mx-auto font-medium"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -89,20 +100,24 @@ const CaseStudiesSection = () => {
                 </div>
               </div>
               <div className="p-6">
-                <div className="text-sm text-gray-500 mb-2">{study.client}</div>
-                <h3 className="text-xl font-bold mb-3">{study.title}</h3>
-                <p className="text-gray-600 mb-6">{study.description}</p>
+                <div className="text-sm text-gray-600 font-medium mb-2">{study.client}</div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">{study.title}</h3>
+                <p className="text-gray-700 mb-6 leading-relaxed">{study.description}</p>
                 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   {study.metrics.map((metric, mIndex) => (
                     <div key={mIndex} className="text-center">
                       <div className="text-primary font-bold text-xl">{metric.value}</div>
-                      <div className="text-gray-500 text-sm">{metric.label}</div>
+                      <div className="text-gray-700 text-sm font-medium">{metric.label}</div>
                     </div>
                   ))}
                 </div>
                 
-                <a href="#contact" className="text-primary font-semibold flex items-center hover:underline">
+                <a 
+                  href="#contact" 
+                  className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:text-primary-dark"
+                  aria-label={`Read ${study.client} case study`}
+                >
                   Read case study <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </div>
@@ -117,7 +132,11 @@ const CaseStudiesSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <a href="#contact" className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all">
+          <a 
+            href="#contact" 
+            className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            aria-label="Contact us to get similar results for your agency"
+          >
             Get Similar Results for Your Agency
           </a>
         </motion.div>
