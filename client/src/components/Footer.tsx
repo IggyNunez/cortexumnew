@@ -1,3 +1,5 @@
+import cortexuumPsychologyLogo from '../assets/cortexuum-logo-psychology.png';
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
@@ -28,14 +30,10 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
               <img 
-                src="/assets/cortexuum-logo.webp" 
-                alt="Cortexuum Logo" 
-                className="h-12 mr-3"
+                src={cortexuumPsychologyLogo} 
+                alt="Cortexuum Psychology Based Marketing" 
+                className="h-20 mr-3"
               />
-              <div className="flex flex-col">
-                <div className="text-xl font-bold text-blue-400">CORTEXUUM</div>
-                <div className="text-xs text-blue-300">PSYCHOLOGY BASED MARKETING</div>
-              </div>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               We're your partners in online success. Specializing in media buying, funnel building, and offer creation, Cortexuum is dedicated to propelling businesses into digital excellence.
