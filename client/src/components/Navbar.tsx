@@ -54,21 +54,123 @@ const Navbar = () => {
             <a href="/" className="flex items-center group">
               <div className="mr-2 transform group-hover:rotate-12 transition-transform duration-300">
                 <svg 
-                  width="24" 
-                  height="24" 
+                  width="32" 
+                  height="32" 
                   viewBox="0 0 24 24" 
                   className={`${scrolled ? "text-primary" : "text-white"} fill-current`}
+                  style={{ transform: 'translateY(2px)' }}
                 >
-                  <path d="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15.707,16.293 c-0.391,0.391-1.023,0.391-1.414,0L12,14.414l-2.293,2.293c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,11.586 l3.707,3.707C16.098,15.684,16.098,15.902,15.707,16.293z M15.707,9.707c-0.391,0.391-1.023,0.391-1.414,0L12,7.414L9.707,9.707 c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,4.586l3.707,3.707C16.098,8.684,16.098,8.902,15.707,9.707z">
-                    <animate 
-                      attributeName="d" 
-                      dur="5s" 
-                      repeatCount="indefinite" 
-                      values="M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15.707,16.293 c-0.391,0.391-1.023,0.391-1.414,0L12,14.414l-2.293,2.293c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,11.586 l3.707,3.707C16.098,15.684,16.098,15.902,15.707,16.293z M15.707,9.707c-0.391,0.391-1.023,0.391-1.414,0L12,7.414L9.707,9.707 c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,4.586l3.707,3.707C16.098,8.684,16.098,8.902,15.707,9.707z;
-                      M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M12,16c-2.209,0-4-1.791-4-4 s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z M12,6c-1.104,0-2-0.896-2-2s0.896-2,2-2s2,0.896,2,2S13.104,6,12,6z;
-                      M12,2C6.477,2,2,6.477,2,12c0,5.523,4.477,10,10,10s10-4.477,10-10C22,6.477,17.523,2,12,2z M15.707,16.293 c-0.391,0.391-1.023,0.391-1.414,0L12,14.414l-2.293,2.293c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,11.586 l3.707,3.707C16.098,15.684,16.098,15.902,15.707,16.293z M15.707,9.707c-0.391,0.391-1.023,0.391-1.414,0L12,7.414L9.707,9.707 c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L12,4.586l3.707,3.707C16.098,8.684,16.098,8.902,15.707,9.707z"
-                    />
-                  </path>
+                  {/* Robot face with improved design */}
+                  <g>
+                    {/* Robot head base */}
+                    <rect x="3" y="4" width="18" height="16" rx="3" />
+                    
+                    {/* Robot head top */}
+                    <rect x="4" y="3" width="16" height="4" rx="1" />
+                    
+                    {/* Robot ears */}
+                    <rect x="1" y="8" width="2" height="6" rx="1" />
+                    <rect x="21" y="8" width="2" height="6" rx="1" />
+                    
+                    {/* Robot eyes - hollowed out from head */}
+                    <circle cx="8" cy="9" r="2.5" fill={scrolled ? "#ffffff" : "#6366F1"}>
+                      <animate 
+                        attributeName="r" 
+                        values="2.5;2.7;2.3;2.5" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="16" cy="9" r="2.5" fill={scrolled ? "#ffffff" : "#6366F1"}>
+                      <animate 
+                        attributeName="r" 
+                        values="2.5;2.3;2.7;2.5" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    {/* Robot pupils */}
+                    <circle cx="8" cy="9" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cy" 
+                        values="9;8.7;9.3;9" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="cx" 
+                        values="8;8.3;7.7;8" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="16" cy="9" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cy" 
+                        values="9;9.3;8.7;9" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="cx" 
+                        values="16;15.7;16.3;16" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    {/* Robot mouth */}
+                    <rect x="7" y="15" width="10" height="1.5" rx="0.75">
+                      <animate 
+                        attributeName="width" 
+                        values="10;8;10;9;10" 
+                        dur="5s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="x" 
+                        values="7;8;7;7.5;7" 
+                        dur="5s" 
+                        repeatCount="indefinite" 
+                      />
+                    </rect>
+                    
+                    {/* Robot antenna */}
+                    <path d="M12,3 L12,1 M11,1 L13,1" 
+                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
+                      strokeWidth="1.5" 
+                      strokeLinecap="round" 
+                      fill="none">
+                      <animate 
+                        attributeName="d" 
+                        values="M12,3 L12,1 M11,1 L13,1;
+                                M12,3 L11.5,1 M10.5,1 L12.5,1;
+                                M12,3 L12.5,1 M11.5,1 L13.5,1;
+                                M12,3 L12,1 M11,1 L13,1" 
+                        dur="4s" 
+                        repeatCount="indefinite" 
+                      />
+                    </path>
+                    
+                    {/* Indicator lights on head */}
+                    <circle cx="5.5" cy="5" r="0.5" fill={scrolled ? "#ffffff" : "#6366F1"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0.5;1" 
+                        dur="1.5s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="18.5" cy="5" r="0.5" fill={scrolled ? "#ffffff" : "#6366F1"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.5;1;0.5" 
+                        dur="1.5s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                  </g>
                 </svg>
               </div>
               <span className={`transition-colors ${scrolled ? "text-primary" : "text-white"}`}>
