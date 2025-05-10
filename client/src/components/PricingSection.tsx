@@ -1,15 +1,21 @@
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check } from 'lucide-react';
+import { Check, Settings } from 'lucide-react';
+import CustomPlanForm from './CustomPlanForm';
 
 const PricingSection = () => {
   const [, setLocation] = useLocation();
+  const [showCustomPlanForm, setShowCustomPlanForm] = useState(false);
 
   const handleSelectPlan = (planId: string) => {
-    // In a real application, you might want to store the selected plan in state
-    // and pass it to the checkout page
-    setLocation('/checkout');
+    if (planId === 'custom') {
+      setShowCustomPlanForm(true);
+    } else {
+      // Standard plans go to checkout
+      setLocation('/checkout');
+    }
   };
 
   return (
@@ -22,7 +28,7 @@ const PricingSection = () => {
           </p>
         </div>
         
-        <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
           {/* Starter Plan */}
           <Card className="border-2 border-gray-200 transition-all duration-200 hover:shadow-lg hover:border-primary/50">
             <CardHeader>
@@ -144,7 +150,65 @@ const PricingSection = () => {
               </Button>
             </CardFooter>
           </Card>
+          
+          {/* Custom Plan */}
+          <Card className="border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-violet-50 transition-all duration-200 hover:shadow-lg hover:border-primary/50">
+            <CardHeader>
+              <CardTitle className="text-xl">Custom Plan</CardTitle>
+              <div className="mt-2 font-medium text-primary">
+                <span className="text-3xl font-bold">Tailored</span>
+                <span className="text-gray-500 ml-1">pricing</span>
+              </div>
+              <CardDescription>
+                Customized AI marketing solutions built specifically for your unique requirements.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <ul className="space-y-2">
+                {[
+                  'Completely customized solution',
+                  'Mix and match features',
+                  'Personalized AI training',
+                  'Custom implementation timeline',
+                  'Dedicated solutions architect',
+                  'Custom integrations & automations',
+                  'Tailored onboarding plan',
+                  'Compliance & security customization'
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start">
+                    <Settings className="h-5 w-5 text-primary mr-2 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700" 
+                onClick={() => handleSelectPlan('custom')}
+              >
+                Apply Now
+              </Button>
+            </CardFooter>
+          </Card>
         </div>
+        
+        {/* Custom Plan Application Form Modal */}
+        {showCustomPlanForm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div 
+              className="max-h-full overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div 
+                className="bg-white rounded-lg shadow-xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CustomPlanForm onClose={() => setShowCustomPlanForm(false)} />
+              </div>
+            </div>
+          </div>
+        )}
         
         <div className="text-center mt-12 text-gray-600">
           <p>All plans include a 14-day free trial. No credit card required to start.</p>
