@@ -47,16 +47,23 @@ export class DatabaseStorage implements IStorage {
   
   // Lead methods
   async createLead(insertLead: InsertLead): Promise<Lead> {
-    // Filter out undefined optional fields for proper database insertion
-    const leadData: Record<string, any> = {};
+    // Drizzle ORM expects an array for the values method in insert queries
+    const result = await db.insert(leads).values({
+      name: insertLead.name,
+      email: insertLead.email,
+      company: insertLead.company,
+      phone: insertLead.phone,
+      message: insertLead.message || null,
+      business_type: insertLead.business_type || null,
+      company_size: insertLead.company_size || null,
+      annual_revenue: insertLead.annual_revenue || null,
+      client_value: insertLead.client_value || null,
+      marketing_needs: insertLead.marketing_needs || null,
+      timeline: insertLead.timeline || null,
+      budget: insertLead.budget || null,
+      source: insertLead.source || null
+    }).returning();
     
-    Object.entries(insertLead).forEach(([key, value]) => {
-      if (value !== undefined) {
-        leadData[key] = value;
-      }
-    });
-    
-    const result = await db.insert(leads).values(leadData).returning();
     return result[0];
   }
   

@@ -71,15 +71,29 @@ const ContactForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
+      // Map form field names to database schema field names
+      const leadData = {
+        name: data.fullName,
+        email: data.email,
+        company: data.companyName,
+        phone: data.phone,
+        message: data.additionalInfo,
+        business_type: data.businessType,
+        company_size: data.companySize,
+        annual_revenue: data.annualRevenue,
+        client_value: data.avgClientValue,
+        marketing_needs: data.primaryChallenges,
+        timeline: data.implementationTimeline,
+        budget: data.marketingBudget,
+        source: 'contact_form'
+      };
+      
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...data,
-          source: 'contact_form'
-        }),
+        body: JSON.stringify(leadData),
       });
       
       if (!response.ok) {

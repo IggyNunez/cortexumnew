@@ -42,6 +42,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // Export leads as CSV
+  app.get("/api/leads/export", async (_req: Request, res: Response) => {
+    try {
+      const leads = await storage.getLeads();
+      
+      if (leads.length === 0) {
+        return res.status(404).json({
+          success: false,
+          error: "No leads to export"
+        });
+      }
+      
+      // Create CSV header from the first lead's keys
+      // Use all possible fields from our schema
+      const csvHeader = [
+        'id', 'name', 'email', 'company', 'phone', 'message',
+        'business_type', 'company_size', 'annual_revenue', 'client_value',
+        'marketing_needs', 'timeline', 'budget', 'source', 'created_at'
+      ].join(',');
+      
+      // Create CSV rows
+      const csvRows = leads.map(lead => {
+        return [
+          lead.id,
+          `"${lead.name || ''}"`,
+          `"${lead.email || ''}"`,
+          `"${lead.company || ''}"`,
+          `"${lead.phone || ''}"`,
+          `"${lead.message || ''}"`,
+          `"${lead.business_type || ''}"`,
+          `"${lead.company_size || ''}"`,
+          `"${lead.annual_revenue || ''}"`,
+          `"${lead.client_value || ''}"`,
+          `"${lead.marketing_needs || ''}"`,
+          `"${lead.timeline || ''}"`,
+          `"${lead.budget || ''}"`,
+          `"${lead.source || ''}"`,
+          lead.created_at ? new Date(lead.created_at).toISOString() : ''
+        ].join(',');
+      });
+      
+      // Combine header and rows
+      const csv = [csvHeader, ...csvRows].join('\n');
+      
+      // Set headers for CSV download
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="leads-${new Date().toISOString().split('T')[0]}.csv"`);
+      
+      res.send(csv);
+    } catch (error) {
+      console.error("Error exporting leads:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to export leads" 
+      });
+    }
+  });
 
   // Save chatbot conversation
   app.post("/api/conversations", async (req: Request, res: Response) => {
