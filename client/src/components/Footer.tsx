@@ -34,7 +34,7 @@ const Footer = () => {
               <img 
                 src={cortexuumLogoWhite} 
                 alt="Cortexuum AI Marketing Agency" 
-                className="h-10 w-auto mr-0"
+                className="h-12 w-auto mr-0"
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
