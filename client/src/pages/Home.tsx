@@ -10,6 +10,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import MobileChatbot from "@/components/MobileChatbot";
+import { MessageSquare } from "lucide-react";
 
 const Home = () => {
   const [isMobileChatbotOpen, setIsMobileChatbotOpen] = useState(false);
@@ -41,11 +42,10 @@ const Home = () => {
       <div className="md:hidden fixed bottom-6 right-6 z-50">
         <button 
           onClick={toggleMobileChatbot}
-          className="gradient-bg h-16 w-16 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition duration-300"
+          className="bg-primary h-14 w-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition duration-300"
+          aria-label="Open chat assistant"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
+          <MessageSquare className="h-6 w-6" />
         </button>
       </div>
       
