@@ -1,5 +1,6 @@
 import cortexuumPsychologyLogo from '../assets/cortexuum-logo-psychology.png';
 import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
+import cortexuumLogoFooter from '../assets/cortexuum-logo-footer.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -31,9 +32,9 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
               <img 
-                src={cortexuumLogoWhite} 
+                src={cortexuumLogoFooter} 
                 alt="Cortexuum AI Marketing Agency" 
-                className="h-12 md:h-16 w-auto mr-3"
+                className="h-10 w-auto mr-0"
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
