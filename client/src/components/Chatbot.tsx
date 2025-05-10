@@ -65,7 +65,7 @@ const Chatbot = () => {
       // Add welcome message when opening for the first time
       const welcomeMessage: ChatMessage = {
         sender: 'bot',
-        message: "Hey there! 👋 Welcome to Cortexuum AI Marketing Agency! I'm your AI assistant, and I'm passionate about helping businesses leverage the psychology of marketing with AI technology. Looking to elevate your business growth or transform your marketing strategy? I'd love to hear what brings you here today!",
+        message: "Hi there! Welcome to Cortexuum Marketing. I'm Rachel, and I'm here to help businesses like yours use psychology-based marketing strategies. What brings you to our site today?",
         timestamp: new Date()
       };
       setMessages([welcomeMessage]);
