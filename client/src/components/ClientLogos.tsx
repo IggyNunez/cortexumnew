@@ -7,8 +7,8 @@ const ClientLogos = () => {
       logo: "A&E"
     },
     {
-      name: "Jamil Jamjee",
-      logo: "JJ"
+      name: "Jamil Damji Real Estate Expert",
+      logo: "JD"
     },
     {
       name: "Pete Bommorito",

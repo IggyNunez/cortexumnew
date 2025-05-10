@@ -141,21 +141,62 @@ export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSp
 };
 
 /**
- * Synthesizes speech for the given text
- * In a real implementation, this would use the Hume API
+ * Synthesizes speech for the given text using ElevenLabs API
  */
 export const synthesizeSpeech = async (text: string): Promise<void> => {
-  // For now, we'll use the browser's built-in speech synthesis
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-    window.speechSynthesis.speak(utterance);
+  try {
+    // Use ElevenLabs API for more natural sounding voice
+    const voiceId = 'pNInz6obpgDQGcFmaJgB'; // ElevenLabs "Adam" voice ID
+    const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'xi-api-key': import.meta.env.ELEVENLABS_API_KEY || '',
+      },
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_monolingual_v1',
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75,
+          style: 0.0,
+          use_speaker_boost: true
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('ElevenLabs API request failed');
+    }
+
+    // Get audio blob from response
+    const audioBlob = await response.blob();
+    
+    // Create URL for the audio blob
+    const audioUrl = URL.createObjectURL(audioBlob);
+    
+    // Play the audio
+    const audio = new Audio(audioUrl);
+    audio.play();
+    
     return Promise.resolve();
-  } else {
-    console.error('Speech synthesis not supported in this browser');
-    return Promise.reject(new Error('Speech synthesis not supported'));
+  } catch (error) {
+    console.error('Error generating speech with ElevenLabs:', error);
+    
+    // Fallback to browser's built-in speech synthesis
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+      return Promise.resolve();
+    } else {
+      console.error('Speech synthesis not supported in this browser');
+      return Promise.reject(new Error('Speech synthesis not supported'));
+    }
   }
 };
 

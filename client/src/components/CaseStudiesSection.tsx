@@ -15,6 +15,17 @@ const CaseStudiesSection = () => {
       image: "ae"
     },
     {
+      client: "Jamil Damji Real Estate",
+      title: "AI-Powered Lead Qualification",
+      description: "How Jamil Damji's real estate business automated lead qualification and increased closing rates.",
+      metrics: [
+        { label: "Lead Qualification", value: "24/7" },
+        { label: "Response Time", value: "-78%" },
+        { label: "Closing Rate", value: "+45%" }
+      ],
+      image: "jamil"
+    },
+    {
       client: "Bommorito Performance",
       title: "Automated Client Reporting",
       description: "How Pete Bommorito's NFL training company saved 20+ hours per week with AI-automated reporting.",

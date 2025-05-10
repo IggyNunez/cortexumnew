@@ -301,7 +301,7 @@ const ContactForm = () => {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { name: "A&E", logo: "A&E" },
-                  { name: "Jamil Jamjee", logo: "JJ" },
+                  { name: "Jamil Damji Real Estate Expert", logo: "JD" },
                   { name: "Pete Bommorito", logo: "PB" },
                   { name: "FormRx", logo: "Rx" }
                 ].map((client, index) => (
