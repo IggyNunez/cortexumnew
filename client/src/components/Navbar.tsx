@@ -60,13 +60,13 @@ const Navbar = () => {
                 <img 
                   src={cortexuumLogo} 
                   alt="Cortexuum AI Marketing Agency"
-                  className="h-16 w-auto transition-transform group-hover:scale-105 duration-300"
+                  className="w-44 transition-transform group-hover:scale-105 duration-300"
                 />
               ) : (
                 <img 
                   src={cortexuumLogoWhite} 
                   alt="Cortexuum AI Marketing Agency"
-                  className="h-16 w-auto transition-transform group-hover:scale-105 duration-300"
+                  className="w-44 transition-transform group-hover:scale-105 duration-300"
                 />
               )}
             </a>
