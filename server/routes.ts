@@ -1,83 +1,114 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema, insertChatMessageSchema } from "@shared/schema";
+import { insertLeadSchema, insertConversationSchema } from "@shared/schema";
+import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
-
-  // Endpoint to submit a lead from the contact form
-  app.post("/api/leads", async (req, res) => {
+  // Lead generation form submission
+  app.post("/api/leads", async (req: Request, res: Response) => {
     try {
-      const validatedData = insertLeadSchema.parse(req.body);
-      const lead = await storage.createLead(validatedData);
-      res.status(201).json({ success: true, lead });
+      const lead = insertLeadSchema.parse(req.body);
+      const createdLead = await storage.createLead(lead);
+      res.status(201).json({ success: true, data: createdLead });
     } catch (error) {
-      res.status(400).json({ success: false, message: "Invalid lead data", error });
+      if (error instanceof z.ZodError) {
+        const validationError = fromZodError(error);
+        res.status(400).json({ 
+          success: false, 
+          error: validationError.message 
+        });
+      } else {
+        console.error("Error creating lead:", error);
+        res.status(500).json({ 
+          success: false, 
+          error: "Failed to create lead" 
+        });
+      }
     }
   });
 
-  // Endpoint to get all leads
-  app.get("/api/leads", async (req, res) => {
+  // Get all leads (typically would have authentication)
+  app.get("/api/leads", async (_req: Request, res: Response) => {
     try {
       const leads = await storage.getLeads();
-      res.status(200).json(leads);
+      res.status(200).json({ success: true, data: leads });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to retrieve leads", error });
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to fetch leads" 
+      });
     }
   });
 
-  // Endpoint to add a chat message
-  app.post("/api/chat/messages", async (req, res) => {
+  // Save chatbot conversation
+  app.post("/api/conversations", async (req: Request, res: Response) => {
     try {
-      const validatedData = insertChatMessageSchema.parse(req.body);
-      const message = await storage.createChatMessage(validatedData);
-      res.status(201).json({ success: true, message });
+      const conversation = insertConversationSchema.parse(req.body);
+      const savedConversation = await storage.saveConversation(conversation);
+      res.status(201).json({ success: true, data: savedConversation });
     } catch (error) {
-      res.status(400).json({ success: false, message: "Invalid message data", error });
+      if (error instanceof z.ZodError) {
+        const validationError = fromZodError(error);
+        res.status(400).json({ 
+          success: false, 
+          error: validationError.message 
+        });
+      } else {
+        console.error("Error saving conversation:", error);
+        res.status(500).json({ 
+          success: false, 
+          error: "Failed to save conversation" 
+        });
+      }
     }
   });
 
-  // Endpoint to get chat session messages
-  app.get("/api/chat/sessions/:sessionId/messages", async (req, res) => {
+  // Get conversation history for a visitor
+  app.get("/api/conversations/:visitorId", async (req: Request, res: Response) => {
     try {
-      const { sessionId } = req.params;
-      const messages = await storage.getChatSessionMessages(sessionId);
-      res.status(200).json(messages);
+      const { visitorId } = req.params;
+      const conversations = await storage.getConversationsByVisitorId(visitorId);
+      res.status(200).json({ success: true, data: conversations });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to retrieve chat messages", error });
+      console.error("Error fetching conversations:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to fetch conversations" 
+      });
     }
   });
 
-  // Endpoint to handle Hume API proxy for voice capabilities
-  app.post("/api/hume/text-to-speech", async (req, res) => {
+  // Mock endpoint for Hume API synthesis (voice generation)
+  // In a real implementation, this would call the Hume API
+  app.post("/api/synthesize", async (req: Request, res: Response) => {
     try {
-      // In a real implementation, this would make a request to the Hume API
-      // with the provided text to get voice synthesis
-      // For now, we'll just return a success response
-      res.status(200).json({ success: true, message: "Speech synthesis request processed" });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to process text-to-speech request", error });
-    }
-  });
-
-  app.post("/api/hume/speech-to-text", async (req, res) => {
-    try {
-      // In a real implementation, this would make a request to the Hume API
-      // with the provided audio data to get speech recognition
-      // For now, we'll just return a success response
+      const { text } = req.body;
+      
+      if (!text) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Text is required" 
+        });
+      }
+      
+      // In a real implementation, we would call the Hume API here
+      // For now, we'll return a success response
       res.status(200).json({ 
         success: true, 
-        message: "Speech recognition request processed",
-        text: "Sample transcribed text"
+        message: "Speech synthesis request successful"
       });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to process speech-to-text request", error });
+      console.error("Error synthesizing speech:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to synthesize speech" 
+      });
     }
   });
 
   const httpServer = createServer(app);
-
   return httpServer;
 }

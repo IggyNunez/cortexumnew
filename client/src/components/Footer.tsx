@@ -1,105 +1,81 @@
 import { Link } from "wouter";
+import { 
+  Bot, 
+  Linkedin, 
+  Twitter, 
+  Facebook, 
+  Instagram 
+} from "lucide-react";
 
 const Footer = () => {
-  const services = [
-    { name: "AI Implementation", href: "#" },
-    { name: "AI Strategy & Training", href: "#" },
-    { name: "Chatbot Development", href: "#" },
-    { name: "AI Analytics", href: "#" },
-    { name: "Content Automation", href: "#" }
-  ];
-  
-  const resources = [
-    { name: "Blog", href: "#" },
-    { name: "Case Studies", href: "#" },
-    { name: "AI Marketing Guide", href: "#" },
-    { name: "Free Webinars", href: "#" },
-    { name: "ROI Calculator", href: "#" }
-  ];
-  
-  const contactInfo = [
-    { icon: "fa-envelope", text: "info@vibemarketing.ai" },
-    { icon: "fa-phone", text: "(800) 123-4567" },
-    { icon: "fa-map-marker-alt", text: "123 Innovation Way\nSan Francisco, CA 94103" }
-  ];
-  
-  const socialMedia = [
-    { icon: "fab fa-linkedin", href: "#" },
-    { icon: "fab fa-twitter", href: "#" },
-    { icon: "fab fa-facebook", href: "#" },
-    { icon: "fab fa-instagram", href: "#" }
-  ];
-
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
-            <h3 className="text-2xl font-bold mb-6 gradient-text">Vibe Marketing AI</h3>
+            <div className="flex items-center space-x-2 mb-6">
+              <div className="bg-primary text-white p-2 rounded-lg">
+                <Bot className="h-5 w-5" />
+              </div>
+              <span className="text-xl font-heading font-bold">Vibe<span className="text-accent">AI</span></span>
+            </div>
             <p className="text-gray-400 mb-6">
-              Revolutionizing marketing agencies with cutting-edge AI automation solutions.
+              Transforming marketing agencies with powerful AI automation solutions.
             </p>
             <div className="flex space-x-4">
-              {socialMedia.map((social, index) => (
-                <a 
-                  key={index}
-                  href={social.href} 
-                  className="text-gray-400 hover:text-white transition duration-150"
-                  aria-label={`Follow us on ${social.icon.replace('fab fa-', '')}`}
-                >
-                  <i className={`${social.icon} text-xl`}></i>
-                </a>
-              ))}
+              <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </a>
             </div>
           </div>
           
           <div>
-            <h4 className="text-lg font-bold mb-6">Services</h4>
+            <h4 className="text-lg font-heading font-bold mb-6">Company</h4>
             <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={index}>
-                  <a 
-                    href={service.href} 
-                    className="text-gray-400 hover:text-white transition duration-150"
-                  >
-                    {service.name}
-                  </a>
-                </li>
-              ))}
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Our Team</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-bold mb-6">Resources</h4>
+            <h4 className="text-lg font-heading font-bold mb-6">Resources</h4>
             <ul className="space-y-3">
-              {resources.map((resource, index) => (
-                <li key={index}>
-                  <a 
-                    href={resource.href} 
-                    className="text-gray-400 hover:text-white transition duration-150"
-                  >
-                    {resource.name}
-                  </a>
-                </li>
-              ))}
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Case Studies</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Webinars</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Support</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-bold mb-6">Contact</h4>
+            <h4 className="text-lg font-heading font-bold mb-6">Legal</h4>
             <ul className="space-y-3">
-              {contactInfo.map((info, index) => (
-                <li key={index} className="flex items-start">
-                  <i className={`fas ${info.icon} text-primary mt-1.5 mr-3`}></i>
-                  <span className="text-gray-400 whitespace-pre-line">{info.text}</span>
-                </li>
-              ))}
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">GDPR Compliance</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Security</a></li>
             </ul>
           </div>
         </div>
         
-        <div className="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Vibe Marketing AI. All rights reserved.</p>
+        <div className="border-t border-gray-800 pt-8">
+          <p className="text-gray-500 text-center">
+            &copy; {new Date().getFullYear()} Vibe AI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

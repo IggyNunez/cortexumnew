@@ -1,114 +1,85 @@
 import { motion } from "framer-motion";
-import { 
-  Bot, 
-  Cog, 
-  MessageSquare, 
-  Presentation, 
-  LineChart, 
-  Users 
-} from "lucide-react";
+import { Service } from "@/types";
+import { Check } from "lucide-react";
 
-interface ServiceCardProps {
-  icon: React.ReactNode;
-  iconBgColor: string;
-  title: string;
-  description: string;
-  index: number;
-}
-
-const ServiceCard = ({ icon, iconBgColor, title, description, index }: ServiceCardProps) => (
-  <motion.div 
-    className="bg-white rounded-xl shadow-lg p-8 transition-all hover:shadow-xl hover:-translate-y-1"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-  >
-    <div className={`w-14 h-14 ${iconBgColor} rounded-full flex items-center justify-center mb-6`}>
-      {icon}
-    </div>
-    <h3 className="text-xl font-bold mb-4">{title}</h3>
-    <p className="text-gray-600 mb-4">{description}</p>
-    <a href="#contact" className="text-primary font-semibold flex items-center">
-      Learn more <span className="ml-2">→</span>
-    </a>
-  </motion.div>
-);
+const services: Service[] = [
+  {
+    id: "1",
+    icon: "fa-robot",
+    title: "AI Integration Services",
+    description: "Seamlessly integrate AI tools into your existing workflow. We handle the technical complexities so you can focus on delivering results.",
+    features: [
+      "Custom AI workflow design",
+      "API integration & automation",
+      "Data migration assistance"
+    ]
+  },
+  {
+    id: "2",
+    icon: "fa-graduation-cap",
+    title: "AI Strategy Training",
+    description: "Learn how to leverage AI for your agency and clients. Our training programs equip your team with the skills needed to excel.",
+    features: [
+      "Team workshops & certification",
+      "AI tools mastery courses",
+      "Strategic implementation guides"
+    ]
+  },
+  {
+    id: "3",
+    icon: "fa-comments",
+    title: "AI Consulting",
+    description: "Get expert guidance on implementing AI solutions that deliver measurable results for your agency and clients.",
+    features: [
+      "AI readiness assessment",
+      "ROI analysis & planning",
+      "Ongoing strategic support"
+    ]
+  }
+];
 
 const ServicesSection = () => {
-  const services = [
-    {
-      icon: <Bot className="text-primary text-2xl" />,
-      iconBgColor: "bg-primary/10",
-      title: "AI Strategy Implementation",
-      description: "Custom AI roadmaps designed specifically for marketing agencies to enhance performance and client satisfaction."
-    },
-    {
-      icon: <Cog className="text-emerald-500 text-2xl" />,
-      iconBgColor: "bg-emerald-500/10",
-      title: "Workflow Automation",
-      description: "Streamline your agency operations with intelligent automation tools that save time and reduce errors."
-    },
-    {
-      icon: <MessageSquare className="text-violet-500 text-2xl" />,
-      iconBgColor: "bg-violet-500/10",
-      title: "AI Chatbot Solutions",
-      description: "Voice-enabled AI chatbots using Hume API to engage visitors, qualify leads, and enhance client communication."
-    },
-    {
-      icon: <Presentation className="text-primary text-2xl" />,
-      iconBgColor: "bg-primary/10",
-      title: "AI Training Programs",
-      description: "Customized training for your team to master AI tools and solutions for marketing excellence."
-    },
-    {
-      icon: <LineChart className="text-emerald-500 text-2xl" />,
-      iconBgColor: "bg-emerald-500/10",
-      title: "AI-Powered Analytics",
-      description: "Advanced analytics solutions that provide actionable insights for better client campaigns."
-    },
-    {
-      icon: <Users className="text-violet-500 text-2xl" />,
-      iconBgColor: "bg-violet-500/10",
-      title: "AI Integration Consulting",
-      description: "Expert consultation on seamlessly integrating AI solutions into your existing agency processes."
-    }
-  ];
-
   return (
-    <section id="services" className="py-20">
+    <section id="services" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Our AI Solutions for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Marketing Agencies</span>
-          </motion.h2>
-          <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Comprehensive AI integration services tailored specifically for marketing agencies, firms, and consultants.
-          </motion.p>
-        </div>
+        <motion.div 
+          className="text-center max-w-3xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-primary font-medium">OUR SERVICES</span>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mt-2 mb-6">Comprehensive AI Solutions for Marketing Agencies</h2>
+          <p className="text-gray-600 text-lg">We provide the tools, training, and integration support to transform your marketing agency with cutting-edge AI automation.</p>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceCard 
-              key={index}
-              icon={service.icon}
-              iconBgColor={service.iconBgColor}
-              title={service.title}
-              description={service.description}
-              index={index}
-            />
+            <motion.div 
+              key={service.id}
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="bg-primary-light p-6 flex justify-center">
+                <i className={`fas ${service.icon} text-4xl text-white`}></i>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-heading font-bold mb-4">{service.title}</h3>
+                <p className="text-gray-600 mb-4">{service.description}</p>
+                <ul className="space-y-2">
+                  {service.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mt-1 mr-2 flex-shrink-0" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

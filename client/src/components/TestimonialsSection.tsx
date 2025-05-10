@@ -1,105 +1,82 @@
 import { motion } from "framer-motion";
+import { Testimonial } from "@/types";
+import { Star } from "lucide-react";
 
-interface TestimonialProps {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
-  index: number;
-}
-
-const Testimonial = ({ quote, name, role, company, index }: TestimonialProps) => (
-  <motion.div 
-    className="bg-white rounded-xl shadow-lg p-8 relative"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-  >
-    <div className="text-violet-500 text-4xl absolute -top-5 -left-2">"</div>
-    <p className="text-gray-600 mb-6 italic">
-      {quote}
-    </p>
-    <div className="flex items-center">
-      <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
-      <div>
-        <h4 className="font-bold">{name}</h4>
-        <p className="text-sm text-gray-500">{role}, {company}</p>
-      </div>
-    </div>
-  </motion.div>
-);
+const testimonials: Testimonial[] = [
+  {
+    id: "1",
+    text: "Implementing Vibe AI's solutions allowed us to double our client capacity while reducing project delivery time by 40%. The ROI has been incredible.",
+    name: "Sarah Johnson",
+    position: "CEO",
+    company: "DigitalEdge Marketing",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100"
+  },
+  {
+    id: "2",
+    text: "The AI training program was transformative for our team. We've been able to create entirely new service offerings that our clients love and are willing to pay premium rates for.",
+    name: "David Martinez",
+    position: "Director",
+    company: "Growth Architects",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100"
+  },
+  {
+    id: "3",
+    text: "As a solo consultant, I was hitting a ceiling in terms of client capacity. The AI automations have allowed me to scale my business without hiring, increasing my profit margin by 35%.",
+    name: "Emily Chang",
+    position: "Founder",
+    company: "Elevate Marketing",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100"
+  }
+];
 
 const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      quote: "Implementing Vibe's AI automation solutions has been a game-changer for our agency. We've increased client retention by 40% and reduced operational costs by 25%.",
-      name: "Sarah Johnson",
-      role: "CEO",
-      company: "DigitalEdge Marketing"
-    },
-    {
-      quote: "The AI chatbot implementation has completely transformed our lead generation process. We're now capturing 3x more qualified leads with half the effort.",
-      name: "Michael Rodriguez",
-      role: "Founder",
-      company: "NextLevel Agency"
-    },
-    {
-      quote: "Our team's productivity has increased dramatically since implementing Vibe's AI workflow automation. Tasks that took hours now happen in minutes.",
-      name: "Jennifer Park",
-      role: "Director",
-      company: "Elevate Marketing Co."
-    }
-  ];
-
   return (
-    <section id="testimonials" className="py-20">
+    <section id="testimonials" className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            What Agency Owners Are <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Saying</span>
-          </motion.h2>
-          <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Success stories from marketing agencies that have transformed their businesses with our AI solutions.
-          </motion.p>
-        </div>
+        <motion.div 
+          className="text-center max-w-3xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-primary font-medium">SUCCESS STORIES</span>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mt-2 mb-6">What Agencies Are Saying</h2>
+          <p className="text-gray-600 text-lg">Hear from marketing agencies and consultants who have transformed their businesses with our AI solutions.</p>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Testimonial 
-              key={index}
-              quote={testimonial.quote}
-              name={testimonial.name}
-              role={testimonial.role}
-              company={testimonial.company}
-              index={index}
-            />
+            <motion.div 
+              key={testimonial.id}
+              className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="text-accent flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-current" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-gray-700 italic mb-6">{testimonial.text}</p>
+              <div className="flex items-center">
+                <img 
+                  src={testimonial.image} 
+                  alt={testimonial.name} 
+                  className="h-12 w-12 rounded-full object-cover mr-4" 
+                />
+                <div>
+                  <h4 className="font-heading font-semibold">{testimonial.name}</h4>
+                  <p className="text-gray-600 text-sm">{testimonial.position}, {testimonial.company}</p>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
-        
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <a href="#case-studies" className="inline-flex items-center text-primary font-semibold hover:underline">
-            View our case studies <span className="ml-2">→</span>
-          </a>
-        </motion.div>
       </div>
     </section>
   );

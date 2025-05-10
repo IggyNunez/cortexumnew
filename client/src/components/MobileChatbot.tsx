@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mic, Send, X } from "lucide-react";
 import { useHumeSpeech } from "@/hooks/useHumeSpeech";
+import { createSessionId, sendChatMessage, generateBotResponse } from "@/lib/humeApi";
 
 type Message = {
   content: string;
@@ -20,29 +20,20 @@ type MobileChatbotProps = {
 const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      content: "Hi there! I'm your AI assistant from Vibe Marketing. How can I help you today?",
+      content: "👋 Hi there! I'm your AI assistant from Vibe Marketing. How can I help your agency today?",
       isUser: false,
       id: "welcome"
     }
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [sessionId, setSessionId] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { isRecording, startRecording, stopRecording, recognizedText } = useHumeSpeech();
+  const { isRecording, startRecording, stopRecording, recognizedText, speak } = useHumeSpeech();
 
-  const chatMutation = useMutation({
-    mutationFn: (message: string) => {
-      return apiRequest("POST", "/api/chat", { message }) as Promise<Response>;
-    },
-    onSuccess: async (response) => {
-      const data = await response.json();
-      const botResponse: Message = {
-        content: data.response,
-        isUser: false,
-        id: `bot-${Date.now()}`
-      };
-      setMessages(prev => [...prev, botResponse]);
-    }
-  });
+  // Initialize session ID
+  useEffect(() => {
+    setSessionId(createSessionId());
+  }, []);
 
   // Scroll to bottom whenever messages change
   useEffect(() => {
@@ -58,8 +49,8 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
     }
   }, [recognizedText]);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || !sessionId) return;
 
     const userMessage: Message = {
       content: inputValue,
@@ -68,8 +59,36 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
-    chatMutation.mutate(inputValue);
     setInputValue("");
+    
+    try {
+      // Send user message to the server
+      await sendChatMessage(sessionId, userMessage.content);
+      
+      // Get bot response
+      const botResponseData = await generateBotResponse(sessionId, userMessage.content);
+      
+      const botResponse: Message = {
+        content: botResponseData.message,
+        isUser: false,
+        id: `bot-${Date.now()}`
+      };
+      
+      setMessages(prev => [...prev, botResponse]);
+      
+      // If voice is enabled, speak the response
+      if (botResponse.content) {
+        speak(botResponse.content);
+      }
+    } catch (error) {
+      console.error("Error in chat:", error);
+      // Add error message
+      setMessages(prev => [...prev, {
+        content: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        isUser: false,
+        id: `error-${Date.now()}`
+      }]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -143,11 +162,11 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
             />
             
             <Button 
-              variant="primary" 
+              variant="default" 
               size="icon" 
               className="ml-3 bg-primary text-white"
               onClick={handleSendMessage}
-              disabled={chatMutation.isPending || !inputValue.trim()}
+              disabled={!inputValue.trim()}
             >
               <Send className="h-4 w-4" />
             </Button>

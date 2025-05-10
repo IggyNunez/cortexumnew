@@ -13,43 +13,45 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
-
-// Lead schema for capturing information from the chatbot and contact form
+// Leads table for capturing form submissions
 export const leads = pgTable("leads", {
   id: serial("id").primaryKey(),
-  fullName: text("full_name").notNull(),
+  name: text("name").notNull(),
   email: text("email").notNull(),
-  phone: text("phone"),
-  companyName: text("company_name"),
-  serviceInterest: text("service_interest"),
+  company: text("company").notNull(),
+  phone: text("phone").notNull(),
   message: text("message"),
-  source: text("source").notNull(), // 'chatbot' or 'contact_form'
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertLeadSchema = createInsertSchema(leads).omit({
-  id: true,
-  createdAt: true,
+export const insertLeadSchema = createInsertSchema(leads).pick({
+  name: true,
+  email: true,
+  company: true,
+  phone: true,
+  message: true,
 });
+
+// Chatbot conversation records
+export const conversations = pgTable("conversations", {
+  id: serial("id").primaryKey(),
+  visitor_id: text("visitor_id").notNull(),
+  message_text: text("message_text").notNull(),
+  is_bot: boolean("is_bot").notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertConversationSchema = createInsertSchema(conversations).pick({
+  visitor_id: true,
+  message_text: true,
+  is_bot: true,
+});
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
 
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 export type Lead = typeof leads.$inferSelect;
 
-// Message schema for chatbot conversations
-export const chatMessages = pgTable("chat_messages", {
-  id: serial("id").primaryKey(),
-  sessionId: text("session_id").notNull(),
-  sender: text("sender").notNull(), // 'user' or 'bot'
-  message: text("message").notNull(),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
-});
-
-export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
-  id: true,
-  timestamp: true,
-});
-
-export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
-export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertConversation = z.infer<typeof insertConversationSchema>;
+export type Conversation = typeof conversations.$inferSelect;

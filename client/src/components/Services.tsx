@@ -1,106 +1,95 @@
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { 
+  Bot, 
+  Cog, 
+  MessageSquare, 
+  Presentation, 
+  LineChart, 
+  Users 
+} from "lucide-react";
 
 const Services = () => {
-  const mainServices = [
+  const services = [
     {
-      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80",
-      title: "AI Implementation & Integration",
-      description: "We seamlessly integrate AI tools into your existing workflow and tech stack, ensuring minimal disruption and maximum impact.",
-      features: [
-        "Custom AI solution design for your specific needs",
-        "Integration with CRM, analytics, and marketing platforms",
-        "Workflow automation and process optimization"
-      ]
+      icon: <Bot className="text-primary text-2xl" />,
+      iconBgColor: "bg-primary/10",
+      title: "AI Strategy Implementation",
+      description: "Custom AI roadmaps designed specifically for marketing agencies to enhance performance and client satisfaction."
     },
     {
-      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80",
-      title: "AI Strategy & Training",
-      description: "We educate your team on leveraging AI tools effectively and develop strategic roadmaps for AI-powered growth.",
-      features: [
-        "Comprehensive team training and skill development",
-        "AI implementation strategy and roadmap creation",
-        "Ongoing support and strategic consulting"
-      ]
-    }
-  ];
-
-  const additionalServices = [
-    {
-      icon: "fa-robot",
-      title: "AI Chatbot Development",
-      description: "Create sophisticated conversational AI tools for lead generation, customer service, and engagement."
+      icon: <Cog className="text-emerald-500 text-2xl" />,
+      iconBgColor: "bg-emerald-500/10",
+      title: "Workflow Automation",
+      description: "Streamline your agency operations with intelligent automation tools that save time and reduce errors."
     },
     {
-      icon: "fa-chart-pie",
-      title: "AI Analytics & Insights",
-      description: "Leverage predictive analytics and data mining to extract actionable insights from your marketing data."
+      icon: <MessageSquare className="text-violet-500 text-2xl" />,
+      iconBgColor: "bg-violet-500/10",
+      title: "AI Chatbot Solutions",
+      description: "Voice-enabled AI chatbots using Hume API to engage visitors, qualify leads, and enhance client communication."
     },
     {
-      icon: "fa-pencil-alt",
-      title: "AI Content Creation",
-      description: "Implement AI-powered content generation tools to scale your creative production efficiently."
+      icon: <Presentation className="text-primary text-2xl" />,
+      iconBgColor: "bg-primary/10",
+      title: "AI Training Programs",
+      description: "Customized training for your team to master AI tools and solutions for marketing excellence."
+    },
+    {
+      icon: <LineChart className="text-emerald-500 text-2xl" />,
+      iconBgColor: "bg-emerald-500/10",
+      title: "AI-Powered Analytics",
+      description: "Advanced analytics solutions that provide actionable insights for better client campaigns."
+    },
+    {
+      icon: <Users className="text-violet-500 text-2xl" />,
+      iconBgColor: "bg-violet-500/10",
+      title: "AI Integration Consulting",
+      description: "Expert consultation on seamlessly integrating AI solutions into your existing agency processes."
     }
   ];
 
   return (
-    <section id="services" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
+    <section id="services" className="py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Our AI Integration Services</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive solutions to elevate your agency's capabilities</p>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Our AI Solutions for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Marketing Agencies</span>
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Comprehensive AI integration services tailored specifically for marketing agencies, firms, and consultants.
+          </motion.p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {mainServices.map((service, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
             <motion.div 
               key={index}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+              className="bg-white rounded-xl shadow-lg p-8 transition-all hover:shadow-xl hover:-translate-y-1"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="h-60 overflow-hidden">
-                <img 
-                  src={service.image} 
-                  alt={service.title} 
-                  className="w-full h-full object-cover object-center hover:scale-105 transition duration-500" 
-                />
+              <div className={`w-14 h-14 ${service.iconBgColor} rounded-full flex items-center justify-center mb-6`}>
+                {service.icon}
               </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                <p className="text-gray-600 mb-6">{service.description}</p>
-                <ul className="space-y-3 mb-6">
-                  {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start">
-                      <div className="h-6 w-6 rounded-full gradient-bg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
-                        <Check className="h-3 w-3 text-white" />
-                      </div>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {additionalServices.map((service, index) => (
-            <motion.div 
-              key={index}
-              className="bg-white p-8 rounded-xl shadow hover:shadow-lg transition duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-            >
-              <div className="w-16 h-16 rounded-lg gradient-bg flex items-center justify-center mb-6">
-                <i className={`fas ${service.icon} text-white text-2xl`}></i>
-              </div>
-              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-              <p className="text-gray-600">{service.description}</p>
+              <h3 className="text-xl font-bold mb-4">{service.title}</h3>
+              <p className="text-gray-600 mb-4">{service.description}</p>
+              <a href="#contact" className="text-primary font-semibold flex items-center">
+                Learn more <span className="ml-2">→</span>
+              </a>
             </motion.div>
           ))}
         </div>

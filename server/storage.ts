@@ -1,40 +1,49 @@
-import { users, type User, type InsertUser, leads, type Lead, type InsertLead, chatMessages, type ChatMessage, type InsertChatMessage } from "@shared/schema";
-
-// modify the interface with any CRUD methods
-// you might need
+import { 
+  users, 
+  type User, 
+  type InsertUser, 
+  leads, 
+  type Lead, 
+  type InsertLead,
+  conversations,
+  type Conversation,
+  type InsertConversation
+} from "@shared/schema";
 
 export interface IStorage {
+  // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   
-  // Lead management
+  // Lead operations
   createLead(lead: InsertLead): Promise<Lead>;
   getLeads(): Promise<Lead[]>;
-  getLeadById(id: number): Promise<Lead | undefined>;
+  getLead(id: number): Promise<Lead | undefined>;
   
-  // Chatbot conversation management
-  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
-  getChatSessionMessages(sessionId: string): Promise<ChatMessage[]>;
+  // Conversation operations
+  saveConversation(conversation: InsertConversation): Promise<Conversation>;
+  getConversationsByVisitorId(visitorId: string): Promise<Conversation[]>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private leads: Map<number, Lead>;
-  private chatMessages: Map<number, ChatMessage>;
-  currentUserId: number;
-  currentLeadId: number;
-  currentChatMessageId: number;
+  private conversations: Map<number, Conversation>;
+  private currentUserId: number;
+  private currentLeadId: number;
+  private currentConversationId: number;
 
   constructor() {
     this.users = new Map();
     this.leads = new Map();
-    this.chatMessages = new Map();
+    this.conversations = new Map();
     this.currentUserId = 1;
     this.currentLeadId = 1;
-    this.currentChatMessageId = 1;
+    this.currentConversationId = 1;
   }
 
+  // User methods
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
@@ -51,45 +60,37 @@ export class MemStorage implements IStorage {
     this.users.set(id, user);
     return user;
   }
-
-  // Lead management methods
+  
+  // Lead methods
   async createLead(insertLead: InsertLead): Promise<Lead> {
     const id = this.currentLeadId++;
-    const now = new Date();
-    const lead: Lead = { 
-      ...insertLead, 
-      id, 
-      createdAt: now 
-    };
+    const created_at = new Date();
+    const lead: Lead = { ...insertLead, id, created_at };
     this.leads.set(id, lead);
     return lead;
   }
-
+  
   async getLeads(): Promise<Lead[]> {
     return Array.from(this.leads.values());
   }
-
-  async getLeadById(id: number): Promise<Lead | undefined> {
+  
+  async getLead(id: number): Promise<Lead | undefined> {
     return this.leads.get(id);
   }
-
-  // Chatbot conversation management methods
-  async createChatMessage(insertMessage: InsertChatMessage): Promise<ChatMessage> {
-    const id = this.currentChatMessageId++;
-    const now = new Date();
-    const message: ChatMessage = {
-      ...insertMessage,
-      id,
-      timestamp: now
-    };
-    this.chatMessages.set(id, message);
-    return message;
+  
+  // Conversation methods
+  async saveConversation(insertConversation: InsertConversation): Promise<Conversation> {
+    const id = this.currentConversationId++;
+    const created_at = new Date();
+    const conversation: Conversation = { ...insertConversation, id, created_at };
+    this.conversations.set(id, conversation);
+    return conversation;
   }
-
-  async getChatSessionMessages(sessionId: string): Promise<ChatMessage[]> {
-    return Array.from(this.chatMessages.values())
-      .filter(message => message.sessionId === sessionId)
-      .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+  
+  async getConversationsByVisitorId(visitorId: string): Promise<Conversation[]> {
+    return Array.from(this.conversations.values())
+      .filter(conversation => conversation.visitor_id === visitorId)
+      .sort((a, b) => a.created_at.getTime() - b.created_at.getTime());
   }
 }
 

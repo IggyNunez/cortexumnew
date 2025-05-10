@@ -38,16 +38,81 @@ export const sendChatMessage = async (sessionId: string, message: string): Promi
     message
   };
 
-  const res = await apiRequest('POST', '/api/chat', { message });
-  const data = await res.json();
+  try {
+    const res = await fetch('/api/chat/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  return {
+    if (!res.ok) {
+      throw new Error('Failed to send message');
+    }
+
+    return {
+      id: Date.now(),
+      sessionId,
+      sender: 'user',
+      message,
+      timestamp: new Date()
+    };
+  } catch (error) {
+    console.error('Error sending message:', error);
+    throw error;
+  }
+};
+
+// Generate a bot response
+export const generateBotResponse = async (sessionId: string, userMessage: string): Promise<ChatMessage> => {
+  // In a real implementation, this would make a request to the backend
+  // For now, we'll simulate a response
+  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+  
+  // Generate a contextual response based on the user message
+  let botResponseText = "I'm sorry, I didn't understand that. How can I help your marketing agency today?";
+  
+  if (userMessage.toLowerCase().includes('pricing') || userMessage.toLowerCase().includes('cost')) {
+    botResponseText = "Our pricing depends on your agency's specific needs and scale. We offer flexible plans starting at $299/month. Would you like to schedule a consultation to discuss a custom package?";
+  } else if (userMessage.toLowerCase().includes('chatbot') || userMessage.toLowerCase().includes('chat')) {
+    botResponseText = "Our AI chatbots can be customized for your agency's needs, helping you qualify leads 24/7 and improving client engagement. Would you like to learn more about our chatbot implementation services?";
+  } else if (userMessage.toLowerCase().includes('ai') || userMessage.toLowerCase().includes('artificial intelligence')) {
+    botResponseText = "We offer comprehensive AI solutions for marketing agencies including workflow automation, content generation, predictive analytics, and personalized client communication. Which aspect of AI are you most interested in exploring?";
+  } else if (userMessage.toLowerCase().includes('workflow') || userMessage.toLowerCase().includes('automate')) {
+    botResponseText = "Our workflow automation solutions can save your agency up to 15-20 hours per week by automating repetitive tasks such as reporting, social media scheduling, and client communications. Would you like to see a demo?";
+  } else if (userMessage.toLowerCase().includes('contact') || userMessage.toLowerCase().includes('talk') || userMessage.toLowerCase().includes('human')) {
+    botResponseText = "I'd be happy to connect you with one of our AI marketing specialists. Could you provide your name, email, and a brief description of what you're looking for so we can prepare for the conversation?";
+  } else if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
+    botResponseText = "Hello! Welcome to Vibe Marketing AI. We specialize in helping marketing agencies leverage AI to grow their business. How can I assist you today?";
+  }
+  
+  const botResponse: ChatMessage = {
     id: Date.now(),
     sessionId,
-    sender: 'user',
-    message,
+    sender: 'bot',
+    message: botResponseText,
     timestamp: new Date()
   };
+
+  // Save the bot response to the server
+  try {
+    await fetch('/api/chat/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sessionId,
+        sender: 'bot',
+        message: botResponseText
+      }),
+    });
+  } catch (error) {
+    console.error('Error saving bot response:', error);
+  }
+  
+  return botResponse;
 };
 
 /**
@@ -55,7 +120,7 @@ export const sendChatMessage = async (sessionId: string, message: string): Promi
  */
 export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSpeechResponse> => {
   try {
-    const response = await fetch('/api/hume/speech', {
+    const response = await fetch('/api/hume/text-to-speech', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,6 +141,25 @@ export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSp
 };
 
 /**
+ * Synthesizes speech for the given text
+ * In a real implementation, this would use the Hume API
+ */
+export const synthesizeSpeech = async (text: string): Promise<void> => {
+  // For now, we'll use the browser's built-in speech synthesis
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    window.speechSynthesis.speak(utterance);
+    return Promise.resolve();
+  } else {
+    console.error('Speech synthesis not supported in this browser');
+    return Promise.reject(new Error('Speech synthesis not supported'));
+  }
+};
+
+/**
  * Transcribes audio using Hume API
  */
 export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
@@ -83,7 +167,7 @@ export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
     const formData = new FormData();
     formData.append('audio', audioBlob);
 
-    const response = await fetch('/api/hume/transcribe', {
+    const response = await fetch('/api/hume/speech-to-text', {
       method: 'POST',
       body: formData,
     });

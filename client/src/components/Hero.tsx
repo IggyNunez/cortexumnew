@@ -1,48 +1,128 @@
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Bot } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="pt-28 pb-20 md:pt-32 md:pb-24 px-4 bg-gradient-to-br from-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="animate-slide-up"
-        >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Transform Your Agency with <span className="gradient-text">AI-Powered Marketing</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-8">
-            Elevate your marketing agency with cutting-edge AI automation. Increase revenue, improve client satisfaction, and stay ahead of competition.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a href="#contact" className="text-center gradient-bg text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300">
-              Elevate Your Agency Now
-            </a>
-            <a href="#contact" className="text-center bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-semibold text-lg hover:bg-primary/5 transition duration-300">
-              Chat with AI Assistant
-            </a>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative"
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
-            alt="Marketing professionals using AI technology" 
-            className="rounded-xl shadow-2xl w-full h-auto object-cover" 
-          />
-          <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg">
-            <div className="flex items-center">
-              <div className="h-4 w-4 rounded-full bg-green-500 animate-pulse-slow mr-2"></div>
-              <p className="text-sm font-medium">AI-powered growth: <span className="font-bold text-green-500">+147% ROI</span></p>
+    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-primary to-accent overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-white"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              Elevate Your Marketing Agency with <span className="text-accent-foreground">AI Automation</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-8">
+              Custom AI solutions to help marketing agencies boost efficiency, scale operations, and deliver superior client results.
+            </p>
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                <a href="#contact">Schedule a Consultation</a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white/10 rounded-full font-semibold"
+              >
+                <a href="#services">Explore Solutions</a>
+              </Button>
             </div>
-          </div>
-        </motion.div>
+            <div className="mt-12 flex items-center text-sm">
+              <div className="flex -space-x-2 mr-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div 
+                    key={i} 
+                    className="w-8 h-8 rounded-full border-2 border-white bg-primary flex items-center justify-center text-xs"
+                  >
+                    {String.fromCharCode(64 + i)}
+                  </div>
+                ))}
+              </div>
+              <p className="text-white/80">
+                Trusted by <span className="font-bold">25+ marketing agencies</span> worldwide
+              </p>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                  <Bot className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">AI Assistant</h3>
+                  <p className="text-gray-500 text-sm">Powered by Hume API</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="bg-gray-100 rounded-2xl p-4 rounded-tl-none max-w-[80%]">
+                  <p className="text-gray-800">How can AI automation help my marketing agency?</p>
+                </div>
+                
+                <div className="bg-primary/10 rounded-2xl p-4 rounded-tr-none max-w-[80%] ml-auto">
+                  <p className="text-gray-800">
+                    Our AI solutions automate repetitive tasks, improve campaign performance with data-driven insights, and help you scale your agency without increasing headcount. This leads to higher margins and better client results.
+                  </p>
+                </div>
+                
+                <div className="bg-gray-100 rounded-2xl p-4 rounded-tl-none max-w-[80%]">
+                  <p className="text-gray-800">What's the typical ROI of your AI implementation?</p>
+                </div>
+                
+                <div className="bg-primary/10 rounded-2xl p-4 rounded-tr-none max-w-[80%] ml-auto">
+                  <p className="text-gray-800">
+                    Our clients typically see a 30-40% increase in operational efficiency and a 25-35% improvement in campaign performance metrics within the first 3 months of implementation.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <input 
+                  type="text" 
+                  placeholder="Ask about our AI solutions..." 
+                  className="w-full p-4 pr-12 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <button className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white h-8 w-8 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 2L11 13"></path>
+                    <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl"></div>
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+            </div>
+            
+            {/* Decorative elements */}
+            <motion.div 
+              className="absolute top-1/4 right-0 w-12 h-12 rounded-full bg-white/20 z-0"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 3 }}
+            ></motion.div>
+            <motion.div 
+              className="absolute bottom-1/3 left-0 w-8 h-8 rounded-full bg-white/10 z-0"
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 4 }}
+            ></motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
