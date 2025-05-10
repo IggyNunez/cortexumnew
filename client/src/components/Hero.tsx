@@ -4,9 +4,18 @@ import { Bot } from "lucide-react";
 import christianColgate from '../assets/christian-colgate.webp';
 
 const Hero = () => {
-  // Function to open the ElevenLabs Convai chat in a new tab
-  const openElevenLabsChat = () => {
-    window.open('https://elevenlabs.io/convai/9r6C9zlC7olJEeuP1vOv', '_blank');
+  // Function to trigger the ElevenLabs Convai widget
+  const triggerConvaiWidget = () => {
+    const convaiElement = document.querySelector('elevenlabs-convai');
+    if (convaiElement) {
+      // Create and dispatch a click event to open the widget
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      convaiElement.dispatchEvent(event);
+    }
   };
   
   return (
@@ -66,9 +75,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Static chat card that opens the ElevenLabs Convai in a new tab when clicked */}
+            {/* Static chat card that triggers the ElevenLabs Convai widget when clicked */}
             <div 
-              onClick={openElevenLabsChat}
+              onClick={triggerConvaiWidget}
               className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto cursor-pointer hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-6">
