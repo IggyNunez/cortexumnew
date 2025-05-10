@@ -1,4 +1,5 @@
 import cortexuumPsychologyLogo from '../assets/cortexuum-logo-psychology.png';
+import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -30,9 +31,9 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
               <img 
-                src={cortexuumPsychologyLogo} 
-                alt="Cortexuum Psychology Based Marketing" 
-                className="h-20 mr-3"
+                src={cortexuumLogoWhite} 
+                alt="Cortexuum AI Marketing Agency" 
+                className="h-16 w-auto mr-3"
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
@@ -97,7 +98,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
               <p className="text-gray-300 text-sm font-medium">
-                &copy; {currentYear} Cortexuum Psychology Based Marketing. All rights reserved.
+                &copy; {currentYear} Cortexuum AI Marketing Agency. All rights reserved.
               </p>
               <p className="text-gray-400 text-xs mt-2 italic">
                 Data-driven solutions that beat opinions, every time.
