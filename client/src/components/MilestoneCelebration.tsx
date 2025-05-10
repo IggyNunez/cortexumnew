@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { Award, Sparkles, PartyPopper } from 'lucide-react';
 import { Milestone } from './LeadLifecycleTimeline';
+import { playRandomCelebrationSound } from '@/lib/celebrationSounds';
 
 interface MilestoneCelebrationProps {
   milestone: Milestone;
@@ -30,6 +31,9 @@ const MilestoneCelebration = ({ milestone, onClose }: MilestoneCelebrationProps)
     
     // Trigger confetti multiple times with different settings for a bigger celebration
     launchConfetti();
+    
+    // Play celebration sound
+    playRandomCelebrationSound();
     
     // Close the celebration after a set time
     const timer = setTimeout(() => {
@@ -101,7 +105,7 @@ const MilestoneCelebration = ({ milestone, onClose }: MilestoneCelebrationProps)
             }}
             transition={{ repeat: Infinity, duration: 2, delay: 0.5 }}
           >
-            <Party size={28} />
+            <PartyPopper size={28} />
           </motion.div>
           
           {/* Main content */}

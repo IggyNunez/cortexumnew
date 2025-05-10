@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, Clock, ArrowRight, Award, Star, Zap, BarChart, Loader2, Party } from "lucide-react";
+import { CheckCircle, Clock, ArrowRight, Award, Star, Zap, BarChart, Loader2, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from 'canvas-confetti';
 import MilestoneBadge from "./MilestoneBadge";
 import MilestoneDetails from "./MilestoneDetails";
 import MilestoneCelebration from "./MilestoneCelebration";
 import MilestoneProgressTracker from "./MilestoneProgressTracker";
+import { playSuccessSound } from "@/lib/celebrationSounds";
 
 // Define our milestone stages
 export interface Milestone {
@@ -86,6 +87,7 @@ const LeadLifecycleTimeline = ({
   const [milestones, setMilestones] = useState<Milestone[]>(initialMilestones || defaultMilestones);
   const [activeMilestone, setActiveMilestone] = useState<Milestone | null>(null);
   const [celebratingMilestoneId, setCelebratingMilestoneId] = useState<string | null>(null);
+  const [showCelebrationModal, setShowCelebrationModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(!!leadId);
   const [error, setError] = useState<string | null>(null);
   
@@ -141,19 +143,29 @@ const LeadLifecycleTimeline = ({
   const celebrateMilestone = (milestone: Milestone) => {
     if (!milestone.completed) return;
     
+    // Set the celebrating milestone and show the celebration modal
     setCelebratingMilestoneId(milestone.id);
+    setShowCelebrationModal(true);
     
-    // Trigger confetti effect
+    // Trigger mini confetti effect on the timeline
     confetti({
-      particleCount: 100,
+      particleCount: 50,
       spread: 70,
       origin: { y: 0.6 }
     });
     
-    // Clear celebration after a short delay
+    // The big celebration happens in the MilestoneCelebration component
+    // We'll clear the celebrating milestone ID when the modal is closed
+  };
+  
+  // Called when the celebration modal is closed
+  const handleCelebrationComplete = () => {
+    setShowCelebrationModal(false);
+    
+    // Clear celebration highlighting after a short delay
     setTimeout(() => {
       setCelebratingMilestoneId(null);
-    }, 3000);
+    }, 500);
   };
 
   // Function to complete the next milestone with API integration
@@ -171,6 +183,9 @@ const LeadLifecycleTimeline = ({
         };
         
         setMilestones(updatedMilestones);
+        
+        // Play success sound
+        playSuccessSound();
         
         // Celebrate the milestone
         celebrateMilestone(updatedMilestones[nextIncompleteIndex]);
@@ -365,31 +380,23 @@ const LeadLifecycleTimeline = ({
           </div>
         ) : (
           <>
+            {/* Add progress tracker */}
+            <MilestoneProgressTracker milestones={milestones} />
+            
             <div className="relative mt-10 mb-12">
               {/* Horizontal line connecting timeline items */}
               <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2 z-0 mx-8 md:mx-24"></div>
               
               {/* Timeline items */}
               <div className="relative z-10 flex justify-between px-4 sm:px-0">
-                {milestones.map((milestone, index) => (
-                  <div key={milestone.id} className="flex flex-col items-center">
-                    <motion.button
-                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                        milestone.completed ? 'bg-primary' : 'bg-gray-200'
-                      } ${celebratingMilestoneId === milestone.id ? 'ring-4 ring-primary/50 animate-pulse' : ''}`}
-                      onClick={() => setActiveMilestone(activeMilestone?.id === milestone.id ? null : milestone)}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                    >
-                      <div className="text-white">{milestone.icon}</div>
-                    </motion.button>
-                    <p className={`mt-2 text-xs font-medium hidden md:block ${milestone.completed ? 'text-primary' : 'text-gray-500'}`}>
-                      {milestone.title}
-                    </p>
-                    {milestone.date && (
-                      <p className="text-xs text-gray-500 hidden md:block">{milestone.date}</p>
-                    )}
-                  </div>
+                {milestones.map((milestone) => (
+                  <MilestoneBadge 
+                    key={milestone.id}
+                    milestone={milestone}
+                    isActive={activeMilestone?.id === milestone.id}
+                    isCelebrating={celebratingMilestoneId === milestone.id}
+                    onClick={() => setActiveMilestone(activeMilestone?.id === milestone.id ? null : milestone)}
+                  />
                 ))}
               </div>
             </div>
@@ -399,45 +406,10 @@ const LeadLifecycleTimeline = ({
         {/* Active milestone details */}
         <AnimatePresence mode="wait">
           {activeMilestone ? (
-            <motion.div 
-              key={activeMilestone.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-white shadow-lg rounded-xl p-6 mb-8 max-w-2xl mx-auto"
-            >
-              <div className="flex items-start">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
-                  activeMilestone.completed ? 'bg-primary' : 'bg-gray-200'
-                }`}>
-                  <div className="text-white">{activeMilestone.icon}</div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2 flex items-center">
-                    {activeMilestone.title}
-                    {activeMilestone.completed && (
-                      <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Completed
-                      </span>
-                    )}
-                  </h3>
-                  <p className="text-gray-600">{activeMilestone.description}</p>
-                  {activeMilestone.completed && activeMilestone.date && (
-                    <p className="text-sm text-gray-500 mt-2">Completed on {activeMilestone.date}</p>
-                  )}
-                  {activeMilestone.completed && (
-                    <Button 
-                      className="mt-4" 
-                      size="sm" 
-                      onClick={() => celebrateMilestone(activeMilestone)}
-                      variant="outline"
-                    >
-                      <Award className="mr-2 h-4 w-4" /> Celebrate Again
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+            <MilestoneDetails 
+              milestone={activeMilestone}
+              onCelebrate={() => celebrateMilestone(activeMilestone)}
+            />
           ) : (
             <motion.div
               initial={{ opacity: 0 }}
@@ -448,6 +420,14 @@ const LeadLifecycleTimeline = ({
             </motion.div>
           )}
         </AnimatePresence>
+        
+        {/* Celebration Modal */}
+        {showCelebrationModal && celebratingMilestoneId && (
+          <MilestoneCelebration 
+            milestone={milestones.find(m => m.id === celebratingMilestoneId)!}
+            onClose={handleCelebrationComplete}
+          />
+        )}
         
         {/* Controls - only show when timeline is loaded and no errors */}
         {!loading && !error && (
