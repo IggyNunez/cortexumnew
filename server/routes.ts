@@ -326,6 +326,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Marketing Settings API Endpoints
+  // Get marketing settings
+  app.get("/api/marketing-settings", async (_req: Request, res: Response) => {
+    try {
+      const settings = await storage.getMarketingSettings();
+      
+      if (!settings) {
+        // If no settings exist, create default settings
+        const defaultSettings = {
+          ga_enabled: false,
+          fb_capi_enabled: false,
+          ga_settings: {},
+          fb_settings: {}
+        };
+        
+        const newSettings = await storage.createMarketingSettings(defaultSettings);
+        
+        return res.json({
+          success: true,
+          data: newSettings
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: settings
+      });
+    } catch (error) {
+      console.error("Error retrieving marketing settings:", error);
+      res.status(500).json({
+        success: false,
+        error: "Failed to retrieve marketing settings"
+      });
+    }
+  });
+  
+  // Update marketing settings
+  app.patch("/api/marketing-settings/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid settings ID"
+        });
+      }
+      
+      const updates = req.body;
+      const updatedSettings = await storage.updateMarketingSettings(id, updates);
+      
+      if (!updatedSettings) {
+        return res.status(404).json({
+          success: false,
+          error: "Settings not found"
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: updatedSettings
+      });
+    } catch (error) {
+      console.error("Error updating marketing settings:", error);
+      res.status(500).json({
+        success: false,
+        error: "Failed to update marketing settings"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -154,6 +154,35 @@ export class DatabaseStorage implements IStorage {
       );
     return result;
   }
+
+  // Marketing settings methods
+  async getMarketingSettings(): Promise<MarketingSettings | undefined> {
+    const results = await db
+      .select()
+      .from(marketingSettings)
+      .limit(1);
+    return results.length ? results[0] : undefined;
+  }
+
+  async createMarketingSettings(settings: InsertMarketingSettings): Promise<MarketingSettings> {
+    const [result] = await db
+      .insert(marketingSettings)
+      .values(settings)
+      .returning();
+    return result;
+  }
+
+  async updateMarketingSettings(id: number, updates: Partial<InsertMarketingSettings>): Promise<MarketingSettings | undefined> {
+    const [result] = await db
+      .update(marketingSettings)
+      .set({
+        ...updates,
+        updated_at: new Date()
+      })
+      .where(eq(marketingSettings.id, id))
+      .returning();
+    return result;
+  }
 }
 
 // Switch from in-memory storage to database storage
