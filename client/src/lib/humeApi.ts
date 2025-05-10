@@ -70,8 +70,8 @@ export const generateBotResponse = async (sessionId: string, userMessage: string
   // For now, we'll simulate a response
   await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
   
-  // Generate a contextual response based on the user message with empathy and vibe focus
-  let botResponseText = "I appreciate your message! I'm your AI assistant from VibeMarketingAgency.ai. I'd love to understand more about your specific marketing challenges. How can I help elevate your brand's presence today?";
+  // Generate a contextual response based on the user message with psychology-based marketing focus
+  let botResponseText = "I appreciate your message! I'm your AI assistant from Cortexuum AI Marketing Agency. I'd love to understand more about your specific marketing challenges. How can I help elevate your brand's presence today?";
   
   const lowercaseMessage = userMessage.toLowerCase();
   
@@ -84,9 +84,9 @@ export const generateBotResponse = async (sessionId: string, userMessage: string
   } else if (lowercaseMessage.includes('workflow') || lowercaseMessage.includes('automate')) {
     botResponseText = "Automation is a game-changer for marketing agencies! Our AI agents can free up 15-20 hours per week of your team's time by handling repetitive tasks like reporting, content scheduling, and client communications. Imagine what your team could accomplish with that extra creative bandwidth! Would you like to see a personalized demo showing how this could work specifically for your agency's workflow?";
   } else if (lowercaseMessage.includes('contact') || lowercaseMessage.includes('talk') || lowercaseMessage.includes('human')) {
-    botResponseText = "I'd be thrilled to connect you with one of our vibe marketing specialists! 👋 They're passionate about helping agencies like yours leverage AI for authentic growth. To make the conversation as valuable as possible, could you share a bit about your agency's focus and what you're hoping to achieve with AI automation? This will help us prepare some relevant insights for your discussion.";
+    botResponseText = "I'd be thrilled to connect you with one of our psychology-based marketing specialists! 👋 They're passionate about helping businesses leverage AI for authentic growth. To make the conversation as valuable as possible, could you share a bit about your business focus and what you're hoping to achieve with AI-powered marketing? This will help us prepare some relevant insights for your discussion.";
   } else if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi')) {
-    botResponseText = "Hey there! 👋 Welcome to VibeMarketingAgency.ai! I'm your AI assistant, passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Our team is dedicated to transforming how you engage with your audience and scale your operations. What brings you to our site today?";
+    botResponseText = "Hey there! 👋 Welcome to Cortexuum AI Marketing Agency! I'm your AI assistant, passionate about helping businesses leverage the psychology of marketing with AI technology. Our team is dedicated to transforming how you engage with your audience and scale your operations. What brings you to our site today?";
   } else if (lowercaseMessage.includes('vibe') || lowercaseMessage.includes('culture')) {
     botResponseText = "You've touched on something we're passionate about! 💫 Vibe marketing is all about creating emotional resonance and cultural relevance that truly connects with your audience. Our AI agents analyze trending topics, audience sentiment, and cultural movements to help your brand stay authentically engaged. How are you currently approaching the 'vibe' aspect of your marketing strategy?";
   } else if (lowercaseMessage.includes('case') || lowercaseMessage.includes('success') || lowercaseMessage.includes('results')) {
