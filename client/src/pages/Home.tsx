@@ -5,6 +5,7 @@ import ClientLogos from "@/components/ClientLogos";
 import ServicesSection from "@/components/ServicesSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import WhyHireUsSection from "@/components/WhyHireUsSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
 
@@ -32,6 +33,7 @@ const Home = () => {
       <ServicesSection />
       <BenefitsSection />
       <TestimonialsSection />
+      <WhyHireUsSection />
       <FutureInsights />
       <ContactSection />
       <Footer />
