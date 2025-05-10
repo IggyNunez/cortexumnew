@@ -13,17 +13,17 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="text-white"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Elevate Your Marketing Agency with <span className="text-accent-foreground">AI Automation</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white text-on-gradient">
+              Elevate Your Marketing Agency with <span className="text-white font-extrabold">AI Automation</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8">
+            <p className="text-xl md:text-2xl text-white mb-8 font-medium text-with-shadow">
               Custom AI solutions to help marketing agencies boost efficiency, scale operations, and deliver superior client results.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button
                 asChild
                 size="lg"
-                className="bg-white text-primary hover:bg-white/90 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
+                className="bg-white text-primary hover:bg-white/90 rounded-full font-bold text-base shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-white focus:ring-offset-2"
               >
                 <a href="#contact">Schedule a Consultation</a>
               </Button>
@@ -31,7 +31,7 @@ const Hero = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white/10 rounded-full font-semibold"
+                className="border-2 border-white text-white hover:bg-white/20 rounded-full font-bold text-base focus:ring-2 focus:ring-white focus:ring-offset-2"
               >
                 <a href="#services">Explore Solutions</a>
               </Button>

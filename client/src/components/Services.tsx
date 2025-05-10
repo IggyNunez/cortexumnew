@@ -53,16 +53,16 @@ const Services = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Our AI Solutions for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Marketing Agencies</span>
+            Our AI Solutions for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent font-extrabold">Marketing Agencies</span>
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="text-xl text-gray-700 max-w-3xl mx-auto font-medium"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -85,10 +85,14 @@ const Services = () => {
               <div className={`w-14 h-14 ${service.iconBgColor} rounded-full flex items-center justify-center mb-6`}>
                 {service.icon}
               </div>
-              <h3 className="text-xl font-bold mb-4">{service.title}</h3>
-              <p className="text-gray-600 mb-4">{service.description}</p>
-              <a href="#contact" className="text-primary font-semibold flex items-center">
-                Learn more <span className="ml-2">→</span>
+              <h3 className="text-xl font-bold mb-4 text-gray-800">{service.title}</h3>
+              <p className="text-gray-700 mb-5 leading-relaxed">{service.description}</p>
+              <a 
+                href="#contact" 
+                className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:underline"
+                aria-label={`Learn more about ${service.title}`}
+              >
+                Learn more <span className="ml-2 text-lg">→</span>
               </a>
             </motion.div>
           ))}

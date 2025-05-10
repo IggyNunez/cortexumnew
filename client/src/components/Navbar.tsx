@@ -63,16 +63,16 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className={`font-medium text-sm transition-colors hover:text-primary ${
-                  scrolled ? "text-gray-700" : "text-white"
-                } ${location === item.href ? "text-primary" : ""}`}
+                className={`font-semibold text-sm transition-colors hover:text-primary ${
+                  scrolled ? "text-gray-800" : "text-white text-with-shadow"
+                } ${location === item.href ? "text-primary font-bold" : ""}`}
               >
                 {item.name}
               </a>
             ))}
             <Button
               asChild
-              className="bg-primary hover:bg-primary/90 text-white rounded-full px-5 py-2 text-sm font-medium transition-all hover:shadow-lg"
+              className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <a href="/#contact">Get Started</a>
             </Button>
@@ -115,8 +115,8 @@ const Navbar = () => {
                   <a
                     key={item.name}
                     href={item.href}
-                    className={`text-gray-700 block px-3 py-2 text-base font-medium ${
-                      location === item.href ? "text-primary" : ""
+                    className={`text-gray-800 block px-3 py-2 text-base font-semibold ${
+                      location === item.href ? "text-primary font-bold" : ""
                     }`}
                     onClick={handleNavClick}
                   >
@@ -126,7 +126,7 @@ const Navbar = () => {
                 <div className="pt-4">
                   <Button
                     asChild
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-2 text-sm font-medium"
+                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-3 text-base font-bold shadow-md focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
                     <a href="/#contact" onClick={handleNavClick}>
                       Get Started
