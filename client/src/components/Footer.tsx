@@ -3,15 +3,15 @@ const Footer = () => {
   
   const navigation = {
     solutions: [
-      { name: 'AI Strategy', href: '/#services' },
-      { name: 'Workflow Automation', href: '/#services' },
-      { name: 'AI Chatbots', href: '/#services' },
-      { name: 'AI Training', href: '/#services' },
+      { name: 'Paid Media', href: '/#services' },
+      { name: 'Funnel Buildouts', href: '/#services' },
+      { name: 'Offer Creation', href: '/#services' },
+      { name: 'Social Media', href: '/#services' },
     ],
     company: [
       { name: 'About', href: '/#about' },
       { name: 'Testimonials', href: '/#testimonials' },
-      { name: 'Blog', href: '/blog' },
+      { name: 'Results', href: '/#results' },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
@@ -26,14 +26,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and company info */}
           <div className="lg:col-span-1">
-            <div className="text-2xl font-bold mb-4">
-              VibeMarketing<span className="text-primary">Agency.ai</span>
+            <div className="flex items-center mb-4">
+              <img 
+                src="/assets/cortexuum-logo.webp" 
+                alt="Cortexuum Logo" 
+                className="h-12 mr-3"
+              />
+              <div className="flex flex-col">
+                <div className="text-xl font-bold text-blue-400">CORTEXUUM</div>
+                <div className="text-xs text-blue-300">PSYCHOLOGY BASED MARKETING</div>
+              </div>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-              Custom AI solutions designed specifically for marketing agencies to increase efficiency, improve client results, and boost profitability.
+              We're your partners in online success. Specializing in media buying, funnel building, and offer creation, Cortexuum is dedicated to propelling businesses into digital excellence.
             </p>
             <div className="text-gray-300 mt-4 text-sm">
-              Ready to transform your marketing agency with AI? Fill out our detailed application form below to get started.
+              Ready to boost your online impact? Book a call today to discuss how our data-driven solutions can transform your business.
             </div>
           </div>
 
@@ -91,25 +99,27 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
               <p className="text-gray-300 text-sm font-medium">
-                &copy; {currentYear} VibeMarketingAgency.ai. All rights reserved.
+                &copy; {currentYear} Cortexuum Psychology Based Marketing. All rights reserved.
               </p>
               <p className="text-gray-400 text-xs mt-2 italic">
-                This website was designed and developed entirely using AI automation and generative technology.
+                Data-driven solutions that beat opinions, every time.
               </p>
             </div>
             <div className="mt-6 md:mt-0">
               <a 
-                href="#contact" 
-                className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900"
-                aria-label="Contact us to get started"
+                href="https://calendly.com/cortexuummarketing/30min" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                aria-label="Book a call with Cortexuum"
               >
-                Get Started Today
+                BOOK A CALL
               </a>
             </div>
           </div>
           <div className="mt-4 text-center">
             <p className="text-gray-500 text-xs">
-              Powered by AI automation technologies including advanced natural language processing and custom AI agents.
+              Holistic and data-driven solutions intertwined into the very fabric of our framework.
             </p>
             <div className="mt-2">
               <a href="/login" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">

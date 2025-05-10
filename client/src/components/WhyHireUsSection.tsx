@@ -1,42 +1,48 @@
 import { motion } from "framer-motion";
-import { Code, PenTool, User, LineChart } from "lucide-react";
+import { LineChart, MousePointerClick, Layers, Brain } from "lucide-react";
 
 const WhyHireUsSection = () => {
   return (
     <section className="py-16 bg-gray-50" id="why-hire-us">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="inline-block bg-amber-50 border-2 border-amber-400 rounded-lg px-4 py-1 mb-4">
-            <p className="text-amber-700 font-medium text-sm">70+ Years of Combined Industry Experience</p>
+          <div className="inline-block bg-blue-50 border-2 border-blue-400 rounded-lg px-4 py-1 mb-4">
+            <p className="text-blue-700 font-medium text-sm">$200 MILLION+ IN MANAGED AD SPEND</p>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Hire Us</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Digital Growth Architects</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our team is made up of four industry-leading professionals who came together to help agencies and local businesses get the most out of AI, with our sales manager actively consulting the best upcoming agencies.
+            At Cortexuum, we're more than just a digital marketing agency; we're your partners in online success. Specializing in media buying, funnel building, and offer creation, we're dedicated to propelling businesses into digital excellence.
           </p>
         </div>
         
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-          {/* Developer Partner */}
+          {/* Founder Card */}
           <motion.div 
-            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl"
+            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl col-span-1 lg:col-span-2 md:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="bg-primary/10 p-6">
-              <Code className="h-12 w-12 text-primary mb-2" />
-              <h3 className="text-xl font-bold text-gray-900">Development Expert</h3>
-              <p className="text-gray-500 text-sm">20+ Years Experience</p>
-            </div>
-            <div className="p-6">
-              <p className="text-gray-700">
-                Our lead developer brings over 20 years of experience in the eCommerce world, helping agencies and their clients—both B2C and B2B—across retail, tech, and service industries.
-              </p>
+            <div className="flex flex-col md:flex-row">
+              <div className="md:w-1/2">
+                <img 
+                  src="/assets/christian-colgate.webp" 
+                  alt="Christian Colgate" 
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="md:w-1/2 p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-1">Christian Colgate</h3>
+                <p className="text-blue-600 text-sm font-medium uppercase mb-4">FOUNDER</p>
+                <p className="text-gray-700">
+                  As a digital growth architect, Christian combines extensive marketing expertise with data-driven strategies to help businesses achieve exceptional results. With a proven track record managing over $200 million in ad spend, he's dedicated to creating marketing solutions that deliver real impact.
+                </p>
+              </div>
             </div>
           </motion.div>
           
-          {/* Project Manager Partner */}
+          {/* Media Buying */}
           <motion.div 
             className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl"
             initial={{ opacity: 0, y: 20 }}
@@ -45,18 +51,18 @@ const WhyHireUsSection = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <div className="bg-blue-50 p-6">
-              <User className="h-12 w-12 text-blue-600 mb-2" />
-              <h3 className="text-xl font-bold text-gray-900">Project Manager</h3>
-              <p className="text-gray-500 text-sm">15+ Years Experience</p>
+              <MousePointerClick className="h-12 w-12 text-blue-600 mb-2" />
+              <h3 className="text-xl font-bold text-gray-900">Media Buying</h3>
+              <p className="text-gray-500 text-sm">Facebook, Google & YouTube</p>
             </div>
             <div className="p-6">
               <p className="text-gray-700">
-                Our dedicated project manager has over 15 years of experience orchestrating successful implementations for agencies of all sizes, ensuring smooth delivery and client satisfaction.
+                Our expert media buying services combine sophisticated targeting with creative strategies across major platforms to maximize engagement, conversions, and ROI for your campaigns.
               </p>
             </div>
           </motion.div>
           
-          {/* Copywriter Partner */}
+          {/* Psychology Based */}
           <motion.div 
             className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl"
             initial={{ opacity: 0, y: 20 }}
@@ -64,34 +70,14 @@ const WhyHireUsSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="bg-amber-50 p-6">
-              <PenTool className="h-12 w-12 text-amber-600 mb-2" />
-              <h3 className="text-xl font-bold text-gray-900">Copywriter</h3>
-              <p className="text-gray-500 text-sm">15+ Years Experience</p>
+            <div className="bg-blue-50 p-6">
+              <Brain className="h-12 w-12 text-blue-600 mb-2" />
+              <h3 className="text-xl font-bold text-gray-900">Psychology Based</h3>
+              <p className="text-gray-500 text-sm">Data-Driven Approach</p>
             </div>
             <div className="p-6">
               <p className="text-gray-700">
-                Our expert copywriter has been crafting compelling content for over 15 years, specializing in marketing messaging that converts and AI prompting strategies that drive results.
-              </p>
-            </div>
-          </motion.div>
-          
-          {/* Sales Manager Partner */}
-          <motion.div 
-            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <div className="bg-green-50 p-6">
-              <LineChart className="h-12 w-12 text-green-600 mb-2" />
-              <h3 className="text-xl font-bold text-gray-900">Sales Manager</h3>
-              <p className="text-gray-500 text-sm">20+ Years Experience</p>
-            </div>
-            <div className="p-6">
-              <p className="text-gray-700">
-                Our sales manager brings over 20 years of expertise in building effective sales processes, consulting with the best upcoming agencies, and implementing AI-driven strategies that consistently increase conversion rates.
+                We leverage psychological insights and consumer behavior data to craft marketing messages that resonate on a deeper level, driving higher engagement and conversion rates.
               </p>
             </div>
           </motion.div>

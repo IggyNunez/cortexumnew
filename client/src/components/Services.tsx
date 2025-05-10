@@ -1,50 +1,50 @@
 import { motion } from "framer-motion";
 import { 
-  Bot, 
-  Cog, 
-  MessageSquare, 
-  Presentation, 
   LineChart, 
-  Users 
+  MousePointerClick, 
+  Layers, 
+  ShoppingBag, 
+  Building, 
+  Share2 
 } from "lucide-react";
 
 const Services = () => {
   const services = [
     {
-      icon: <Bot className="text-primary text-2xl" />,
-      iconBgColor: "bg-primary/10",
-      title: "AI Strategy Implementation",
-      description: "Custom AI roadmaps designed specifically for marketing agencies to enhance performance and client satisfaction."
+      icon: <MousePointerClick className="text-blue-600 text-2xl" />,
+      iconBgColor: "bg-blue-600/10",
+      title: "Paid Media Services",
+      description: "Expert media buying across Meta, Google, and YouTube with sophisticated targeting and creative strategies to enhance engagement and conversions."
     },
     {
-      icon: <Cog className="text-emerald-500 text-2xl" />,
-      iconBgColor: "bg-emerald-500/10",
-      title: "Workflow Automation",
-      description: "Streamline your agency operations with intelligent automation tools that save time and reduce errors."
+      icon: <Layers className="text-blue-500 text-2xl" />,
+      iconBgColor: "bg-blue-500/10",
+      title: "Funnel Buildouts",
+      description: "Custom sales funnels that guide potential customers from awareness to purchase with responsive, user-friendly designs that optimize the customer journey."
     },
     {
-      icon: <MessageSquare className="text-violet-500 text-2xl" />,
-      iconBgColor: "bg-violet-500/10",
-      title: "AI Chatbot Solutions",
-      description: "Voice-enabled AI chatbots using Hume API to engage visitors, qualify leads, and enhance client communication."
+      icon: <ShoppingBag className="text-blue-600 text-2xl" />,
+      iconBgColor: "bg-blue-600/10",
+      title: "Offer Creation",
+      description: "Crafting offers that align with your business needs, adaptable for DIY, DWY, or DFY strategies that effectively engage and convert your target market."
     },
     {
-      icon: <Presentation className="text-primary text-2xl" />,
-      iconBgColor: "bg-primary/10",
-      title: "AI Training Programs",
-      description: "Customized training for your team to master AI tools and solutions for marketing excellence."
+      icon: <Building className="text-blue-500 text-2xl" />,
+      iconBgColor: "bg-blue-500/10",
+      title: "Local Marketing",
+      description: "Targeted local marketing strategies that connect businesses with their community, driving foot traffic and building lasting customer relationships."
     },
     {
-      icon: <LineChart className="text-emerald-500 text-2xl" />,
-      iconBgColor: "bg-emerald-500/10",
-      title: "AI-Powered Analytics",
-      description: "Advanced analytics solutions that provide actionable insights for better client campaigns."
+      icon: <LineChart className="text-blue-600 text-2xl" />,
+      iconBgColor: "bg-blue-600/10",
+      title: "Data-Driven Analytics",
+      description: "Advanced analytics and measurement solutions that provide actionable insights to optimize your marketing campaigns and maximize ROI."
     },
     {
-      icon: <Users className="text-violet-500 text-2xl" />,
-      iconBgColor: "bg-violet-500/10",
-      title: "AI Integration Consulting",
-      description: "Expert consultation on seamlessly integrating AI solutions into your existing agency processes."
+      icon: <Share2 className="text-blue-500 text-2xl" />,
+      iconBgColor: "bg-blue-500/10",
+      title: "Social Media Marketing",
+      description: "Strategic social media management across platforms to build brand awareness, engage audiences, and drive measurable business results."
     }
   ];
 
@@ -59,7 +59,7 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Our AI Solutions for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent font-extrabold">Marketing Agencies</span>
+            Our Services <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-extrabold">HOLISTIC AND FUNDAMENTAL</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-700 max-w-3xl mx-auto font-medium"
@@ -68,7 +68,7 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Comprehensive AI integration services tailored specifically for marketing agencies, firms, and consultants.
+            With our expertise, your brand is positioned for maximum impact and ROI across pivotal digital platforms.
           </motion.p>
         </div>
         
@@ -88,11 +88,13 @@ const Services = () => {
               <h3 className="text-xl font-bold mb-4 text-gray-800">{service.title}</h3>
               <p className="text-gray-700 mb-5 leading-relaxed">{service.description}</p>
               <a 
-                href="#contact" 
-                className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:underline"
-                aria-label={`Learn more about ${service.title}`}
+                href="https://calendly.com/cortexuummarketing/30min" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 font-bold flex items-center hover:underline focus:outline-none focus:underline"
+                aria-label={`Book a call about ${service.title}`}
               >
-                Learn more <span className="ml-2 text-lg">→</span>
+                Book a call <span className="ml-2 text-lg">→</span>
               </a>
             </motion.div>
           ))}
