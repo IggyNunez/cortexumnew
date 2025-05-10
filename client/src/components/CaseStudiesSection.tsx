@@ -4,26 +4,26 @@ import { ArrowRight } from "lucide-react";
 const CaseStudiesSection = () => {
   const caseStudies = [
     {
-      client: "A&E",
+      client: "SoftRx",
       title: "AI-Powered Content Optimization",
-      description: "How A&E increased their social engagement by 217% using our AI content optimization tools.",
+      description: "How SoftRx increased their social engagement by 217% using our AI content optimization tools.",
       metrics: [
         { label: "Engagement Increase", value: "217%" },
         { label: "Content Creation Time", value: "-65%" },
         { label: "ROI", value: "341%" }
       ],
-      image: "ae"
+      image: "softrx"
     },
     {
-      client: "Jamil Damji Real Estate",
+      client: "RX Surgical",
       title: "AI-Powered Lead Qualification",
-      description: "How Jamil Damji's real estate business automated lead qualification and increased closing rates.",
+      description: "How RX Surgical automated lead qualification and increased closing rates for their medical practice.",
       metrics: [
         { label: "Lead Qualification", value: "24/7" },
         { label: "Response Time", value: "-78%" },
         { label: "Closing Rate", value: "+45%" }
       ],
-      image: "jamil"
+      image: "rxsurgical"
     },
     {
       client: "Bommorito Performance",

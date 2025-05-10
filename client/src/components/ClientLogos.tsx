@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 const ClientLogos = () => {
   const clients = [
     {
-      name: "A&E",
-      logo: "A&E"
+      name: "SoftRx",
+      logo: "SR"
     },
     {
-      name: "Jamil Damji Real Estate Expert",
-      logo: "JD"
+      name: "RX Surgical",
+      logo: "RX"
     },
     {
       name: "Bommorito Performance",

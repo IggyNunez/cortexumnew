@@ -301,8 +301,8 @@ const ContactForm = () => {
               <h3 className="text-2xl font-bold mb-6 text-white text-with-shadow">Our Clients</h3>
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { name: "A&E", logo: "A&E" },
-                  { name: "Jamil Damji Real Estate Expert", logo: "JD" },
+                  { name: "SoftRx", logo: "SR" },
+                  { name: "RX Surgical", logo: "RX" },
                   { name: "Bommorito Performance", logo: "BP" },
                   { name: "FormRx", logo: "Rx" },
                   { name: "Sunday Golf", logo: "SG" },
