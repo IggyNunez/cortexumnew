@@ -28,11 +28,11 @@ const CaseStudiesSection = () => {
     {
       client: "Bommorito Performance",
       title: "AI-Powered Website & Lead Generation",
-      description: "How Bommorito Performance transformed their elite training center with an AI-rebuilt website and intelligent social media integration that automatically identifies and nurtures potential athlete prospects.",
+      description: "How Bommorito Performance enhanced their training center with AI-driven website optimization and social media tools to better connect with potential athletes.",
       metrics: [
         { label: "Athlete Leads", value: "+185%" },
         { label: "Conversion Rate", value: "+67%" },
-        { label: "Digital Engagement", value: "3.4x growth" }
+        { label: "Digital Engagement", value: "3.4x" }
       ],
       image: "bommorito"
     },
@@ -88,7 +88,7 @@ const CaseStudiesSection = () => {
           {caseStudies.map((study, index) => (
             <motion.div 
               key={index}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+              className={`bg-white rounded-xl shadow-lg overflow-hidden ${study.client === "Bommorito Performance" ? "flex flex-col justify-center mx-auto" : ""}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -100,22 +100,22 @@ const CaseStudiesSection = () => {
                 </div>
               </div>
               <div className="p-6">
-                <div className="text-sm text-gray-600 font-medium mb-2">{study.client}</div>
-                <h3 className="text-xl font-bold mb-3 text-gray-800">{study.title}</h3>
-                <p className="text-gray-700 mb-6 leading-relaxed">{study.description}</p>
+                <div className={`text-sm text-gray-600 font-medium mb-2 ${study.client === "Bommorito Performance" ? "text-center" : ""}`}>{study.client}</div>
+                <h3 className={`text-xl font-bold mb-3 text-gray-800 ${study.client === "Bommorito Performance" ? "text-center" : ""}`}>{study.title}</h3>
+                <p className={`${study.client === "Bommorito Performance" ? "text-gray-600 mb-6 leading-relaxed text-sm text-center" : "text-gray-700 mb-6 leading-relaxed"}`}>{study.description}</p>
                 
-                <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className={`grid grid-cols-3 gap-4 mb-6 ${study.client === "Bommorito Performance" ? "mx-auto text-center" : ""}`}>
                   {study.metrics.map((metric, mIndex) => (
                     <div key={mIndex} className="text-center">
-                      <div className="text-primary font-bold text-xl">{metric.value}</div>
-                      <div className="text-gray-700 text-sm font-medium">{metric.label}</div>
+                      <div className={`${study.client === "Bommorito Performance" ? "text-primary/80 font-bold text-lg" : "text-primary font-bold text-xl"}`}>{metric.value}</div>
+                      <div className={`${study.client === "Bommorito Performance" ? "text-gray-600 text-xs font-medium" : "text-gray-700 text-sm font-medium"}`}>{metric.label}</div>
                     </div>
                   ))}
                 </div>
                 
                 <a 
                   href="#contact" 
-                  className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:text-primary-dark"
+                  className={`text-primary font-bold ${study.client === "Bommorito Performance" ? "flex items-center justify-center hover:underline focus:outline-none focus:text-primary-dark" : "flex items-center hover:underline focus:outline-none focus:text-primary-dark"}`}
                   aria-label={`Read ${study.client} case study`}
                 >
                   Read case study <ArrowRight className="ml-2 h-4 w-4" />
