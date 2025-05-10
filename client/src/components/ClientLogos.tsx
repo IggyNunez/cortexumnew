@@ -11,12 +11,8 @@ const ClientLogos = () => {
       logo: "JD"
     },
     {
-      name: "Pete Bommorito",
+      name: "Bommorito Performance",
       logo: "BP"
-    },
-    {
-      name: "Bommorito Performance NFL",
-      logo: "NFL"
     },
     {
       name: "FormRx",

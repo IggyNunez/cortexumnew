@@ -28,7 +28,7 @@ const CaseStudiesSection = () => {
     {
       client: "Bommorito Performance",
       title: "Automated Client Reporting",
-      description: "How Pete Bommorito's NFL training company saved 20+ hours per week with AI-automated reporting.",
+      description: "How Bommorito Performance elite training center saved 20+ hours per week with AI-automated reporting.",
       metrics: [
         { label: "Time Saved", value: "20+ hrs/week" },
         { label: "Client Satisfaction", value: "+42%" },

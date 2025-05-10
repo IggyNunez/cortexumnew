@@ -302,7 +302,7 @@ const ContactForm = () => {
                 {[
                   { name: "A&E", logo: "A&E" },
                   { name: "Jamil Damji Real Estate Expert", logo: "JD" },
-                  { name: "Pete Bommorito", logo: "PB" },
+                  { name: "Bommorito Performance", logo: "BP" },
                   { name: "FormRx", logo: "Rx" }
                 ].map((client, index) => (
                   <div key={index} className="flex items-center space-x-3">
