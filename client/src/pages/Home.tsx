@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ClientLogos from "@/components/ClientLogos";
@@ -8,27 +8,16 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import WhyHireUsSection from "@/components/WhyHireUsSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
-
 import ContentFunnelSection from "@/components/ContentFunnelSection";
-
 import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot";
-import MobileChatbot from "@/components/MobileChatbot";
-import { MessageSquare } from "lucide-react";
 import { useScrollFade } from "@/hooks/useScrollFade";
 import SectionDivider from "@/components/SectionDivider";
 import ParallaxSection from "@/components/ParallaxSection";
 import CortexuumLogo from "@/components/CortexuumLogo";
 
 const Home = () => {
-  const [isMobileChatbotOpen, setIsMobileChatbotOpen] = useState(false);
-  
   // Use our scroll fade hook
   useScrollFade();
-  
-  const toggleMobileChatbot = () => {
-    setIsMobileChatbotOpen(!isMobileChatbotOpen);
-  };
 
   return (
     <div className="relative">
@@ -153,30 +142,6 @@ const Home = () => {
       </ParallaxSection>
       
       <Footer />
-      
-      {/* Desktop Chatbot */}
-      <Chatbot />
-      
-      {/* Mobile Chatbot Toggle Button - updated with brain-inspired gradient */}
-      <div className="md:hidden fixed bottom-6 right-6 z-50">
-        <button 
-          onClick={toggleMobileChatbot}
-          className="bg-[#E63E8B] h-14 w-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition duration-300"
-          style={{
-            background: "linear-gradient(135deg, #357BD8, #E63E8B)",
-            boxShadow: "0 4px 15px rgba(230, 62, 139, 0.5)"
-          }}
-          aria-label="Open chat assistant"
-        >
-          <MessageSquare className="h-6 w-6" />
-        </button>
-      </div>
-      
-      {/* Mobile Chatbot (fullscreen) */}
-      <MobileChatbot 
-        isOpen={isMobileChatbotOpen} 
-        onClose={() => setIsMobileChatbotOpen(false)} 
-      />
     </div>
   );
 };
