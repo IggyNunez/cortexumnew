@@ -3,48 +3,49 @@ import {
   LineChart, 
   MousePointerClick, 
   Layers, 
-  ShoppingBag, 
-  Building, 
-  Share2 
+  Bot, 
+  Brain, 
+  Zap,
+  GitBranch
 } from "lucide-react";
 
 const Services = () => {
   const services = [
     {
+      icon: <Bot className="text-blue-600 text-2xl" />,
+      iconBgColor: "bg-blue-600/10",
+      title: "Custom AI Agents",
+      description: "Bespoke AI agents tailored to your business needs that can handle customer interactions, generate content, and analyze data with unprecedented accuracy and personalization."
+    },
+    {
+      icon: <Brain className="text-blue-500 text-2xl" />,
+      iconBgColor: "bg-blue-500/10",
+      title: "AI Content Creation",
+      description: "Advanced AI-powered content generation that creates compelling copy, blog posts, social media content, and ad creative that resonates with your target audience."
+    },
+    {
       icon: <MousePointerClick className="text-blue-600 text-2xl" />,
       iconBgColor: "bg-blue-600/10",
-      title: "Paid Media Services",
-      description: "Expert media buying across Meta, Google, and YouTube with sophisticated targeting and creative strategies to enhance engagement and conversions."
+      title: "Intelligent Media Buying",
+      description: "AI-optimized media purchasing across platforms that continuously learns and adjusts your campaigns for maximum performance and reduced acquisition costs."
     },
     {
       icon: <Layers className="text-blue-500 text-2xl" />,
       iconBgColor: "bg-blue-500/10",
-      title: "Funnel Buildouts",
-      description: "Custom sales funnels that guide potential customers from awareness to purchase with responsive, user-friendly designs that optimize the customer journey."
-    },
-    {
-      icon: <ShoppingBag className="text-blue-600 text-2xl" />,
-      iconBgColor: "bg-blue-600/10",
-      title: "Offer Creation",
-      description: "Crafting offers that align with your business needs, adaptable for DIY, DWY, or DFY strategies that effectively engage and convert your target market."
-    },
-    {
-      icon: <Building className="text-blue-500 text-2xl" />,
-      iconBgColor: "bg-blue-500/10",
-      title: "Local Marketing",
-      description: "Targeted local marketing strategies that connect businesses with their community, driving foot traffic and building lasting customer relationships."
+      title: "AI-Powered Funnels",
+      description: "Dynamic sales funnels that adapt to individual user behavior in real-time, creating personalized journeys that dramatically increase conversion rates."
     },
     {
       icon: <LineChart className="text-blue-600 text-2xl" />,
       iconBgColor: "bg-blue-600/10",
-      title: "Data-Driven Analytics",
-      description: "Advanced analytics and measurement solutions that provide actionable insights to optimize your marketing campaigns and maximize ROI."
+      title: "Predictive Analytics",
+      description: "Machine learning models that forecast market trends, customer behavior, and campaign performance to give you a competitive edge in your marketing strategy."
     },
     {
-      icon: <Share2 className="text-blue-500 text-2xl" />,
+      icon: <GitBranch className="text-blue-500 text-2xl" />,
       iconBgColor: "bg-blue-500/10",
-      title: "Social Media Marketing",
-      description: "Strategic social media management across platforms to build brand awareness, engage audiences, and drive measurable business results."
+      title: "AI Marketing Strategy",
+      description: "Comprehensive AI-driven marketing plans that integrate psychological principles with cutting-edge technology to create cohesive, high-performing campaigns."
     }
   ];
 
@@ -59,7 +60,7 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Our Services <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-extrabold">HOLISTIC AND FUNDAMENTAL</span>
+            AI-Powered Services <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-extrabold">INTELLIGENT AND ADAPTIVE</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-700 max-w-3xl mx-auto font-medium"
@@ -68,7 +69,7 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            With our expertise, your brand is positioned for maximum impact and ROI across pivotal digital platforms.
+            Our AI-powered solutions merge cognitive psychology with cutting-edge technology to transform your marketing from static to dynamically intelligent.
           </motion.p>
         </div>
         

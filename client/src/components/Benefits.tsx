@@ -1,32 +1,37 @@
 import { motion } from "framer-motion";
-import { Rocket, PieChart, Users, Lightbulb, DollarSign } from "lucide-react";
+import { Rocket, PieChart, Users, Lightbulb, DollarSign, Brain, Clock, Zap } from "lucide-react";
 
 const Benefits = () => {
   const benefits = [
     {
-      icon: <Rocket size={22} />,
-      title: "Increased Efficiency",
-      description: "Automate repetitive tasks and workflows, allowing your team to focus on strategic initiatives that drive growth."
+      icon: <Brain size={22} />,
+      title: "Psychology-Based AI",
+      description: "Our AI systems are trained on cognitive psychology principles to create marketing that genuinely resonates with human decision-making processes."
     },
     {
       icon: <PieChart size={22} />,
-      title: "Enhanced Client Results",
-      description: "Deliver superior campaign performance and ROI for your clients through AI-optimized strategies."
+      title: "30-50% Higher ROI",
+      description: "Our clients typically see 30-50% improvements in ROI compared to traditional marketing approaches through continuously optimizing AI algorithms."
     },
     {
-      icon: <Users size={22} />,
-      title: "Higher Lead Conversion",
-      description: "Convert more prospects into clients with personalized AI chatbots that qualify leads 24/7."
+      icon: <Clock size={22} />,
+      title: "24/7 Marketing Intelligence",
+      description: "AI agents work around the clock, analyzing data, optimizing campaigns, and engaging with potential customers without human limitations."
+    },
+    {
+      icon: <Zap size={22} />,
+      title: "Hyper-Personalization",
+      description: "Create individualized marketing experiences for each prospect through AI that adapts messaging based on behavior, preferences, and psychology."
     },
     {
       icon: <Lightbulb size={22} />,
-      title: "Competitive Advantage",
-      description: "Stand out in the crowded agency market by offering cutting-edge AI-powered services to your clients."
+      title: "Predictive Insights",
+      description: "Anticipate market trends and customer needs before they emerge with AI models that identify patterns invisible to human analysis."
     },
     {
       icon: <DollarSign size={22} />,
-      title: "Increased Revenue",
-      description: "Boost your agency's profitability by scaling operations without proportionally increasing costs."
+      title: "Reduced Acquisition Costs",
+      description: "AI optimization typically reduces customer acquisition costs by 40-60% while simultaneously improving conversion quality and customer lifetime value."
     }
   ];
 
@@ -41,7 +46,7 @@ const Benefits = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Transform Your Agency with <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">AI Automation</span>
+            Transform Your Business with <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">Cognitive AI Marketing</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto"
@@ -50,7 +55,7 @@ const Benefits = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Discover how our AI solutions can revolutionize your marketing agency's performance and client outcomes.
+            Experience the revolutionary power of AI marketing that combines psychological principles with cutting-edge machine learning technology.
           </motion.p>
         </div>
         
