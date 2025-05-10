@@ -1,125 +1,116 @@
-import { useState, useEffect, useCallback } from 'react';
-import { generateSpeech, transcribeAudio } from '@/lib/humeApi';
+import { useState, useRef, useCallback } from "react";
+import { generateSpeech } from "@/lib/humeApi";
 
 export function useHumeSpeech() {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
-  const [recognizedText, setRecognizedText] = useState('');
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  const [recognizedText, setRecognizedText] = useState("");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize audio context
-  useEffect(() => {
-    const context = new (window.AudioContext || (window as any).webkitAudioContext)();
-    setAudioContext(context);
+  // Create audio element on client side only
+  if (typeof window !== "undefined" && !audioRef.current) {
+    audioRef.current = new Audio();
+    audioRef.current.onended = () => setIsPlaying(false);
+  }
 
-    return () => {
-      if (context) {
-        context.close();
-      }
-    };
-  }, []);
-
-  // Toggle voice response
   const toggleVoice = useCallback(() => {
     setIsVoiceEnabled(prev => !prev);
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isPlaying]);
+
+  const stopAudio = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+    }
   }, []);
 
-  // Play audio from base64 string
-  const playAudio = useCallback(
-    async (base64Audio: string) => {
-      if (!audioContext) return;
+  const playAudio = useCallback((audioUrl: string) => {
+    if (!isVoiceEnabled || !audioRef.current) return;
+    
+    stopAudio();
+    audioRef.current.src = audioUrl;
+    audioRef.current.play()
+      .then(() => setIsPlaying(true))
+      .catch(error => {
+        console.error("Error playing audio:", error);
+        setIsPlaying(false);
+      });
+  }, [isVoiceEnabled, stopAudio]);
 
-      try {
-        // Convert base64 to ArrayBuffer
-        const binaryString = window.atob(base64Audio);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-
-        // Decode audio data
-        const audioBuffer = await audioContext.decodeAudioData(bytes.buffer);
-        
-        // Create and play source
-        const source = audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(audioContext.destination);
-        source.start();
-      } catch (error) {
-        console.error('Error playing audio:', error);
-      }
-    },
-    [audioContext]
-  );
-
-  // Generate and play speech
   const speak = useCallback(
     async (text: string) => {
-      if (!isVoiceEnabled || !text) return;
-
+      if (!isVoiceEnabled) return;
+      
       try {
+        // In a real implementation, this would call the Hume API
+        // For now, we'll use a simple text-to-speech
         const response = await generateSpeech({
           text,
-          voice: 'natural', // Use appropriate voice option from Hume API
-          speed: 1.0,
+          voice: "alloy", // Default voice
         });
-
-        await playAudio(response.audio);
+        
+        // Convert base64 to audio URL
+        if (response && response.audio) {
+          const audioUrl = `data:audio/mp3;base64,${response.audio}`;
+          playAudio(audioUrl);
+        }
       } catch (error) {
-        console.error('Error speaking:', error);
+        console.error("Error generating speech:", error);
       }
     },
     [isVoiceEnabled, playAudio]
   );
 
-  // Setup speech recognition
+  // Speech recognition
   const startRecording = useCallback(async () => {
-    if (isRecording) return;
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
-      setMediaRecorder(recorder);
-      setRecordedChunks([]);
-
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          setRecordedChunks((prev) => [...prev, e.data]);
-        }
-      };
-
-      recorder.onstop = async () => {
-        const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
-        
-        try {
-          const text = await transcribeAudio(audioBlob);
-          setRecognizedText(text);
-        } catch (error) {
-          console.error('Transcription error:', error);
-        }
-        
-        // Stop all tracks
-        stream.getTracks().forEach(track => track.stop());
-      };
-
-      recorder.start();
+    if (navigator.mediaDevices && 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       setIsRecording(true);
-    } catch (error) {
-      console.error('Error starting recording:', error);
-    }
-  }, [isRecording, recordedChunks]);
-
-  const stopRecording = useCallback(() => {
-    if (mediaRecorder && isRecording) {
-      mediaRecorder.stop();
+      setRecognizedText("");
+      
+      // Most browsers support webkitSpeechRecognition
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setRecognizedText(transcript);
+      };
+      
+      recognition.onspeechend = () => {
+        recognition.stop();
+        setIsRecording(false);
+      };
+      
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error', event.error);
+        setIsRecording(false);
+      };
+      
+      recognition.start();
+    } else {
+      console.error('Speech recognition not supported in this browser');
       setIsRecording(false);
     }
-  }, [mediaRecorder, isRecording]);
+  }, []);
+
+  const stopRecording = useCallback(() => {
+    setIsRecording(false);
+  }, []);
 
   return {
+    isPlaying,
+    playAudio,
+    stopAudio,
     isVoiceEnabled,
     toggleVoice,
     speak,

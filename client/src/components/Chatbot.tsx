@@ -1,16 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Mic, MicOff } from 'lucide-react';
-import { 
-  createSessionId, 
-  sendChatMessage, 
-  generateBotResponse, 
-  setupSpeechRecognition,
-  synthesizeSpeech 
-} from '@/lib/humeApi';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MessageSquare, X, Maximize2, Minimize2, Mic, Send } from "lucide-react";
+import { nanoid } from "nanoid";
+import { createSessionId, sendChatMessage, generateBotResponse, generateSpeech, synthesizeSpeech } from "@/lib/humeApi";
+import { useHumeSpeech } from "@/hooks/useHumeSpeech";
 
 interface ChatMessage {
   sender: 'user' | 'bot';
@@ -20,256 +13,260 @@ interface ChatMessage {
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [message, setMessage] = useState("");
+  const [sessionId, setSessionId] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [sessionId, setSessionId] = useState('');
-  const [isVoiceActive, setIsVoiceActive] = useState(false);
-  const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
-  
-  // Initialize speech recognition
-  const speechRecognition = useRef(setupSpeechRecognition());
+  const { isPlaying, playAudio, stopAudio } = useHumeSpeech();
 
-  // Initialize session ID and welcome message
   useEffect(() => {
-    const newSessionId = createSessionId();
-    setSessionId(newSessionId);
-    
-    // Add initial bot message
-    setMessages([
-      {
-        sender: 'bot',
-        message: '👋 Hi there! I\'m your AI assistant from Vibe Marketing. How can I help your agency today?',
-        timestamp: new Date()
-      }
-    ]);
-  }, []);
+    // Initialize a new session ID if one doesn't exist
+    if (!sessionId) {
+      setSessionId(createSessionId());
+    }
+  }, [sessionId]);
 
-  // Scroll to bottom whenever messages change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to bottom whenever messages change
+    scrollToBottom();
   }, [messages]);
 
-  // Setup speech recognition
-  useEffect(() => {
-    speechRecognition.current.onResult((text) => {
-      setMessage(text);
-      setIsListening(false);
-    });
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-    return () => {
-      if (isListening) {
-        speechRecognition.current.stop();
-      }
-    };
-  }, [isListening]);
-
-  const toggleChat = () => {
+  const toggleChatbot = () => {
     setIsOpen(!isOpen);
+    if (!isOpen && messages.length === 0) {
+      // Add welcome message when opening for the first time
+      const welcomeMessage: ChatMessage = {
+        sender: 'bot',
+        message: "👋 Hi there! I'm your AI assistant. I can help answer questions about our AI solutions for marketing agencies. How can I help you today?",
+        timestamp: new Date()
+      };
+      setMessages([welcomeMessage]);
+    }
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
 
   const handleSendMessage = async () => {
-    if (!message.trim()) return;
-    
-    // Add user message to chat
+    if (message.trim() === "" || isLoading) return;
+
     const userMessage: ChatMessage = {
       sender: 'user',
       message: message.trim(),
       timestamp: new Date()
     };
-    
-    setMessages(prev => [...prev, userMessage]);
-    setMessage('');
-    
+
+    setMessages(prevMessages => [...prevMessages, userMessage]);
+    setMessage("");
+    setIsLoading(true);
+
     try {
-      // Send message to the server and get stored message
+      // Send the message to the API
       await sendChatMessage(sessionId, userMessage.message);
       
       // Generate bot response
-      const botMessage = await generateBotResponse(sessionId, userMessage.message);
+      const botResponse = await generateBotResponse(sessionId, userMessage.message);
       
-      // Add bot response to chat
-      setMessages(prev => [...prev, {
+      setMessages(prevMessages => [...prevMessages, {
         sender: 'bot',
-        message: botMessage.message,
+        message: botResponse.message,
+        timestamp: new Date(botResponse.timestamp || new Date())
+      }]);
+
+      // Speak the response if needed
+      synthesizeSpeech(botResponse.message);
+      
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages(prevMessages => [...prevMessages, {
+        sender: 'bot',
+        message: "Sorry, I encountered an error processing your request. Please try again later.",
         timestamp: new Date()
       }]);
-      
-      // If voice is active, synthesize speech for the bot response
-      if (isVoiceActive) {
-        try {
-          await synthesizeSpeech(botMessage.message);
-        } catch (error) {
-          console.error('Failed to synthesize speech:', error);
-        }
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to send message. Please try again.',
-        variant: 'destructive'
-      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
-
-  const toggleVoice = () => {
-    if (!isVoiceActive) {
-      setIsVoiceActive(true);
-      toast({
-        title: 'Voice Mode Activated',
-        description: 'The chatbot will now respond with voice and can listen to your speech.'
-      });
+  const handleVoiceRecording = () => {
+    if (isRecording) {
+      // Stop recording
+      setIsRecording(false);
+      // Here you would process the audio recording and send it to Hume API
+      // For now, we'll just pretend
+      setMessage("I'd like to learn more about AI chatbots for lead generation.");
     } else {
-      setIsVoiceActive(false);
-      if (isListening) {
-        speechRecognition.current.stop();
-        setIsListening(false);
-      }
-      toast({
-        title: 'Voice Mode Deactivated',
-        description: 'The chatbot will now respond with text only.'
-      });
-    }
-  };
-
-  const toggleListening = () => {
-    if (!isVoiceActive) {
-      setIsVoiceActive(true);
-    }
-    
-    if (isListening) {
-      speechRecognition.current.stop();
-      setIsListening(false);
-    } else {
-      setIsListening(true);
-      speechRecognition.current.start();
+      // Start recording
+      setIsRecording(true);
+      setMessage("Recording... (speak now)");
     }
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {/* Chat Button */}
-      <Button
-        onClick={toggleChat}
-        className={`flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent text-white shadow-lg hover:shadow-xl transition-all`}
-        aria-label="Open chat"
-      >
-        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
-      </Button>
-      
-      {/* Chat Window */}
+    <>
+      {/* Chatbot button */}
+      {!isOpen && (
+        <motion.button
+          className="hidden md:flex fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full shadow-lg p-4 hover:bg-primary/90 transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={toggleChatbot}
+          aria-label="Open chatbot"
+        >
+          <MessageSquare className="h-6 w-6" />
+        </motion.button>
+      )}
+
+      {/* Chatbot window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="absolute bottom-20 right-0 bg-white rounded-xl shadow-2xl w-80 md:w-96 overflow-hidden"
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className={`hidden md:block fixed z-50 overflow-hidden rounded-xl shadow-2xl bg-white ${
+              isExpanded 
+                ? "bottom-4 right-4 left-4 top-20" 
+                : "bottom-4 right-4 w-96 h-[550px]"
+            }`}
           >
-            <div className="bg-gradient-to-r from-primary to-accent p-4 text-white">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-3">
-                    <MessageSquare size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">AI Assistant</h3>
-                    <p className="text-xs opacity-80">Powered by Vibe Marketing AI</p>
-                  </div>
-                </div>
-                <Button
-                  onClick={toggleChat}
-                  variant="ghost"
-                  className="text-white hover:text-gray-200 hover:bg-transparent"
-                  size="icon"
+            {/* Chatbot header */}
+            <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center">
+              <div className="flex items-center">
+                <MessageSquare className="h-5 w-5 mr-2" />
+                <h3 className="font-medium">AI Assistant</h3>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={toggleExpand}
+                  className="hover:bg-white/10 rounded p-1 transition-colors"
+                  aria-label={isExpanded ? "Minimize" : "Maximize"}
                 >
-                  <X size={20} />
-                </Button>
+                  {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                </button>
+                <button
+                  onClick={toggleChatbot}
+                  className="hover:bg-white/10 rounded p-1 transition-colors"
+                  aria-label="Close"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             </div>
-            
-            <div className="p-4 bg-gray-50 h-[300px] overflow-y-auto">
-              {messages.map((msg, index) => (
-                <div key={index} className={`flex mb-4 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                  {msg.sender === 'bot' && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white text-xs mr-2 flex-shrink-0">
-                      AI
-                    </div>
-                  )}
-                  <div className={`${
-                    msg.sender === 'user' 
-                      ? 'bg-primary/10 ml-auto' 
-                      : 'bg-white'
-                    } rounded-lg p-3 shadow-sm max-w-[80%]`}
+
+            {/* Chat messages */}
+            <div className="flex-1 p-4 overflow-y-auto h-[calc(100%-128px)]">
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`mb-4 flex ${
+                    msg.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                      msg.sender === "user"
+                        ? "bg-primary text-white rounded-tr-none"
+                        : "bg-gray-100 text-gray-800 rounded-tl-none"
+                    }`}
                   >
-                    <p className="text-sm">{msg.message}</p>
-                  </div>
-                  {msg.sender === 'user' && (
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs ml-2 flex-shrink-0">
-                      You
+                    <p>{msg.message}</p>
+                    <div
+                      className={`text-xs mt-1 ${
+                        msg.sender === "user" ? "text-white/70" : "text-gray-500"
+                      }`}
+                    >
+                      {new Date(msg.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
+              {isLoading && (
+                <div className="flex justify-start mb-4">
+                  <div className="bg-gray-100 text-gray-800 rounded-lg rounded-tl-none px-4 py-2">
+                    <div className="flex space-x-2">
+                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                      <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
-            
+
+            {/* Chat input */}
             <div className="p-4 border-t">
-              <div className="flex items-center space-x-2 mb-2">
-                <Button
-                  onClick={toggleVoice}
-                  variant="ghost"
-                  size="icon"
-                  className={`${isVoiceActive ? 'text-primary' : 'text-gray-500'} hover:text-primary`}
-                  aria-label="Toggle voice mode"
+              <div className="flex items-center bg-gray-100 rounded-full overflow-hidden">
+                <button 
+                  onClick={handleVoiceRecording}
+                  className={`p-2 ${isRecording ? 'text-red-500' : 'text-gray-500'} hover:text-primary transition-colors`}
+                  aria-label="Voice Input"
                 >
-                  <MicOff size={18} className={isVoiceActive ? 'hidden' : 'block'} />
-                  <Mic size={18} className={isVoiceActive ? 'block' : 'hidden'} />
-                </Button>
-                <span className={`text-xs ${isVoiceActive ? 'text-primary' : 'text-gray-500'}`}>
-                  {isListening ? 'Listening...' : isVoiceActive ? 'Voice mode active' : 'Click to enable voice'}
-                </span>
-              </div>
-              <div className="flex">
-                <Input
+                  <Mic className="h-5 w-5" />
+                </button>
+                <input
                   type="text"
-                  placeholder="Type your message..."
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  className="flex-grow p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type your message..."
+                  className="flex-1 py-2 px-3 bg-transparent border-none focus:outline-none"
+                  disabled={isLoading || isRecording}
                 />
-                {isVoiceActive ? (
-                  <Button
-                    onClick={toggleListening}
-                    className={`${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary/90'} text-white p-3 rounded-none`}
-                    aria-label={isListening ? 'Stop listening' : 'Start listening'}
-                  >
-                    <Mic size={18} />
-                  </Button>
-                ) : null}
-                <Button
+                <button
                   onClick={handleSendMessage}
-                  className="bg-primary hover:bg-primary/90 text-white p-3 rounded-r-lg"
+                  disabled={message.trim() === "" || isLoading}
+                  className={`p-2 ${
+                    message.trim() === "" || isLoading
+                      ? "text-gray-400"
+                      : "text-primary hover:text-primary/80"
+                  } transition-colors`}
                   aria-label="Send message"
                 >
-                  <Send size={18} />
-                </Button>
+                  <Send className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="text-center mt-2 text-xs text-gray-500">
+                {isPlaying ? (
+                  <button 
+                    onClick={stopAudio}
+                    className="text-primary hover:underline"
+                  >
+                    Stop Audio
+                  </button>
+                ) : (
+                  "Voice-enabled AI powered by Hume API"
+                )}
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 };
 

@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mic, Send, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Mic, Send, Volume2 } from "lucide-react";
+import { nanoid } from "nanoid";
+import { createSessionId, sendChatMessage, generateBotResponse, synthesizeSpeech } from "@/lib/humeApi";
 import { useHumeSpeech } from "@/hooks/useHumeSpeech";
-import { createSessionId, sendChatMessage, generateBotResponse } from "@/lib/humeApi";
 
 type Message = {
   content: string;
@@ -18,162 +17,209 @@ type MobileChatbotProps = {
 };
 
 const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      content: "👋 Hi there! I'm your AI assistant from Vibe Marketing. How can I help your agency today?",
-      isUser: false,
-      id: "welcome"
-    }
-  ]);
-  const [inputValue, setInputValue] = useState("");
   const [sessionId, setSessionId] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { isRecording, startRecording, stopRecording, recognizedText, speak } = useHumeSpeech();
+  const { isPlaying, playAudio, stopAudio } = useHumeSpeech();
 
-  // Initialize session ID
   useEffect(() => {
-    setSessionId(createSessionId());
-  }, []);
-
-  // Scroll to bottom whenever messages change
-  useEffect(() => {
-    if (isOpen) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Initialize a session if needed
+    if (!sessionId) {
+      setSessionId(createSessionId());
     }
-  }, [messages, isOpen]);
 
-  // Handle recognized text from speech recognition
-  useEffect(() => {
-    if (recognizedText) {
-      setInputValue(recognizedText);
+    // Add welcome message if this is a new chat
+    if (isOpen && messages.length === 0) {
+      setMessages([
+        {
+          id: nanoid(),
+          content: "👋 Hi there! I'm your AI assistant. I can help answer questions about our AI solutions for marketing agencies. How can I help you today?",
+          isUser: false,
+        },
+      ]);
     }
-  }, [recognizedText]);
+  }, [isOpen, messages.length, sessionId]);
+
+  useEffect(() => {
+    // Scroll to bottom whenever messages change
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || !sessionId) return;
+    if (inputValue.trim() === "" || isLoading) return;
 
     const userMessage: Message = {
-      content: inputValue,
+      id: nanoid(),
+      content: inputValue.trim(),
       isUser: true,
-      id: `user-${Date.now()}`
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
-    
+    setIsLoading(true);
+
     try {
-      // Send user message to the server
+      // Send message to API and get response
       await sendChatMessage(sessionId, userMessage.content);
-      
-      // Get bot response
-      const botResponseData = await generateBotResponse(sessionId, userMessage.content);
+      const response = await generateBotResponse(sessionId, userMessage.content);
       
       const botResponse: Message = {
-        content: botResponseData.message,
+        id: nanoid(),
+        content: response.message,
         isUser: false,
-        id: `bot-${Date.now()}`
       };
       
-      setMessages(prev => [...prev, botResponse]);
+      setMessages((prev) => [...prev, botResponse]);
       
-      // If voice is enabled, speak the response
-      if (botResponse.content) {
-        speak(botResponse.content);
-      }
+      // Speak the response using Hume API
+      synthesizeSpeech(botResponse.content);
     } catch (error) {
       console.error("Error in chat:", error);
-      // Add error message
-      setMessages(prev => [...prev, {
-        content: "Sorry, I'm having trouble connecting right now. Please try again later.",
-        isUser: false,
-        id: `error-${Date.now()}`
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: nanoid(),
+          content: "Sorry, I encountered an error processing your request. Please try again later.",
+          isUser: false,
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleSendMessage();
     }
   };
 
+  const handleVoiceInput = () => {
+    if (isRecording) {
+      // Stop recording
+      setIsRecording(false);
+      // Process voice input (simulate for now)
+      setInputValue("Tell me more about AI chatbots for marketing.");
+    } else {
+      // Start recording
+      setIsRecording(true);
+      setInputValue("Recording... (speak now)");
+    }
+  };
+
   return (
-    <div 
-      className={`fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-y-0' : 'translate-y-full'
-      }`}
-    >
-      <div className="flex flex-col h-full">
-        <div className="gradient-bg p-4 flex justify-between items-center">
-          <h3 className="text-xl font-bold text-white flex items-center">
-            <i className="fas fa-robot mr-3"></i>
-            AI Assistant
-          </h3>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="text-white hover:bg-primary/20"
-            onClick={onClose}
-          >
-            <X className="h-6 w-6" />
-          </Button>
-        </div>
-        
-        <div className="flex-1 p-4 overflow-y-auto space-y-4">
-          {messages.map((message) => (
-            <div key={message.id} className={`flex items-start ${message.isUser ? 'justify-end' : ''}`}>
-              {!message.isUser && (
-                <div className="w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-white mr-3 flex-shrink-0">
-                  <i className="fas fa-robot text-sm"></i>
-                </div>
-              )}
-              <div className={`${message.isUser 
-                ? 'bg-primary/10 rounded-2xl rounded-tr-none' 
-                : 'bg-gray-100 rounded-2xl rounded-tl-none'} p-4 max-w-xs`}>
-                <p className="text-gray-800">{message.content}</p>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex flex-col bg-white"
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        >
+          {/* Header */}
+          <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                <Volume2 className="h-4 w-4" />
               </div>
-              {message.isUser && (
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white ml-3 flex-shrink-0">
-                  <i className="fas fa-user text-sm"></i>
+              <h3 className="font-medium">AI Assistant (Voice-Enabled)</h3>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white/10 rounded-full"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`mb-4 flex ${message.isUser ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[85%] rounded-lg px-4 py-3 ${
+                    message.isUser
+                      ? "bg-primary text-white rounded-tr-none"
+                      : "bg-white text-gray-800 rounded-tl-none shadow-sm"
+                  }`}
+                >
+                  <p>{message.content}</p>
                 </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start mb-4">
+                <div className="bg-white text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm">
+                  <div className="flex space-x-2">
+                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input */}
+          <div className="p-4 border-t bg-white">
+            <div className="flex items-center bg-gray-100 rounded-full overflow-hidden">
+              <button
+                onClick={handleVoiceInput}
+                className={`p-3 ${isRecording ? "text-red-500" : "text-gray-500"}`}
+                aria-label="Voice input"
+              >
+                <Mic className="h-5 w-5" />
+              </button>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type your message..."
+                className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none"
+                disabled={isLoading || isRecording}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={inputValue.trim() === "" || isLoading}
+                className={`p-3 ${
+                  inputValue.trim() === "" || isLoading
+                    ? "text-gray-400"
+                    : "text-primary"
+                }`}
+                aria-label="Send message"
+              >
+                <Send className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="text-center mt-2 text-xs text-gray-500">
+              {isPlaying ? (
+                <button 
+                  onClick={stopAudio}
+                  className="text-primary hover:underline"
+                >
+                  Stop Audio
+                </button>
+              ) : (
+                "Voice-enabled AI powered by Hume API"
               )}
             </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
-        
-        <div className="p-4 border-t">
-          <div className="flex items-center">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className={`mr-3 ${isRecording ? 'bg-red-100 text-red-500 animate-pulse' : ''}`}
-              onClick={isRecording ? stopRecording : startRecording}
-            >
-              <Mic className="h-4 w-4" />
-            </Button>
-            
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your question here..."
-              className="flex-1"
-            />
-            
-            <Button 
-              variant="default" 
-              size="icon" 
-              className="ml-3 bg-primary text-white"
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim()}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
