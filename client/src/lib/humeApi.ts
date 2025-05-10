@@ -155,31 +155,17 @@ export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSp
  */
 export const synthesizeSpeech = async (text: string): Promise<void> => {
   try {
-    // Use ElevenLabs API for more natural, empathetic sounding voice
-    // Using Antoni voice which has a warm, friendly tone ideal for customer service
-    const voiceId = 'ErXwobaYiN019PkySvjV'; // ElevenLabs "Antoni" voice ID for more empathetic tone
-    const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-    
-    const response = await fetch(apiUrl, {
+    // Use our server endpoint to generate speech with ElevenLabs
+    const response = await fetch('/api/synthesize', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'xi-api-key': import.meta.env.ELEVENLABS_API_KEY || '',
       },
-      body: JSON.stringify({
-        text,
-        model_id: 'eleven_turbo_v2', // Using the more advanced Turbo model for better quality
-        voice_settings: {
-          stability: 0.65, // Higher stability for more consistent tone
-          similarity_boost: 0.85, // Higher similarity for more distinctive voice character
-          style: 0.3, // Adding some style for more emotional speaking
-          use_speaker_boost: true
-        }
-      }),
+      body: JSON.stringify({ text }),
     });
 
     if (!response.ok) {
-      throw new Error('ElevenLabs API request failed');
+      throw new Error('Speech synthesis request failed');
     }
 
     // Get audio blob from response
@@ -190,7 +176,7 @@ export const synthesizeSpeech = async (text: string): Promise<void> => {
     
     // Play the audio
     const audio = new Audio(audioUrl);
-    audio.play();
+    await audio.play();
     
     return Promise.resolve();
   } catch (error) {

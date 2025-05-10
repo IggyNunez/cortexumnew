@@ -93,18 +93,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // This would normally make a call to the ElevenLabs API
-      // Since we're using the ElevenLabs API directly from the frontend
-      // with the API key in environment variables, this endpoint is mostly
-      // for recording conversation history and future server-side processing
+      // Use "Rachel" voice which sounds more natural and warm
+      const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
+      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
       
       // Log the synthesis request
       console.log("Speech synthesis request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
       
-      res.status(200).json({ 
-        success: true, 
-        message: "Speech synthesis request processed"
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+        },
+        body: JSON.stringify({
+          text,
+          model_id: 'eleven_monolingual_v1', // Using a more natural-sounding model
+          voice_settings: {
+            stability: 0.75, // Higher stability for more natural tone
+            similarity_boost: 0.65, // Lower similarity for less robotic sound
+            style: 0.65, // More style for more natural intonation
+            use_speaker_boost: true
+          }
+        }),
       });
+      
+      if (!response.ok) {
+        throw new Error('ElevenLabs API request failed: ' + await response.text());
+      }
+      
+      // Get audio blob from response
+      const audioData = await response.arrayBuffer();
+      
+      // Send the audio data back to the client
+      res.set('Content-Type', 'audio/mpeg');
+      res.send(Buffer.from(audioData));
     } catch (error) {
       console.error("Error processing speech synthesis request:", error);
       res.status(500).json({ 
