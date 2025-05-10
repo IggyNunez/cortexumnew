@@ -139,6 +139,18 @@ const Hero = () => {
                 </div>
               </div>
               
+              <div className="mt-4 text-center">
+                <a
+                  href="https://elevenlabs.io/convai/9r6C9zlC7olJEeuP1vOv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-600 hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Having trouble? Open chat in new window
+                </a>
+              </div>
+              
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
             </div>

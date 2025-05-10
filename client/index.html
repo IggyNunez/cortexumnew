@@ -7,10 +7,9 @@
     <title>✨ VibeMarketingAgency.ai | AI Automation for Marketing Agencies</title>
     <meta name="description" content="Transform your marketing agency with AI automation. Increase revenue, enhance productivity, and deliver better results for clients with VibeMarketingAgency.ai solutions." />
     <meta name="theme-color" content="#6366F1" />
-    <!-- Security headers -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <!-- Security headers - adjusted to allow AudioWorklets -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; worker-src 'self' blob:; child-src 'self' blob:">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -38,8 +37,13 @@
   <body>
     <div id="root"></div>
     <!-- ElevenLabs Convai Chat Widget -->
-    <elevenlabs-convai agent-id="9r6C9zlC7olJEeuP1vOv"></elevenlabs-convai>
-    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    <elevenlabs-convai 
+      agent-id="9r6C9zlC7olJEeuP1vOv"
+      allow="microphone"
+      cross-origin="anonymous"
+      data-mode="standard"
+    ></elevenlabs-convai>
+    <script src="https://elevenlabs.io/convai-widget/index.js" type="text/javascript"></script>
     
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
