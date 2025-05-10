@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CortexuumLogo from "./CortexuumLogo";
 import cortexuumLogo from '../assets/cortexuum-logo.png';
+import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -47,7 +48,7 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md py-3" : "bg-transparent py-6"
+        scrolled ? "bg-white shadow-md py-4" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,14 +60,13 @@ const Navbar = () => {
                 <img 
                   src={cortexuumLogo} 
                   alt="Cortexuum AI Marketing Agency"
-                  className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105 duration-300"
+                  className="h-12 md:h-16 w-auto transition-transform group-hover:scale-105 duration-300"
                 />
               ) : (
-                <CortexuumLogo 
-                  variant="white" 
-                  size="md" 
-                  showText={true} 
-                  className="transition-transform group-hover:scale-105 duration-300"
+                <img 
+                  src={cortexuumLogoWhite} 
+                  alt="Cortexuum AI Marketing Agency"
+                  className="h-12 md:h-16 w-auto transition-transform group-hover:scale-105 duration-300"
                 />
               )}
             </a>
