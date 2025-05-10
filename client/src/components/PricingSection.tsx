@@ -145,27 +145,50 @@ const PricingSection = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="space-y-3">
+              <div className="text-center text-xs bg-red-50 text-red-700 rounded-md p-2 font-medium border border-red-200">
+                <span className="font-bold">HURRY!</span> Only 2 professional slots remaining this month!
+              </div>
               <Button 
-                className="w-full" 
+                className="w-full bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-bold shadow-lg shadow-primary/20"
                 onClick={() => handleSelectPlan('professional')}
               >
-                Apply Now
+                Reserve Your Spot Now
               </Button>
+              <div className="flex items-center justify-center text-xs text-gray-500">
+                <svg className="w-4 h-4 mr-1 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Price increases on May 31st
+              </div>
             </CardFooter>
           </Card>
           
           {/* Enterprise Plan */}
-          <Card className="border-2 border-gray-200 transition-all duration-200 hover:shadow-lg hover:border-primary/50">
+          <Card className="border-2 border-gray-200 transition-all duration-200 hover:shadow-lg hover:border-primary/50 relative overflow-hidden">
+            <div className="absolute -right-12 top-6 bg-purple-500 text-white font-bold py-1 px-10 transform rotate-45 text-xs shadow-md">
+              PREMIUM TIER
+            </div>
             <CardHeader>
-              <CardTitle className="text-xl">Enterprise</CardTitle>
-              <div className="mt-2">
-                <span className="text-3xl font-bold">$499</span>
-                <span className="text-gray-500 ml-1">/month</span>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-xl">Enterprise</CardTitle>
+                  <div className="mt-2 flex items-center">
+                    <span className="text-3xl font-bold">$499</span>
+                    <span className="text-gray-500 ml-1">/month</span>
+                    <span className="ml-2 line-through text-red-400 text-sm">$649</span>
+                  </div>
+                </div>
+                <div className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full border border-green-200">
+                  Save 23%
+                </div>
               </div>
               <CardDescription>
                 Fully-featured solution for agencies and large organizations.
               </CardDescription>
+              <div className="mt-2 text-xs bg-purple-50 text-purple-800 p-1 rounded border border-purple-100">
+                <span className="font-semibold">HIGH-PRIORITY SETUP:</span> Implementation within 7 days
+              </div>
             </CardHeader>
             <CardContent className="flex-grow">
               <ul className="space-y-2">
@@ -186,27 +209,49 @@ const PricingSection = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="space-y-3">
+              <div className="text-center text-xs bg-purple-50 text-purple-700 rounded-md p-2 font-medium border border-purple-200">
+                <span className="font-bold">EXCLUSIVE:</span> Limited to 5 new enterprise clients per quarter
+              </div>
               <Button 
-                className="w-full" 
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold shadow-lg shadow-purple-500/20" 
                 onClick={() => handleSelectPlan('enterprise')}
               >
-                Apply Now
+                Apply For Enterprise Access
               </Button>
+              <div className="flex items-center justify-center text-xs text-gray-500">
+                <svg className="w-4 h-4 mr-1 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Includes priority onboarding call within 48 hours
+              </div>
             </CardFooter>
           </Card>
           
           {/* Custom Plan */}
-          <Card className="border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-violet-50 transition-all duration-200 hover:shadow-lg hover:border-primary/50">
+          <Card className="border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-blue-100 transition-all duration-200 hover:shadow-lg hover:border-primary/50 relative overflow-hidden">
+            <div className="absolute right-0 top-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-semibold py-1 px-3 rounded-bl-lg rounded-tr-md">
+              FULLY TAILORED
+            </div>
             <CardHeader>
-              <CardTitle className="text-xl">Custom Plan</CardTitle>
-              <div className="mt-2 font-medium text-primary">
-                <span className="text-3xl font-bold">Tailored</span>
-                <span className="text-gray-500 ml-1">pricing</span>
+              <div className="flex justify-between items-start pt-2">
+                <div>
+                  <CardTitle className="text-xl">Custom Plan</CardTitle>
+                  <div className="mt-2 font-medium text-primary">
+                    <span className="text-3xl font-bold">Tailored</span>
+                    <span className="text-gray-500 ml-1">pricing</span>
+                  </div>
+                </div>
+                <div className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full border border-blue-200">
+                  Best ROI
+                </div>
               </div>
-              <CardDescription>
+              <CardDescription className="mt-2">
                 Customized AI marketing solutions built specifically for your unique requirements.
               </CardDescription>
+              <div className="mt-2 text-xs bg-blue-100 text-blue-800 p-1 rounded border border-blue-200">
+                <span className="font-semibold">FAST-TRACK AVAILABLE:</span> Implementation in as little as 14 days
+              </div>
             </CardHeader>
             <CardContent className="flex-grow">
               <ul className="space-y-2">
@@ -227,13 +272,22 @@ const PricingSection = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="space-y-3">
+              <div className="text-center text-xs bg-blue-50 text-blue-700 rounded-md p-2 font-medium border border-blue-200">
+                <span className="font-bold">GROW FASTER:</span> Custom plans typically deliver 3-5x ROI in first 90 days
+              </div>
               <Button 
-                className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700" 
+                className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-bold shadow-lg shadow-blue-500/20" 
                 onClick={() => handleSelectPlan('custom')}
               >
-                Apply Now
+                Schedule Strategy Session
               </Button>
+              <div className="flex items-center justify-center text-xs text-gray-500">
+                <svg className="w-4 h-4 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+                No obligation consultation with our AI strategists
+              </div>
             </CardFooter>
           </Card>
         </div>
