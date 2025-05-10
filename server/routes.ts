@@ -305,9 +305,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Use "Dorothy" voice - premium female voice with very natural, conversational tone
-      // This is ElevenLabs' most natural-sounding female voice
-      const voiceId = 'ThT5KcBeYPX3keUQqHPh';
+      // Use "Bella" voice - one of the newest most lifelike voices from ElevenLabs
+      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
       const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
       
       // Log the synthesis request
@@ -321,11 +320,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_turbo_v2', // Using the latest and highest quality model
+          model_id: 'eleven_multilingual_v2', // Using the most advanced multilingual model
           voice_settings: {
-            stability: 0.25, // Very low stability for maximum natural variation in delivery
-            similarity_boost: 0.55, // Lower similarity for more natural speech patterns  
-            style: 0.95, // Maximum style for the most expressive, dynamic human-like intonation
+            stability: 0.15, // Extremely low stability for maximum natural variation
+            similarity_boost: 0.45, // Even lower similarity for the most natural speech patterns
+            style: 1.0, // Maximum style for the most human-like intonation
             use_speaker_boost: true
           }
         }),

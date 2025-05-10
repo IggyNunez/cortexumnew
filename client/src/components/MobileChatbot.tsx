@@ -43,7 +43,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
     if (isOpen && messages.length === 0) {
       const welcomeMessage = {
         id: nanoid(),
-        content: "Hi there! Welcome to Cortexuum Marketing. I'm Dorothy, and I'd love to help your business leverage our psychology-based marketing strategies. What brings you to our site today?",
+        content: "Hi there! Welcome to Cortexuum Marketing. I'm Bella, and I'd love to help your business with our psychology-based marketing approach. What brings you to our site today?",
         isUser: false,
       };
       
