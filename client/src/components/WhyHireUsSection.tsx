@@ -91,74 +91,76 @@ const WhyHireUsSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">How Our AI Solutions Can Help You</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">FOUNDATIONAL. DATA-DRIVEN. SURE.</h3>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <div className="rounded-full bg-green-100 p-1 mr-3 mt-1">
-                  <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="rounded-full bg-blue-100 p-1 mr-3 mt-1">
+                  <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Respond to leads automatically through chat, email, or text</span>
+                <span className="text-gray-700">Expert media buying with advanced targeting strategies</span>
               </li>
               <li className="flex items-start">
-                <div className="rounded-full bg-green-100 p-1 mr-3 mt-1">
-                  <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="rounded-full bg-blue-100 p-1 mr-3 mt-1">
+                  <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Set up appointments and manage schedules</span>
+                <span className="text-gray-700">Custom funnel development for smooth customer journeys</span>
               </li>
               <li className="flex items-start">
-                <div className="rounded-full bg-green-100 p-1 mr-3 mt-1">
-                  <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="rounded-full bg-blue-100 p-1 mr-3 mt-1">
+                  <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Follow up with leads so nothing slips through the cracks</span>
+                <span className="text-gray-700">Psychology-based marketing that connects with your audience</span>
               </li>
               <li className="flex items-start">
-                <div className="rounded-full bg-green-100 p-1 mr-3 mt-1">
-                  <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="rounded-full bg-blue-100 p-1 mr-3 mt-1">
+                  <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Write and run targeted email campaigns</span>
+                <span className="text-gray-700">Data-driven decision making for optimal campaign performance</span>
               </li>
               <li className="flex items-start">
-                <div className="rounded-full bg-green-100 p-1 mr-3 mt-1">
-                  <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="rounded-full bg-blue-100 p-1 mr-3 mt-1">
+                  <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Handle basic support 24/7 with smart chatbots</span>
+                <span className="text-gray-700">Strategic offer creation that resonates with your target market</span>
               </li>
             </ul>
             
-            <div className="mt-6 bg-gradient-to-r from-amber-50 to-red-50 border-2 border-amber-300 rounded-lg p-4 shadow-md">
+            <div className="mt-6 bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-300 rounded-lg p-4 shadow-md">
               <div className="flex items-start">
                 <div className="shrink-0 mr-4">
-                  <div className="p-2 bg-amber-100 rounded-full border border-amber-300">
-                    <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="p-2 bg-blue-100 rounded-full border border-blue-300">
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg">Don't miss this opportunity!</h4>
+                  <h4 className="font-bold text-blue-700 text-lg">Drive Revenue with Precision Ads & Funnels</h4>
                   <p className="text-gray-700 font-medium mb-2">
-                    We can do everything for you, or help you and your team learn how to do it yourselves.
+                    Cortexuum unlocks a powerful opportunity to elevate your product or service, instantly captivating your ideal audience.
                   </p>
-                  <p className="text-amber-800 mb-3 font-semibold text-sm">
-                    The top agencies are already implementing these AI solutions. Our calendar is filling up fast with only a few consultation slots remaining this month.
+                  <p className="text-blue-800 mb-3 font-semibold text-sm">
+                    There will always be a guru or other agency telling you what the new method on the street is. The truth is, the game doesn't change, only the players. Trust in data-driven solutions that beat opinions, every time.
                   </p>
                   <div className="flex justify-between items-center flex-wrap gap-4">
-                    <span className="text-red-700 font-bold">Act now before your competitors do!</span>
+                    <span className="text-blue-700 font-bold">Ready to see results?</span>
                     <a 
-                      href="#contact" 
-                      className="bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white px-5 py-2 rounded-lg font-bold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center"
+                      href="https://calendly.com/cortexuummarketing/30min"
+                      target="_blank"
+                      rel="noopener noreferrer" 
+                      className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-5 py-2 rounded-lg font-bold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center"
                     >
-                      Reserve Your Consultation
+                      BOOK A CALL
                       <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>

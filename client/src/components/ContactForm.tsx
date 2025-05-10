@@ -204,14 +204,14 @@ const ContactForm = () => {
   ];
   
   const serviceOptions = [
-    { value: "ai-strategy", label: "AI Strategy & Consultation" },
-    { value: "workflow-automation", label: "Workflow Automation" },
-    { value: "chatbots", label: "AI Chatbots & Lead Generation" },
-    { value: "content-creation", label: "AI Content Creation" },
-    { value: "crm-integration", label: "CRM & Data Integration" },
-    { value: "client-reporting", label: "Automated Client Reporting" },
-    { value: "social-media", label: "Social Media Automation" },
-    { value: "training", label: "AI Training for Your Team" },
+    { value: "paid-media", label: "Paid Media (Facebook, Google, YouTube)" },
+    { value: "funnel-buildouts", label: "Funnel Buildouts & Optimization" },
+    { value: "offer-creation", label: "Custom Offer Creation" },
+    { value: "local-marketing", label: "Local Marketing Services" },
+    { value: "social-media", label: "Social Media Marketing" },
+    { value: "data-analytics", label: "Data-Driven Analytics & Insights" },
+    { value: "psychology-based", label: "Psychology-Based Marketing Strategies" },
+    { value: "linkedin-marketing", label: "LinkedIn Marketing" },
     { value: "multiple", label: "Multiple Services" },
   ];
   
@@ -224,7 +224,7 @@ const ContactForm = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-primary to-accent text-white">
+    <section id="contact" className="py-20 bg-gradient-to-br from-blue-800 to-blue-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
@@ -233,7 +233,7 @@ const ContactForm = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Ready to Transform Your Agency with AI?
+            Ready to See Results?
           </motion.h2>
           <motion.p 
             className="text-lg text-white/90 max-w-2xl mx-auto"
@@ -242,7 +242,7 @@ const ContactForm = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Complete this application to help us understand your business needs and how our AI solutions can drive growth and efficiency for your agency.
+            Elevate your digital success with precision media buying & funnel expertise. Complete this form to help us understand your business needs.
           </motion.p>
         </div>
 
@@ -259,13 +259,13 @@ const ContactForm = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6">
                   <Check className="h-8 w-8" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Application Received!</h3>
-                <p className="text-gray-600 mb-6">Thank you for your interest in VibeMarketingAgency.ai. Our team will review your application and get back to you within 48 hours with next steps for your AI implementation.</p>
+                <h3 className="text-2xl font-bold mb-4">Message Received!</h3>
+                <p className="text-gray-600 mb-6">Thank you for your interest in Cortexuum. Our team will review your details and get back to you within 48 hours with next steps for your marketing strategy.</p>
                 <Button 
                   onClick={() => setFormSubmitted(false)}
-                  className="bg-primary hover:bg-primary/90 rounded-full"
+                  className="bg-blue-600 hover:bg-blue-700 rounded-full"
                 >
-                  Submit Another Application
+                  Submit Another Message
                 </Button>
               </div>
             ) : (
