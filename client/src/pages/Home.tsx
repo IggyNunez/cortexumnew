@@ -14,6 +14,8 @@ import Chatbot from "@/components/Chatbot";
 import MobileChatbot from "@/components/MobileChatbot";
 import { MessageSquare } from "lucide-react";
 import { useScrollFade } from "@/hooks/useScrollFade";
+import SectionDivider from "@/components/SectionDivider";
+import CortexuumLogo from "@/components/CortexuumLogo";
 
 const Home = () => {
   const [isMobileChatbotOpen, setIsMobileChatbotOpen] = useState(false);
@@ -34,45 +36,45 @@ const Home = () => {
       <Navbar />
       <Hero />
       
-      {/* Add gradient divider */}
-      <div className="section-divider divider-gradient-light"></div>
+      {/* Add gradient divider with wave animation */}
+      <SectionDivider gradient="light" showWave={true} />
       
       {/* Apply fade-section class to each section */}
       <div className="fade-section">
         <ClientLogos />
       </div>
       
-      <div className="section-divider divider-gradient-blue"></div>
+      <SectionDivider gradient="blue" showWave={true} waveColor="rgba(53, 123, 216, 0.4)" />
       
       <div className="fade-section">
         <ServicesSection />
       </div>
       
-      <div className="section-divider divider-gradient-light"></div>
+      <SectionDivider gradient="purple" showWave={true} />
       
       <div className="fade-section">
         <BenefitsSection />
       </div>
       
-      <div className="section-divider divider-gradient-blue"></div>
+      <SectionDivider gradient="light" showWave={true} waveColor="rgba(230, 62, 139, 0.3)" />
       
       <div className="fade-section">
         <TestimonialsSection />
       </div>
       
-      <div className="section-divider divider-gradient-light"></div>
+      <SectionDivider gradient="blue" showWave={true} />
       
       <div className="fade-section">
         <WhyHireUsSection />
       </div>
       
-      <div className="section-divider divider-gradient-blue"></div>
+      <SectionDivider gradient="purple" showWave={true} />
       
       <div className="fade-section">
         <FutureInsights />
       </div>
       
-      <div className="section-divider divider-gradient-light"></div>
+      <SectionDivider gradient="light" showWave={true} />
       
       <div className="fade-section">
         <ContactSection />

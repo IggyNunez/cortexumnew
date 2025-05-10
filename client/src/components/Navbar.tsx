@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CortexuumLogo from "./CortexuumLogo";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -52,15 +53,11 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
-              <img 
-                src="/assets/cortexuum-logo.webp" 
-                alt="Cortexuum Logo" 
-                className="h-10 md:h-12 mr-3 transition-transform group-hover:scale-105 duration-300"
+              <CortexuumLogo 
+                variant={scrolled ? 'default' : 'white'} 
+                size="md"
+                className="transition-transform group-hover:scale-105 duration-300"
               />
-              <div className="flex flex-col">
-                <div className={`text-xl font-bold ${scrolled ? "text-blue-600" : "text-white"} transition-colors`}>CORTEXUUM</div>
-                <div className={`text-xs ${scrolled ? "text-blue-500" : "text-blue-200"} transition-colors`}>PSYCHOLOGY BASED MARKETING</div>
-              </div>
             </a>
           </div>
 
