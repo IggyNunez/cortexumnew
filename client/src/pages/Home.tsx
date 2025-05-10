@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ClientLogos from "@/components/ClientLogos";
@@ -13,9 +13,13 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import MobileChatbot from "@/components/MobileChatbot";
 import { MessageSquare } from "lucide-react";
+import { useScrollFade } from "@/hooks/useScrollFade";
 
 const Home = () => {
   const [isMobileChatbotOpen, setIsMobileChatbotOpen] = useState(false);
+  
+  // Use our scroll fade hook
+  useScrollFade();
   
   const toggleMobileChatbot = () => {
     setIsMobileChatbotOpen(!isMobileChatbotOpen);
@@ -29,13 +33,51 @@ const Home = () => {
       
       <Navbar />
       <Hero />
-      <ClientLogos />
-      <ServicesSection />
-      <BenefitsSection />
-      <TestimonialsSection />
-      <WhyHireUsSection />
-      <FutureInsights />
-      <ContactSection />
+      
+      {/* Add gradient divider */}
+      <div className="section-divider divider-gradient-light"></div>
+      
+      {/* Apply fade-section class to each section */}
+      <div className="fade-section">
+        <ClientLogos />
+      </div>
+      
+      <div className="section-divider divider-gradient-blue"></div>
+      
+      <div className="fade-section">
+        <ServicesSection />
+      </div>
+      
+      <div className="section-divider divider-gradient-light"></div>
+      
+      <div className="fade-section">
+        <BenefitsSection />
+      </div>
+      
+      <div className="section-divider divider-gradient-blue"></div>
+      
+      <div className="fade-section">
+        <TestimonialsSection />
+      </div>
+      
+      <div className="section-divider divider-gradient-light"></div>
+      
+      <div className="fade-section">
+        <WhyHireUsSection />
+      </div>
+      
+      <div className="section-divider divider-gradient-blue"></div>
+      
+      <div className="fade-section">
+        <FutureInsights />
+      </div>
+      
+      <div className="section-divider divider-gradient-light"></div>
+      
+      <div className="fade-section">
+        <ContactSection />
+      </div>
+      
       <Footer />
       
       {/* Desktop Chatbot */}

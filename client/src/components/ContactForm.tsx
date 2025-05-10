@@ -155,14 +155,14 @@ const ContactForm = () => {
   };
 
   const businessTypes = [
-    { value: "marketing-agency", label: "Marketing Agency" },
-    { value: "digital-agency", label: "Digital Agency" },
-    { value: "pr-agency", label: "PR Agency" },
-    { value: "seo-agency", label: "SEO Agency" },
-    { value: "content-agency", label: "Content Agency" },
-    { value: "social-media-agency", label: "Social Media Agency" },
-    { value: "advertising-agency", label: "Advertising Agency" },
-    { value: "branding-agency", label: "Branding Agency" },
+    { value: "ecommerce", label: "E-commerce Store" },
+    { value: "local-business", label: "Local Business" },
+    { value: "saas", label: "SaaS Company" },
+    { value: "service-business", label: "Service Business" },
+    { value: "coaching", label: "Coaching/Consulting" },
+    { value: "b2b", label: "B2B Business" },
+    { value: "info-products", label: "Information Products" },
+    { value: "agency", label: "Marketing/Advertising Agency" },
     { value: "other", label: "Other" },
   ];
 
