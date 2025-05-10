@@ -126,11 +126,11 @@ const Chatbot = () => {
       {/* Chatbot button */}
       {!isOpen && (
         <motion.button
-          className="hidden md:flex fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full shadow-lg p-4 hover:bg-primary/90 transition-colors"
+          className="hidden md:flex fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full shadow-lg p-4 hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={toggleChatbot}
-          aria-label="Open chatbot"
+          aria-label="Open AI assistant chat"
         >
           <MessageSquare className="h-6 w-6" />
         </motion.button>
@@ -151,23 +151,23 @@ const Chatbot = () => {
             }`}
           >
             {/* Chatbot header */}
-            <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center">
+            <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center shadow-md">
               <div className="flex items-center">
-                <MessageSquare className="h-5 w-5 mr-2" />
-                <h3 className="font-medium">AI Assistant</h3>
+                <MessageSquare className="h-5 w-5 mr-3" />
+                <h3 className="font-bold text-white text-with-shadow">AI Assistant</h3>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <button
                   onClick={toggleExpand}
-                  className="hover:bg-white/10 rounded p-1 transition-colors"
-                  aria-label={isExpanded ? "Minimize" : "Maximize"}
+                  className="hover:bg-white/20 rounded p-1.5 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+                  aria-label={isExpanded ? "Minimize chatbot window" : "Maximize chatbot window"}
                 >
                   {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
                 </button>
                 <button
                   onClick={toggleChatbot}
-                  className="hover:bg-white/10 rounded p-1 transition-colors"
-                  aria-label="Close"
+                  className="hover:bg-white/20 rounded p-1.5 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+                  aria-label="Close chatbot"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -184,16 +184,16 @@ const Chatbot = () => {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                    className={`max-w-[80%] rounded-lg px-4 py-3 shadow-sm ${
                       msg.sender === "user"
                         ? "bg-primary text-white rounded-tr-none"
                         : "bg-gray-100 text-gray-800 rounded-tl-none"
                     }`}
                   >
-                    <p>{msg.message}</p>
+                    <p className="text-base leading-relaxed font-medium">{msg.message}</p>
                     <div
-                      className={`text-xs mt-1 ${
-                        msg.sender === "user" ? "text-white/70" : "text-gray-500"
+                      className={`text-xs mt-2 ${
+                        msg.sender === "user" ? "text-white/80" : "text-gray-600"
                       }`}
                     >
                       {new Date(msg.timestamp).toLocaleTimeString([], {
