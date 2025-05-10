@@ -24,8 +24,8 @@ const Home = () => {
   return (
     <div className="relative">
       {/* Meta information */}
-      <title>Vibe Marketing AI | AI Automation for Marketing Agencies</title>
-      <meta name="description" content="Transform your marketing agency with AI automation. Increase revenue, enhance productivity, and deliver better results for clients with Vibe Marketing AI solutions." />
+      <title>Cortexuum | Psychology Based Marketing & Media Expertise</title>
+      <meta name="description" content="Boost your online impact with expert media & funnels. Data-driven, psychology-based marketing solutions that deliver real results. Transform your digital presence with Cortexuum." />
       
       <Navbar />
       <Hero />

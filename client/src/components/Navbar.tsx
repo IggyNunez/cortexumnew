@@ -49,186 +49,18 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo with animated icon */}
-          <div className="flex-shrink-0 font-bold text-2xl">
+          {/* Logo */}
+          <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
-              <div className="mr-2 transform group-hover:rotate-12 transition-transform duration-300">
-                <svg 
-                  width="32" 
-                  height="32" 
-                  viewBox="0 0 24 24" 
-                  className={`${scrolled ? "text-primary" : "text-white"}`}
-                  style={{ transform: 'translateY(2px)' }}
-                >
-                  {/* Circuit board connector design */}
-                  <g>
-                    {/* Central processor/chip */}
-                    <rect 
-                      x="9" 
-                      y="9" 
-                      width="6" 
-                      height="6" 
-                      rx="1"
-                      fill="none" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1"
-                    >
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0.7;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </rect>
-                    
-                    {/* Connection pins around the chip */}
-                    <line x1="12" y1="9" x2="12" y2="3" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
-                    <line x1="12" y1="15" x2="12" y2="21" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
-                    <line x1="9" y1="12" x2="3" y2="12" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
-                    <line x1="15" y1="12" x2="21" y2="12" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
-                    
-                    {/* Diagonal connectors */}
-                    <line x1="10" y1="10" x2="4" y2="4" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
-                    <line x1="14" y1="10" x2="20" y2="4" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
-                    <line x1="10" y1="14" x2="4" y2="20" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
-                    <line x1="14" y1="14" x2="20" y2="20" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
-                    
-                    {/* Data flow indicators - moving along connector paths */}
-                    <circle cx="12" cy="6" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="cy" 
-                        values="6;9;6" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    <circle cx="12" cy="18" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="cy" 
-                        values="18;15;18" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    <circle cx="6" cy="12" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="cx" 
-                        values="6;9;6" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    <circle cx="18" cy="12" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="cx" 
-                        values="18;15;18" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    {/* Corner connector endpoints */}
-                    <circle cx="4" cy="4" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.4;1;0.4" 
-                        dur="3s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="20" cy="4" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.7;0.2;0.7" 
-                        dur="3s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="4" cy="20" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.2;0.8;0.2" 
-                        dur="3s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="20" cy="20" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.8;0.3;0.8" 
-                        dur="3s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    {/* Connector endpoints (north, south, east, west) */}
-                    <circle cx="12" cy="3" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="1;0.5;1" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="12" cy="21" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.5;1;0.5" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="3" cy="12" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.7;0.2;0.7" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="21" cy="12" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
-                      <animate 
-                        attributeName="opacity" 
-                        values="0.2;0.7;0.2" 
-                        dur="2s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                  </g>
-                </svg>
+              <img 
+                src="/assets/cortexuum-logo.webp" 
+                alt="Cortexuum Logo" 
+                className="h-10 md:h-12 mr-3 transition-transform group-hover:scale-105 duration-300"
+              />
+              <div className="flex flex-col">
+                <div className={`text-xl font-bold ${scrolled ? "text-blue-600" : "text-white"} transition-colors`}>CORTEXUUM</div>
+                <div className={`text-xs ${scrolled ? "text-blue-500" : "text-blue-200"} transition-colors`}>PSYCHOLOGY BASED MARKETING</div>
               </div>
-              <span className={`transition-colors ${scrolled ? "text-primary" : "text-white"}`}>
-                <span className="inline-block group-hover:transform group-hover:-translate-y-0.5 transition-transform duration-300">Vibe</span>
-                <span className="inline-block group-hover:transform group-hover:-translate-y-0.5 transition-transform duration-300" style={{ transitionDelay: '50ms' }}>Marketing</span>
-                <span className={`${scrolled ? "text-primary" : "text-white bg-primary/80 px-1 rounded"} inline-block group-hover:transform group-hover:-translate-y-0.5 transition-all duration-300`} style={{ transitionDelay: '100ms' }}>Agency.ai</span>
-              </span>
             </a>
           </div>
 
@@ -251,6 +83,15 @@ const Navbar = () => {
               className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <a href="/#contact">Contact Us</a>
+            </Button>
+            
+            <Button
+              asChild
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg"
+            >
+              <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">
+                BOOK A CALL
+              </a>
             </Button>
           </nav>
 
@@ -302,13 +143,27 @@ const Navbar = () => {
                     </span>
                   </a>
                 ))}
-                <div className="pt-4">
+                <div className="pt-4 space-y-3">
                   <Button
                     asChild
                     className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-3 text-base font-bold shadow-md focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
                     <a href="/#contact" onClick={handleNavClick}>
                       Contact Us
+                    </a>
+                  </Button>
+                  
+                  <Button
+                    asChild
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 text-base font-bold shadow-md"
+                  >
+                    <a 
+                      href="https://calendly.com/cortexuummarketing/30min" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={handleNavClick}
+                    >
+                      BOOK A CALL
                     </a>
                   </Button>
                 </div>
