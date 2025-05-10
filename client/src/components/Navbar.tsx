@@ -54,10 +54,15 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
               <CortexuumLogo 
-                variant={scrolled ? 'default' : 'white'} 
+                variant="image" 
                 size="md"
+                showText={false}
                 className="transition-transform group-hover:scale-105 duration-300"
               />
+              <div className="flex flex-col ml-3">
+                <div className={`text-xl font-bold ${scrolled ? "text-blue-600" : "text-white"} transition-colors`}>CORTEXUUM</div>
+                <div className={`text-xs ${scrolled ? "text-blue-500" : "text-blue-200"} transition-colors`}>PSYCHOLOGY BASED MARKETING</div>
+              </div>
             </a>
           </div>
 

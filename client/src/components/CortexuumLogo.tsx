@@ -1,7 +1,8 @@
 import React from 'react';
+import brainLogoImg from "@assets/20250510_1425_Cortexuum Logo Design_simple_compose_01jtxq2v31f6296bww731bk9bv.png";
 
 interface CortexuumLogoProps {
-  variant?: 'default' | 'white' | 'gradient';
+  variant?: 'default' | 'white' | 'gradient' | 'image';
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
   className?: string;
@@ -13,11 +14,18 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   showText = true,
   className = '',
 }) => {
-  // Size mapping
+  // Size mapping for SVG
   const sizeMap = {
     sm: 'w-8 h-8',
     md: 'w-12 h-12',
     lg: 'w-16 h-16',
+  };
+
+  // Size mapping for image
+  const imgSizeMap = {
+    sm: 'h-8',
+    md: 'h-12',
+    lg: 'h-16',
   };
 
   // Text size mapping
@@ -30,7 +38,18 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   // Container class
   const containerClass = `flex items-center ${className}`;
 
-  // SVG brain logo with colored gradient
+  // Use actual image logo
+  const renderImageLogo = () => {
+    return (
+      <img 
+        src={brainLogoImg} 
+        alt="Cortexuum Logo" 
+        className={`${imgSizeMap[size]}`}
+      />
+    );
+  };
+  
+  // SVG brain logo with colored gradient (as a backup and for custom colors)
   const renderBrainLogo = () => {
     // Different color schemes based on variant
     let gradientColors = {
@@ -153,7 +172,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
 
   return (
     <div className={containerClass}>
-      {renderBrainLogo()}
+      {variant === 'image' ? renderImageLogo() : renderBrainLogo()}
       
       {showText && (
         <div className="ml-3 flex flex-col">
@@ -170,7 +189,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
           </span>
           {size !== 'sm' && (
             <span 
-              className={`text-xs tracking-wide ${
+              className={`text-xs tracking-wide uppercase ${
                 variant === 'white' 
                   ? 'text-white/80' 
                   : 'text-gray-500'
