@@ -15,7 +15,6 @@ const Navbar = () => {
     { name: "Benefits", href: "/#benefits" },
     { name: "Insights", href: "/#insights" },
     { name: "Contact", href: "/#contact" },
-    { name: "Leads", href: "/leads" },
   ];
 
   const toggleMobileMenu = () => {
