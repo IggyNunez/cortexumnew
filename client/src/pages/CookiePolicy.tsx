@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
+import LegalHeader from "@/components/LegalHeader";
 
 const CookiePolicy = () => {
   return (
     <div className="bg-white">
+      <LegalHeader />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
