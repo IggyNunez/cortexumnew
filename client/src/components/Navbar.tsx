@@ -55,14 +55,10 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
               <img 
-                src="/cortexuum-logo.webp" 
-                alt="Cortexuum Logo"
-                className="h-12 w-auto transition-transform group-hover:scale-105 duration-300"
+                src="/cortexuum-logo-new.png" 
+                alt="Cortexuum AI Marketing Agency"
+                className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105 duration-300"
               />
-              <div className="flex flex-col ml-3">
-                <div className={`text-xl font-bold ${scrolled ? "text-blue-600" : "text-white"} transition-colors`}>CORTEXUUM</div>
-                <div className={`text-xs ${scrolled ? "text-blue-500" : "text-blue-200"} transition-colors`}>AI MARKETING AGENCY</div>
-              </div>
             </a>
           </div>
 

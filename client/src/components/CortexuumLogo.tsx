@@ -1,6 +1,6 @@
 import React from 'react';
 // Import directly from public assets instead
-const brainLogoImg = "/cortexuum-logo.svg";
+const brainLogoImg = "/cortexuum-logo-new.png";
 
 interface CortexuumLogoProps {
   variant?: 'default' | 'white' | 'gradient' | 'image' | 'svg';
@@ -46,7 +46,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   const renderImageLogo = () => {
     return (
       <img 
-        src={brainLogoImg}
+        src="/cortexuum-logo-new.png"
         alt="Cortexuum Logo" 
         className={`${imgSizeMap[size]}`}
       />
@@ -57,7 +57,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   const renderSvgLogo = () => {
     return (
       <img 
-        src="/cortexuum-logo.svg"
+        src="/cortexuum-logo-new.png"
         alt="Cortexuum Logo" 
         className={`${imgSizeMap[size]}`}
       />
