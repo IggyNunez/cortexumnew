@@ -25,7 +25,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and company info */}
           <div className="lg:col-span-1">
@@ -33,7 +33,7 @@ const Footer = () => {
               <img 
                 src={cortexuumLogoWhite} 
                 alt="Cortexuum AI Marketing Agency" 
-                className="h-16 w-auto mr-3"
+                className="h-12 md:h-16 w-auto mr-3"
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
