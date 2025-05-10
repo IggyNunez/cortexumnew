@@ -11,6 +11,8 @@ import CookiePolicy from "@/pages/CookiePolicy";
 import LeadManagement from "@/pages/LeadManagement";
 import LeadLifecycle from "@/pages/LeadLifecycle";
 import AuthPage from "@/pages/auth-page";
+import CheckoutPage from "@/pages/checkout";
+import PaymentSuccessPage from "@/pages/payment-success";
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
 import { useAnalytics } from "./hooks/useAnalytics";
@@ -30,6 +32,8 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={CookiePolicy} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/checkout" component={CheckoutPage} />
+      <Route path="/payment-success" component={PaymentSuccessPage} />
       <ProtectedRoute path="/leads" component={LeadManagement} />
       <ProtectedRoute path="/leads/lifecycle" component={LeadLifecycle} />
       <ProtectedRoute path="/leads/lifecycle/:id" component={LeadLifecycle} />

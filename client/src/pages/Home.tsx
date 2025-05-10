@@ -7,6 +7,7 @@ import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
+import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import MobileChatbot from "@/components/MobileChatbot";
@@ -32,6 +33,7 @@ const Home = () => {
       <BenefitsSection />
       <TestimonialsSection />
       <FutureInsights />
+      <PricingSection />
       <ContactSection />
       <Footer />
       
