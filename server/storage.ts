@@ -10,7 +10,10 @@ import {
   type InsertConversation,
   leadMilestones,
   type LeadMilestone,
-  type InsertLeadMilestone
+  type InsertLeadMilestone,
+  marketingSettings,
+  type MarketingSettings,
+  type InsertMarketingSettings
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and } from "drizzle-orm";
@@ -36,6 +39,11 @@ export interface IStorage {
   getLeadMilestones(leadId: number): Promise<LeadMilestone[]>;
   getLeadMilestone(id: number): Promise<LeadMilestone | undefined>;
   getLeadMilestoneByIds(leadId: number, milestoneId: string): Promise<LeadMilestone | undefined>;
+  
+  // Marketing settings operations
+  getMarketingSettings(): Promise<MarketingSettings | undefined>;
+  createMarketingSettings(settings: InsertMarketingSettings): Promise<MarketingSettings>;
+  updateMarketingSettings(id: number, updates: Partial<InsertMarketingSettings>): Promise<MarketingSettings | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {

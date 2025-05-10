@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -98,3 +98,35 @@ export type Conversation = typeof conversations.$inferSelect;
 
 export type InsertLeadMilestone = z.infer<typeof insertLeadMilestoneSchema>;
 export type LeadMilestone = typeof leadMilestones.$inferSelect;
+
+// Marketing integration settings
+export const marketingSettings = pgTable("marketing_settings", {
+  id: serial("id").primaryKey(),
+  
+  // Google Analytics settings
+  ga_enabled: boolean("ga_enabled").default(false).notNull(),
+  ga_measurement_id: text("ga_measurement_id"),
+  ga_settings: jsonb("ga_settings").default({}),
+  
+  // Facebook CAPI settings
+  fb_capi_enabled: boolean("fb_capi_enabled").default(false).notNull(),
+  fb_pixel_id: text("fb_pixel_id"),
+  fb_access_token: text("fb_access_token"),
+  fb_settings: jsonb("fb_settings").default({}),
+  
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMarketingSettingsSchema = createInsertSchema(marketingSettings).pick({
+  ga_enabled: true,
+  ga_measurement_id: true,
+  ga_settings: true,
+  fb_capi_enabled: true,
+  fb_pixel_id: true,
+  fb_access_token: true,
+  fb_settings: true,
+});
+
+export type InsertMarketingSettings = z.infer<typeof insertMarketingSettingsSchema>;
+export type MarketingSettings = typeof marketingSettings.$inferSelect;
