@@ -5,10 +5,19 @@ import { setupAuth } from "./auth";
 import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema } from "@shared/schema";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
+import Stripe from "stripe";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
   setupAuth(app);
+  
+  // Initialize Stripe
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.warn('Missing required Stripe secret: STRIPE_SECRET_KEY');
+  }
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+    apiVersion: '2023-08-16',
+  });
   
   // Authentication middleware for protected routes
   const requireAuth = (req: Request, res: Response, next: Function) => {
@@ -407,6 +416,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         error: "Failed to update marketing settings"
+      });
+    }
+  });
+
+  // Stripe payment routes
+  app.post("/api/create-payment-intent", async (req: Request, res: Response) => {
+    try {
+      const { amount, currency = "usd", metadata = {} } = req.body;
+      
+      if (!amount || isNaN(parseFloat(amount))) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Valid amount is required" 
+        });
+      }
+      
+      // Amount should be in cents for Stripe
+      const amountInCents = Math.round(parseFloat(amount) * 100);
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amountInCents,
+        currency,
+        metadata,
+        // Payment method types can be expanded as needed
+        payment_method_types: ['card'],
+      });
+      
+      res.status(200).json({
+        success: true,
+        clientSecret: paymentIntent.client_secret
+      });
+    } catch (error: any) {
+      console.error('Error creating payment intent:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message || "Failed to create payment intent"
+      });
+    }
+  });
+
+  // Stripe webhook for handling events
+  app.post("/api/stripe-webhook", async (req: Request, res: Response) => {
+    const sig = req.headers['stripe-signature'] as string;
+
+    if (!sig) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing Stripe signature"
+      });
+    }
+
+    try {
+      // For webhook signatures, you should configure your webhook secret in production
+      // const event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      const event = req.body;
+
+      // Handle different event types
+      switch (event.type) {
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object;
+          console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
+          // Here you'd update your database to mark the payment as successful
+          break;
+        case 'payment_intent.payment_failed':
+          const failedPayment = event.data.object;
+          console.log(`Payment failed for ${failedPayment.amount}: ${failedPayment.last_payment_error?.message}`);
+          break;
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+
+      res.status(200).json({ received: true });
+    } catch (err: any) {
+      console.error('Webhook error:', err.message);
+      return res.status(400).json({
+        success: false,
+        error: `Webhook error: ${err.message}`
       });
     }
   });
