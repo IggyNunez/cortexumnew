@@ -72,5 +72,29 @@ export type User = typeof users.$inferSelect;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 export type Lead = typeof leads.$inferSelect;
 
+// Lead lifecycle milestones
+export const leadMilestones = pgTable("lead_milestones", {
+  id: serial("id").primaryKey(),
+  lead_id: integer("lead_id").notNull(),
+  milestone_id: text("milestone_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  completed: boolean("completed").notNull().default(false),
+  completed_at: timestamp("completed_at"),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLeadMilestoneSchema = createInsertSchema(leadMilestones).pick({
+  lead_id: true,
+  milestone_id: true,
+  title: true,
+  description: true,
+  completed: true,
+  completed_at: true,
+});
+
 export type InsertConversation = z.infer<typeof insertConversationSchema>;
 export type Conversation = typeof conversations.$inferSelect;
+
+export type InsertLeadMilestone = z.infer<typeof insertLeadMilestoneSchema>;
+export type LeadMilestone = typeof leadMilestones.$inferSelect;

@@ -43,7 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Export leads as CSV
+  // Export leads as CSV (positioned before the :id route to avoid conflicts)
   app.get("/api/leads/export", async (_req: Request, res: Response) => {
     try {
       const leads = await storage.getLeads();
@@ -97,6 +97,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         error: "Failed to export leads" 
+      });
+    }
+  });
+  
+  // Get a specific lead by ID
+  app.get("/api/leads/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid lead ID" 
+        });
+      }
+      
+      const lead = await storage.getLead(id);
+      
+      if (!lead) {
+        return res.status(404).json({ 
+          success: false, 
+          error: "Lead not found" 
+        });
+      }
+      
+      res.status(200).json({ success: true, data: lead });
+    } catch (error) {
+      console.error("Error fetching lead:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to fetch lead" 
       });
     }
   });
