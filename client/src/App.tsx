@@ -29,9 +29,10 @@ function Router() {
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={CookiePolicy} />
-      <Route path="/leads" component={LeadManagement} />
-      <Route path="/leads/lifecycle" component={LeadLifecycle} />
-      <Route path="/leads/lifecycle/:id" component={LeadLifecycle} />
+      <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/leads" component={LeadManagement} />
+      <ProtectedRoute path="/leads/lifecycle" component={LeadLifecycle} />
+      <ProtectedRoute path="/leads/lifecycle/:id" component={LeadLifecycle} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -48,9 +49,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <AnalyticsInitializer />
-        <Router />
+        <AuthProvider>
+          <Toaster />
+          <AnalyticsInitializer />
+          <Router />
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

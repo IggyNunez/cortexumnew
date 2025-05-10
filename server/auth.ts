@@ -102,7 +102,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, _info) => {
+    passport.authenticate("local", (err: Error | null, user: SelectUser | false, _info: any) => {
       if (err) return next(err);
       
       if (!user) {
@@ -112,7 +112,7 @@ export function setupAuth(app: Express) {
         });
       }
       
-      req.login(user, (err) => {
+      req.login(user, (err: Error | null) => {
         if (err) return next(err);
         return res.status(200).json({
           success: true,
