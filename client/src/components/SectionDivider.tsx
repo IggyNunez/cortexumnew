@@ -1,19 +1,19 @@
 import React from 'react';
-import BrainWaveAnimation from './BrainWaveAnimation';
+import { useParallax } from '@/hooks/useParallax';
 
-type GradientType = 'light' | 'dark' | 'blue' | 'purple';
+type GradientType = 'light' | 'dark' | 'blue' | 'purple' | 'none';
 
 interface SectionDividerProps {
   gradient?: GradientType;
-  showWave?: boolean;
-  waveColor?: string;
+  height?: string;
+  parallaxSpeed?: number;
   className?: string;
 }
 
 const SectionDivider: React.FC<SectionDividerProps> = ({
   gradient = 'light',
-  showWave = false,
-  waveColor,
+  height = '120px',
+  parallaxSpeed = 0.2,
   className = '',
 }) => {
   // Map gradient types to classes
@@ -21,31 +21,23 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
     light: 'divider-gradient-light',
     dark: 'divider-gradient-dark',
     blue: 'divider-gradient-blue',
-    purple: 'from-transparent to-[#4A1D6F]/10',
+    purple: 'divider-gradient-purple',
+    none: '',
   };
 
-  // Set wave color based on gradient type if not specified
-  const defaultWaveColors: Record<GradientType, string> = {
-    light: 'rgba(180, 133, 255, 0.3)',
-    dark: 'rgba(80, 60, 120, 0.3)',
-    blue: 'rgba(53, 123, 216, 0.3)',
-    purple: 'rgba(180, 133, 255, 0.3)',
-  };
+  // Use parallax effect on the divider
+  const dividerRef = useParallax<HTMLDivElement>({ speed: parallaxSpeed, reverse: true });
 
-  const waveColorToUse = waveColor || defaultWaveColors[gradient];
+  const style = {
+    height,
+  };
 
   return (
-    <div className={`section-divider ${gradientMap[gradient]} ${className}`}>
-      {showWave && (
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden">
-          <BrainWaveAnimation 
-            width={window.innerWidth} 
-            height={50} 
-            color={waveColorToUse}
-          />
-        </div>
-      )}
-    </div>
+    <div 
+      ref={dividerRef}
+      className={`section-divider ${gradientMap[gradient]} ${className}`} 
+      style={style}
+    />
   );
 };
 

@@ -15,6 +15,7 @@ import MobileChatbot from "@/components/MobileChatbot";
 import { MessageSquare } from "lucide-react";
 import { useScrollFade } from "@/hooks/useScrollFade";
 import SectionDivider from "@/components/SectionDivider";
+import ParallaxSection from "@/components/ParallaxSection";
 import CortexuumLogo from "@/components/CortexuumLogo";
 
 const Home = () => {
