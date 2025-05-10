@@ -32,7 +32,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4">
               <img 
-                src={cortexuumLogoFooter} 
+                src={cortexuumLogoWhite} 
                 alt="Cortexuum AI Marketing Agency" 
                 className="h-10 w-auto mr-0"
               />
