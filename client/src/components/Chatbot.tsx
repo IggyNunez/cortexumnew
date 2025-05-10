@@ -44,7 +44,7 @@ const Chatbot = () => {
       // Add welcome message when opening for the first time
       const welcomeMessage: ChatMessage = {
         sender: 'bot',
-        message: "Hey there! 👋 Welcome to VibeAgency.ai! I'm your AI assistant, and I'm passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Looking to elevate your agency's growth or enhance your client results? I'd love to hear what brings you here today!",
+        message: "Hey there! 👋 Welcome to VibeMarketingAgency.ai! I'm your AI assistant, and I'm passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Looking to elevate your agency's growth or enhance your client results? I'd love to hear what brings you here today!",
         timestamp: new Date()
       };
       setMessages([welcomeMessage]);

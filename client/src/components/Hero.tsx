@@ -37,19 +37,12 @@ const Hero = () => {
               </Button>
             </div>
             <div className="mt-12 flex items-center text-sm">
-              <div className="flex -space-x-2 mr-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div 
-                    key={i} 
-                    className="w-8 h-8 rounded-full border-2 border-white bg-primary flex items-center justify-center text-xs"
-                  >
-                    {String.fromCharCode(64 + i)}
-                  </div>
-                ))}
-              </div>
               <p className="text-white/80">
                 Trusted by <span className="font-bold">25+ marketing agencies</span> worldwide
               </p>
+            </div>
+            <div className="mt-4 text-xs text-white/70 italic">
+              <span className="font-medium">This website was created using AI automation and generative technology.</span>
             </div>
           </motion.div>
           

@@ -52,7 +52,7 @@ const Footer = () => {
           {/* Logo and company info */}
           <div className="lg:col-span-2">
             <div className="text-2xl font-bold mb-4">
-              Vibe<span className="text-primary">AI</span>
+              VibeMarketing<span className="text-primary">Agency.ai</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               Custom AI solutions designed specifically for marketing agencies to increase efficiency, improve client results, and boost profitability.

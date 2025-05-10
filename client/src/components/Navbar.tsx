@@ -52,7 +52,7 @@ const Navbar = () => {
           <div className="flex-shrink-0 font-bold text-2xl">
             <a href="/" className="flex items-center">
               <span className={`transition-colors ${scrolled ? "text-primary" : "text-white"}`}>
-                Vibe<span className={`${scrolled ? "text-primary" : "text-white bg-primary/80 px-1 rounded"}`}>AI</span>
+                VibeMarketing<span className={`${scrolled ? "text-primary" : "text-white bg-primary/80 px-1 rounded"}`}>Agency.ai</span>
               </span>
             </a>
           </div>
