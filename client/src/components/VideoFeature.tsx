@@ -64,7 +64,8 @@ const VideoFeature = () => {
               muted={isMuted}
               playsInline
               onClick={handlePlayPause}
-              poster=""
+              autoPlay
+              preload="auto"
             >
               <source src="/AI Agents For Small Business - Mark Zuckerberg.publer.com.mp4" type="video/mp4" />
               Your browser does not support the video tag.

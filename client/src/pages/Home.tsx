@@ -7,6 +7,7 @@ import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import VideoFeature from "@/components/VideoFeature";
+import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
@@ -33,6 +34,7 @@ const Home = () => {
       <TestimonialsSection />
       <CaseStudiesSection />
       <VideoFeature />
+      <FutureInsights />
       <ContactSection />
       <Footer />
       
