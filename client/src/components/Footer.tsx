@@ -1,5 +1,3 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from "lucide-react";
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
@@ -21,63 +19,22 @@ const Footer = () => {
       { name: 'Terms', href: '/terms' },
       { name: 'Cookie Policy', href: '/cookies' },
     ],
-    social: [
-      {
-        name: 'Facebook',
-        href: '#',
-        icon: Facebook,
-      },
-      {
-        name: 'Instagram',
-        href: '#',
-        icon: Instagram,
-      },
-      {
-        name: 'Twitter',
-        href: '#',
-        icon: Twitter,
-      },
-      {
-        name: 'LinkedIn',
-        href: '#',
-        icon: Linkedin,
-      },
-    ],
   };
 
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and company info */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <div className="text-2xl font-bold mb-4">
               VibeMarketing<span className="text-primary">Agency.ai</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               Custom AI solutions designed specifically for marketing agencies to increase efficiency, improve client results, and boost profitability.
             </p>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <Mail className="h-5 w-5 text-primary mr-3" />
-                <a 
-                  href="mailto:info@vibemarketingagency.ai" 
-                  className="text-gray-200 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline"
-                  aria-label="Email us"
-                >
-                  info@vibemarketingagency.ai
-                </a>
-              </div>
-              <div className="flex items-center">
-                <Phone className="h-5 w-5 text-primary mr-3" />
-                <a 
-                  href="tel:+18005551234" 
-                  className="text-gray-200 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline"
-                  aria-label="Call us"
-                >
-                  +1 (800) 555-1234
-                </a>
-              </div>
+            <div className="text-gray-300 mt-4 text-sm">
+              Ready to transform your marketing agency with AI? Fill out our detailed application form below to get started.
             </div>
           </div>
 
@@ -128,19 +85,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-            <h3 className="text-lg font-bold mt-8 mb-5 text-white">Follow Us</h3>
-            <div className="flex space-x-5">
-              {navigation.social.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-primary focus:outline-none focus:text-primary transition-colors"
-                  aria-label={`Follow us on ${item.name}`}
-                >
-                  <item.icon className="h-6 w-6" />
-                </a>
-              ))}
-            </div>
           </div>
         </div>
 
