@@ -1,5 +1,9 @@
 import { motion } from "framer-motion";
-import { Info } from "lucide-react";
+import { Info, ExternalLink } from "lucide-react";
+import { Button } from "./ui/button";
+
+// Import the Zuckerberg image
+import markImage from "@assets/image_1746855805008.png";
 
 const VideoFeature = () => {
   return (
@@ -27,24 +31,37 @@ const VideoFeature = () => {
         
         <div className="flex justify-center">
           <motion.div 
-            className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl bg-black"
+            className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            style={{ aspectRatio: '9/16' }}
           >
-            {/* Simple HTML Video with poster and controls */}
-            <video
-              controls
-              poster="/poster-image.jpg"
-              preload="metadata"
-              className="w-full h-full"
-              style={{ aspectRatio: '9/16' }}
-            >
-              <source src="/AI Agents For Small Business - Mark Zuckerberg.publer.com.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            {/* Static Image with Quote */}
+            <div className="bg-gradient-to-b from-blue-900 to-primary p-6 text-white">
+              <div className="flex flex-col items-center">
+                <img 
+                  src={markImage} 
+                  alt="Mark Zuckerberg discussing AI" 
+                  className="w-full max-w-xs rounded-xl mb-6"
+                />
+                
+                <blockquote className="text-lg italic mb-4 text-center">
+                  "AI agents will become essential for small businesses to automate customer service, content creation, and marketing tasks."
+                </blockquote>
+                
+                <p className="font-semibold text-center">- Mark Zuckerberg, Meta</p>
+                
+                <div className="mt-6">
+                  <Button 
+                    className="flex items-center gap-2 bg-white text-primary hover:bg-gray-100"
+                    onClick={() => window.open("/AI Agents For Small Business - Mark Zuckerberg.publer.com.mp4", "_blank")}
+                  >
+                    Watch Full Video <ExternalLink className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
         
