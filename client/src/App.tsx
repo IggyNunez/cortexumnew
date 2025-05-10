@@ -13,7 +13,7 @@ import LeadLifecycle from "@/pages/LeadLifecycle";
 import AuthPage from "@/pages/auth-page";
 import CheckoutPage from "@/pages/checkout";
 import PaymentSuccessPage from "@/pages/payment-success";
-import PricingPage from "@/pages/PricingPage";
+
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
 import { useAnalytics } from "./hooks/useAnalytics";
@@ -29,7 +29,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/pricing" component={PricingPage} />
+
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={CookiePolicy} />

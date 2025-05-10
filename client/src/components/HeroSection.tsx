@@ -33,10 +33,10 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
               <a 
-                href="/pricing" 
+                href="#contact" 
                 className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl text-center"
               >
-                See AI Solutions
+                Contact Us
               </a>
               <button 
                 onClick={handleOpenChatbot}

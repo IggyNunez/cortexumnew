@@ -13,7 +13,6 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
     { name: "Benefits", href: "/#benefits" },
-    { name: "Pricing", href: "/pricing" },
     { name: "Insights", href: "/#insights" },
     { name: "Contact", href: "/#contact" },
   ];
@@ -75,7 +74,7 @@ const Navbar = () => {
               asChild
               className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
-              <a href="/pricing">See AI Solutions</a>
+              <a href="/#contact">Contact Us</a>
             </Button>
           </nav>
 
@@ -129,8 +128,8 @@ const Navbar = () => {
                     asChild
                     className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-3 text-base font-bold shadow-md focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
-                    <a href="/pricing" onClick={handleNavClick}>
-                      See AI Solutions
+                    <a href="/#contact" onClick={handleNavClick}>
+                      Contact Us
                     </a>
                   </Button>
                 </div>
