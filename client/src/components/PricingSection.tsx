@@ -46,12 +46,23 @@ const PricingSection = () => {
         
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
           {/* Starter Plan */}
-          <Card className="border-2 border-gray-200 transition-all duration-200 hover:shadow-lg hover:border-primary/50">
+          <Card className="border-2 border-gray-200 transition-all duration-200 hover:shadow-lg hover:border-primary/50 relative overflow-hidden">
+            <div className="absolute -right-12 top-6 bg-amber-500 text-white font-bold py-1 px-10 transform rotate-45 text-xs shadow-md">
+              LIMITED SPOTS
+            </div>
             <CardHeader>
-              <CardTitle className="text-xl">Starter</CardTitle>
-              <div className="mt-2">
-                <span className="text-3xl font-bold">$99</span>
-                <span className="text-gray-500 ml-1">/month</span>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-xl">Starter</CardTitle>
+                  <div className="mt-2 flex items-center">
+                    <span className="text-3xl font-bold">$99</span>
+                    <span className="text-gray-500 ml-1">/month</span>
+                    <span className="ml-2 line-through text-red-400 text-sm">$129</span>
+                  </div>
+                </div>
+                <div className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full border border-green-200">
+                  Save 23%
+                </div>
               </div>
               <CardDescription>
                 Perfect for small businesses getting started with AI marketing.
@@ -73,30 +84,48 @@ const PricingSection = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="space-y-3">
+              <div className="text-center text-xs text-amber-700 bg-amber-50 rounded-md p-1 font-medium">
+                Only 3 spots left at this price!
+              </div>
               <Button 
-                className="w-full" 
+                className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold"
                 onClick={() => handleSelectPlan('starter')}
               >
-                Apply Now
+                Apply Now - Limited Time Offer
               </Button>
+              <p className="text-xs text-center text-gray-500">Current rates valid until May 31st</p>
             </CardFooter>
           </Card>
           
           {/* Pro Plan */}
-          <Card className="border-2 border-primary relative transition-all duration-200 hover:shadow-lg">
+          <Card className="border-2 border-primary relative transition-all duration-200 hover:shadow-lg overflow-hidden">
             <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-semibold py-1 px-3 rounded-bl-lg rounded-tr-md">
               MOST POPULAR
             </div>
+            <div className="absolute -right-12 top-6 bg-red-500 text-white font-bold py-1 px-10 transform rotate-45 text-xs shadow-md">
+              SELLING FAST
+            </div>
             <CardHeader>
-              <CardTitle className="text-xl">Professional</CardTitle>
-              <div className="mt-2">
-                <span className="text-3xl font-bold">$249</span>
-                <span className="text-gray-500 ml-1">/month</span>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-xl">Professional</CardTitle>
+                  <div className="mt-2 flex items-center">
+                    <span className="text-3xl font-bold">$249</span>
+                    <span className="text-gray-500 ml-1">/month</span>
+                    <span className="ml-2 line-through text-red-400 text-sm">$329</span>
+                  </div>
+                </div>
+                <div className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full border border-green-200">
+                  Save 24%
+                </div>
               </div>
               <CardDescription>
                 Comprehensive AI marketing suite for growing businesses.
               </CardDescription>
+              <div className="mt-2 text-xs bg-blue-50 text-blue-800 p-1 rounded border border-blue-100">
+                <span className="font-semibold">BEST VALUE:</span> Most agencies see 3x ROI in 60 days
+              </div>
             </CardHeader>
             <CardContent className="flex-grow">
               <ul className="space-y-2">
