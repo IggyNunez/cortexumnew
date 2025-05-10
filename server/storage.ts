@@ -7,10 +7,13 @@ import {
   type InsertLead,
   conversations,
   type Conversation,
-  type InsertConversation
+  type InsertConversation,
+  leadMilestones,
+  type LeadMilestone,
+  type InsertLeadMilestone
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -26,6 +29,13 @@ export interface IStorage {
   // Conversation operations
   saveConversation(conversation: InsertConversation): Promise<Conversation>;
   getConversationsByVisitorId(visitorId: string): Promise<Conversation[]>;
+  
+  // Lead milestone operations
+  createLeadMilestone(milestone: InsertLeadMilestone): Promise<LeadMilestone>;
+  updateLeadMilestone(id: number, updates: Partial<InsertLeadMilestone>): Promise<LeadMilestone | undefined>;
+  getLeadMilestones(leadId: number): Promise<LeadMilestone[]>;
+  getLeadMilestone(id: number): Promise<LeadMilestone | undefined>;
+  getLeadMilestoneByIds(leadId: number, milestoneId: string): Promise<LeadMilestone | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -88,6 +98,53 @@ export class DatabaseStorage implements IStorage {
       .from(conversations)
       .where(eq(conversations.visitor_id, visitorId))
       .orderBy(conversations.created_at);
+  }
+  
+  // Lead milestone methods
+  async createLeadMilestone(milestone: InsertLeadMilestone): Promise<LeadMilestone> {
+    const [result] = await db
+      .insert(leadMilestones)
+      .values(milestone)
+      .returning();
+    return result;
+  }
+  
+  async updateLeadMilestone(id: number, updates: Partial<InsertLeadMilestone>): Promise<LeadMilestone | undefined> {
+    const [result] = await db
+      .update(leadMilestones)
+      .set(updates)
+      .where(eq(leadMilestones.id, id))
+      .returning();
+    return result;
+  }
+  
+  async getLeadMilestones(leadId: number): Promise<LeadMilestone[]> {
+    return await db
+      .select()
+      .from(leadMilestones)
+      .where(eq(leadMilestones.lead_id, leadId))
+      .orderBy(leadMilestones.created_at);
+  }
+  
+  async getLeadMilestone(id: number): Promise<LeadMilestone | undefined> {
+    const [result] = await db
+      .select()
+      .from(leadMilestones)
+      .where(eq(leadMilestones.id, id));
+    return result;
+  }
+  
+  async getLeadMilestoneByIds(leadId: number, milestoneId: string): Promise<LeadMilestone | undefined> {
+    const [result] = await db
+      .select()
+      .from(leadMilestones)
+      .where(
+        and(
+          eq(leadMilestones.lead_id, leadId),
+          eq(leadMilestones.milestone_id, milestoneId)
+        )
+      );
+    return result;
   }
 }
 

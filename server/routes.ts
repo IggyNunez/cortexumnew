@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema, insertConversationSchema } from "@shared/schema";
+import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema } from "@shared/schema";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -166,6 +166,106 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         error: "Failed to fetch conversations" 
+      });
+    }
+  });
+  
+  // Lead Lifecycle Milestones API
+  
+  // Get milestones for a lead
+  app.get("/api/leads/:leadId/milestones", async (req: Request, res: Response) => {
+    try {
+      const leadId = parseInt(req.params.leadId);
+      
+      if (isNaN(leadId)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid lead ID" 
+        });
+      }
+      
+      const milestones = await storage.getLeadMilestones(leadId);
+      res.status(200).json({ success: true, data: milestones });
+    } catch (error) {
+      console.error("Error fetching lead milestones:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to fetch lead milestones" 
+      });
+    }
+  });
+  
+  // Create a milestone for a lead
+  app.post("/api/leads/:leadId/milestones", async (req: Request, res: Response) => {
+    try {
+      const leadId = parseInt(req.params.leadId);
+      
+      if (isNaN(leadId)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid lead ID" 
+        });
+      }
+      
+      // Validate the request body
+      const milestoneData = insertLeadMilestoneSchema.parse({
+        ...req.body,
+        lead_id: leadId
+      });
+      
+      const milestone = await storage.createLeadMilestone(milestoneData);
+      res.status(201).json({ success: true, data: milestone });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const validationError = fromZodError(error);
+        res.status(400).json({ 
+          success: false, 
+          error: validationError.message 
+        });
+      } else {
+        console.error("Error creating milestone:", error);
+        res.status(500).json({ 
+          success: false, 
+          error: "Failed to create milestone" 
+        });
+      }
+    }
+  });
+  
+  // Update a milestone
+  app.patch("/api/leads/milestones/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid milestone ID" 
+        });
+      }
+      
+      const updates = req.body;
+      
+      // If we're marking as completed, add the timestamp
+      if (updates.completed === true) {
+        updates.completed_at = new Date();
+      }
+      
+      const milestone = await storage.updateLeadMilestone(id, updates);
+      
+      if (!milestone) {
+        return res.status(404).json({ 
+          success: false, 
+          error: "Milestone not found" 
+        });
+      }
+      
+      res.status(200).json({ success: true, data: milestone });
+    } catch (error) {
+      console.error("Error updating milestone:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to update milestone" 
       });
     }
   });
