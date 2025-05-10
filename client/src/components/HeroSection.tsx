@@ -33,10 +33,10 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
               <a 
-                href="#contact" 
+                href="/pricing" 
                 className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl text-center"
               >
-                Get Started
+                See AI Solutions
               </a>
               <button 
                 onClick={handleOpenChatbot}
@@ -46,8 +46,8 @@ const HeroSection = () => {
               </button>
             </div>
             <div className="pt-6">
-              <p className="text-blue-100 flex items-center">
-                <ShieldCheck className="mr-2 h-5 w-5" /> No credit card required
+              <p className="text-amber-200 flex items-center font-semibold">
+                <ShieldCheck className="mr-2 h-5 w-5" /> Don't get left behind in the AI revolution
               </p>
             </div>
           </motion.div>
