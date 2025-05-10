@@ -9,6 +9,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Terms from "@/pages/Terms";
 import CookiePolicy from "@/pages/CookiePolicy";
 import LeadManagement from "@/pages/LeadManagement";
+import LeadLifecycle from "@/pages/LeadLifecycle";
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
 
@@ -20,6 +21,8 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={CookiePolicy} />
       <Route path="/leads" component={LeadManagement} />
+      <Route path="/leads/lifecycle" component={LeadLifecycle} />
+      <Route path="/leads/lifecycle/:id" component={LeadLifecycle} />
       <Route component={NotFound} />
     </Switch>
   );
