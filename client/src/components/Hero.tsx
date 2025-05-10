@@ -38,10 +38,12 @@ const Hero = () => {
     e.preventDefault();
     if (!question.trim()) return;
 
+    // Save current question before clearing input
+    const currentQuestion = question;
+    
     // Add user question to messages
-    const newUserMessage: AssistantMessage = { type: "user", text: question };
-    const initialMessages = [...assistantMessages, newUserMessage];
-    setAssistantMessages(initialMessages);
+    const newUserMessage: AssistantMessage = { type: "user", text: currentQuestion };
+    setAssistantMessages(prev => [...prev, newUserMessage]);
     
     // Clear input
     setQuestion("");
@@ -50,7 +52,7 @@ const Hero = () => {
     setTimeout(() => {
       // Generate a response based on the question
       let response = "";
-      const lowerQuestion = question.toLowerCase();
+      const lowerQuestion = currentQuestion.toLowerCase();
       
       if (lowerQuestion.includes("price") || lowerQuestion.includes("cost") || lowerQuestion.includes("payment")) {
         response = "Our AI solutions start at $2,500/month for basic implementations, with custom pricing based on your agency's specific needs and scale. We offer flexible pricing packages with ROI guarantees.";
@@ -61,15 +63,23 @@ const Hero = () => {
       else if (lowerQuestion.includes("services") || lowerQuestion.includes("offer") || lowerQuestion.includes("solution")) {
         response = "We offer AI-powered automation for content creation, client reporting, data analysis, lead generation, and campaign optimization - all tailored to marketing agencies.";
       }
+      else if (lowerQuestion.includes("voice") || lowerQuestion.includes("elevenlabs") || lowerQuestion.includes("assistant")) {
+        response = "Our voice-enabled AI assistants use ElevenLabs for natural-sounding text-to-speech. We can implement this technology for your agency and customize it for your clients' specific needs and branding.";
+      }
+      else if (lowerQuestion.includes("create") || lowerQuestion.includes("how") || lowerQuestion.includes("get")) {
+        response = "To create your own AI assistant like this one, simply fill out our application form below. We'll customize the voice, responses, and branding to match your agency's needs and help you implement it for your clients.";
+      }
       else {
         response = "That's a great question! Our team would be happy to provide more details during a personalized consultation. Would you like to schedule a call with our AI specialists?";
       }
       
       // Add AI response to messages
       const newAssistantMessage: AssistantMessage = { type: "assistant", text: response };
-      const updatedMessages = [...assistantMessages, newUserMessage, newAssistantMessage];
-      setAssistantMessages(updatedMessages);
-    }, 1500);
+      setAssistantMessages(prev => [...prev, newAssistantMessage]);
+      
+      // Auto-play the voice response
+      handleSpeakMessage(response);
+    }, 1000);
   };
 
   const handleSpeakMessage = async (text: string) => {
@@ -138,8 +148,19 @@ const Hero = () => {
                   <Bot className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">AI Assistant</h3>
-                  <p className="text-gray-500 text-sm">Powered by VibeAgency.ai</p>
+                  <h3 className="font-bold text-lg">Voice-enabled AI Assistant</h3>
+                  <div className="flex flex-col">
+                    <div className="flex items-center">
+                      <p className="text-gray-500 text-sm">Powered by VibeAgency.ai</p>
+                      <span className="ml-2 bg-gray-100 text-xs px-1.5 py-0.5 rounded text-gray-600 font-medium">ElevenLabs Voice</span>
+                    </div>
+                    <a 
+                      href="#contact" 
+                      className="text-primary text-xs font-medium hover:underline mt-1"
+                    >
+                      Learn how to create one for you and your clients →
+                    </a>
+                  </div>
                 </div>
               </div>
               
