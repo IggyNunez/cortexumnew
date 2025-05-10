@@ -2,66 +2,8 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const CaseStudiesSection = () => {
-  const caseStudies = [
-    {
-      client: "SoftRx",
-      title: "AI-Powered Content Optimization",
-      description: "How SoftRx increased their social engagement by 217% using our AI content optimization tools.",
-      metrics: [
-        { label: "Engagement Increase", value: "217%" },
-        { label: "Content Creation Time", value: "-65%" },
-        { label: "ROI", value: "341%" }
-      ],
-      image: "softrx"
-    },
-    {
-      client: "RX Surgical",
-      title: "AI-Powered Lead Qualification",
-      description: "How RX Surgical automated lead qualification and increased closing rates for their medical practice.",
-      metrics: [
-        { label: "Lead Qualification", value: "24/7" },
-        { label: "Response Time", value: "-78%" },
-        { label: "Closing Rate", value: "+45%" }
-      ],
-      image: "rxsurgical"
-    },
-    {
-      client: "Bommorito Performance",
-      title: "AI-Powered Website & Lead Generation",
-      description: "How Bommorito Performance enhanced their training center with AI-driven website optimization and social media tools to better connect with potential athletes.",
-      metrics: [
-        { label: "Athlete Leads", value: "+185%" },
-        { label: "Conversion Rate", value: "+67%" },
-        { label: "Digital Engagement", value: "3.4x" }
-      ],
-      image: "bommorito"
-    },
-    {
-      client: "Sunday Golf",
-      title: "Amazon Store Optimization",
-      description: "How Sunday Golf automated their Amazon store reports and optimized their ad campaigns for better performance.",
-      metrics: [
-        { label: "Ad ROI", value: "+123%" },
-        { label: "Reporting Time", value: "-85%" },
-        { label: "Sales Growth", value: "47%" }
-      ],
-      image: "sundaygolf"
-    },
-    {
-      client: "FormRx",
-      title: "AI-Driven Lead Generation",
-      description: "How FormRx increased qualified leads by 89% using our voice-enabled Hume API chatbot.",
-      metrics: [
-        { label: "Lead Increase", value: "89%" },
-        { label: "Conversion Rate", value: "+37%" },
-        { label: "Customer Acquisition Cost", value: "-41%" }
-      ],
-      image: "formrx"
-    }
-  ];
-
   return (
-    <section id="case-studies" className="py-20">
+    <section id="ai-automation" className="py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
@@ -71,7 +13,7 @@ const CaseStudiesSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Success Stories with <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent font-extrabold">Real Results</span>
+            Transform Your Agency with <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent font-extrabold">AI Automation</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-700 max-w-3xl mx-auto font-medium"
@@ -80,49 +22,106 @@ const CaseStudiesSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            See how we've helped marketing agencies achieve extraordinary results with AI automation.
+            Ready to scale your marketing agency with intelligent AI solutions? Let's talk about your specific needs.
           </motion.p>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {caseStudies.map((study, index) => (
-            <motion.div 
-              key={index}
-              className={`bg-white rounded-xl shadow-lg overflow-hidden ${study.client === "Bommorito Performance" ? "flex flex-col justify-center mx-auto" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="h-48 bg-gray-200 overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20 text-4xl font-bold text-gray-700">
-                  {study.client}
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <div className="text-4xl font-bold text-gray-700">Content AI</div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-800">AI-Powered Content Creation</h3>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Automate content creation across all channels while maintaining your brand voice and increasing engagement.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-4 mb-6">
+                <div className="text-center py-4 bg-gray-50 rounded-lg">
+                  <div className="text-primary font-bold text-xl">70%</div>
+                  <div className="text-gray-700 text-sm font-medium">Time Saved on Content Creation</div>
                 </div>
               </div>
-              <div className="p-6">
-                <div className={`text-sm text-gray-600 font-medium mb-2 ${study.client === "Bommorito Performance" ? "text-center" : ""}`}>{study.client}</div>
-                <h3 className={`text-xl font-bold mb-3 text-gray-800 ${study.client === "Bommorito Performance" ? "text-center" : ""}`}>{study.title}</h3>
-                <p className={`${study.client === "Bommorito Performance" ? "text-gray-600 mb-6 leading-relaxed text-sm text-center" : "text-gray-700 mb-6 leading-relaxed"}`}>{study.description}</p>
-                
-                <div className={`grid grid-cols-3 gap-4 mb-6 ${study.client === "Bommorito Performance" ? "mx-auto text-center" : ""}`}>
-                  {study.metrics.map((metric, mIndex) => (
-                    <div key={mIndex} className="text-center">
-                      <div className={`${study.client === "Bommorito Performance" ? "text-primary/80 font-bold text-lg" : "text-primary font-bold text-xl"}`}>{metric.value}</div>
-                      <div className={`${study.client === "Bommorito Performance" ? "text-gray-600 text-xs font-medium" : "text-gray-700 text-sm font-medium"}`}>{metric.label}</div>
-                    </div>
-                  ))}
+              
+              <a 
+                href="#contact" 
+                className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:text-primary-dark"
+              >
+                Learn more <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <div className="text-4xl font-bold text-gray-700">Lead AI</div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-800">AI-Powered Lead Generation</h3>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Implement intelligent chatbots and voice assistants that engage visitors 24/7 and convert them into qualified leads.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-4 mb-6">
+                <div className="text-center py-4 bg-gray-50 rounded-lg">
+                  <div className="text-primary font-bold text-xl">35%</div>
+                  <div className="text-gray-700 text-sm font-medium">Increase in Lead Conversion</div>
                 </div>
-                
-                <a 
-                  href="#contact" 
-                  className={`text-primary font-bold ${study.client === "Bommorito Performance" ? "flex items-center justify-center hover:underline focus:outline-none focus:text-primary-dark" : "flex items-center hover:underline focus:outline-none focus:text-primary-dark"}`}
-                  aria-label={`Read ${study.client} case study`}
-                >
-                  Read case study <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
               </div>
-            </motion.div>
-          ))}
+              
+              <a 
+                href="#contact" 
+                className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:text-primary-dark"
+              >
+                Learn more <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <div className="text-4xl font-bold text-gray-700">Client AI</div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-800">AI-Powered Client Management</h3>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Automate reporting, client communication, and campaign optimization to deliver better results with less effort.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-4 mb-6">
+                <div className="text-center py-4 bg-gray-50 rounded-lg">
+                  <div className="text-primary font-bold text-xl">85%</div>
+                  <div className="text-gray-700 text-sm font-medium">Reduction in Reporting Time</div>
+                </div>
+              </div>
+              
+              <a 
+                href="#contact" 
+                className="text-primary font-bold flex items-center hover:underline focus:outline-none focus:text-primary-dark"
+              >
+                Learn more <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </div>
+          </motion.div>
         </div>
         
         <motion.div 
@@ -135,9 +134,9 @@ const CaseStudiesSection = () => {
           <a 
             href="#contact" 
             className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            aria-label="Contact us to get similar results for your agency"
+            aria-label="Contact us to get started with AI automation"
           >
-            Get Similar Results for Your Agency
+            Get Started with AI Automation <ArrowRight className="ml-2 h-5 w-5" />
           </a>
         </motion.div>
       </div>
