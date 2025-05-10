@@ -51,6 +51,13 @@ const ContactForm = () => {
   const { toast } = useToast();
   const [formSubmitted, setFormSubmitted] = useState(false);
   
+  // Get marketing settings for analytics
+  const { data: settingsData } = useQuery<{ success: boolean; data: any }>({
+    queryKey: ['/api/marketing-settings'],
+  });
+  
+  const marketingSettings = settingsData?.data;
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,12 +111,34 @@ const ContactForm = () => {
       
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       setFormSubmitted(true);
       toast({
         title: "Application Received",
         description: "We'll review your details and contact you within 48 hours.",
       });
+      
+      // Track lead conversion in Google Analytics if enabled
+      if (marketingSettings?.ga_enabled && marketingSettings?.ga_measurement_id) {
+        // Track general event
+        trackEvent(
+          'lead_submission', 
+          'conversion', 
+          'contact_form'
+        );
+        
+        // Track as conversion with data
+        if (response.data) {
+          trackLeadConversion(response.data);
+        }
+      }
+      
+      // Track lead conversion in Facebook Pixel if enabled
+      if (marketingSettings?.fb_capi_enabled && marketingSettings?.fb_pixel_id) {
+        const leadData = response.data || {};
+        trackFBLeadEvent(leadData);
+      }
+      
       form.reset();
     },
     onError: () => {
