@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>VibeMarketingAgency.ai | AI Automation for Marketing Agencies</title>
+    <!-- Dynamic title will be managed by script -->
+    <title>✨ VibeMarketingAgency.ai | AI Automation for Marketing Agencies</title>
     <meta name="description" content="Transform your marketing agency with AI automation. Increase revenue, enhance productivity, and deliver better results for clients with VibeMarketingAgency.ai solutions." />
     <meta name="theme-color" content="#6366F1" />
     <!-- Security headers -->
@@ -39,5 +40,41 @@
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+
+    <!-- Tab title animation script -->
+    <script>
+      // Animated tab title with rotating messages
+      (function() {
+        // Array of messages to display in the tab title
+        const messages = [
+          "✨ AI Marketing Solutions",
+          "🚀 Boost Your Agency with AI",
+          "💼 Increase Client Results",
+          "🤖 Automate Your Workflows",
+          "💰 Grow Revenue with AI",
+          "🔮 The Future of Marketing",
+          "🧠 AI-Powered Insights",
+          "⚡ Supercharge Your Agency"
+        ];
+        
+        let currentIndex = 0;
+        let direction = 1;
+        const baseTitle = "VibeMarketingAgency.ai";
+        
+        // Emoji spinner frames
+        const spinnerFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
+        let spinnerIndex = 0;
+        
+        // Update the title periodically
+        setInterval(() => {
+          spinnerIndex = (spinnerIndex + 1) % spinnerFrames.length;
+          currentIndex = (currentIndex + direction) % messages.length;
+          if (currentIndex === 0) direction = 1;
+          if (currentIndex === messages.length - 1) direction = -1;
+          
+          document.title = `${spinnerFrames[spinnerIndex]} ${messages[currentIndex]} | ${baseTitle}`;
+        }, 2200);
+      })();
+    </script>
   </body>
 </html>
