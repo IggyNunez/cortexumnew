@@ -10,11 +10,14 @@ import Terms from "@/pages/Terms";
 import CookiePolicy from "@/pages/CookiePolicy";
 import LeadManagement from "@/pages/LeadManagement";
 import LeadLifecycle from "@/pages/LeadLifecycle";
+import AuthPage from "@/pages/auth-page";
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { initGA } from "./lib/analytics";
 import { initFBPixel } from "./lib/fbPixel";
+import { AuthProvider } from "./hooks/use-auth";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function Router() {
   // Initialize analytics for route changes

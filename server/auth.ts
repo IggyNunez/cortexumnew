@@ -29,14 +29,15 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
+  // Using memorystore for session storage in development
+  // In production, you would use a database store
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || "vibe-marketing-agency-secret", 
+    secret: process.env.SESSION_SECRET || "vibe-marketing-agency-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   };
 
@@ -47,55 +48,87 @@ export function setupAuth(app: Express) {
 
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
-      if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false);
-      } else {
-        return done(null, user);
+      try {
+        const user = await storage.getUserByUsername(username);
+        if (!user || !(await comparePasswords(password, user.password))) {
+          return done(null, false);
+        } else {
+          return done(null, user);
+        }
+      } catch (error) {
+        return done(error);
       }
     }),
   );
 
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id: number, done) => {
-    const user = await storage.getUser(id);
-    done(null, user);
+    try {
+      const user = await storage.getUser(id);
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
   });
 
   app.post("/api/register", async (req, res, next) => {
-    const existingUser = await storage.getUserByUsername(req.body.username);
-    if (existingUser) {
-      return res.status(400).json({
+    try {
+      const existingUser = await storage.getUserByUsername(req.body.username);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          error: "Username already exists"
+        });
+      }
+
+      const user = await storage.createUser({
+        ...req.body,
+        password: await hashPassword(req.body.password),
+      });
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+        return res.status(201).json({
+          success: true,
+          data: user
+        });
+      });
+    } catch (error) {
+      return res.status(500).json({
         success: false,
-        error: "Username already exists"
+        error: "Server error during registration"
       });
     }
-
-    const user = await storage.createUser({
-      ...req.body,
-      password: await hashPassword(req.body.password),
-    });
-
-    req.login(user, (err) => {
-      if (err) return next(err);
-      res.status(201).json({
-        success: true,
-        data: user
-      });
-    });
   });
 
-  app.post("/api/login", passport.authenticate("local"), (req, res) => {
-    res.status(200).json({
-      success: true,
-      data: req.user
-    });
+  app.post("/api/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, _info) => {
+      if (err) return next(err);
+      
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          error: "Invalid username or password"
+        });
+      }
+      
+      req.login(user, (err) => {
+        if (err) return next(err);
+        return res.status(200).json({
+          success: true,
+          data: user
+        });
+      });
+    })(req, res, next);
   });
 
   app.post("/api/logout", (req, res, next) => {
     req.logout((err) => {
       if (err) return next(err);
-      res.sendStatus(200);
+      res.status(200).json({
+        success: true,
+        message: "Logged out successfully"
+      });
     });
   });
 
@@ -106,7 +139,8 @@ export function setupAuth(app: Express) {
         error: "Not authenticated"
       });
     }
-    res.json({
+    
+    res.status(200).json({
       success: true,
       data: req.user
     });
