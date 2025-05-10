@@ -241,7 +241,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
             <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
               <button
                 onClick={handleVoiceInput}
-                className={`p-3 ${isRecording ? "text-red-500 animate-pulse" : "text-gray-600"} hover:text-primary transition-colors focus:outline-none`}
+                className={`p-3 ${isRecording ? "text-[#E63E8B] animate-pulse" : "text-gray-600"} hover:text-[#B485FF] transition-colors focus:outline-none`}
                 aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
               >
                 <Mic className="h-5 w-5" />
@@ -265,7 +265,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 className={`p-3 ${
                   inputValue.trim() === "" || isLoading
                     ? "text-gray-400"
-                    : "text-primary hover:text-primary/80"
+                    : "text-[#E63E8B] hover:text-[#E63E8B]/80"
                 } transition-colors focus:outline-none`}
                 aria-label="Send message"
               >
@@ -274,14 +274,14 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
             </div>
             <div className="text-center mt-3 text-xs text-gray-600 font-medium flex justify-center items-center">
               {isRecording ? (
-                <span className="text-red-500 flex items-center">
-                  <span className="inline-block h-2 w-2 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                <span className="text-[#E63E8B] flex items-center">
+                  <span className="inline-block h-2 w-2 bg-[#E63E8B] rounded-full mr-1 animate-pulse"></span>
                   Recording... Speak now
                 </span>
               ) : isPlaying ? (
                 <button 
                   onClick={stopAudio}
-                  className="text-primary hover:underline focus:outline-none font-bold"
+                  className="text-[#B485FF] hover:underline focus:outline-none font-bold"
                   aria-label="Stop audio playback"
                 >
                   Stop Audio
