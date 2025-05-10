@@ -5,7 +5,6 @@ import ClientLogos from "@/components/ClientLogos";
 import ServicesSection from "@/components/ServicesSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import CaseStudiesSection from "@/components/CaseStudiesSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -31,7 +30,6 @@ const Home = () => {
       <ServicesSection />
       <BenefitsSection />
       <TestimonialsSection />
-      <CaseStudiesSection />
       <FutureInsights />
       <ContactSection />
       <Footer />
