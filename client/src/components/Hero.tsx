@@ -18,19 +18,19 @@ const Hero = () => {
   const [assistantMessages, setAssistantMessages] = useState<AssistantMessage[]>([
     { 
       type: "user", 
-      text: "What marketing services do you offer?" 
+      text: "What AI marketing services do you offer?" 
     },
     { 
       type: "assistant", 
-      text: "We specialize in data-driven marketing solutions including media buying (Facebook, Google, YouTube), funnel building, and custom offer creation. Our psychology-based approach ensures your campaigns connect with your audience for maximum impact and ROI." 
+      text: "We specialize in AI-powered marketing solutions including AI content generation, intelligent media buying, custom AI agents for business, and predictive analytics. Our psychology-based approach combined with cutting-edge AI ensures your campaigns deliver maximum impact and ROI." 
     },
     { 
       type: "user", 
-      text: "What makes Cortexuum different from other agencies?" 
+      text: "What makes Cortexuum different from other AI agencies?" 
     },
     { 
       type: "assistant", 
-      text: "With over $200 million in ad spend experience, we focus on data-driven strategies rather than opinions. We combine psychological insights with proven marketing techniques to craft campaigns that truly resonate with your target audience, delivering measurable results and growth." 
+      text: "We merge human psychology expertise with advanced AI systems to create truly intelligent marketing campaigns. While others rely on generic AI tools, we develop custom AI agents specifically trained on your business data and customer psychology for uniquely effective results." 
     }
   ]);
 
@@ -55,19 +55,22 @@ const Hero = () => {
       const lowerQuestion = currentQuestion.toLowerCase();
       
       if (lowerQuestion.includes("price") || lowerQuestion.includes("cost") || lowerQuestion.includes("payment")) {
-        response = "We offer custom pricing tailored to your specific marketing needs and business goals. Our packages are designed to deliver maximum ROI, and we're happy to discuss details during a consultation call.";
+        response = "Our AI marketing solutions are customized to your business needs, with pricing tailored to your specific goals and AI implementation requirements. Our packages are designed to deliver maximum ROI, and we're happy to discuss details during a consultation call.";
       } 
       else if (lowerQuestion.includes("setup") || lowerQuestion.includes("process") || lowerQuestion.includes("start")) {
-        response = "Our process begins with a thorough analysis of your business and goals. We then develop a customized strategy leveraging our data-driven approach and psychology-based marketing techniques. Implementation typically begins within a week of our initial consultation.";
+        response = "Our process begins with an AI-readiness assessment of your business and goals. We then develop custom AI agents and marketing strategies leveraging our psychology-based approach. Implementation typically begins within 1-2 weeks as we train AI models on your specific business data.";
       }
       else if (lowerQuestion.includes("services") || lowerQuestion.includes("offer") || lowerQuestion.includes("solution")) {
-        response = "We specialize in media buying across Facebook, Google, and YouTube, funnel building for optimized customer journeys, and custom offer creation that resonates with your audience. All our services integrate psychology-based marketing principles for maximum impact.";
+        response = "We specialize in AI-powered content creation, intelligent media buying, custom AI agent development, and predictive analytics that optimize your marketing. All our services integrate cognitive psychology principles with advanced AI for maximum impact.";
       }
       else if (lowerQuestion.includes("funnel") || lowerQuestion.includes("website") || lowerQuestion.includes("landing page")) {
-        response = "Our funnel buildouts are designed to guide potential customers from awareness to purchase seamlessly. We combine aesthetic design with powerful functionality to create responsive, high-converting funnels tailored to your specific business needs.";
+        response = "Our AI-optimized funnels use predictive analytics to guide potential customers from awareness to purchase seamlessly. We leverage AI for personalized user experiences, dynamic content generation, and continuous optimization based on real-time performance data.";
       }
       else if (lowerQuestion.includes("results") || lowerQuestion.includes("roi") || lowerQuestion.includes("performance")) {
-        response = "Our clients typically see significant improvements in conversion rates, customer acquisition costs, and overall ROI. With over $200 million in managed ad spend, we've consistently delivered results across diverse industries and markets.";
+        response = "Our AI marketing clients typically see 30-50% improvements in conversion rates, significant reductions in customer acquisition costs, and overall ROI increases of 40% or more compared to traditional marketing approaches.";
+      }
+      else if (lowerQuestion.includes("ai") || lowerQuestion.includes("artificial intelligence") || lowerQuestion.includes("ml") || lowerQuestion.includes("machine learning")) {
+        response = "We develop custom AI marketing solutions that go beyond generic tools. Our systems analyze customer psychology, market trends, and your business data to create hyper-personalized marketing strategies that continuously improve through machine learning.";
       }
       else {
         response = "That's a great question! Our team would be happy to provide more details during a personalized consultation. Would you like to book a call to discuss how we can help your business grow?";
@@ -104,17 +107,17 @@ const Hero = () => {
             className="text-white"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white text-on-gradient">
-              Boost Your Online Impact with <span className="text-white font-extrabold">Expert Media & Funnels</span>
+              Transform Your Business with <span className="text-white font-extrabold">AI-Powered Marketing</span>
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 font-medium text-with-shadow">
-              Skyrocket Your Business with Custom Digital Solutions. Psychology-Based Marketing Strategies That Convert.
+              Custom AI Agents & Psychology-Based Marketing Strategies That Outperform Traditional Approaches.
             </p>
             <div className="mt-2 mb-6">
               <p className="text-lg text-blue-100">
-                <span className="font-bold text-white">DATA DRIVEN SOLUTIONS BEAT OPINIONS. EVERY TIME.</span>
+                <span className="font-bold text-white">INTELLIGENT AI SOLUTIONS BEAT GENERIC MARKETING. EVERY TIME.</span>
               </p>
               <p className="text-md text-blue-100 mt-1">
-                With over $200 million in ad spend, we aren't guessing - we're achieving.
+                With proprietary AI models trained on psychological principles, we're redefining what's possible.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -152,15 +155,22 @@ const Hero = () => {
           >
             <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-full bg-blue-600/10 flex items-center justify-center text-blue-600 mr-4">
-                  <Bot className="h-6 w-6" />
+                <div className="relative">
+                  <img 
+                    src="/assets/christian-colgate.webp" 
+                    alt="Christian Colgate" 
+                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-blue-600 mr-3"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                    <Bot className="h-3 w-3" />
+                  </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Marketing Intelligence Assistant</h3>
+                  <h3 className="font-bold text-lg">AI Marketing Specialist</h3>
                   <div className="flex flex-col">
                     <div className="flex items-center">
-                      <p className="text-gray-500 text-sm">Powered by Cortexuum</p>
-                      <span className="ml-2 bg-blue-100 text-xs px-1.5 py-0.5 rounded text-blue-800 font-medium">Psychology Based</span>
+                      <p className="text-gray-500 text-sm">Christian Colgate, Founder</p>
+                      <span className="ml-2 bg-blue-100 text-xs px-1.5 py-0.5 rounded text-blue-800 font-medium">AI-Powered</span>
                     </div>
                     <a 
                       href="https://calendly.com/cortexuummarketing/30min" 
@@ -168,7 +178,7 @@ const Hero = () => {
                       rel="noopener noreferrer"
                       className="text-blue-600 text-xs font-medium hover:underline mt-1"
                     >
-                      Book a call to discuss your marketing needs →
+                      Book a consultation with Christian →
                     </a>
                   </div>
                 </div>
@@ -204,7 +214,7 @@ const Hero = () => {
               <form onSubmit={handleSendQuestion} className="relative">
                 <input 
                   type="text" 
-                  placeholder="Ask about our marketing services..." 
+                  placeholder="Ask about our AI marketing solutions..." 
                   className="w-full p-4 pr-12 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={question}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setQuestion(e.target.value)}
