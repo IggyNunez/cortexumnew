@@ -12,8 +12,14 @@ import LeadManagement from "@/pages/LeadManagement";
 import LeadLifecycle from "@/pages/LeadLifecycle";
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
+import { useAnalytics } from "./hooks/useAnalytics";
+import { initGA } from "./lib/analytics";
+import { initFBPixel } from "./lib/fbPixel";
 
 function Router() {
+  // Initialize analytics for route changes
+  useAnalytics();
+  
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -35,6 +41,27 @@ function App() {
       localStorage.setItem('visitorId', nanoid());
     }
   }, []);
+  
+  // Initialize analytics services when settings are available
+  const { data: settingsData } = useQuery<{ success: boolean; data: any }>({
+    queryKey: ['/api/marketing-settings'],
+  });
+  
+  useEffect(() => {
+    if (settingsData?.success && settingsData?.data) {
+      const settings = settingsData.data;
+      
+      // Initialize Google Analytics if enabled
+      if (settings.ga_enabled && settings.ga_measurement_id) {
+        initGA(settings.ga_measurement_id);
+      }
+      
+      // Initialize Facebook Pixel if enabled
+      if (settings.fb_capi_enabled && settings.fb_pixel_id) {
+        initFBPixel(settings.fb_pixel_id);
+      }
+    }
+  }, [settingsData]);
 
   return (
     <QueryClientProvider client={queryClient}>
