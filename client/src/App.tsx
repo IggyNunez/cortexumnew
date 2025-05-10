@@ -1,5 +1,5 @@
 import { Switch, Route } from "wouter";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -41,7 +41,20 @@ function App() {
       localStorage.setItem('visitorId', nanoid());
     }
   }, []);
-  
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <AnalyticsInitializer />
+        <Router />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+// Separate component to initialize analytics
+function AnalyticsInitializer() {
   // Initialize analytics services when settings are available
   const { data: settingsData } = useQuery<{ success: boolean; data: any }>({
     queryKey: ['/api/marketing-settings'],
@@ -62,15 +75,8 @@ function App() {
       }
     }
   }, [settingsData]);
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
+  
+  return null;
 }
 
 export default App;
