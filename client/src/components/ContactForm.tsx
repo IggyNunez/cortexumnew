@@ -605,12 +605,24 @@ const ContactForm = () => {
                     />
                   </div>
 
+                  <div className="bg-amber-600/20 border border-amber-300/30 rounded-lg p-4 mb-6">
+                    <h4 className="font-bold text-amber-100 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Limited availability - act quickly!
+                    </h4>
+                    <p className="text-amber-200 text-sm mt-1 ml-7">
+                      Our client onboarding schedule is filling up fast. Submit your application now to secure priority implementation before our next price increase.
+                    </p>
+                  </div>
+                  
                   <Button 
                     type="submit" 
                     className="bg-primary hover:bg-primary/90 text-white rounded-full w-full py-6 text-base font-bold"
                     disabled={isPending}
                   >
-                    {isPending ? "Submitting Application..." : "Submit Application"}
+                    {isPending ? "Submitting Application..." : "Submit Application Now"}
                   </Button>
                 </form>
               </Form>
@@ -631,22 +643,25 @@ const ContactForm = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-bold mb-6 text-white text-with-shadow">Why Work With Us</h3>
+              <h3 className="text-2xl font-bold mb-2 text-white text-with-shadow">Act Now Before It's Too Late</h3>
+              <p className="text-yellow-200 mb-6 text-sm">Marketing agencies adopting AI today are outperforming competitors by 3-5x. Don't be among the 60% of agencies predicted to lose market share in the next 6 months due to AI hesitation.</p>
+              
+              <h4 className="text-lg font-semibold mb-4 text-white text-with-shadow">Why Act Immediately:</h4>
               <ul className="space-y-4">
                 <li className="flex items-start space-x-3">
-                  <div className="rounded-full bg-white/30 p-1 mt-0.5">
+                  <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-sm text-white/90 text-with-shadow">Proven results with 25+ marketing agencies</span>
+                  <span className="text-sm text-white/90 text-with-shadow"><strong>First-mover advantage:</strong> Early AI adopters are seeing 200-300% efficiency gains</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <div className="rounded-full bg-white/30 p-1 mt-0.5">
+                  <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-sm text-white/90 text-with-shadow">Custom AI solutions tailored to your specific needs</span>
+                  <span className="text-sm text-white/90 text-with-shadow"><strong>Limited onboarding slots available</strong> - our next availability may be 6+ weeks out</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <div className="rounded-full bg-white/30 p-1 mt-0.5">
+                  <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-sm text-white/90 text-with-shadow">Average 30-40% increase in operational efficiency</span>

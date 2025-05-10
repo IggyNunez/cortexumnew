@@ -46,9 +46,12 @@ const HeroSection = () => {
               </button>
             </div>
             <div className="pt-6">
-              <p className="text-amber-200 flex items-center font-semibold">
-                <ShieldCheck className="mr-2 h-5 w-5" /> Don't get left behind in the AI revolution
-              </p>
+              <div className="bg-amber-500/20 border border-amber-200 rounded-lg p-3 mt-2">
+                <p className="text-amber-100 flex items-center font-bold">
+                  <ShieldCheck className="mr-2 h-5 w-5" /> The AI revolution is leaving agencies behind every day
+                </p>
+                <p className="text-amber-200 mt-1 text-sm pl-7">Early adopters are already gaining 200-300% productivity advantages. <span className="font-bold underline">Act now</span> before it's too late.</p>
+              </div>
             </div>
           </motion.div>
           
