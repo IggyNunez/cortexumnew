@@ -22,7 +22,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { 
     isPlaying, 
@@ -288,7 +288,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 </button>
               ) : (
                 <span>
-                  {voiceEnabled ? "Voice-enabled AI assistant" : "Voice is disabled (click the speaker icon to enable)"}
+                  {voiceEnabled ? "Voice-enabled AI assistant" : "💡 Want voice? Click the speaker icon above to enable it"}
                 </span>
               )}
             </div>

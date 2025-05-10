@@ -19,7 +19,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { 
     isPlaying, 
@@ -333,7 +333,7 @@ const Chatbot = () => {
                   </button>
                 ) : (
                   <span>
-                    {voiceEnabled ? "Voice-enabled AI assistant" : "Voice is disabled (click the speaker icon to enable)"}
+                    {voiceEnabled ? "Voice-enabled AI assistant" : "💡 Want voice? Click the speaker icon above to enable it"}
                   </span>
                 )}
               </div>
