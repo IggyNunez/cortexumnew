@@ -4,19 +4,9 @@ import { Bot } from "lucide-react";
 import christianColgate from '../assets/christian-colgate.webp';
 
 const Hero = () => {
-  // Function to trigger the ElevenLabs Convai chat
-  const triggerChat = () => {
-    // Find the ElevenLabs Convai element and trigger it
-    const convaiElement = document.querySelector('elevenlabs-convai');
-    if (convaiElement) {
-      // Create and dispatch a click event
-      const event = new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      convaiElement.dispatchEvent(event);
-    }
+  // Function to open the ElevenLabs Convai chat in a new tab
+  const openElevenLabsChat = () => {
+    window.open('https://elevenlabs.io/convai/9r6C9zlC7olJEeuP1vOv', '_blank');
   };
   
   return (
@@ -76,9 +66,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Static chat card that opens the ElevenLabs Convai widget when clicked */}
+            {/* Static chat card that opens the ElevenLabs Convai in a new tab when clicked */}
             <div 
-              onClick={triggerChat}
+              onClick={openElevenLabsChat}
               className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto cursor-pointer hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-6">
@@ -137,18 +127,6 @@ const Hero = () => {
                     <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
                   </svg>
                 </div>
-              </div>
-              
-              <div className="mt-4 text-center">
-                <a
-                  href="https://elevenlabs.io/convai/9r6C9zlC7olJEeuP1vOv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-blue-600 hover:underline"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Having trouble? Open chat in new window
-                </a>
               </div>
               
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
