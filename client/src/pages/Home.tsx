@@ -87,14 +87,9 @@ const Home = () => {
       <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Contact section */}
-      <ParallaxSection 
-        speed={0.05} 
-        className="fade-section"
-        sticky={false}
-        zIndex={1}
-      >
+      <section id="contact" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ContactSection />
-      </ParallaxSection>
+      </section>
       
       <Footer />
     </div>

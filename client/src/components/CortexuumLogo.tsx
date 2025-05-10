@@ -75,7 +75,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
     if (variant === 'white') {
       gradientColors = {
         left: '#FFFFFF',
-        center: '#F0F0F0',
+        center: '#F8F8FF',
         right: '#FFFFFF',
       };
     } else if (variant === 'gradient') {
@@ -92,18 +92,19 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
         viewBox="0 0 120 120" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
+        style={{ filter: variant === 'white' ? 'drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.5))' : 'none' }}
       >
         {/* Brain waves left side */}
         <path 
           d="M15,60 C5,50 5,70 15,60" 
           stroke={gradientColors.left} 
-          strokeWidth="3" 
+          strokeWidth={variant === 'white' ? "4" : "3"}
           strokeLinecap="round"
         />
         <path 
           d="M25,60 C15,45 15,75 25,60" 
           stroke={gradientColors.left} 
-          strokeWidth="3" 
+          strokeWidth={variant === 'white' ? "4" : "3"}
           strokeLinecap="round"
         />
         

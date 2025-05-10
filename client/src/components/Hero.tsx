@@ -19,7 +19,7 @@ const Hero = () => {
   };
   
   return (
-    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] overflow-hidden">
+    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#0d1117] to-[#16213e] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
