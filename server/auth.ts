@@ -28,7 +28,29 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+// Function to create admin user if it doesn't exist
+async function ensureAdminExists() {
+  try {
+    const adminUsername = "vibeadmin";
+    const existingAdmin = await storage.getUserByUsername(adminUsername);
+    
+    if (!existingAdmin) {
+      console.log("Creating admin user...");
+      await storage.createUser({
+        username: adminUsername,
+        password: await hashPassword("aimoneymakers"),
+      });
+      console.log("Admin user created successfully");
+    }
+  } catch (error) {
+    console.error("Error ensuring admin exists:", error);
+  }
+}
+
 export function setupAuth(app: Express) {
+  // Ensure admin user exists
+  ensureAdminExists();
+  
   // Using memorystore for session storage in development
   // In production, you would use a database store
   const sessionSettings: session.SessionOptions = {
@@ -72,33 +94,11 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/register", async (req, res, next) => {
-    try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
-      if (existingUser) {
-        return res.status(400).json({
-          success: false,
-          error: "Username already exists"
-        });
-      }
-
-      const user = await storage.createUser({
-        ...req.body,
-        password: await hashPassword(req.body.password),
-      });
-
-      req.login(user, (err) => {
-        if (err) return next(err);
-        return res.status(201).json({
-          success: true,
-          data: user
-        });
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        error: "Server error during registration"
-      });
-    }
+    // Registration is disabled for security purposes
+    return res.status(403).json({
+      success: false,
+      error: "Public registration is disabled. Please contact the administrator."
+    });
   });
 
   app.post("/api/login", (req, res, next) => {
