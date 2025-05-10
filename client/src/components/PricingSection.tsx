@@ -19,11 +19,29 @@ const PricingSection = () => {
   return (
     <section className="py-16 bg-gray-50" id="pricing">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Pricing Plans</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select the perfect plan to supercharge your marketing efforts with AI-powered solutions.
+        <div className="text-center mb-8">
+          <div className="inline-block bg-amber-50 border-2 border-amber-400 rounded-lg px-4 py-1 mb-4">
+            <p className="text-amber-700 font-medium text-sm">Limited Time Offer - Current Rates Valid Until May 31st</p>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Secure Your AI Advantage Today</h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-2">
+            Lock in our current rates before the upcoming 30% price increase.
           </p>
+          <p className="text-amber-600 font-semibold max-w-2xl mx-auto">
+            Only <span className="bg-amber-100 px-2 py-0.5 rounded-full">7 implementation slots</span> remaining this month!
+          </p>
+        </div>
+        
+        <div className="max-w-4xl mx-auto p-4 bg-gradient-to-r from-amber-50 to-amber-100 rounded-xl border border-amber-200 flex items-center mb-12">
+          <div className="bg-amber-400 text-amber-900 rounded-full p-2 mr-4">
+            <Settings className="h-6 w-6" />
+          </div>
+          <div>
+            <h3 className="font-bold text-amber-900">AI Implementation Is A Race Against Time</h3>
+            <p className="text-amber-800">
+              Every day without AI automation, your competition is gaining ground. Our clients typically see ROI within the first 30 days.
+            </p>
+          </div>
         </div>
         
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">

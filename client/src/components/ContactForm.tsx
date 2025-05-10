@@ -605,24 +605,24 @@ const ContactForm = () => {
                     />
                   </div>
 
-                  <div className="bg-amber-600/20 border border-amber-300/30 rounded-lg p-4 mb-6">
-                    <h4 className="font-bold text-amber-100 flex items-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="bg-amber-50 border-2 border-amber-500 rounded-lg p-4 mb-6">
+                    <h4 className="font-bold text-amber-800 flex items-center">
+                      <svg className="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Limited availability - act quickly!
                     </h4>
-                    <p className="text-amber-200 text-sm mt-1 ml-7">
+                    <p className="text-amber-700 text-sm mt-1 ml-7 font-medium">
                       Our client onboarding schedule is filling up fast. Submit your application now to secure priority implementation before our next price increase.
                     </p>
                   </div>
                   
                   <Button 
                     type="submit" 
-                    className="bg-primary hover:bg-primary/90 text-white rounded-full w-full py-6 text-base font-bold"
+                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-full w-full py-6 text-base font-bold shadow-lg shadow-amber-700/20 border border-amber-400 transition-all duration-300 transform hover:scale-[1.02]"
                     disabled={isPending}
                   >
-                    {isPending ? "Submitting Application..." : "Submit Application Now"}
+                    {isPending ? "Submitting Application..." : "SECURE YOUR SPOT NOW →"}
                   </Button>
                 </form>
               </Form>
@@ -664,21 +664,26 @@ const ContactForm = () => {
                   <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-sm text-white/90 text-with-shadow">Average 30-40% increase in operational efficiency</span>
+                  <span className="text-sm text-white/90 text-with-shadow"><strong>Competitor threats:</strong> Over 70% of agencies are already implementing AI</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <div className="rounded-full bg-white/30 p-1 mt-0.5">
+                  <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-sm text-white/90 text-with-shadow">Comprehensive onboarding and ongoing support</span>
+                  <span className="text-sm text-white/90 text-with-shadow"><strong>Accelerated results</strong> - see measurable improvements in 30 days</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <div className="rounded-full bg-white/30 p-1 mt-0.5">
+                  <div className="rounded-full bg-yellow-500/50 p-1 mt-0.5">
                     <Check className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-sm text-white/90 text-with-shadow">ROI-focused implementation strategies</span>
+                  <span className="text-sm text-white/90 text-with-shadow"><strong>Price increases coming soon</strong> - lock in current rates now</span>
                 </li>
               </ul>
+              
+              <div className="mt-6 bg-gradient-to-r from-amber-500/30 to-red-500/30 rounded-lg p-4 border border-amber-400/30">
+                <p className="text-white font-bold">Don't wait until your clients start switching to AI-powered competitors.</p>
+                <p className="text-yellow-200 text-sm mt-1">Apply now while we still have capacity this quarter.</p>
+              </div>
             </motion.div>
             
             <motion.div 
