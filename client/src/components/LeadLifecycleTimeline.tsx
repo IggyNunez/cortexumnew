@@ -267,6 +267,9 @@ const LeadLifecycleTimeline = ({
       
       setMilestones(updatedMilestones);
       
+      // Play success sound
+      playSuccessSound();
+      
       // Celebrate the milestone
       celebrateMilestone(updatedMilestones[nextIncompleteIndex]);
       
