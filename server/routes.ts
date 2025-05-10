@@ -305,8 +305,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Use "Rachel" voice which sounds more natural and warm
-      const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
+      // Use "Adam" voice - premium male voice with professional tone
+      const voiceId = 'pNInz6obpgDQGcFmaJgB';
       const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
       
       // Log the synthesis request
@@ -320,11 +320,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_monolingual_v1', // Using a more natural-sounding model
+          model_id: 'eleven_turbo_v2', // Using the latest and highest quality model
           voice_settings: {
-            stability: 0.75, // Higher stability for more natural tone
-            similarity_boost: 0.65, // Lower similarity for less robotic sound
-            style: 0.65, // More style for more natural intonation
+            stability: 0.45, // Lower stability for more natural expression
+            similarity_boost: 0.7, // Higher similarity for better voice consistency 
+            style: 0.8, // Higher style for more dynamic intonation
             use_speaker_boost: true
           }
         }),

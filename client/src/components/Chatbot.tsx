@@ -198,7 +198,7 @@ const Chatbot = () => {
             }`}
           >
             {/* Chatbot header */}
-            <div className="bg-gradient-to-r from-primary to-accent text-white p-4 flex justify-between items-center shadow-md">
+            <div className="bg-gradient-to-r from-[#357BD8] via-[#B485FF] to-[#E63E8B] text-white p-4 flex justify-between items-center shadow-md">
               <div className="flex items-center">
                 <MessageSquare className="h-5 w-5 mr-3" />
                 <h3 className="font-bold text-white text-with-shadow">AI Assistant</h3>
