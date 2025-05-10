@@ -4,6 +4,11 @@
   "description": "AI-powered marketing intelligence platform for marketing agencies",
   "icons": [
     {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
