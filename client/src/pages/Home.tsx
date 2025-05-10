@@ -8,6 +8,8 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import WhyHireUsSection from "@/components/WhyHireUsSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
+import TeamSection from "@/components/TeamSection";
+import ContentFunnelSection from "@/components/ContentFunnelSection";
 
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
@@ -67,6 +69,18 @@ const Home = () => {
       
       <ParallaxSection speed={0.1} className="fade-section">
         <WhyHireUsSection />
+      </ParallaxSection>
+      
+      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.2} />
+      
+      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
+        <TeamSection />
+      </ParallaxSection>
+      
+      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.15} />
+      
+      <ParallaxSection speed={0.1} className="fade-section">
+        <ContentFunnelSection />
       </ParallaxSection>
       
       <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.2} />
