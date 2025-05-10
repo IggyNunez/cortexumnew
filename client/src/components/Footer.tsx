@@ -111,6 +111,11 @@ const Footer = () => {
             <p className="text-gray-500 text-xs">
               Powered by AI automation technologies including advanced natural language processing and custom AI agents.
             </p>
+            <div className="mt-2">
+              <a href="/login" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+                Admin Login
+              </a>
+            </div>
           </div>
         </div>
       </div>

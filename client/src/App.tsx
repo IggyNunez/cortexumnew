@@ -34,6 +34,7 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={CookiePolicy} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/login" component={AuthPage} />
       <Route path="/checkout" component={CheckoutPage} />
       <Route path="/payment-success" component={PaymentSuccessPage} />
       <ProtectedRoute path="/leads" component={LeadManagement} />

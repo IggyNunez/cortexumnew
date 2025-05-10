@@ -72,10 +72,10 @@ const AuthPage = () => {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                Admin Portal
+                VibeMarketingAgency.ai
               </CardTitle>
               <CardDescription>
-                Sign in to access the lead management dashboard
+                Sign in to access your admin dashboard and analytics
               </CardDescription>
             </CardHeader>
             <Tabs value={tab} onValueChange={(value) => setTab(value as 'login' | 'register')}>
@@ -197,19 +197,24 @@ const AuthPage = () => {
         
         <div className="bg-primary rounded-lg p-8 flex flex-col justify-center hidden md:block">
           <div className="text-white">
-            <h2 className="text-3xl font-bold mb-4">VibeAgency.ai</h2>
-            <h3 className="text-xl font-semibold mb-6">Lead Management System</h3>
+            <h2 className="text-3xl font-bold mb-4">VibeMarketingAgency.ai</h2>
+            <h3 className="text-xl font-semibold mb-6">Admin Dashboard</h3>
             <p className="mb-4">
-              Welcome to our secure lead management portal where you can:
+              Welcome to your secure admin dashboard where you can:
             </p>
             <ul className="space-y-2 list-disc pl-5 mb-6">
               <li>Track and manage lead conversions</li>
               <li>Monitor the lead lifecycle</li>
               <li>Configure marketing integrations</li>
-              <li>Access lead analytics and reports</li>
+              <li>Access analytics and performance reports</li>
+              <li>Customize AI chatbot responses</li>
+              <li>View campaign effectiveness metrics</li>
             </ul>
-            <p>
+            <p className="mb-2">
               Sign in to access all these features and optimize your marketing efforts.
+            </p>
+            <p className="text-sm opacity-80 mt-4">
+              For security reasons, this portal is restricted to authorized personnel only.
             </p>
           </div>
         </div>
