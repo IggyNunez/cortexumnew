@@ -43,7 +43,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
     if (isOpen && messages.length === 0) {
       const welcomeMessage = {
         id: nanoid(),
-        content: "Hey there! 👋 Welcome to VibeMarketingAgency.ai! I'm your AI assistant, and I'm passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Looking to elevate your agency's growth or enhance your client results? I'd love to hear what brings you here today!",
+        content: "Hey there! 👋 Welcome to Cortexuum AI Marketing Agency! I'm your AI assistant, and I'm passionate about helping businesses leverage the psychology of marketing with AI technology. Looking to elevate your business growth or transform your marketing strategy? I'd love to hear what brings you here today!",
         isUser: false,
       };
       

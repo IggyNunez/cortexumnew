@@ -55,7 +55,7 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
               <img 
-                src="/cortexuum-logo.svg" 
+                src="/cortexuum-logo.webp" 
                 alt="Cortexuum Logo"
                 className="h-12 w-auto transition-transform group-hover:scale-105 duration-300"
               />
