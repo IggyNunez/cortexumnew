@@ -1,11 +1,25 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { setupAuth } from "./auth";
 import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema } from "@shared/schema";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  setupAuth(app);
+  
+  // Authentication middleware for protected routes
+  const requireAuth = (req: Request, res: Response, next: Function) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({
+        success: false,
+        error: "Authentication required"
+      });
+    }
+    next();
+  };
   // Lead generation form submission
   app.post("/api/leads", async (req: Request, res: Response) => {
     try {
@@ -30,7 +44,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get all leads (typically would have authentication)
-  app.get("/api/leads", async (_req: Request, res: Response) => {
+  app.get("/api/leads", requireAuth, async (_req: Request, res: Response) => {
     try {
       const leads = await storage.getLeads();
       res.status(200).json({ success: true, data: leads });
@@ -44,7 +58,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Export leads as CSV (positioned before the :id route to avoid conflicts)
-  app.get("/api/leads/export", async (_req: Request, res: Response) => {
+  app.get("/api/leads/export", requireAuth, async (_req: Request, res: Response) => {
     try {
       const leads = await storage.getLeads();
       
@@ -102,7 +116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Get a specific lead by ID
-  app.get("/api/leads/:id", async (req: Request, res: Response) => {
+  app.get("/api/leads/:id", requireAuth, async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       
@@ -328,7 +342,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Marketing Settings API Endpoints
   // Get marketing settings
-  app.get("/api/marketing-settings", async (_req: Request, res: Response) => {
+  app.get("/api/marketing-settings", requireAuth, async (_req: Request, res: Response) => {
     try {
       const settings = await storage.getMarketingSettings();
       
