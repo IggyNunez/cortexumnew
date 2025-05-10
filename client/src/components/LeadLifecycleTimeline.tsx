@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, Clock, ArrowRight, Award, Star, Zap, BarChart, Loader2 } from "lucide-react";
+import { CheckCircle, Clock, ArrowRight, Award, Star, Zap, BarChart, Loader2, Party } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from 'canvas-confetti';
+import MilestoneBadge from "./MilestoneBadge";
+import MilestoneDetails from "./MilestoneDetails";
+import MilestoneCelebration from "./MilestoneCelebration";
+import MilestoneProgressTracker from "./MilestoneProgressTracker";
 
 // Define our milestone stages
 export interface Milestone {
