@@ -1,0 +1,16 @@
+{
+  "name": "VibeMarketingAgency.ai",
+  "short_name": "VibeAI",
+  "description": "AI-powered marketing intelligence platform for marketing agencies",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#6366F1",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
