@@ -31,7 +31,7 @@ const Hero = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white/20 rounded-full font-bold text-base focus:ring-2 focus:ring-white focus:ring-offset-2"
+                className="border-2 border-white text-white hover:bg-white/20 rounded-full font-bold text-base focus:ring-2 focus:ring-white focus:ring-offset-2 bg-white/10"
               >
                 <a href="#services">Explore Solutions</a>
               </Button>
