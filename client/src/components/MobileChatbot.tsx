@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mic, Send, Volume2 } from "lucide-react";
+import { X, Mic, Send, Volume2, VolumeX } from "lucide-react";
 import { nanoid } from "nanoid";
 import { createSessionId, sendChatMessage, generateBotResponse, synthesizeSpeech } from "@/lib/humeApi";
 import { useHumeSpeech } from "@/hooks/useHumeSpeech";
@@ -20,10 +20,18 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
   const [sessionId, setSessionId] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { isPlaying, playAudio, stopAudio } = useHumeSpeech();
+  const { 
+    isPlaying, 
+    stopAudio, 
+    isRecording, 
+    startRecording, 
+    stopRecording, 
+    recognizedText 
+  } = useHumeSpeech();
 
   useEffect(() => {
     // Initialize a session if needed
@@ -33,15 +41,20 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
 
     // Add welcome message if this is a new chat
     if (isOpen && messages.length === 0) {
-      setMessages([
-        {
-          id: nanoid(),
-          content: "Hey there! 👋 Welcome to VibeMarketingAgency.ai! I'm your AI assistant, and I'm passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Looking to elevate your agency's growth or enhance your client results? I'd love to hear what brings you here today!",
-          isUser: false,
-        },
-      ]);
+      const welcomeMessage = {
+        id: nanoid(),
+        content: "Hey there! 👋 Welcome to VibeMarketingAgency.ai! I'm your AI assistant, and I'm passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Looking to elevate your agency's growth or enhance your client results? I'd love to hear what brings you here today!",
+        isUser: false,
+      };
+      
+      setMessages([welcomeMessage]);
+      
+      // Speak the welcome message if voice is enabled
+      if (voiceEnabled) {
+        setTimeout(() => speakMessage(welcomeMessage.content), 500);
+      }
     }
-  }, [isOpen, messages.length, sessionId]);
+  }, [isOpen, messages.length, sessionId, voiceEnabled]);
 
   useEffect(() => {
     // Scroll to bottom whenever messages change
@@ -49,13 +62,40 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+  
+  // Handle recognized text from voice input
+  useEffect(() => {
+    if (recognizedText && !isRecording) {
+      setInputValue(recognizedText);
+      // Auto-send if we have recognized text
+      setTimeout(() => {
+        if (recognizedText.trim() !== "") {
+          handleSendMessage(recognizedText);
+        }
+      }, 500);
+    }
+  }, [recognizedText, isRecording]);
 
-  const handleSendMessage = async () => {
-    if (inputValue.trim() === "" || isLoading) return;
+  const speakMessage = async (text: string) => {
+    if (!voiceEnabled) return;
+    
+    try {
+      setIsSpeaking(true);
+      await synthesizeSpeech(text);
+    } catch (error) {
+      console.error("Error speaking message:", error);
+    } finally {
+      setIsSpeaking(false);
+    }
+  };
+
+  const handleSendMessage = async (overrideMessage?: string) => {
+    const messageToSend = overrideMessage || inputValue;
+    if (messageToSend.trim() === "" || isLoading) return;
 
     const userMessage: Message = {
       id: nanoid(),
-      content: inputValue.trim(),
+      content: messageToSend.trim(),
       isUser: true,
     };
 
@@ -76,8 +116,10 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
       
       setMessages((prev) => [...prev, botResponse]);
       
-      // Speak the response using Hume API
-      synthesizeSpeech(botResponse.content);
+      // Speak the response if voice is enabled
+      if (voiceEnabled) {
+        setTimeout(() => speakMessage(botResponse.content), 300);
+      }
     } catch (error) {
       console.error("Error in chat:", error);
       setMessages((prev) => [
@@ -100,16 +142,20 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
     }
   };
 
-  const handleVoiceInput = () => {
+  const toggleVoice = () => {
+    setVoiceEnabled(!voiceEnabled);
+    if (isSpeaking) {
+      stopAudio();
+      setIsSpeaking(false);
+    }
+  };
+
+  const handleVoiceInput = async () => {
     if (isRecording) {
-      // Stop recording
-      setIsRecording(false);
-      // Process voice input (simulate for now)
-      setInputValue("Tell me more about AI chatbots for marketing.");
+      stopRecording();
     } else {
-      // Start recording
-      setIsRecording(true);
-      setInputValue("Recording... (speak now)");
+      setInputValue("Listening...");
+      await startRecording();
     }
   };
 
@@ -129,15 +175,25 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
               <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mr-3 shadow-sm">
                 <Volume2 className="h-4 w-4" />
               </div>
-              <h3 className="font-bold text-white text-with-shadow">AI Assistant (Voice-Enabled)</h3>
+              <h3 className="font-bold text-white text-with-shadow">AI Assistant</h3>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-white"
-              aria-label="Close chatbot"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center space-x-3">
+              {/* Voice toggle button */}
+              <button
+                onClick={toggleVoice}
+                className="hover:bg-white/20 rounded p-1.5 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+                aria-label={voiceEnabled ? "Disable voice" : "Enable voice"}
+              >
+                {voiceEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+              </button>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-white/20 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+                aria-label="Close chatbot"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
@@ -169,6 +225,14 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 </div>
               </div>
             )}
+            {isSpeaking && (
+              <div className="flex justify-center mb-4">
+                <div className="bg-primary/10 text-primary rounded-full px-4 py-1 text-sm font-medium flex items-center">
+                  <Volume2 className="h-3 w-3 mr-1 animate-pulse" />
+                  Speaking...
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -177,7 +241,7 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
             <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
               <button
                 onClick={handleVoiceInput}
-                className={`p-3 ${isRecording ? "text-red-500" : "text-gray-600"} hover:text-primary transition-colors focus:outline-none`}
+                className={`p-3 ${isRecording ? "text-red-500 animate-pulse" : "text-gray-600"} hover:text-primary transition-colors focus:outline-none`}
                 aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
               >
                 <Mic className="h-5 w-5" />
@@ -187,12 +251,16 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder={isRecording ? "Listening..." : "Type your message..."}
                 className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none text-gray-800 text-base"
                 disabled={isLoading || isRecording}
               />
               <button
-                onClick={handleSendMessage}
+                onClick={() => {
+                  if (inputValue.trim() !== "" && !isLoading) {
+                    handleSendMessage();
+                  }
+                }}
                 disabled={inputValue.trim() === "" || isLoading}
                 className={`p-3 ${
                   inputValue.trim() === "" || isLoading
@@ -204,8 +272,13 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 <Send className="h-5 w-5" />
               </button>
             </div>
-            <div className="text-center mt-3 text-xs text-gray-600 font-medium">
-              {isPlaying ? (
+            <div className="text-center mt-3 text-xs text-gray-600 font-medium flex justify-center items-center">
+              {isRecording ? (
+                <span className="text-red-500 flex items-center">
+                  <span className="inline-block h-2 w-2 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                  Recording... Speak now
+                </span>
+              ) : isPlaying ? (
                 <button 
                   onClick={stopAudio}
                   className="text-primary hover:underline focus:outline-none font-bold"
@@ -214,7 +287,9 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                   Stop Audio
                 </button>
               ) : (
-                "Voice-enabled AI powered by ElevenLabs"
+                <span>
+                  {voiceEnabled ? "Voice-enabled AI powered by ElevenLabs" : "Voice is disabled (click the speaker icon to enable)"}
+                </span>
               )}
             </div>
           </div>
