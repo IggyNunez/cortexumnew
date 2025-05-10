@@ -5,8 +5,10 @@ import { useState, useRef, FormEvent, ChangeEvent } from "react";
 import { synthesizeSpeech } from "@/lib/humeApi";
 
 // Define message types
+type MessageType = 'user' | 'assistant';
+
 interface AssistantMessage {
-  type: 'user' | 'assistant';
+  type: MessageType;
   text: string;
 }
 
@@ -38,7 +40,8 @@ const Hero = () => {
 
     // Add user question to messages
     const newUserMessage: AssistantMessage = { type: "user", text: question };
-    setAssistantMessages([...assistantMessages, newUserMessage]);
+    const initialMessages = [...assistantMessages, newUserMessage];
+    setAssistantMessages(initialMessages);
     
     // Clear input
     setQuestion("");
@@ -64,7 +67,8 @@ const Hero = () => {
       
       // Add AI response to messages
       const newAssistantMessage: AssistantMessage = { type: "assistant", text: response };
-      setAssistantMessages([...assistantMessages, newUserMessage, newAssistantMessage]);
+      const updatedMessages = [...assistantMessages, newUserMessage, newAssistantMessage];
+      setAssistantMessages(updatedMessages);
     }, 1500);
   };
 
@@ -172,7 +176,7 @@ const Hero = () => {
                   placeholder="Ask about our AI solutions..." 
                   className="w-full p-4 pr-12 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setQuestion(e.target.value)}
                 />
                 <button 
                   type="submit"
