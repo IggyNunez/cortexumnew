@@ -37,49 +37,49 @@ const Home = () => {
       <Navbar />
       <Hero />
       
-      {/* Add gradient divider with wave animation */}
-      <SectionDivider gradient="light" showWave={true} />
+      {/* Add gradient divider with parallax effect */}
+      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.15} />
       
-      {/* Apply fade-section class to each section */}
-      <div className="fade-section">
+      {/* Apply parallax effect to each section */}
+      <ParallaxSection speed={0.1} className="fade-section">
         <ClientLogos />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="blue" showWave={true} waveColor="rgba(53, 123, 216, 0.4)" />
+      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.2} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
         <ServicesSection />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="purple" showWave={true} />
+      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.15} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.1} className="fade-section">
         <BenefitsSection />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="light" showWave={true} waveColor="rgba(230, 62, 139, 0.3)" />
+      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.2} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
         <TestimonialsSection />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="blue" showWave={true} />
+      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.15} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.1} className="fade-section">
         <WhyHireUsSection />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="purple" showWave={true} />
+      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.2} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
         <FutureInsights />
-      </div>
+      </ParallaxSection>
       
-      <SectionDivider gradient="light" showWave={true} />
+      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.15} />
       
-      <div className="fade-section">
+      <ParallaxSection speed={0.1} className="fade-section">
         <ContactSection />
-      </div>
+      </ParallaxSection>
       
       <Footer />
       

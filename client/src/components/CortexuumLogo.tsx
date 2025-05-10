@@ -2,8 +2,8 @@ import React from 'react';
 import brainLogoImg from "@assets/20250510_1425_Cortexuum Logo Design_simple_compose_01jtxq2v31f6296bww731bk9bv.png";
 
 interface CortexuumLogoProps {
-  variant?: 'default' | 'white' | 'gradient' | 'image';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'white' | 'gradient' | 'image' | 'svg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showText?: boolean;
   className?: string;
 }
@@ -19,6 +19,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
     sm: 'w-8 h-8',
     md: 'w-12 h-12',
     lg: 'w-16 h-16',
+    xl: 'w-24 h-24',
   };
 
   // Size mapping for image
@@ -26,6 +27,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
     sm: 'h-8',
     md: 'h-12',
     lg: 'h-16',
+    xl: 'h-24',
   };
 
   // Text size mapping
@@ -33,6 +35,7 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
     sm: 'text-lg',
     md: 'text-xl',
     lg: 'text-2xl',
+    xl: 'text-3xl',
   };
 
   // Container class
@@ -42,7 +45,18 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
   const renderImageLogo = () => {
     return (
       <img 
-        src={brainLogoImg} 
+        src={brainLogoImg}
+        alt="Cortexuum Logo" 
+        className={`${imgSizeMap[size]}`}
+      />
+    );
+  };
+  
+  // Use SVG logo
+  const renderSvgLogo = () => {
+    return (
+      <img 
+        src="/assets/cortexuum-logo-full.svg"
         alt="Cortexuum Logo" 
         className={`${imgSizeMap[size]}`}
       />
@@ -170,9 +184,20 @@ const CortexuumLogo: React.FC<CortexuumLogoProps> = ({
     );
   };
 
+  // Determine which logo to render
+  const renderLogo = () => {
+    if (variant === 'image') {
+      return renderImageLogo();
+    } else if (variant === 'svg') {
+      return renderSvgLogo();
+    } else {
+      return renderBrainLogo();
+    }
+  };
+
   return (
     <div className={containerClass}>
-      {variant === 'image' ? renderImageLogo() : renderBrainLogo()}
+      {renderLogo()}
       
       {showText && (
         <div className="ml-3 flex flex-col">

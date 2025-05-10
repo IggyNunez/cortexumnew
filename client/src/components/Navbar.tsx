@@ -54,7 +54,7 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center group">
               <CortexuumLogo 
-                variant="image" 
+                variant="svg" 
                 size="md"
                 showText={false}
                 className="transition-transform group-hover:scale-105 duration-300"
