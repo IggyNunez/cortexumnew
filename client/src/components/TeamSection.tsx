@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Brain, Gauge, BarChart4, LineChart, LightbulbIcon, Users } from 'lucide-react';
+import christianColgate from '../assets/christian-colgate.webp';
 
 const TeamSection = () => {
   return (
@@ -35,7 +36,7 @@ const TeamSection = () => {
             transition={{ duration: 0.6 }}
           >
             <img 
-              src="/images/christian-colgate.webp" 
+              src={christianColgate} 
               alt="Christian Colgate - Founder" 
               className="rounded-lg shadow-xl w-full max-w-md mx-auto"
             />

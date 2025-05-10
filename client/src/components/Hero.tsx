@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Bot, Volume2, Mic } from "lucide-react";
 import { useState, useRef, FormEvent, ChangeEvent } from "react";
 import { synthesizeSpeech } from "@/lib/humeApi";
+import christianColgate from '../assets/christian-colgate.webp';
 
 // Define message types
 type MessageType = 'user' | 'assistant';
@@ -157,7 +158,7 @@ const Hero = () => {
               <div className="flex items-center mb-6">
                 <div className="relative">
                   <img 
-                    src="/images/christian-colgate.webp" 
+                    src={christianColgate} 
                     alt="Christian Colgate" 
                     className="w-14 h-14 rounded-full object-cover object-center border-2 border-blue-600 mr-3"
                   />

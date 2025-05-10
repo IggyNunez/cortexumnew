@@ -1,6 +1,5 @@
 import React from 'react';
-// Import directly from public assets instead
-const brainLogoImg = "/images/cortexuum-logo.png";
+import cortexuumLogo from '../assets/cortexuum-logo.png';
 
 interface CortexuumLogoProps {
   variant?: 'default' | 'white' | 'gradient' | 'image' | 'svg';
