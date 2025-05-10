@@ -6,9 +6,12 @@ const WhyHireUsSection = () => {
     <section className="py-16 bg-gray-50" id="why-hire-us">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
+          <div className="inline-block bg-amber-50 border-2 border-amber-400 rounded-lg px-4 py-1 mb-4">
+            <p className="text-amber-700 font-medium text-sm">70+ Years of Combined Industry Experience</p>
+          </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Hire Us</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our team is made up of four professionals who came together to help agencies and local businesses get the most out of AI.
+            Our team is made up of four industry-leading professionals who came together to help agencies and local businesses get the most out of AI, with our sales manager actively consulting the best upcoming agencies.
           </p>
         </div>
         
@@ -84,11 +87,11 @@ const WhyHireUsSection = () => {
             <div className="bg-green-50 p-6">
               <LineChart className="h-12 w-12 text-green-600 mb-2" />
               <h3 className="text-xl font-bold text-gray-900">Sales Manager</h3>
-              <p className="text-gray-500 text-sm">15+ Years Experience</p>
+              <p className="text-gray-500 text-sm">20+ Years Experience</p>
             </div>
             <div className="p-6">
               <p className="text-gray-700">
-                Our sales manager brings 15+ years of expertise in building effective sales processes, implementing AI-driven strategies that consistently increase conversion rates.
+                Our sales manager brings over 20 years of expertise in building effective sales processes, consulting with the best upcoming agencies, and implementing AI-driven strategies that consistently increase conversion rates.
               </p>
             </div>
           </motion.div>
@@ -146,18 +149,36 @@ const WhyHireUsSection = () => {
               </li>
             </ul>
             
-            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-gray-700 font-medium">
-                We can do everything for you, or help you and your team learn how to do it yourselves.
-              </p>
-              <div className="mt-2 flex justify-between items-center">
-                <span className="text-amber-700 font-bold">Don't get left behind!</span>
-                <a 
-                  href="#contact" 
-                  className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Contact Us Today →
-                </a>
+            <div className="mt-6 bg-gradient-to-r from-amber-50 to-red-50 border-2 border-amber-300 rounded-lg p-4 shadow-md">
+              <div className="flex items-start">
+                <div className="shrink-0 mr-4">
+                  <div className="p-2 bg-amber-100 rounded-full border border-amber-300">
+                    <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-red-700 text-lg">Don't miss this opportunity!</h4>
+                  <p className="text-gray-700 font-medium mb-2">
+                    We can do everything for you, or help you and your team learn how to do it yourselves.
+                  </p>
+                  <p className="text-amber-800 mb-3 font-semibold text-sm">
+                    The top agencies are already implementing these AI solutions. Our calendar is filling up fast with only a few consultation slots remaining this month.
+                  </p>
+                  <div className="flex justify-between items-center flex-wrap gap-4">
+                    <span className="text-red-700 font-bold">Act now before your competitors do!</span>
+                    <a 
+                      href="#contact" 
+                      className="bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white px-5 py-2 rounded-lg font-bold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center"
+                    >
+                      Reserve Your Consultation
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
