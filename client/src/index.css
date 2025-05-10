@@ -14,27 +14,30 @@
   --card-foreground: 222.2 47.4% 11.2%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --primary: 207 90% 48%; /* Darker for better contrast */
+  /* Colors adapted from the brain logo */
+  --primary: 224 65% 40%; /* Darker blue from logo */
   --primary-foreground: 210 40% 98%;
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
-  --accent: 24 94% 48%; /* Darker for better contrast */
+  --accent: 328 79% 57%; /* Magenta from logo */
   --accent-foreground: 0 0% 100%; /* White text on accent for better readability */
+  --tertiary: 270 100% 76%; /* Purple from logo */
+  --tertiary-foreground: 0 0% 100%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
   --ring: 222.2 84% 4.9%;
-  --chart-1: 207 90% 48%;
-  --chart-2: 24 94% 50%;
-  --chart-3: 262 83% 58%;
+  --chart-1: 224 65% 40%; /* Blue from logo */
+  --chart-2: 328 79% 57%; /* Magenta from logo */
+  --chart-3: 270 100% 76%; /* Purple from logo */
   --chart-4: 326 100% 60%;
   --chart-5: 174 86% 45%;
-  --sidebar-background: 235 16% 15%;
+  --sidebar-background: 224 80% 10%; /* Very dark blue */
   --sidebar-foreground: 0 0% 98%;
-  --sidebar-primary: 207 90% 48%;
+  --sidebar-primary: 224 65% 40%;
   --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 235 16% 20%;
+  --sidebar-accent: 224 60% 15%;
   --sidebar-accent-foreground: 0 0% 98%;
-  --sidebar-border: 235 16% 20%;
+  --sidebar-border: 224 60% 15%;
   --sidebar-ring: 220 13% 69%;
   --radius: 0.5rem;
 }
