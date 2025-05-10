@@ -210,9 +210,13 @@ const PricingSection = () => {
           </div>
         )}
         
-        <div className="text-center mt-12 text-gray-600">
-          <p>All plans include a 14-day free trial. No credit card required to start.</p>
-          <p className="mt-2">Need a custom solution? <a href="#contact" className="text-primary hover:underline">Contact us</a> for personalized pricing.</p>
+        <div className="text-center mt-12">
+          <p className="text-gray-700 font-medium">All plans include technical support, a custom landing page, and installation assistance.</p>
+          <div className="mt-6 max-w-3xl mx-auto bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <p className="text-amber-800 font-semibold">Don't get left behind in the AI revolution!</p>
+            <p className="text-amber-700 mt-2">Marketing agencies that adopt AI now will outperform competitors by 50-300% within the next 12 months.</p>
+          </div>
+          <p className="mt-4 text-primary font-medium">Time is running out to gain the competitive advantage. <span className="font-bold">Act now!</span></p>
         </div>
       </div>
     </section>
