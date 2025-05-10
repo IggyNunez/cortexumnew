@@ -61,11 +61,11 @@ const Footer = () => {
               <div className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-3" />
                 <a 
-                  href="mailto:info@vibemarketing.ai" 
+                  href="mailto:info@vibemarketingagency.ai" 
                   className="text-gray-200 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline"
                   aria-label="Email us"
                 >
-                  info@vibemarketing.ai
+                  info@vibemarketingagency.ai
                 </a>
               </div>
               <div className="flex items-center">
@@ -144,18 +144,30 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm font-medium">
-            &copy; {currentYear} VibeAI Marketing Solutions. All rights reserved.
-          </p>
-          <div className="mt-4 md:mt-0">
-            <a 
-              href="#contact" 
-              className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900"
-              aria-label="Contact us to get started"
-            >
-              Get Started Today
-            </a>
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div>
+              <p className="text-gray-300 text-sm font-medium">
+                &copy; {currentYear} VibeMarketingAgency.ai. All rights reserved.
+              </p>
+              <p className="text-gray-400 text-xs mt-2 italic">
+                This website was designed and developed entirely using AI automation and generative technology.
+              </p>
+            </div>
+            <div className="mt-6 md:mt-0">
+              <a 
+                href="#contact" 
+                className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900"
+                aria-label="Contact us to get started"
+              >
+                Get Started Today
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-gray-500 text-xs">
+              Powered by AI automation technologies including OpenAI, ElevenLabs, and custom AI agents.
+            </p>
           </div>
         </div>
       </div>
