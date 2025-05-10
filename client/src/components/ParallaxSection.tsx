@@ -51,12 +51,20 @@ const ParallaxSection: React.FC<ParallaxSectionProps> = ({
       style={{ 
         backgroundColor,
         zIndex: zIndex !== undefined ? zIndex : 'auto',
-        position: 'relative'
+        position: 'relative',
+        overflowX: 'hidden',
+        overflowY: 'visible'
       }}
     >
       <div 
         ref={sectionRef} 
         className="parallax-section w-full"
+        style={{
+          willChange: 'transform',
+          transition: 'transform 0.05s linear',
+          backfaceVisibility: 'hidden', // Reduces paint complexity
+          transform: 'translateZ(0)' // Forces GPU acceleration
+        }}
       >
         {children}
       </div>
