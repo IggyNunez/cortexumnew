@@ -35,7 +35,7 @@ const TeamSection = () => {
             transition={{ duration: 0.6 }}
           >
             <img 
-              src="christian-colgate.webp" 
+              src="/christian-small.png" 
               alt="Christian Colgate - Founder" 
               className="rounded-lg shadow-xl w-full max-w-md mx-auto"
             />
