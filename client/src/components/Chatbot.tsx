@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Maximize2, Minimize2, Mic, Send } from "lucide-react";
+import { MessageSquare, X, Maximize2, Minimize2, Mic, Send, Volume2, VolumeX } from "lucide-react";
 import { nanoid } from "nanoid";
-import { createSessionId, sendChatMessage, generateBotResponse, generateSpeech, synthesizeSpeech } from "@/lib/humeApi";
+import { createSessionId, sendChatMessage, generateBotResponse, synthesizeSpeech } from "@/lib/humeApi";
 import { useHumeSpeech } from "@/hooks/useHumeSpeech";
 
 interface ChatMessage {
@@ -14,13 +14,21 @@ interface ChatMessage {
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { isPlaying, playAudio, stopAudio } = useHumeSpeech();
+  const { 
+    isPlaying, 
+    stopAudio, 
+    isRecording, 
+    startRecording, 
+    stopRecording, 
+    recognizedText 
+  } = useHumeSpeech();
 
   useEffect(() => {
     // Initialize a new session ID if one doesn't exist
@@ -33,6 +41,19 @@ const Chatbot = () => {
     // Scroll to bottom whenever messages change
     scrollToBottom();
   }, [messages]);
+
+  // Handle recognized text from voice input
+  useEffect(() => {
+    if (recognizedText && !isRecording) {
+      setMessage(recognizedText);
+      // Auto-send if we have recognized text
+      setTimeout(() => {
+        if (recognizedText.trim() !== "") {
+          handleSendMessage(recognizedText);
+        }
+      }, 500);
+    }
+  }, [recognizedText, isRecording]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,11 +69,24 @@ const Chatbot = () => {
         timestamp: new Date()
       };
       setMessages([welcomeMessage]);
+      
+      // Speak the welcome message if voice is enabled
+      if (voiceEnabled) {
+        setTimeout(() => speakMessage(welcomeMessage.message), 500);
+      }
     }
   };
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const toggleVoice = () => {
+    setVoiceEnabled(!voiceEnabled);
+    if (isSpeaking) {
+      stopAudio();
+      setIsSpeaking(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,12 +100,26 @@ const Chatbot = () => {
     }
   };
 
-  const handleSendMessage = async () => {
-    if (message.trim() === "" || isLoading) return;
+  const speakMessage = async (text: string) => {
+    if (!voiceEnabled) return;
+    
+    try {
+      setIsSpeaking(true);
+      await synthesizeSpeech(text);
+    } catch (error) {
+      console.error("Error speaking message:", error);
+    } finally {
+      setIsSpeaking(false);
+    }
+  };
+
+  const handleSendMessage = async (overrideMessage?: string) => {
+    const messageToSend = overrideMessage || message;
+    if (messageToSend.trim() === "" || isLoading) return;
 
     const userMessage: ChatMessage = {
       sender: 'user',
-      message: message.trim(),
+      message: messageToSend.trim(),
       timestamp: new Date()
     };
 
@@ -86,14 +134,18 @@ const Chatbot = () => {
       // Generate bot response
       const botResponse = await generateBotResponse(sessionId, userMessage.message);
       
-      setMessages(prevMessages => [...prevMessages, {
-        sender: 'bot',
+      const botMessage = {
+        sender: 'bot' as const,
         message: botResponse.message,
         timestamp: new Date(botResponse.timestamp || new Date())
-      }]);
+      };
+      
+      setMessages(prevMessages => [...prevMessages, botMessage]);
 
-      // Speak the response if needed
-      synthesizeSpeech(botResponse.message);
+      // Speak the response if voice is enabled
+      if (voiceEnabled) {
+        setTimeout(() => speakMessage(botResponse.message), 300);
+      }
       
     } catch (error) {
       console.error("Error sending message:", error);
@@ -107,17 +159,12 @@ const Chatbot = () => {
     }
   };
 
-  const handleVoiceRecording = () => {
+  const handleVoiceRecording = async () => {
     if (isRecording) {
-      // Stop recording
-      setIsRecording(false);
-      // Here you would process the audio recording and send it to Hume API
-      // For now, we'll just pretend
-      setMessage("I'd like to learn more about AI chatbots for lead generation.");
+      stopRecording();
     } else {
-      // Start recording
-      setIsRecording(true);
-      setMessage("Recording... (speak now)");
+      setMessage("Listening...");
+      await startRecording();
     }
   };
 
@@ -157,6 +204,14 @@ const Chatbot = () => {
                 <h3 className="font-bold text-white text-with-shadow">AI Assistant</h3>
               </div>
               <div className="flex items-center space-x-3">
+                {/* Voice toggle button */}
+                <button
+                  onClick={toggleVoice}
+                  className="hover:bg-white/20 rounded p-1.5 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+                  aria-label={voiceEnabled ? "Disable voice" : "Enable voice"}
+                >
+                  {voiceEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+                </button>
                 <button
                   onClick={toggleExpand}
                   className="hover:bg-white/20 rounded p-1.5 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
@@ -215,6 +270,14 @@ const Chatbot = () => {
                   </div>
                 </div>
               )}
+              {isSpeaking && (
+                <div className="flex justify-center mb-4">
+                  <div className="bg-primary/10 text-primary rounded-full px-4 py-1 text-sm font-medium flex items-center">
+                    <Volume2 className="h-3 w-3 mr-1 animate-pulse" />
+                    Speaking...
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
@@ -223,7 +286,7 @@ const Chatbot = () => {
               <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
                 <button 
                   onClick={handleVoiceRecording}
-                  className={`p-3 ${isRecording ? 'text-red-500' : 'text-gray-600'} hover:text-primary transition-colors focus:outline-none`}
+                  className={`p-3 ${isRecording ? 'text-red-500 animate-pulse' : 'text-gray-600'} hover:text-primary transition-colors focus:outline-none`}
                   aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
                 >
                   <Mic className="h-5 w-5" />
@@ -233,12 +296,16 @@ const Chatbot = () => {
                   value={message}
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
+                  placeholder={isRecording ? "Listening..." : "Type your message..."}
                   className="flex-1 py-3 px-3 bg-transparent border-none focus:outline-none text-gray-800 text-base"
                   disabled={isLoading || isRecording}
                 />
                 <button
-                  onClick={handleSendMessage}
+                  onClick={() => {
+                    if (message.trim() !== "" && !isLoading) {
+                      handleSendMessage();
+                    }
+                  }}
                   disabled={message.trim() === "" || isLoading}
                   className={`p-3 ${
                     message.trim() === "" || isLoading
@@ -250,8 +317,13 @@ const Chatbot = () => {
                   <Send className="h-5 w-5" />
                 </button>
               </div>
-              <div className="text-center mt-3 text-xs text-gray-600 font-medium">
-                {isPlaying ? (
+              <div className="text-center mt-3 text-xs text-gray-600 font-medium flex justify-center items-center">
+                {isRecording ? (
+                  <span className="text-red-500 flex items-center">
+                    <span className="inline-block h-2 w-2 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                    Recording... Speak now
+                  </span>
+                ) : isPlaying ? (
                   <button 
                     onClick={stopAudio}
                     className="text-primary hover:underline focus:outline-none font-bold"
@@ -260,7 +332,9 @@ const Chatbot = () => {
                     Stop Audio
                   </button>
                 ) : (
-                  "Voice-enabled AI powered by ElevenLabs"
+                  <span>
+                    {voiceEnabled ? "Voice-enabled AI powered by ElevenLabs" : "Voice is disabled (click the speaker icon to enable)"}
+                  </span>
                 )}
               </div>
             </div>
