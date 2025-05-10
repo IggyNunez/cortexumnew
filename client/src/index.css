@@ -142,11 +142,11 @@
 
 /* Gradient backgrounds */
 .gradient-bg {
-  background: linear-gradient(to right, var(--primary), var(--accent));
+  background: linear-gradient(to right, #357BD8, #B485FF, #E63E8B);
 }
 
 .accent-gradient {
-  background: linear-gradient(135deg, #2563eb, #f97316);
+  background: linear-gradient(135deg, #357BD8, #E63E8B, #B485FF);
 }
 
 /* Background patterns */

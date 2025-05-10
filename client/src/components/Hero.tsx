@@ -98,7 +98,7 @@ const Hero = () => {
   };
   
   return (
-    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-blue-800 to-blue-900 overflow-hidden">
+    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -125,7 +125,7 @@ const Hero = () => {
               <Button
                 asChild
                 size="lg"
-                className="bg-white text-blue-800 hover:bg-white/90 rounded-full font-bold text-base shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-white focus:ring-offset-2"
+                className="bg-[#E63E8B] text-white hover:bg-[#E63E8B]/90 rounded-full font-bold text-base shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
               >
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL</a>
               </Button>
@@ -133,7 +133,7 @@ const Hero = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white/20 rounded-full font-bold text-base focus:ring-2 focus:ring-white focus:ring-offset-2 bg-white/10"
+                className="border-2 border-[#B485FF] text-white hover:bg-[#B485FF]/20 rounded-full font-bold text-base focus:ring-2 focus:ring-[#B485FF] focus:ring-offset-2 bg-[#B485FF]/10"
               >
                 <a href="#services">Our Services</a>
               </Button>
@@ -160,9 +160,9 @@ const Hero = () => {
                   <img 
                     src={christianColgate} 
                     alt="Christian Colgate" 
-                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-blue-600 mr-3"
+                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-[#357BD8] mr-3"
                   />
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#357BD8] flex items-center justify-center text-white">
                     <Bot className="h-3 w-3" />
                   </div>
                 </div>
@@ -171,13 +171,13 @@ const Hero = () => {
                   <div className="flex flex-col">
                     <div className="flex items-center">
                       <p className="text-gray-500 text-sm">Christian Colgate, Founder</p>
-                      <span className="ml-2 bg-blue-100 text-xs px-1.5 py-0.5 rounded text-blue-800 font-medium">AI-Powered</span>
+                      <span className="ml-2 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
                     </div>
                     <a 
                       href="https://calendly.com/cortexuummarketing/30min" 
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 text-xs font-medium hover:underline mt-1"
+                      className="text-[#E63E8B] text-xs font-medium hover:underline mt-1"
                     >
                       Book a consultation with Christian →
                     </a>
