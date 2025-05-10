@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, GitBranch, BarChart, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import LegalHeader from "@/components/LegalHeader";
 import { formatDistanceToNow } from "date-fns";
+import { Link } from "wouter";
 
 interface Lead {
   id: number;
@@ -143,6 +144,7 @@ const LeadManagement = () => {
                     <TableHead>Company Size</TableHead>
                     <TableHead>Timeline</TableHead>
                     <TableHead>Created</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -158,6 +160,14 @@ const LeadManagement = () => {
                       <TableCell>{lead.company_size || "N/A"}</TableCell>
                       <TableCell>{lead.timeline || "N/A"}</TableCell>
                       <TableCell>{formatDate(lead.created_at)}</TableCell>
+                      <TableCell className="text-right">
+                        <Link href={`/leads/lifecycle/${lead.id}`}>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="View Lead Lifecycle">
+                            <GitBranch className="h-4 w-4" />
+                            <span className="sr-only">View Lifecycle</span>
+                          </Button>
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

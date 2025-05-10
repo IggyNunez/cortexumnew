@@ -1,14 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LeadLifecycleTimeline from "@/components/LeadLifecycleTimeline";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Loader2, ChevronLeft } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useParams } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+
+// Define our Lead interface
+interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  business_type: string | null;
+  company_size: string | null;
+  annual_revenue: string | null;
+  client_value: string | null;
+  marketing_needs: string | null;
+  timeline: string | null;
+  budget: string | null;
+  message: string | null;
+  source: string | null;
+  created_at: string;
+}
 
 const LeadLifecycle = () => {
-  const [loading, setLoading] = useState(false);
+  // Extract id from URL params
+  const params = useParams();
+  const leadId = params?.id;
+  
+  // Fetch the lead data if we have an ID
+  const { data: leadData, isLoading } = useQuery<{ success: boolean; data: Lead }>({
+    queryKey: ["/api/leads", leadId],
+    enabled: !!leadId,
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -27,7 +55,7 @@ const LeadLifecycle = () => {
               </Button>
             </Link>
             
-            {loading ? (
+            {isLoading ? (
               <Button disabled>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Loading Lead Data
@@ -35,67 +63,89 @@ const LeadLifecycle = () => {
             ) : null}
           </div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-3 border-r border-gray-100 pr-6">
-                  <h3 className="text-lg font-medium text-gray-700">Lead Details</h3>
-                  <div>
-                    <p className="text-sm text-gray-500">Name</p>
-                    <p className="font-medium">Acme Marketing</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Contact</p>
-                    <p className="font-medium">Jane Smith</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Interest</p>
-                    <p className="font-medium">AI Chatbot Implementation</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 md:border-r md:border-gray-100 md:pr-6">
-                  <h3 className="text-lg font-medium text-gray-700">Qualification Summary</h3>
-                  <div>
-                    <p className="text-sm text-gray-500">Company Size</p>
-                    <p className="font-medium">25-50 employees</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Budget</p>
-                    <p className="font-medium">$5,000 - $10,000</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Timeline</p>
-                    <p className="font-medium">Q3 2025</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium text-gray-700">Next Steps</h3>
-                  <div>
-                    <p className="text-sm text-gray-500">Current Stage</p>
-                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
-                      Discovery Call
+          {isLoading ? (
+            <div className="flex justify-center items-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2 text-gray-600">Loading lead data...</span>
+            </div>
+          ) : leadData?.data ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-3 md:border-r md:border-gray-100 md:pr-6">
+                    <h3 className="text-lg font-medium text-gray-700">Lead Details</h3>
+                    <div>
+                      <p className="text-sm text-gray-500">Name</p>
+                      <p className="font-medium">{leadData.data.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Email</p>
+                      <p className="font-medium">{leadData.data.email}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="font-medium">{leadData.data.phone}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Company</p>
+                      <p className="font-medium">{leadData.data.company}</p>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Assigned To</p>
-                    <p className="font-medium">AI Sales Team</p>
+                  
+                  <div className="space-y-3 md:border-r md:border-gray-100 md:pr-6">
+                    <h3 className="text-lg font-medium text-gray-700">Qualification Summary</h3>
+                    <div>
+                      <p className="text-sm text-gray-500">Business Type</p>
+                      <p className="font-medium">{leadData.data.business_type || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Company Size</p>
+                      <p className="font-medium">{leadData.data.company_size || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Annual Revenue</p>
+                      <p className="font-medium">{leadData.data.annual_revenue || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Client Value</p>
+                      <p className="font-medium">{leadData.data.client_value || "Not specified"}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Next Action</p>
-                    <p className="font-medium">Send Proposal (Due: 05/15/2025)</p>
+                  
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-medium text-gray-700">Project Details</h3>
+                    <div>
+                      <p className="text-sm text-gray-500">Marketing Needs</p>
+                      <p className="font-medium">{leadData.data.marketing_needs || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Timeline</p>
+                      <p className="font-medium">{leadData.data.timeline || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Budget</p>
+                      <p className="font-medium">{leadData.data.budget || "Not specified"}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Source</p>
+                      <p className="font-medium">{leadData.data.source || "Website"}</p>
+                    </div>
                   </div>
                 </div>
               </div>
+            </motion.div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-xl">
+              <h3 className="text-lg font-medium mb-2">Lead not found</h3>
+              <p className="text-gray-500">The lead you are looking for doesn't exist or you may not have access to it.</p>
             </div>
-          </motion.div>
+          )}
           
-          <LeadLifecycleTimeline />
+          <LeadLifecycleTimeline leadId={leadId ? parseInt(leadId) : undefined} />
           
           <div className="mb-10 mt-10">
             <h3 className="text-xl font-bold mb-4">Lead Activity</h3>
