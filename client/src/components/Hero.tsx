@@ -152,7 +152,7 @@ const Hero = () => {
                   <div className="flex flex-col">
                     <div className="flex items-center">
                       <p className="text-gray-500 text-sm">Powered by VibeAgency.ai</p>
-                      <span className="ml-2 bg-gray-100 text-xs px-1.5 py-0.5 rounded text-gray-600 font-medium">ElevenLabs Voice</span>
+                      <span className="ml-2 bg-gray-100 text-xs px-1.5 py-0.5 rounded text-gray-600 font-medium">AI Voice</span>
                     </div>
                     <a 
                       href="#contact" 

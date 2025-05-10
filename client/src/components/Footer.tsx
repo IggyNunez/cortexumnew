@@ -110,7 +110,7 @@ const Footer = () => {
           </div>
           <div className="mt-4 text-center">
             <p className="text-gray-500 text-xs">
-              Powered by AI automation technologies including OpenAI, ElevenLabs, and custom AI agents.
+              Powered by AI automation technologies including advanced natural language processing and custom AI agents.
             </p>
           </div>
         </div>
