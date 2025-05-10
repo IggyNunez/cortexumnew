@@ -319,14 +319,14 @@ const Chatbot = () => {
               </div>
               <div className="text-center mt-3 text-xs text-gray-600 font-medium flex justify-center items-center">
                 {isRecording ? (
-                  <span className="text-red-500 flex items-center">
-                    <span className="inline-block h-2 w-2 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                  <span className="text-[#E63E8B] flex items-center">
+                    <span className="inline-block h-2 w-2 bg-[#E63E8B] rounded-full mr-1 animate-pulse"></span>
                     Recording... Speak now
                   </span>
                 ) : isPlaying ? (
                   <button 
                     onClick={stopAudio}
-                    className="text-primary hover:underline focus:outline-none font-bold"
+                    className="text-[#B485FF] hover:underline focus:outline-none font-bold"
                     aria-label="Stop audio playback"
                   >
                     Stop Audio

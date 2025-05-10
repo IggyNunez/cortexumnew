@@ -206,8 +206,8 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
                 <div
                   className={`max-w-[85%] rounded-lg px-4 py-3 ${
                     message.isUser
-                      ? "bg-primary text-white rounded-tr-none shadow"
-                      : "bg-white text-gray-800 rounded-tl-none shadow-sm"
+                      ? "bg-[#E63E8B] text-white rounded-tr-none shadow"
+                      : "bg-[#F3F4FF] text-gray-800 rounded-tl-none shadow-sm border border-[#B485FF]/20"
                   }`}
                 >
                   <p className="text-base leading-relaxed font-medium">{message.content}</p>
@@ -216,18 +216,18 @@ const MobileChatbot = ({ isOpen, onClose }: MobileChatbotProps) => {
             ))}
             {isLoading && (
               <div className="flex justify-start mb-4">
-                <div className="bg-white text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm">
+                <div className="bg-[#F3F4FF] text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm border border-[#B485FF]/20">
                   <div className="flex space-x-2">
-                    <div className="h-2.5 w-2.5 bg-primary/50 rounded-full animate-bounce"></div>
-                    <div className="h-2.5 w-2.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                    <div className="h-2.5 w-2.5 bg-primary/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                    <div className="h-2.5 w-2.5 bg-[#357BD8]/70 rounded-full animate-bounce"></div>
+                    <div className="h-2.5 w-2.5 bg-[#B485FF]/70 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                    <div className="h-2.5 w-2.5 bg-[#E63E8B]/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
                   </div>
                 </div>
               </div>
             )}
             {isSpeaking && (
               <div className="flex justify-center mb-4">
-                <div className="bg-primary/10 text-primary rounded-full px-4 py-1 text-sm font-medium flex items-center">
+                <div className="bg-[#B485FF]/10 text-[#B485FF] rounded-full px-4 py-1 text-sm font-medium flex items-center">
                   <Volume2 className="h-3 w-3 mr-1 animate-pulse" />
                   Speaking...
                 </div>
