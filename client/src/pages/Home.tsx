@@ -39,55 +39,116 @@ const Home = () => {
       <Navbar />
       <Hero />
       
-      {/* Add gradient divider with parallax effect */}
-      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.15} />
+      {/* Add gradient divider with parallax effect - updated with brain-inspired gradients */}
+      <SectionDivider gradient="brain-blue" height="120px" parallaxSpeed={0.15} />
       
-      {/* Apply parallax effect to each section */}
-      <ParallaxSection speed={0.1} className="fade-section">
+      {/* Apply sticky parallax effect to the first client logos section */}
+      <ParallaxSection 
+        speed={0.08} 
+        className="fade-section" 
+        sticky={true} 
+        stickyThreshold={0.25}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <ClientLogos />
       </ParallaxSection>
       
-      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.2} />
+      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.2} zIndex={2} />
       
-      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
+      {/* Services section with sticky parallax */}
+      <ParallaxSection 
+        speed={0.1} 
+        reverse={true} 
+        className="fade-section" 
+        sticky={true}
+        stickyThreshold={0.2}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <ServicesSection />
       </ParallaxSection>
       
-      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.15} />
+      <SectionDivider gradient="brain-magenta" height="150px" parallaxSpeed={0.15} zIndex={2} />
       
-      <ParallaxSection speed={0.1} className="fade-section">
+      {/* Benefits section with sticky effect */}
+      <ParallaxSection 
+        speed={0.08} 
+        className="fade-section" 
+        sticky={true}
+        stickyThreshold={0.25}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <BenefitsSection />
       </ParallaxSection>
       
-      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.2} />
+      <SectionDivider gradient="brain-blue" height="150px" parallaxSpeed={0.2} zIndex={2} />
       
-      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
+      {/* Testimonials with subtle parallax */}
+      <ParallaxSection 
+        speed={0.12} 
+        reverse={true} 
+        className="fade-section"
+        sticky={true}
+        stickyThreshold={0.2}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <TestimonialsSection />
       </ParallaxSection>
       
-      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.15} />
+      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.15} zIndex={2} />
       
-      <ParallaxSection speed={0.1} className="fade-section">
+      {/* Why hire us section */}
+      <ParallaxSection 
+        speed={0.08} 
+        className="fade-section"
+        sticky={true}
+        stickyThreshold={0.25}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <WhyHireUsSection />
       </ParallaxSection>
       
-      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.2} />
+      <SectionDivider gradient="brain-magenta" height="150px" parallaxSpeed={0.2} zIndex={2} />
       
-      <SectionDivider gradient="blue" height="80px" parallaxSpeed={0.15} />
-      
-      <ParallaxSection speed={0.1} className="fade-section">
+      {/* Content funnel section */}
+      <ParallaxSection 
+        speed={0.08} 
+        className="fade-section"
+        sticky={true}
+        stickyThreshold={0.25}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <ContentFunnelSection />
       </ParallaxSection>
       
-      <SectionDivider gradient="purple" height="80px" parallaxSpeed={0.2} />
+      <SectionDivider gradient="brain-blue" height="150px" parallaxSpeed={0.2} zIndex={2} />
       
-      <ParallaxSection speed={0.15} reverse={true} className="fade-section">
+      {/* Future insights section */}
+      <ParallaxSection 
+        speed={0.12} 
+        reverse={true} 
+        className="fade-section"
+        sticky={true}
+        stickyThreshold={0.2}
+        minHeight="100vh"
+        zIndex={1}
+      >
         <FutureInsights />
       </ParallaxSection>
       
-      <SectionDivider gradient="light" height="80px" parallaxSpeed={0.15} />
+      <SectionDivider gradient="brain-purple" height="150px" parallaxSpeed={0.15} zIndex={2} />
       
-      <ParallaxSection speed={0.1} className="fade-section">
+      {/* Contact section - no sticky effect for last section */}
+      <ParallaxSection 
+        speed={0.05} 
+        className="fade-section"
+        zIndex={1}
+      >
         <ContactSection />
       </ParallaxSection>
       
@@ -96,11 +157,15 @@ const Home = () => {
       {/* Desktop Chatbot */}
       <Chatbot />
       
-      {/* Mobile Chatbot Toggle Button */}
+      {/* Mobile Chatbot Toggle Button - updated with brain-inspired gradient */}
       <div className="md:hidden fixed bottom-6 right-6 z-50">
         <button 
           onClick={toggleMobileChatbot}
-          className="bg-primary h-14 w-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition duration-300"
+          className="bg-[#E63E8B] h-14 w-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition duration-300"
+          style={{
+            background: "linear-gradient(135deg, #357BD8, #E63E8B)",
+            boxShadow: "0 4px 15px rgba(230, 62, 139, 0.5)"
+          }}
           aria-label="Open chat assistant"
         >
           <MessageSquare className="h-6 w-6" />
