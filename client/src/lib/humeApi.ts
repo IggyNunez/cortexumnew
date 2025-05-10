@@ -70,21 +70,27 @@ export const generateBotResponse = async (sessionId: string, userMessage: string
   // For now, we'll simulate a response
   await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
   
-  // Generate a contextual response based on the user message
-  let botResponseText = "I'm sorry, I didn't understand that. How can I help your marketing agency today?";
+  // Generate a contextual response based on the user message with empathy and vibe focus
+  let botResponseText = "I appreciate your message! I'm your AI assistant from VibeAgency.ai. I'd love to understand more about your specific marketing challenges. How can I help elevate your brand's presence today?";
   
-  if (userMessage.toLowerCase().includes('pricing') || userMessage.toLowerCase().includes('cost')) {
-    botResponseText = "Our pricing depends on your agency's specific needs and scale. We offer flexible plans starting at $299/month. Would you like to schedule a consultation to discuss a custom package?";
-  } else if (userMessage.toLowerCase().includes('chatbot') || userMessage.toLowerCase().includes('chat')) {
-    botResponseText = "Our AI chatbots can be customized for your agency's needs, helping you qualify leads 24/7 and improving client engagement. Would you like to learn more about our chatbot implementation services?";
-  } else if (userMessage.toLowerCase().includes('ai') || userMessage.toLowerCase().includes('artificial intelligence')) {
-    botResponseText = "We offer comprehensive AI solutions for marketing agencies including workflow automation, content generation, predictive analytics, and personalized client communication. Which aspect of AI are you most interested in exploring?";
-  } else if (userMessage.toLowerCase().includes('workflow') || userMessage.toLowerCase().includes('automate')) {
-    botResponseText = "Our workflow automation solutions can save your agency up to 15-20 hours per week by automating repetitive tasks such as reporting, social media scheduling, and client communications. Would you like to see a demo?";
-  } else if (userMessage.toLowerCase().includes('contact') || userMessage.toLowerCase().includes('talk') || userMessage.toLowerCase().includes('human')) {
-    botResponseText = "I'd be happy to connect you with one of our AI marketing specialists. Could you provide your name, email, and a brief description of what you're looking for so we can prepare for the conversation?";
-  } else if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
-    botResponseText = "Hello! Welcome to Vibe Marketing AI. We specialize in helping marketing agencies leverage AI to grow their business. How can I assist you today?";
+  const lowercaseMessage = userMessage.toLowerCase();
+  
+  if (lowercaseMessage.includes('pricing') || lowercaseMessage.includes('cost')) {
+    botResponseText = "I completely understand that investment is an important consideration for your agency. 💯 Our flexible pricing is designed to grow with you, with plans starting at $299/month. Many of our partners see ROI within the first 60-90 days! Would you like to explore a customized solution that aligns with your specific goals and budget?";
+  } else if (lowercaseMessage.includes('chatbot') || lowercaseMessage.includes('chat')) {
+    botResponseText = "Great question about our chatbots! ✨ Our AI conversational agents are designed to capture your brand's unique voice and vibe, connecting emotionally with your audience. They qualify leads 24/7, provide personalized responses, and gather valuable insights about your visitors. The best part? They continuously learn and improve! Would you like to hear how they've transformed lead generation for agencies similar to yours?";
+  } else if (lowercaseMessage.includes('ai') || lowercaseMessage.includes('artificial intelligence')) {
+    botResponseText = "You've touched on my favorite topic! 🚀 Our AI solutions are revolutionizing how marketing agencies create authentic connections. We offer vibe-driven content creation, cultural trend analysis, workflow automation, predictive analytics, and personalized client experiences. I'm curious - which of these capabilities would have the biggest impact on your agency's growth right now?";
+  } else if (lowercaseMessage.includes('workflow') || lowercaseMessage.includes('automate')) {
+    botResponseText = "Automation is a game-changer for marketing agencies! Our AI agents can free up 15-20 hours per week of your team's time by handling repetitive tasks like reporting, content scheduling, and client communications. Imagine what your team could accomplish with that extra creative bandwidth! Would you like to see a personalized demo showing how this could work specifically for your agency's workflow?";
+  } else if (lowercaseMessage.includes('contact') || lowercaseMessage.includes('talk') || lowercaseMessage.includes('human')) {
+    botResponseText = "I'd be thrilled to connect you with one of our vibe marketing specialists! 👋 They're passionate about helping agencies like yours leverage AI for authentic growth. To make the conversation as valuable as possible, could you share a bit about your agency's focus and what you're hoping to achieve with AI automation? This will help us prepare some relevant insights for your discussion.";
+  } else if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi')) {
+    botResponseText = "Hey there! 👋 Welcome to VibeAgency.ai! I'm your AI assistant, passionate about helping marketing agencies create authentic connections through AI-powered vibe marketing. Our team is dedicated to transforming how you engage with your audience and scale your operations. What brings you to our site today?";
+  } else if (lowercaseMessage.includes('vibe') || lowercaseMessage.includes('culture')) {
+    botResponseText = "You've touched on something we're passionate about! 💫 Vibe marketing is all about creating emotional resonance and cultural relevance that truly connects with your audience. Our AI agents analyze trending topics, audience sentiment, and cultural movements to help your brand stay authentically engaged. How are you currently approaching the 'vibe' aspect of your marketing strategy?";
+  } else if (lowercaseMessage.includes('case') || lowercaseMessage.includes('success') || lowercaseMessage.includes('results')) {
+    botResponseText = "I love sharing our success stories! One of our clients, SoftRx, increased social engagement by 217% using our AI content optimization tools. Another client, RX Surgical, automated their lead qualification process and saw closing rates jump by 45%! These results came from implementing our AI agents to create authentic, emotionally resonant campaigns. Would you like to hear how we might achieve similar results for your specific industry?";
   }
   
   const botResponse: ChatMessage = {
@@ -145,8 +151,9 @@ export const generateSpeech = async (options: HumeSpeechOptions): Promise<HumeSp
  */
 export const synthesizeSpeech = async (text: string): Promise<void> => {
   try {
-    // Use ElevenLabs API for more natural sounding voice
-    const voiceId = 'pNInz6obpgDQGcFmaJgB'; // ElevenLabs "Adam" voice ID
+    // Use ElevenLabs API for more natural, empathetic sounding voice
+    // Using Antoni voice which has a warm, friendly tone ideal for customer service
+    const voiceId = 'ErXwobaYiN019PkySvjV'; // ElevenLabs "Antoni" voice ID for more empathetic tone
     const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     
     const response = await fetch(apiUrl, {
@@ -157,11 +164,11 @@ export const synthesizeSpeech = async (text: string): Promise<void> => {
       },
       body: JSON.stringify({
         text,
-        model_id: 'eleven_monolingual_v1',
+        model_id: 'eleven_turbo_v2', // Using the more advanced Turbo model for better quality
         voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.75,
-          style: 0.0,
+          stability: 0.65, // Higher stability for more consistent tone
+          similarity_boost: 0.85, // Higher similarity for more distinctive voice character
+          style: 0.3, // Adding some style for more emotional speaking
           use_speaker_boost: true
         }
       }),
