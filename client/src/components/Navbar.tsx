@@ -60,70 +60,102 @@ const Navbar = () => {
                   className={`${scrolled ? "text-primary" : "text-white"}`}
                   style={{ transform: 'translateY(2px)' }}
                 >
-                  {/* Automation icon - gear with circuit elements */}
+                  {/* Circuit board connector design */}
                   <g>
-                    {/* Main gear */}
-                    <path 
-                      d="M12,3 L13.5,3.2 L14.6,6 L17,7 L19.5,5.5 L20.5,6.8 L18.9,9 L19.2,11.5 L21.5,12.5 L21,14 L18.2,14.6 L17,17 L18.5,19.5 L17.2,20.5 L15,18.9 L12.5,19.2 L11.5,21.5 L10,21 L9.4,18.2 L7,17 L4.5,18.5 L3.5,17.2 L5.1,15 L4.8,12.5 L2.5,11.5 L3,10 L5.8,9.4 L7,7 L5.5,4.5 L6.8,3.5 L9,5.1 L11.5,4.8 Z" 
+                    {/* Central processor/chip */}
+                    <rect 
+                      x="9" 
+                      y="9" 
+                      width="6" 
+                      height="6" 
+                      rx="1"
                       fill="none" 
                       stroke={scrolled ? "#6366F1" : "#ffffff"} 
                       strokeWidth="1"
                     >
-                      <animate 
-                        attributeName="transform" 
-                        attributeType="XML" 
-                        type="rotate" 
-                        from="0 12 12" 
-                        to="360 12 12" 
-                        dur="20s" 
-                        repeatCount="indefinite"
-                        additive="sum" 
-                      />
-                    </path>
-                    
-                    {/* Inner hub */}
-                    <circle 
-                      cx="12" 
-                      cy="12" 
-                      r="2.5" 
-                      fill="none" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1"
-                    >
-                      <animate 
-                        attributeName="r" 
-                        values="2.5;2.8;2.3;2.5" 
-                        dur="4s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    {/* Circuit lines */}
-                    <path 
-                      d="M12,9.5 L18,4 M12,14.5 L18,20 M12,14.5 L6,20 M12,9.5 L6,4" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="0.8" 
-                      strokeDasharray="0.8,0.8"
-                    >
-                      <animate 
-                        attributeName="strokeDashoffset" 
-                        from="0" 
-                        to="10" 
-                        dur="10s" 
-                        repeatCount="indefinite" 
-                      />
-                    </path>
-                    
-                    {/* Data nodes */}
-                    <circle cx="18" cy="4" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
                         attributeName="opacity" 
-                        values="1;0.4;1" 
-                        dur="3s" 
+                        values="1;0.7;1" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </rect>
+                    
+                    {/* Connection pins around the chip */}
+                    <line x1="12" y1="9" x2="12" y2="3" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
+                    <line x1="12" y1="15" x2="12" y2="21" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
+                    <line x1="9" y1="12" x2="3" y2="12" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
+                    <line x1="15" y1="12" x2="21" y2="12" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="1" />
+                    
+                    {/* Diagonal connectors */}
+                    <line x1="10" y1="10" x2="4" y2="4" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
+                    <line x1="14" y1="10" x2="20" y2="4" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
+                    <line x1="10" y1="14" x2="4" y2="20" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
+                    <line x1="14" y1="14" x2="20" y2="20" stroke={scrolled ? "#6366F1" : "#ffffff"} strokeWidth="0.8" />
+                    
+                    {/* Data flow indicators - moving along connector paths */}
+                    <circle cx="12" cy="6" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cy" 
+                        values="6;9;6" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0;1" 
+                        dur="2s" 
                         repeatCount="indefinite" 
                       />
                     </circle>
-                    <circle cx="18" cy="20" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                    
+                    <circle cx="12" cy="18" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cy" 
+                        values="18;15;18" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0;1" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    <circle cx="6" cy="12" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cx" 
+                        values="6;9;6" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0;1" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    <circle cx="18" cy="12" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="cx" 
+                        values="18;15;18" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0;1" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    {/* Corner connector endpoints */}
+                    <circle cx="4" cy="4" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
                         attributeName="opacity" 
                         values="0.4;1;0.4" 
@@ -131,7 +163,7 @@ const Navbar = () => {
                         repeatCount="indefinite" 
                       />
                     </circle>
-                    <circle cx="6" cy="20" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                    <circle cx="20" cy="4" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
                         attributeName="opacity" 
                         values="0.7;0.2;0.7" 
@@ -139,32 +171,53 @@ const Navbar = () => {
                         repeatCount="indefinite" 
                       />
                     </circle>
-                    <circle cx="6" cy="4" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                    <circle cx="4" cy="20" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
                         attributeName="opacity" 
-                        values="0.2;0.7;0.2" 
+                        values="0.2;0.8;0.2" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="20" cy="20" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.8;0.3;0.8" 
                         dur="3s" 
                         repeatCount="indefinite" 
                       />
                     </circle>
                     
-                    {/* Binary data pulse */}
-                    <circle 
-                      cx="12" 
-                      cy="12" 
-                      r="0.5" 
-                      fill={scrolled ? "#6366F1" : "#ffffff"}
-                    >
-                      <animate 
-                        attributeName="r" 
-                        values="0.5;4;0.5" 
-                        dur="4s" 
-                        repeatCount="indefinite" 
-                      />
+                    {/* Connector endpoints (north, south, east, west) */}
+                    <circle cx="12" cy="3" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
                         attributeName="opacity" 
-                        values="1;0;1" 
-                        dur="4s" 
+                        values="1;0.5;1" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="12" cy="21" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.5;1;0.5" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="3" cy="12" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.7;0.2;0.7" 
+                        dur="2s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="21" cy="12" r="1" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.2;0.7;0.2" 
+                        dur="2s" 
                         repeatCount="indefinite" 
                       />
                     </circle>
