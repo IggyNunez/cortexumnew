@@ -64,7 +64,7 @@ const Hero = () => {
         response = "We offer AI-powered automation for content creation, client reporting, data analysis, lead generation, and campaign optimization - all tailored to marketing agencies.";
       }
       else if (lowerQuestion.includes("voice") || lowerQuestion.includes("elevenlabs") || lowerQuestion.includes("assistant")) {
-        response = "Our voice-enabled AI assistants use ElevenLabs for natural-sounding text-to-speech. We can implement this technology for your agency and customize it for your clients' specific needs and branding.";
+        response = "Our voice-enabled AI assistants use advanced technology for natural-sounding text-to-speech. We can implement this technology for your agency and customize it for your clients' specific needs and branding.";
       }
       else if (lowerQuestion.includes("create") || lowerQuestion.includes("how") || lowerQuestion.includes("get")) {
         response = "To create your own AI assistant like this one, simply fill out our application form below. We'll customize the voice, responses, and branding to match your agency's needs and help you implement it for your clients.";

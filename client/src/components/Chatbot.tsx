@@ -333,7 +333,7 @@ const Chatbot = () => {
                   </button>
                 ) : (
                   <span>
-                    {voiceEnabled ? "Voice-enabled AI powered by ElevenLabs" : "Voice is disabled (click the speaker icon to enable)"}
+                    {voiceEnabled ? "Voice-enabled AI assistant" : "Voice is disabled (click the speaker icon to enable)"}
                   </span>
                 )}
               </div>
