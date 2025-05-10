@@ -241,8 +241,8 @@ const Chatbot = () => {
                   <div
                     className={`max-w-[80%] rounded-lg px-4 py-3 shadow-sm ${
                       msg.sender === "user"
-                        ? "bg-primary text-white rounded-tr-none"
-                        : "bg-gray-100 text-gray-800 rounded-tl-none"
+                        ? "bg-[#E63E8B] text-white rounded-tr-none"
+                        : "bg-[#F3F4FF] text-gray-800 rounded-tl-none border border-[#B485FF]/20"
                     }`}
                   >
                     <p className="text-base leading-relaxed font-medium">{msg.message}</p>
@@ -261,18 +261,18 @@ const Chatbot = () => {
               ))}
               {isLoading && (
                 <div className="flex justify-start mb-4">
-                  <div className="bg-gray-100 text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm">
+                  <div className="bg-[#F3F4FF] text-gray-800 rounded-lg rounded-tl-none px-4 py-3 shadow-sm border border-[#B485FF]/20">
                     <div className="flex space-x-2">
-                      <div className="h-2.5 w-2.5 bg-primary/50 rounded-full animate-bounce"></div>
-                      <div className="h-2.5 w-2.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                      <div className="h-2.5 w-2.5 bg-primary/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                      <div className="h-2.5 w-2.5 bg-[#357BD8]/70 rounded-full animate-bounce"></div>
+                      <div className="h-2.5 w-2.5 bg-[#B485FF]/70 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                      <div className="h-2.5 w-2.5 bg-[#E63E8B]/70 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
                     </div>
                   </div>
                 </div>
               )}
               {isSpeaking && (
                 <div className="flex justify-center mb-4">
-                  <div className="bg-primary/10 text-primary rounded-full px-4 py-1 text-sm font-medium flex items-center">
+                  <div className="bg-[#B485FF]/20 text-[#B485FF] rounded-full px-4 py-1 text-sm font-medium flex items-center">
                     <Volume2 className="h-3 w-3 mr-1 animate-pulse" />
                     Speaking...
                   </div>
@@ -282,11 +282,11 @@ const Chatbot = () => {
             </div>
 
             {/* Chat input */}
-            <div className="p-4 border-t">
-              <div className="flex items-center bg-gray-100 rounded-full overflow-hidden shadow-sm">
+            <div className="p-4 border-t border-[#B485FF]/10">
+              <div className="flex items-center bg-[#F3F4FF] rounded-full overflow-hidden shadow-sm border border-[#B485FF]/20">
                 <button 
                   onClick={handleVoiceRecording}
-                  className={`p-3 ${isRecording ? 'text-red-500 animate-pulse' : 'text-gray-600'} hover:text-primary transition-colors focus:outline-none`}
+                  className={`p-3 ${isRecording ? 'text-[#E63E8B] animate-pulse' : 'text-gray-600'} hover:text-[#357BD8] transition-colors focus:outline-none`}
                   aria-label={isRecording ? "Stop voice recording" : "Start voice recording"}
                 >
                   <Mic className="h-5 w-5" />
@@ -310,7 +310,7 @@ const Chatbot = () => {
                   className={`p-3 ${
                     message.trim() === "" || isLoading
                       ? "text-gray-400"
-                      : "text-primary hover:text-primary/80"
+                      : "text-[#E63E8B] hover:text-[#E63E8B]/80"
                   } transition-colors focus:outline-none`}
                   aria-label="Send message"
                 >
