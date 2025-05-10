@@ -49,53 +49,53 @@ const VideoFeature = () => {
           </motion.p>
         </div>
         
-        <motion.div 
-          className="relative max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-        >
-          <video 
-            ref={videoRef}
-            className="w-full h-auto"
-            loop
-            muted={isMuted}
-            playsInline
-            onClick={handlePlayPause}
-            poster=""
+        <div className="flex justify-center">
+          <motion.div 
+            className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl cursor-pointer group aspect-[9/16]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
           >
-            <source src="/AI Agents For Small Business - Mark Zuckerberg.publer.com.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-          {/* Play overlay */}
-          {!isPlaying && (
-            <div 
-              className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity group-hover:bg-black/60"
+            <video 
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              loop
+              muted={isMuted}
+              playsInline
               onClick={handlePlayPause}
+              poster=""
             >
-              <div className="bg-white/90 rounded-full p-5 shadow-lg transform transition-transform group-hover:scale-110">
-                <Play className="h-14 w-14 text-primary" />
-              </div>
-              <div className="absolute bottom-6 left-6 text-white font-medium text-lg">
-                Click to play
-              </div>
-            </div>
-          )}
+              <source src="/AI Agents For Small Business - Mark Zuckerberg.publer.com.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
 
-          {/* Controls */}
-          {isPlaying && (
-            <div className="absolute bottom-4 right-4 flex space-x-3">
-              <button 
-                onClick={handleMuteToggle}
-                className="bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-colors"
+            {!isPlaying && (
+              <div 
+                className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center transition-opacity group-hover:bg-black/60"
+                onClick={handlePlayPause}
               >
-                {isMuted ? <VolumeX className="h-5 w-5 text-gray-700" /> : <Volume2 className="h-5 w-5 text-gray-700" />}
-              </button>
-            </div>
-          )}
-        </motion.div>
+                <div className="bg-white/90 rounded-full p-5 shadow-lg transform transition-transform group-hover:scale-110 mb-4">
+                  <Play className="h-14 w-14 text-primary" />
+                </div>
+                <div className="text-white font-medium text-lg text-center px-4">
+                  Tap to hear what Mark has to say about AI
+                </div>
+              </div>
+            )}
+
+            {isPlaying && (
+              <div className="absolute bottom-6 right-6 flex space-x-3">
+                <button 
+                  onClick={handleMuteToggle}
+                  className="bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-colors"
+                >
+                  {isMuted ? <VolumeX className="h-6 w-6 text-gray-700" /> : <Volume2 className="h-6 w-6 text-gray-700" />}
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </div>
         
         <motion.div 
           className="mt-8 text-center"
