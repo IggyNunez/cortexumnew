@@ -73,17 +73,7 @@ const Testimonials = () => {
           ))}
         </div>
         
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <a href="#case-studies" className="inline-flex items-center text-primary font-semibold hover:underline">
-            View our case studies <span className="ml-2">→</span>
-          </a>
-        </motion.div>
+        {/* Case studies button removed */}
       </div>
     </section>
   );
