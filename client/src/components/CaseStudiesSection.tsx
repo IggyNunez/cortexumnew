@@ -27,12 +27,12 @@ const CaseStudiesSection = () => {
     },
     {
       client: "Bommorito Performance",
-      title: "Automated Client Reporting",
-      description: "How Bommorito Performance elite training center saved 20+ hours per week with AI-automated reporting.",
+      title: "AI-Powered Website & Lead Generation",
+      description: "How Bommorito Performance transformed their elite training center with an AI-rebuilt website and intelligent social media integration that automatically identifies and nurtures potential athlete prospects.",
       metrics: [
-        { label: "Time Saved", value: "20+ hrs/week" },
-        { label: "Client Satisfaction", value: "+42%" },
-        { label: "Revenue Growth", value: "31%" }
+        { label: "Athlete Leads", value: "+185%" },
+        { label: "Conversion Rate", value: "+67%" },
+        { label: "Digital Engagement", value: "3.4x growth" }
       ],
       image: "bommorito"
     },
