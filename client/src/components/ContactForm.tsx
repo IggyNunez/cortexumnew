@@ -97,7 +97,7 @@ const ContactForm = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 text-white text-on-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -106,7 +106,7 @@ const ContactForm = () => {
             Ready to Elevate Your Agency?
           </motion.h2>
           <motion.p 
-            className="text-xl opacity-90 max-w-3xl mx-auto"
+            className="text-xl text-white font-medium max-w-3xl mx-auto text-with-shadow"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -247,8 +247,9 @@ const ContactForm = () => {
                     
                     <Button 
                       type="submit" 
-                      className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
+                      className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-white focus:ring-offset-2 text-base"
                       disabled={isPending}
+                      aria-label="Submit consultation request form"
                     >
                       {isPending ? "Submitting..." : "Schedule My Consultation"}
                     </Button>
@@ -266,8 +267,8 @@ const ContactForm = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-bold mb-6">Why Partner With Us</h3>
-              <ul className="space-y-4">
+              <h3 className="text-2xl font-bold mb-6 text-white text-with-shadow">Why Partner With Us</h3>
+              <ul className="space-y-5">
                 {[
                   "Specialized expertise in AI for marketing agencies",
                   "Proven track record with agencies of all sizes",
@@ -283,8 +284,8 @@ const ContactForm = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.1 * index }}
                   >
-                    <Check className="mt-1 mr-3 h-5 w-5" />
-                    <span>{benefit}</span>
+                    <Check className="mt-1 mr-3 h-5 w-5 text-white" />
+                    <span className="text-white font-medium text-with-shadow">{benefit}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -297,19 +298,21 @@ const ContactForm = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h3 className="text-2xl font-bold mb-6">Our Clients</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <h3 className="text-2xl font-bold mb-6 text-white text-with-shadow">Our Clients</h3>
+              <div className="grid grid-cols-2 gap-5">
                 {[
                   { name: "A&E", logo: "A&E" },
                   { name: "Jamil Damji Real Estate Expert", logo: "JD" },
                   { name: "Bommorito Performance", logo: "BP" },
-                  { name: "FormRx", logo: "Rx" }
+                  { name: "FormRx", logo: "Rx" },
+                  { name: "Sunday Golf", logo: "SG" },
+                  { name: "Cortexuum", logo: "CX" }
                 ].map((client, index) => (
                   <div key={index} className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm shadow-sm text-white">
                       {client.logo}
                     </div>
-                    <span className="text-sm">{client.name}</span>
+                    <span className="text-sm text-white font-medium text-with-shadow">{client.name}</span>
                   </div>
                 ))}
               </div>
