@@ -60,85 +60,111 @@ const Navbar = () => {
                   className={`${scrolled ? "text-primary" : "text-white"}`}
                   style={{ transform: 'translateY(2px)' }}
                 >
-                  {/* Minimal robot face design */}
+                  {/* Automation icon - gear with circuit elements */}
                   <g>
-                    {/* Simple circular outline */}
-                    <circle cx="12" cy="12" r="9" 
+                    {/* Main gear */}
+                    <path 
+                      d="M12,3 L13.5,3.2 L14.6,6 L17,7 L19.5,5.5 L20.5,6.8 L18.9,9 L19.2,11.5 L21.5,12.5 L21,14 L18.2,14.6 L17,17 L18.5,19.5 L17.2,20.5 L15,18.9 L12.5,19.2 L11.5,21.5 L10,21 L9.4,18.2 L7,17 L4.5,18.5 L3.5,17.2 L5.1,15 L4.8,12.5 L2.5,11.5 L3,10 L5.8,9.4 L7,7 L5.5,4.5 L6.8,3.5 L9,5.1 L11.5,4.8 Z" 
                       fill="none" 
                       stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1.2"
+                      strokeWidth="1"
+                    >
+                      <animate 
+                        attributeName="transform" 
+                        attributeType="XML" 
+                        type="rotate" 
+                        from="0 12 12" 
+                        to="360 12 12" 
+                        dur="20s" 
+                        repeatCount="indefinite"
+                        additive="sum" 
+                      />
+                    </path>
+                    
+                    {/* Inner hub */}
+                    <circle 
+                      cx="12" 
+                      cy="12" 
+                      r="2.5" 
+                      fill="none" 
+                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
+                      strokeWidth="1"
                     >
                       <animate 
                         attributeName="r" 
-                        values="9;9.2;8.8;9" 
-                        dur="6s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    
-                    {/* Minimal eyes - just simple circles */}
-                    <circle cx="8" cy="10" r="1.5" 
-                      fill="none" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1.2">
-                      <animate 
-                        attributeName="cy" 
-                        values="10;9.8;10.2;10" 
-                        dur="4s" 
-                        repeatCount="indefinite" 
-                      />
-                    </circle>
-                    <circle cx="16" cy="10" r="1.5" 
-                      fill="none" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1.2">
-                      <animate 
-                        attributeName="cy" 
-                        values="10;10.2;9.8;10" 
+                        values="2.5;2.8;2.3;2.5" 
                         dur="4s" 
                         repeatCount="indefinite" 
                       />
                     </circle>
                     
-                    {/* Minimal smile - just a curved line */}
-                    <path d="M8,14 Q12,16.5 16,14" 
-                      fill="none"
+                    {/* Circuit lines */}
+                    <path 
+                      d="M12,9.5 L18,4 M12,14.5 L18,20 M12,14.5 L6,20 M12,9.5 L6,4" 
                       stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1.2" 
-                      strokeLinecap="round">
+                      strokeWidth="0.8" 
+                      strokeDasharray="0.8,0.8"
+                    >
                       <animate 
-                        attributeName="d" 
-                        values="M8,14 Q12,16.5 16,14;
-                                M8,14 Q12,16 16,14;
-                                M8,14 Q12,16.5 16,14" 
-                        dur="5s" 
+                        attributeName="strokeDashoffset" 
+                        from="0" 
+                        to="10" 
+                        dur="10s" 
                         repeatCount="indefinite" 
                       />
                     </path>
                     
-                    {/* Simple antenna */}
-                    <path d="M12,3 L12,1" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1.2" 
-                      strokeLinecap="round">
+                    {/* Data nodes */}
+                    <circle cx="18" cy="4" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
                       <animate 
-                        attributeName="d" 
-                        values="M12,3 L12,1;
-                                M12,3 L11.8,1;
-                                M12,3 L12.2,1;
-                                M12,3 L12,1" 
-                        dur="4s" 
+                        attributeName="opacity" 
+                        values="1;0.4;1" 
+                        dur="3s" 
                         repeatCount="indefinite" 
                       />
-                    </path>
-                    <circle cx="12" cy="1" r="0.8" 
-                      fill="none" 
-                      stroke={scrolled ? "#6366F1" : "#ffffff"} 
-                      strokeWidth="1">
+                    </circle>
+                    <circle cx="18" cy="20" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.4;1;0.4" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="6" cy="20" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.7;0.2;0.7" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    <circle cx="6" cy="4" r="0.8" fill={scrolled ? "#6366F1" : "#ffffff"}>
+                      <animate 
+                        attributeName="opacity" 
+                        values="0.2;0.7;0.2" 
+                        dur="3s" 
+                        repeatCount="indefinite" 
+                      />
+                    </circle>
+                    
+                    {/* Binary data pulse */}
+                    <circle 
+                      cx="12" 
+                      cy="12" 
+                      r="0.5" 
+                      fill={scrolled ? "#6366F1" : "#ffffff"}
+                    >
                       <animate 
                         attributeName="r" 
-                        values="0.8;0.7;0.9;0.8" 
-                        dur="3s" 
+                        values="0.5;4;0.5" 
+                        dur="4s" 
+                        repeatCount="indefinite" 
+                      />
+                      <animate 
+                        attributeName="opacity" 
+                        values="1;0;1" 
+                        dur="4s" 
                         repeatCount="indefinite" 
                       />
                     </circle>
