@@ -37,28 +37,6 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
-    <!-- ElevenLabs Convai Chat Widget with fallback -->
-    <script>
-      window.addEventListener('load', function() {
-        // Create the elevenlabs-convai element
-        if (!document.querySelector('elevenlabs-convai')) {
-          console.log('Adding ElevenLabs Convai widget...');
-          const convaiElement = document.createElement('elevenlabs-convai');
-          convaiElement.setAttribute('agent-id', '9r6C9zlC7olJEeuP1vOv');
-          document.body.appendChild(convaiElement);
-          
-          // Load the script
-          const script = document.createElement('script');
-          script.src = 'https://elevenlabs.io/convai-widget/index.js';
-          script.async = true;
-          script.onerror = function() {
-            console.error('Failed to load ElevenLabs Convai widget script');
-          };
-          document.body.appendChild(script);
-        }
-      });
-    </script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
 

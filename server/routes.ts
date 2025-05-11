@@ -429,10 +429,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // Get audio data
-        const audioData = await response.arrayBuffer();
-        const audioBase64 = Buffer.from(audioData).toString('base64');
+        const audioBuffer = await response.arrayBuffer();
+        const audioBase64 = Buffer.from(audioBuffer).toString('base64');
         
-        // Return both text and audio
+        console.log("Audio synthesis successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
+        
+        // Return both text and audio with proper data URI format
         res.status(200).json({
           success: true,
           response: textResponse,

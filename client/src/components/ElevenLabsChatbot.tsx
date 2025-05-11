@@ -65,23 +65,48 @@ const ElevenLabsChatbot = () => {
   // Function to play audio for a message
   const playMessageAudio = (audioData: string) => {
     if (audioRef.current) {
-      audioRef.current.src = audioData;
-      audioRef.current.oncanplaythrough = () => {
-        if (audioRef.current) {
+      try {
+        // Reset audio element
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        
+        // Set new source
+        audioRef.current.src = audioData;
+        
+        // Set up event handlers
+        audioRef.current.oncanplaythrough = () => {
+          console.log("Audio can play through");
+          if (audioRef.current) {
+            setIsPlaying(true);
+            audioRef.current.play().catch(e => {
+              console.error('Error playing audio:', e);
+              setIsPlaying(false);
+            });
+          }
+        };
+        
+        audioRef.current.onended = () => {
+          console.log("Audio playback ended");
+          setIsPlaying(false);
+        };
+        
+        audioRef.current.onerror = (e) => {
+          console.error('Error loading audio:', e);
+          setIsPlaying(false);
+        };
+        
+        // If we already have the data loaded, try to play immediately
+        if (audioRef.current.readyState >= 3) {
           setIsPlaying(true);
           audioRef.current.play().catch(e => {
-            console.error('Error playing audio:', e);
+            console.error('Error playing audio immediately:', e);
             setIsPlaying(false);
           });
         }
-      };
-      audioRef.current.onended = () => {
+      } catch (err) {
+        console.error('Error setting up audio playback:', err);
         setIsPlaying(false);
-      };
-      audioRef.current.onerror = () => {
-        console.error('Error loading audio');
-        setIsPlaying(false);
-      };
+      }
     }
   };
   
@@ -157,7 +182,7 @@ const ElevenLabsChatbot = () => {
   return (
     <>
       {/* Hidden audio element for playing speech */}
-      <audio ref={audioRef} className="hidden" />
+      <audio ref={audioRef} className="hidden" preload="auto" />
       
       {/* Chat toggle button */}
       <div className="fixed bottom-6 right-6 z-50">
