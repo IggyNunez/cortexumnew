@@ -88,23 +88,23 @@ const Hero = () => {
                   <img 
                     src={christianColgate} 
                     alt="Christian Colgate" 
-                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-[#E63E8B] mr-3"
+                    className="w-16 h-16 rounded-full object-cover object-center border-2 border-[#E63E8B] mr-4"
                   />
                   <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#E63E8B] flex items-center justify-center text-white">
                     <Bot className="h-3 w-3" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">AI Marketing Specialist</h3>
-                  <div className="flex flex-col">
+                  <h3 className="font-bold text-lg mb-1.5">AI Marketing Specialist</h3>
+                  <div className="flex flex-col space-y-1.5">
                     <div className="flex items-center">
                       <p className="text-gray-700 text-sm font-medium">Christian Colgate</p>
-                      <span className="ml-2 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
+                      <span className="ml-3 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
                     </div>
                     <div className="flex items-center">
                       <p className="text-gray-500 text-xs">Founder</p>
                     </div>
-                    <span className="text-[#E63E8B] text-xs font-medium mt-1">
+                    <span className="text-[#E63E8B] text-xs font-medium mt-2">
                       Book a consultation with Christian →
                     </span>
                   </div>
