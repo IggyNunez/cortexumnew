@@ -33,7 +33,17 @@ const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits" }),
   companyName: z.string().min(2, { message: "Company name is required" }),
-  companyWebsite: z.string().url({ message: "Please enter a valid URL" }).optional(),
+  companyWebsite: z.string()
+    .refine(
+      (value) => {
+        // Allow empty value (optional field)
+        if (!value) return true;
+        // Simple domain regex without protocol
+        return /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/.test(value);
+      },
+      { message: "Please enter a valid domain (e.g., example.com)" }
+    )
+    .optional(),
   businessType: z.string(),
   companySize: z.string(),
   annualRevenue: z.string(),
@@ -150,8 +160,26 @@ const ContactForm = () => {
     },
   });
 
+  // Helper to clean website URL format
+  const cleanWebsiteFormat = (website: string): string => {
+    if (!website) return "";
+    
+    // Remove any protocol and trailing slashes
+    let cleaned = website.trim();
+    cleaned = cleaned.replace(/^(https?:\/\/)?(www\.)?/i, '');
+    cleaned = cleaned.replace(/\/+$/, '');
+    
+    return cleaned;
+  };
+
   const onSubmit = (data: FormValues) => {
-    mutate(data);
+    // Clean up website format if provided
+    const formData = {
+      ...data,
+      companyWebsite: cleanWebsiteFormat(data.companyWebsite || '')
+    };
+    
+    mutate(formData);
   };
 
   const businessTypes = [
@@ -341,8 +369,11 @@ const ContactForm = () => {
                         <FormItem>
                           <FormLabel className="text-gray-700">Company Website</FormLabel>
                           <FormControl>
-                            <Input placeholder="https://yourcompany.com" {...field} className="rounded-lg" />
+                            <Input placeholder="yourcompany.com" {...field} className="rounded-lg" />
                           </FormControl>
+                          <FormDescription className="text-xs">
+                            Just enter the domain name (e.g., example.com)
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
