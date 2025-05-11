@@ -9,7 +9,7 @@ import WhyHireUsSection from "@/components/WhyHireUsSection";
 import FutureInsights from "@/components/FutureInsights";
 import ContactSection from "@/components/ContactSection";
 import ContentFunnelSection from "@/components/ContentFunnelSection";
-import ResourcesSection from "@/components/ResourcesSection";
+
 import Footer from "@/components/Footer";
 import { useScrollFade } from "@/hooks/useScrollFade";
 import SectionDivider from "@/components/SectionDivider";
@@ -86,13 +86,6 @@ const Home = () => {
       </section>
       
       <SectionDivider gradient="brain-purple" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
-      
-      {/* Resources section */}
-      <section id="resources" className="py-10 md:py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
-        <ResourcesSection />
-      </section>
-      
-      <SectionDivider gradient="brain-magenta" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Contact section */}
       <section id="contact" className="py-10 md:py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">

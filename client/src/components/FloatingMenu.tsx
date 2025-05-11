@@ -100,7 +100,6 @@ const FloatingMenu: React.FC = () => {
     { name: 'Why Hire Us', href: '#why-hire-us' },
     { name: 'Content Funnel', href: '#content-funnel' },
     { name: 'Future Insights', href: '#future-insights' },
-    { name: 'Resources', href: '#resources' },
     { name: 'Contact', href: '#contact' },
   ];
 
