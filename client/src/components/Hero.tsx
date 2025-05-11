@@ -4,11 +4,6 @@ import { Bot } from "lucide-react";
 import christianColgate from '../assets/christian-colgate.webp';
 
 const Hero = () => {
-  // Function to open ElevenLabs agent in a new tab
-  const openElevenLabsAgent = () => {
-    window.open('https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz', '_blank');
-  };
-  
   return (
     <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#0d1117] to-[#16213e] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,19 +51,7 @@ const Hero = () => {
                   <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL NOW</a>
                 </Button>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  onClick={openElevenLabsAgent}
-                  size="lg"
-                  className="bg-[#357BD8] text-white hover:bg-[#357BD8]/90 rounded-full font-bold text-base flex items-center gap-2 focus:ring-2 focus:ring-[#357BD8] focus:ring-offset-2"
-                >
-                  <Bot className="h-5 w-5" />
-                  Chat with AI Assistant
-                </Button>
-              </motion.div>
+
               <Button
                 asChild
                 size="lg"
@@ -94,19 +77,20 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Chat card that links to ElevenLabs AI Assistant */}
-            <div 
-              onClick={openElevenLabsAgent}
-              className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto cursor-pointer hover:shadow-xl transition-all"
+            <a 
+              href="https://calendly.com/cortexuummarketing/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto cursor-pointer hover:shadow-xl transition-all block"
             >
               <div className="flex items-center mb-6">
                 <div className="relative">
                   <img 
                     src={christianColgate} 
                     alt="Christian Colgate" 
-                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-[#357BD8] mr-3"
+                    className="w-14 h-14 rounded-full object-cover object-center border-2 border-[#E63E8B] mr-3"
                   />
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#357BD8] flex items-center justify-center text-white">
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#E63E8B] flex items-center justify-center text-white">
                     <Bot className="h-3 w-3" />
                   </div>
                 </div>
@@ -117,20 +101,13 @@ const Hero = () => {
                       <p className="text-gray-500 text-sm">Christian Colgate, Founder</p>
                       <span className="ml-2 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
                     </div>
-                    <a 
-                      href="https://calendly.com/cortexuummarketing/30min" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#E63E8B] text-xs font-medium hover:underline mt-1"
-                      onClick={(e) => e.stopPropagation()} // Prevent chat trigger when clicking the link
-                    >
+                    <span className="text-[#E63E8B] text-xs font-medium mt-1">
                       Book a consultation with Christian →
-                    </a>
+                    </span>
                   </div>
                 </div>
               </div>
               
-              {/* Static example messages */}
               <div className="space-y-4 mb-6">
                 <div className="bg-gray-100 rounded-2xl p-4 rounded-tl-none max-w-[80%]">
                   <p className="text-gray-800">
@@ -144,12 +121,11 @@ const Hero = () => {
                 </div>
               </div>
               
-              {/* Chat with AI prompt */}
               <div className="relative">
                 <div className="w-full p-4 pr-12 rounded-full border border-gray-200 bg-gray-50 text-gray-600 font-medium">
-                  Chat with our AI marketing expert on ElevenLabs
+                  Schedule a consultation to learn more
                 </div>
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#357BD8] text-white h-8 w-8 rounded-full flex items-center justify-center animate-pulse">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#E63E8B] text-white h-8 w-8 rounded-full flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2L11 13"></path>
                     <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
@@ -159,19 +135,18 @@ const Hero = () => {
               
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
-            </div>
+            </a>
             
-            {/* Decorative elements */}
             <motion.div 
               className="absolute top-1/4 right-0 w-12 h-12 rounded-full bg-white/20 z-0"
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 3 }}
-            ></motion.div>
+            />
             <motion.div 
               className="absolute bottom-1/3 left-0 w-8 h-8 rounded-full bg-white/10 z-0"
               animate={{ y: [0, -15, 0] }}
               transition={{ repeat: Infinity, duration: 4 }}
-            ></motion.div>
+            />
           </motion.div>
         </div>
       </div>
