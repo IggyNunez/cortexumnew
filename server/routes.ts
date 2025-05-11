@@ -305,8 +305,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Use "Bella" voice - one of the newest most lifelike voices from ElevenLabs
-      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
+      // Use "Rachel" voice - a professional sounding female voice
+      const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
       const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
       
       // Log the synthesis request
@@ -320,18 +320,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_multilingual_v2', // Using the most advanced multilingual model
+          model_id: 'eleven_monolingual_v1', // Using a model we know exists from our API test
           voice_settings: {
-            stability: 0.15, // Extremely low stability for maximum natural variation
-            similarity_boost: 0.45, // Even lower similarity for the most natural speech patterns
-            style: 1.0, // Maximum style for the most human-like intonation
-            use_speaker_boost: true
+            stability: 0.5,
+            similarity_boost: 0.5
           }
         }),
       });
       
       if (!response.ok) {
-        throw new Error('ElevenLabs API request failed: ' + await response.text());
+        const errorText = await response.text();
+        console.error('ElevenLabs API error in synthesize:', errorText);
+        throw new Error('ElevenLabs API request failed: ' + errorText);
       }
       
       // Get audio blob from response
@@ -345,6 +345,116 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         error: "Failed to process speech synthesis request" 
+      });
+    }
+  });
+  
+  // Combined chat and speech synthesis endpoint
+  app.post("/api/elevenlabs/chat-with-voice", async (req: Request, res: Response) => {
+    try {
+      const { message, history = [] } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Message is required" 
+        });
+      }
+      
+      // Log the chat request
+      console.log("Voice chat request received:", message.substring(0, 50) + (message.length > 50 ? "..." : ""));
+      
+      // First get text response (using our existing chat logic)
+      let textResponse = "";
+      
+      try {
+        // Use the fallback pattern matching since the text generation API isn't working
+        const lowercaseMessage = message.toLowerCase();
+        
+        if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi') || lowercaseMessage.includes('hey')) {
+          textResponse = "Hello! I'm your AI marketing assistant. How can I help you today?";
+        } else if (lowercaseMessage.includes('marketing') && (lowercaseMessage.includes('help') || lowercaseMessage.includes('service'))) {
+          textResponse = "We offer a wide range of AI-powered marketing services including content generation, media buying strategies, audience analysis, and predictive campaign optimization. Would you like to know more about any specific service?";
+        } else if (lowercaseMessage.includes('content') || lowercaseMessage.includes('blog') || lowercaseMessage.includes('article')) {
+          textResponse = "Our AI content generation services help create engaging, SEO-optimized content that resonates with your target audience. We can create blog posts, social media content, email campaigns, and more!";
+        } else if (lowercaseMessage.includes('price') || lowercaseMessage.includes('cost') || lowercaseMessage.includes('package')) {
+          textResponse = "Our pricing depends on your specific needs. We offer custom packages starting at $999/month for small businesses. Would you like to schedule a call to discuss a personalized solution?";
+        } else if (lowercaseMessage.includes('book') || lowercaseMessage.includes('schedule') || lowercaseMessage.includes('call') || lowercaseMessage.includes('consultation')) {
+          textResponse = "Great! You can book a call with our team at https://calendly.com/cortexuummarketing/30min. We look forward to discussing how we can help your business grow!";
+        } else if (lowercaseMessage.includes('social media') || lowercaseMessage.includes('facebook') || lowercaseMessage.includes('instagram') || lowercaseMessage.includes('linkedin')) {
+          textResponse = "Our social media marketing services leverage AI to create engaging content, optimize posting schedules, and target the right audience for maximum engagement and conversion.";
+        } else if (lowercaseMessage.includes('seo') || lowercaseMessage.includes('search engine')) {
+          textResponse = "Our AI-powered SEO services help improve your website's visibility in search results. We analyze key metrics, identify trending topics in your industry, and optimize your content to rank higher.";
+        } else if (lowercaseMessage.includes('email') || lowercaseMessage.includes('newsletter')) {
+          textResponse = "Our email marketing services use AI to segment your audience, personalize content, and optimize send times for maximum open and conversion rates.";
+        } else if (lowercaseMessage.includes('thank')) {
+          textResponse = "You're welcome! Is there anything else I can help you with today?";
+        } else if (lowercaseMessage.includes('bye') || lowercaseMessage.includes('goodbye')) {
+          textResponse = "Thank you for chatting! If you'd like to learn more about our services or schedule a consultation, feel free to book a call at any time. Have a great day!";
+        } else {
+          textResponse = "Thank you for your message. Our AI-powered marketing solutions can help your business grow with data-driven strategies. Would you like to learn more about our specific services or schedule a consultation?";
+        }
+        
+      } catch (error) {
+        console.error("Error generating text response:", error);
+        textResponse = "I'm sorry, I couldn't process your request at the moment. Can you please try again?";
+      }
+      
+      // Now generate speech for the response
+      try {
+        // Use "Rachel" voice
+        const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
+        const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+        
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+          },
+          body: JSON.stringify({
+            text: textResponse,
+            model_id: 'eleven_monolingual_v1',
+            voice_settings: {
+              stability: 0.5,
+              similarity_boost: 0.5
+            }
+          }),
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('ElevenLabs API error in voice synthesis:', errorText);
+          throw new Error('ElevenLabs API speech synthesis failed: ' + errorText);
+        }
+        
+        // Get audio data
+        const audioData = await response.arrayBuffer();
+        const audioBase64 = Buffer.from(audioData).toString('base64');
+        
+        // Return both text and audio
+        res.status(200).json({
+          success: true,
+          response: textResponse,
+          audio: `data:audio/mpeg;base64,${audioBase64}`
+        });
+        
+      } catch (voiceError) {
+        console.error("Error generating voice:", voiceError);
+        // Return just the text if voice fails
+        res.status(200).json({
+          success: true,
+          response: textResponse,
+          audio: null,
+          error: "Voice generation failed"
+        });
+      }
+      
+    } catch (error: any) {
+      console.error("Error processing voice chat request:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || "Failed to process voice chat request" 
       });
     }
   });

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Bot, X, Maximize2, Minimize2 } from 'lucide-react';
+import { Bot, X, Maximize2, Minimize2, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { nanoid } from 'nanoid';
@@ -9,6 +9,7 @@ interface Message {
   content: string;
   isUser: boolean;
   timestamp: Date;
+  audio?: string; // Base64 encoded audio data
 }
 
 const ElevenLabsChatbot = () => {
@@ -57,6 +58,33 @@ const ElevenLabsChatbot = () => {
     setIsMinimized(false);
   };
 
+  // Audio player reference
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  // Function to play audio for a message
+  const playMessageAudio = (audioData: string) => {
+    if (audioRef.current) {
+      audioRef.current.src = audioData;
+      audioRef.current.oncanplaythrough = () => {
+        if (audioRef.current) {
+          setIsPlaying(true);
+          audioRef.current.play().catch(e => {
+            console.error('Error playing audio:', e);
+            setIsPlaying(false);
+          });
+        }
+      };
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+      };
+      audioRef.current.onerror = () => {
+        console.error('Error loading audio');
+        setIsPlaying(false);
+      };
+    }
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -73,8 +101,8 @@ const ElevenLabsChatbot = () => {
     setIsLoading(true);
 
     try {
-      // Make request to ElevenLabs API through our backend proxy
-      const response = await fetch('/api/elevenlabs/chat', {
+      // Make request to ElevenLabs API through our backend proxy with voice
+      const response = await fetch('/api/elevenlabs/chat-with-voice', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -94,15 +122,21 @@ const ElevenLabsChatbot = () => {
 
       const data = await response.json();
       
-      // Add bot response
+      // Add bot response with audio if available
       const botMessage: Message = {
         id: nanoid(),
         content: data.response || "I'm sorry, I couldn't process your request. Please try again.",
         isUser: false,
-        timestamp: new Date()
+        timestamp: new Date(),
+        audio: data.audio || undefined
       };
       
       setMessages(prev => [...prev, botMessage]);
+      
+      // Play audio if available
+      if (data.audio) {
+        playMessageAudio(data.audio);
+      }
     } catch (error) {
       console.error('Error communicating with chatbot:', error);
       
@@ -122,17 +156,23 @@ const ElevenLabsChatbot = () => {
 
   return (
     <>
+      {/* Hidden audio element for playing speech */}
+      <audio ref={audioRef} className="hidden" />
+      
       {/* Chat toggle button */}
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={handleToggleChat}
-          className="w-14 h-14 rounded-full bg-[#357BD8] hover:bg-[#357BD8]/90 text-white shadow-lg flex items-center justify-center p-0"
+          className="w-14 h-14 rounded-full bg-[#357BD8] hover:bg-[#357BD8]/90 text-white shadow-lg flex items-center justify-center p-0 relative"
           aria-label={isOpen ? "Close chat" : "Open chat"}
         >
           {isOpen ? (
             <X className="h-6 w-6" />
           ) : (
             <Bot className="h-6 w-6" />
+          )}
+          {isPlaying && (
+            <span className="absolute -top-1 -right-1 bg-[#E63E8B] w-4 h-4 rounded-full animate-pulse"></span>
           )}
         </Button>
       </div>
@@ -184,7 +224,20 @@ const ElevenLabsChatbot = () => {
                           : 'bg-gray-200 text-gray-800 rounded-tl-none'
                       }`}
                     >
-                      <p className="text-sm">{message.content}</p>
+                      <div className="flex items-start">
+                        <p className="text-sm">{message.content}</p>
+                        
+                        {!message.isUser && message.audio && (
+                          <button 
+                            onClick={() => playMessageAudio(message.audio!)}
+                            className="ml-2 mt-0.5 inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors flex-shrink-0"
+                            aria-label="Play message audio"
+                            title="Play audio"
+                          >
+                            <Volume2 className="h-3 w-3 text-gray-700" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
