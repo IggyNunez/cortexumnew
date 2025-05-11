@@ -1,6 +1,7 @@
 import cortexuumPsychologyLogo from '../assets/cortexuum-logo-psychology.png';
 import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
 import cortexuumLogoFooter from '../assets/cortexuum-logo-footer.png';
+import { Bot } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,6 +12,7 @@ const Footer = () => {
       { name: 'Funnel Buildouts', href: '/#services' },
       { name: 'Offer Creation', href: '/#services' },
       { name: 'Social Media', href: '/#services' },
+      { name: 'AI Assistant', href: 'https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz', isExternal: true },
     ],
     company: [
       { name: 'About', href: '/#about' },
@@ -52,10 +54,18 @@ const Footer = () => {
               {navigation.solutions.map((item) => (
                 <li key={item.name}>
                   <a 
-                    href={item.href} 
-                    className="text-gray-300 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline transition-colors"
+                    href={item.href}
+                    target={item.isExternal ? "_blank" : undefined}
+                    rel={item.isExternal ? "noopener noreferrer" : undefined}
+                    className={`text-gray-300 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline transition-colors ${item.name === 'AI Assistant' ? 'flex items-center gap-1' : ''}`}
                   >
+                    {item.name === 'AI Assistant' && <Bot className="h-3 w-3" />}
                     {item.name}
+                    {item.isExternal && (
+                      <svg className="ml-1 h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    )}
                   </a>
                 </li>
               ))}
@@ -105,15 +115,24 @@ const Footer = () => {
                 Data-driven solutions that beat opinions, every time.
               </p>
             </div>
-            <div className="mt-6 md:mt-0">
+            <div className="mt-6 md:mt-0 flex space-x-4">
               <a 
                 href="https://calendly.com/cortexuummarketing/30min" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                className="bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-3 text-sm font-bold transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2 focus:ring-offset-gray-900"
                 aria-label="Book a call with Cortexuum"
               >
                 BOOK A CALL
+              </a>
+              <a 
+                href="https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#357BD8] hover:bg-[#357BD8]/90 text-white rounded-full px-5 py-3 text-sm font-medium transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#357BD8] focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2"
+                aria-label="Chat with our AI assistant"
+              >
+                <Bot className="h-4 w-4" /> Chat with AI
               </a>
             </div>
           </div>
