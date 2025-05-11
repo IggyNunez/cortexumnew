@@ -7,8 +7,8 @@
     <title>✨ Cortexuum | Psychology-Based AI Marketing Agency</title>
     <meta name="description" content="Transform your business with AI-powered marketing. Cortexuum combines psychological principles with cutting-edge AI to deliver superior marketing results that outperform traditional approaches." />
     <meta name="theme-color" content="#111827" />
-    <!-- Security headers - adjusted to allow AudioWorklets -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; worker-src 'self' blob:; child-src 'self' blob:">
+    <!-- Security headers - adjusted to allow ElevenLabs widget and Stripe -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; worker-src 'self' blob: https://elevenlabs.io; child-src 'self' blob: https://elevenlabs.io https://js.stripe.com; script-src 'self' https://elevenlabs.io https://replit.com https://js.stripe.com 'unsafe-inline'; connect-src 'self' https://api.stripe.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
@@ -36,11 +36,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
     <!-- ElevenLabs Convai Chat Widget -->
     <elevenlabs-convai agent-id="9r6C9zlC7olJEeuP1vOv"></elevenlabs-convai>
     <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-    
-    <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
 
