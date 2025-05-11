@@ -95,14 +95,12 @@ const Hero = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg mb-1.5">AI Marketing Specialist</h3>
-                  <div className="flex flex-col space-y-1.5">
+                  <h3 className="font-bold text-lg mb-1">AI Marketing Specialist</h3>
+                  <p className="text-gray-700 text-sm font-medium mb-1">Christian Colgate</p>
+                  <div className="flex flex-col space-y-2">
                     <div className="flex items-center">
-                      <p className="text-gray-700 text-sm font-medium">Christian Colgate</p>
-                      <span className="ml-3 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
-                    </div>
-                    <div className="flex items-center">
-                      <p className="text-gray-500 text-xs">Founder</p>
+                      <p className="text-gray-500 text-xs mr-3">Founder</p>
+                      <span className="bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
                     </div>
                     <span className="text-[#E63E8B] text-xs font-medium mt-2">
                       Book a consultation with Christian →
