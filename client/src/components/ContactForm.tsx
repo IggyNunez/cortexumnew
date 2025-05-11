@@ -361,6 +361,7 @@ const ContactForm = () => {
                             <FormLabel className="text-gray-700">Type of Business*</FormLabel>
                             <Select 
                               onValueChange={field.onChange} 
+                              value={field.value}
                               defaultValue={field.value}
                             >
                               <FormControl>
@@ -388,7 +389,8 @@ const ContactForm = () => {
                           <FormItem>
                             <FormLabel className="text-gray-700">Company Size*</FormLabel>
                             <Select 
-                              onValueChange={field.onChange} 
+                              onValueChange={field.onChange}
+                              value={field.value}
                               defaultValue={field.value}
                             >
                               <FormControl>
