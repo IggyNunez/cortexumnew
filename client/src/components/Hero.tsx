@@ -90,22 +90,21 @@ const Hero = () => {
                     alt="Christian Colgate" 
                     className="w-16 h-16 rounded-full object-cover object-center border-2 border-[#E63E8B] mr-4"
                   />
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#E63E8B] flex items-center justify-center text-white">
-                    <Bot className="h-3 w-3" />
+                  <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#E63E8B] flex items-center justify-center text-white shadow-md">
+                    <Bot className="h-4 w-4" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg mb-1">AI Marketing Specialist</h3>
-                  <p className="text-gray-700 text-sm font-medium mb-1">Christian Colgate</p>
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center">
-                      <p className="text-gray-500 text-xs mr-3">Founder</p>
-                      <span className="bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
-                    </div>
-                    <span className="text-[#E63E8B] text-xs font-medium mt-2">
-                      Book a consultation with Christian →
+                  <h3 className="font-bold text-lg">AI Marketing Specialist</h3>
+                  <div className="mt-3 mb-2 flex items-center">
+                    <span className="bg-[#B485FF]/20 text-xs px-2 py-0.5 rounded-full text-[#B485FF] font-medium inline-flex items-center">
+                      <Bot className="h-3 w-3 mr-1" />
+                      AI-Powered
                     </span>
                   </div>
+                  <span className="text-[#E63E8B] text-sm font-medium block mt-3">
+                    Book a consultation →
+                  </span>
                 </div>
               </div>
               
