@@ -5,9 +5,9 @@ import christianColgate from '../assets/christian-colgate.webp';
 
 const Hero = () => {
   return (
-    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#0d1117] to-[#16213e] overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="hero" className="pt-28 pb-20 bg-gradient-to-br from-[#0d1117] to-[#16213e] overflow-hidden w-full">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -28,8 +28,9 @@ const Hero = () => {
                 With proprietary AI models trained on psychological principles, we're redefining what's possible.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full">
               <motion.div
+                className="w-full sm:w-auto"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ scale: 1 }}
@@ -46,9 +47,9 @@ const Hero = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#E63E8B] text-white hover:bg-[#E63E8B]/90 rounded-full font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
+                  className="w-full bg-[#E63E8B] text-white hover:bg-[#E63E8B]/90 rounded-full font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
                 >
-                  <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL NOW</a>
+                  <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer" className="w-full text-center">BOOK A CALL NOW</a>
                 </Button>
               </motion.div>
 
@@ -56,9 +57,9 @@ const Hero = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-2 border-[#B485FF] text-white hover:bg-[#B485FF]/20 rounded-full font-bold text-base focus:ring-2 focus:ring-[#B485FF] focus:ring-offset-2 bg-[#B485FF]/10"
+                className="w-full sm:w-auto border-2 border-[#B485FF] text-white hover:bg-[#B485FF]/20 rounded-full font-bold text-base focus:ring-2 focus:ring-[#B485FF] focus:ring-offset-2 bg-[#B485FF]/10"
               >
-                <a href="#services">Our Services</a>
+                <a href="#services" className="w-full text-center">Our Services</a>
               </Button>
             </div>
             <div className="mt-8 flex items-center text-sm">
