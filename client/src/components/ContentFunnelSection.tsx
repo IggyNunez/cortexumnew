@@ -4,11 +4,8 @@ import { Button } from "@/components/ui/button";
 import { 
   Thermometer, 
   ArrowRight, 
-  Star, 
   TrendingUp, 
-  PenTool, 
-  Download,
-  Calendar
+  PenTool
 } from 'lucide-react';
 
 const ContentFunnelSection = () => {
@@ -71,27 +68,7 @@ const ContentFunnelSection = () => {
     }
   ];
 
-  // Lead magnets
-  const leadMagnets = [
-    {
-      title: "Media Buying Checklist",
-      description: "Essential checklist for optimizing your media campaigns",
-      icon: <Download className="w-6 h-6 text-blue-500" />,
-      link: "#lead-magnet-1"
-    },
-    {
-      title: "Psychology-Based Marketing Guide",
-      description: "Leverage psychology principles to improve conversion rates",
-      icon: <Star className="w-6 h-6 text-purple-500" />,
-      link: "#lead-magnet-2"
-    },
-    {
-      title: "90-Day Content Strategy Template",
-      description: "Map out your content calendar for maximum engagement",
-      icon: <Calendar className="w-6 h-6 text-green-500" />,
-      link: "#lead-magnet-3"
-    }
-  ];
+
 
   return (
     <section id="content-funnel" className="py-20 bg-gray-50">
@@ -176,43 +153,7 @@ const ContentFunnelSection = () => {
           </div>
         </div>
 
-        {/* Lead Magnets */}
-        <div className="mb-12">
-          <motion.h3 
-            className="text-2xl font-bold text-center mb-10 text-gray-800"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            Free Marketing Resources
-          </motion.h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {leadMagnets.map((magnet, index) => (
-              <motion.div 
-                key={magnet.title}
-                className="bg-white p-6 rounded-lg shadow border border-gray-100 hover:shadow-md transition-shadow duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="p-2 rounded-full bg-gray-100 mr-3">
-                    {magnet.icon}
-                  </div>
-                  <h4 className="font-semibold text-lg">{magnet.title}</h4>
-                </div>
-                <p className="text-gray-600 mb-4 text-sm">{magnet.description}</p>
-                <a 
-                  href={magnet.link} 
-                  className="text-blue-600 hover:text-blue-800 inline-flex items-center text-sm font-medium"
-                >
-                  Download Free Resource <ArrowRight className="ml-1 w-4 h-4" />
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+
 
 
       </div>
