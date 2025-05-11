@@ -12,7 +12,6 @@ const Footer = () => {
       { name: 'Funnel Buildouts', href: '/#services' },
       { name: 'Offer Creation', href: '/#services' },
       { name: 'Social Media', href: '/#services' },
-      { name: 'AI Assistant', href: 'https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz', isExternal: true },
     ],
     company: [
       { name: 'About', href: '/#about' },
@@ -125,15 +124,7 @@ const Footer = () => {
               >
                 BOOK A CALL
               </a>
-              <a 
-                href="https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#357BD8] hover:bg-[#357BD8]/90 text-white rounded-full px-5 py-3 text-sm font-medium transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#357BD8] focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2"
-                aria-label="Chat with our AI assistant"
-              >
-                <Bot className="h-4 w-4" /> Chat with AI
-              </a>
+
             </div>
           </div>
           <div className="mt-4 text-center">

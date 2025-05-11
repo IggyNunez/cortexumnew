@@ -102,14 +102,7 @@ const Navbar = () => {
               </a>
             </Button>
             
-            <Button
-              asChild
-              className="bg-[#357BD8] hover:bg-[#357BD8]/90 text-white rounded-full px-5 py-2 text-sm font-medium flex items-center gap-1 shadow-md transition-all hover:shadow-lg"
-            >
-              <a href="https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz" target="_blank" rel="noopener noreferrer">
-                <Bot className="h-4 w-4" /> Chat with AI
-              </a>
-            </Button>
+
           </nav>
 
           {/* Mobile menu button */}
@@ -184,19 +177,7 @@ const Navbar = () => {
                     </a>
                   </Button>
                   
-                  <Button
-                    asChild
-                    className="w-full bg-[#357BD8] hover:bg-[#357BD8]/90 text-white rounded-full py-3 text-base font-medium shadow-md flex items-center justify-center gap-2"
-                  >
-                    <a 
-                      href="https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      onClick={handleNavClick}
-                    >
-                      <Bot className="h-5 w-5" /> Chat with AI Assistant
-                    </a>
-                  </Button>
+
                 </div>
               </div>
             </div>
