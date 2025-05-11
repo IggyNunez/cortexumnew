@@ -404,8 +404,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Now generate speech for the response
       try {
-        // Use "Rachel" voice
-        const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
+        // Use "Sarah" voice from our API lookup
+        const voiceId = 'EXAVITQu4vr4xnSDxMaL';
         const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
         
         const response = await fetch(apiUrl, {
