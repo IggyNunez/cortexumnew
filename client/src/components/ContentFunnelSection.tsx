@@ -5,12 +5,8 @@ import {
   Thermometer, 
   ArrowRight, 
   Star, 
-  Users, 
   TrendingUp, 
-  Mail, 
   PenTool, 
-  Video, 
-  LineChart,
   Download,
   Calendar
 } from 'lucide-react';
@@ -218,73 +214,7 @@ const ContentFunnelSection = () => {
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <motion.div 
-          className="bg-blue-600 text-white p-10 rounded-2xl shadow-xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Get Our Weekly Marketing Intel</h3>
-              <p className="mb-6">Join our newsletter for exclusive psychology-based marketing insights and strategies delivered straight to your inbox.</p>
-              <ul className="space-y-2 mb-8">
-                <li className="flex items-center">
-                  <Star className="w-5 h-5 mr-2 text-yellow-300" /> 
-                  <span>Latest AI marketing trends and case studies</span>
-                </li>
-                <li className="flex items-center">
-                  <Star className="w-5 h-5 mr-2 text-yellow-300" /> 
-                  <span>Proven funnel strategies and tactics</span>
-                </li>
-                <li className="flex items-center">
-                  <Star className="w-5 h-5 mr-2 text-yellow-300" /> 
-                  <span>Exclusive resources and tools</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <div className="bg-white p-6 rounded-lg shadow-inner">
-                <h4 className="text-blue-700 font-bold text-lg mb-4">Subscribe to Our Newsletter</h4>
-                <form className="space-y-4">
-                  <div>
-                    <input 
-                      type="text" 
-                      placeholder="Your Name" 
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                    />
-                  </div>
-                  <div>
-                    <input 
-                      type="email" 
-                      placeholder="Your Email" 
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                    />
-                  </div>
-                  <div>
-                    <select 
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                    >
-                      <option value="">Your Industry</option>
-                      <option value="ecommerce">E-commerce</option>
-                      <option value="saas">SaaS</option>
-                      <option value="agency">Agency</option>
-                      <option value="consulting">Consulting</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-3 px-5 font-medium">
-                      Subscribe Now <Mail className="ml-2 h-5 w-5" />
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+
       </div>
     </section>
   );
