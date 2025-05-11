@@ -361,8 +361,7 @@ const ContactForm = () => {
                             <FormLabel className="text-gray-700">Type of Business*</FormLabel>
                             <Select 
                               onValueChange={field.onChange} 
-                              value={field.value}
-                              defaultValue={field.value}
+                              value={field.value || undefined}
                             >
                               <FormControl>
                                 <SelectTrigger className="rounded-lg">
@@ -421,7 +420,7 @@ const ContactForm = () => {
                             <FormLabel className="text-gray-700">Annual Revenue*</FormLabel>
                             <Select 
                               onValueChange={field.onChange} 
-                              defaultValue={field.value}
+                              value={field.value || undefined}
                             >
                               <FormControl>
                                 <SelectTrigger className="rounded-lg">
