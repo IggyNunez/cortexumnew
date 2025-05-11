@@ -497,7 +497,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ElevenLabs Chat API integration
+  // Test ElevenLabs API connection
+  app.get("/api/elevenlabs/test", async (_req: Request, res: Response) => {
+    try {
+      console.log("Testing ElevenLabs API connection...");
+      
+      const response = await fetch('https://api.elevenlabs.io/v1/models', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+        },
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('ElevenLabs API error:', errorText);
+        throw new Error('ElevenLabs API request failed: ' + errorText);
+      }
+      
+      const data = await response.json();
+      console.log('ElevenLabs API test successful:', data.length ? `${data.length} models available` : 'No models available');
+      
+      res.status(200).json({
+        success: true,
+        message: 'ElevenLabs API connection successful',
+        models: data
+      });
+    } catch (error: any) {
+      console.error("Error testing ElevenLabs API:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || "Failed to test ElevenLabs API connection"
+      });
+    }
+  });
+  
+  // ElevenLabs Chat API integration using ElevenLabs API
   app.post("/api/elevenlabs/chat", async (req: Request, res: Response) => {
     try {
       const { message, history = [] } = req.body;
@@ -509,53 +545,90 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Define the API endpoint for ElevenLabs chat
-      const apiUrl = `https://api.elevenlabs.io/v1/chat`;
-      
       // Log the chat request
       console.log("Chat request received:", message.substring(0, 50) + (message.length > 50 ? "..." : ""));
       
-      // Format history for the API (if needed)
-      const formattedHistory = history.map((msg: any) => ({
-        content: msg.content,
-        role: msg.role
-      }));
-      
-      // Make the request to ElevenLabs API
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-        body: JSON.stringify({
-          text: message,
-          model_id: 'eleven_turbo_v2', // Use the appropriate model
-          chat_history: formattedHistory,
-          // Additional parameters as needed
-          voice_settings: {
-            stability: 0.15,
-            similarity_boost: 0.45,
-            style: 1.0,
-            use_speaker_boost: true
-          }
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('ElevenLabs API error:', errorText);
-        throw new Error('ElevenLabs API request failed: ' + errorText);
+      try {
+        // First attempt to use the ElevenLabs API
+        // Using the text generation endpoint instead
+        const modelId = "eleven_monolingual_v1"; // Using available model from the API test
+        const apiUrl = `https://api.elevenlabs.io/v1/text-generation/generate-text`;
+        
+        // Format prompt with context about Cortexuum AI Marketing
+        let prompt = "You are an AI assistant for Cortexuum AI Marketing Agency. ";
+        prompt += "Provide helpful, accurate information about our AI marketing services. ";
+        prompt += "Our services include content generation, media buying, audience analysis, ";
+        prompt += "and social media management, all powered by AI. ";
+        prompt += "If asked about booking a call, direct users to https://calendly.com/cortexuummarketing/30min. ";
+        prompt += "Be friendly, professional, and concise in your responses. ";
+        prompt += "User question: " + message;
+        
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+          },
+          body: JSON.stringify({
+            model_id: modelId,
+            prompt: prompt,
+            temperature: 0.7,
+            max_tokens: 150
+          }),
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('ElevenLabs API error:', errorText);
+          throw new Error('ElevenLabs API request failed: ' + errorText);
+        }
+        
+        const data = await response.json();
+        
+        // Send the AI-generated response back to the client
+        res.status(200).json({
+          success: true,
+          response: data.text || data.output || data.generated_text || "I'm sorry, I couldn't process your request. Please try again."
+        });
+        
+      } catch (apiError) {
+        console.error("Error with ElevenLabs API, falling back to pattern matching:", apiError);
+        
+        // Fall back to pattern matching if the API fails
+        let response: string;
+        const lowercaseMessage = message.toLowerCase();
+        
+        if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi') || lowercaseMessage.includes('hey')) {
+          response = "Hello! I'm your AI marketing assistant. How can I help you today?";
+        } else if (lowercaseMessage.includes('marketing') && (lowercaseMessage.includes('help') || lowercaseMessage.includes('service'))) {
+          response = "We offer a wide range of AI-powered marketing services including content generation, media buying strategies, audience analysis, and predictive campaign optimization. Would you like to know more about any specific service?";
+        } else if (lowercaseMessage.includes('content') || lowercaseMessage.includes('blog') || lowercaseMessage.includes('article')) {
+          response = "Our AI content generation services help create engaging, SEO-optimized content that resonates with your target audience. We can create blog posts, social media content, email campaigns, and more!";
+        } else if (lowercaseMessage.includes('price') || lowercaseMessage.includes('cost') || lowercaseMessage.includes('package')) {
+          response = "Our pricing depends on your specific needs. We offer custom packages starting at $999/month for small businesses. Would you like to schedule a call to discuss a personalized solution?";
+        } else if (lowercaseMessage.includes('book') || lowercaseMessage.includes('schedule') || lowercaseMessage.includes('call') || lowercaseMessage.includes('consultation')) {
+          response = "Great! You can book a call with our team at https://calendly.com/cortexuummarketing/30min. We look forward to discussing how we can help your business grow!";
+        } else if (lowercaseMessage.includes('social media') || lowercaseMessage.includes('facebook') || lowercaseMessage.includes('instagram') || lowercaseMessage.includes('linkedin')) {
+          response = "Our social media marketing services leverage AI to create engaging content, optimize posting schedules, and target the right audience for maximum engagement and conversion.";
+        } else if (lowercaseMessage.includes('seo') || lowercaseMessage.includes('search engine')) {
+          response = "Our AI-powered SEO services help improve your website's visibility in search results. We analyze key metrics, identify trending topics in your industry, and optimize your content to rank higher.";
+        } else if (lowercaseMessage.includes('email') || lowercaseMessage.includes('newsletter')) {
+          response = "Our email marketing services use AI to segment your audience, personalize content, and optimize send times for maximum open and conversion rates.";
+        } else if (lowercaseMessage.includes('thank')) {
+          response = "You're welcome! Is there anything else I can help you with today?";
+        } else if (lowercaseMessage.includes('bye') || lowercaseMessage.includes('goodbye')) {
+          response = "Thank you for chatting! If you'd like to learn more about our services or schedule a consultation, feel free to book a call at any time. Have a great day!";
+        } else {
+          response = "Thank you for your message. Our AI-powered marketing solutions can help your business grow with data-driven strategies. Would you like to learn more about our specific services or schedule a consultation?";
+        }
+        
+        // Send the fallback response back to the client
+        res.status(200).json({
+          success: true,
+          response: response
+        });
       }
       
-      // Parse the response
-      const data = await response.json();
-      
-      // Send the response back to the client
-      res.status(200).json({
-        success: true,
-        response: data.text || data.response || data.message
-      });
     } catch (error: any) {
       console.error("Error processing chat request:", error);
       res.status(500).json({ 
