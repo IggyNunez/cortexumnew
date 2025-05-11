@@ -3,22 +3,19 @@ import { motion } from "framer-motion";
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "Implementing Vibe's AI automation solutions has been a game-changer for our agency. We've increased client retention by 40% and reduced operational costs by 25%.",
-      name: "Sarah Johnson",
-      role: "CEO",
-      company: "DigitalEdge Marketing"
+      quote: "Implementing Cortexuum's AI marketing solutions has been a game-changer for our agency. We've increased client retention by 40% and reduced operational costs by 25%.",
+      name: "Sarah J.",
+      role: "Marketing Agency CEO"
     },
     {
-      quote: "The AI chatbot implementation has completely transformed our lead generation process. We're now capturing 3x more qualified leads with half the effort.",
-      name: "Michael Rodriguez",
-      role: "Founder",
-      company: "NextLevel Agency"
+      quote: "The AI-powered content strategy has completely transformed our lead generation process. We're now capturing 3x more qualified leads with half the effort.",
+      name: "Michael R.",
+      role: "Digital Marketing Director"
     },
     {
-      quote: "Our team's productivity has increased dramatically since implementing Vibe's AI workflow automation. Tasks that took hours now happen in minutes.",
-      name: "Jennifer Park",
-      role: "Director",
-      company: "Elevate Marketing Co."
+      quote: "Our team's productivity has increased dramatically since implementing Cortexuum's AI workflow automation. Tasks that took hours now happen in minutes.",
+      name: "Jennifer P.",
+      role: "Agency Founder & CMO"
     }
   ];
 
@@ -33,7 +30,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            What Agency Owners Are <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Saying</span>
+            Client <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Testimonials</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto"
@@ -42,7 +39,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Success stories from marketing agencies that have transformed their businesses with our AI solutions.
+            See what marketing professionals are saying about Cortexuum's AI-powered solutions.
           </motion.p>
         </div>
         
@@ -66,7 +63,7 @@ const Testimonials = () => {
                 </div>
                 <div>
                   <h4 className="font-bold">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}, {testimonial.company}</p>
+                  <p className="text-sm text-gray-500">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>
