@@ -19,8 +19,8 @@ const ClientLogos = () => {
       logo: "Rx"
     },
     {
-      name: "Cortexuum",
-      logo: "CX"
+      name: "vibeagency.ai",
+      logo: "VA"
     },
     {
       name: "Sunday Golf",
