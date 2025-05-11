@@ -20,8 +20,8 @@ const FutureInsights = () => {
     },
     {
       icon: <Share2 className="h-8 w-8 text-primary" />,
-      title: "Prepare for 520+ Marketing Channels",
-      description: "The current 52 mediums for messaging are just the beginning. Expect an explosion in niche channels as AI continues to reshape the digital landscape."
+      title: "Personalized Marketing at Scale",
+      description: "AI enables hyper-targeted content delivery across multiple channels simultaneously, adapting messages to individual preferences while maintaining brand consistency."
     }
   ];
 
