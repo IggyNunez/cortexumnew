@@ -26,44 +26,45 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Use a more efficient scroll handler with debounce mechanism
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-    
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Skip processing if the scroll change is very minor (reduces jitter)
-      if (Math.abs(currentScrollY - lastScrollY) < 5) {
-        return;
+    // Create a single Intersection Observer instance
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When header is not intersecting with the top (i.e., scrolled down)
+        // We flip the scrolled state to true
+        setScrolled(!entry.isIntersecting);
+      },
+      {
+        // Root is null which means it uses the viewport
+        root: null,
+        // When the header is 0% visible at the top, trigger the callback
+        threshold: 0,
+        // Start observing when header is 5px from top of viewport
+        rootMargin: "-5px 0px 0px 0px"
       }
-      
-      lastScrollY = currentScrollY;
-      
-      // Use requestAnimationFrame to optimize performance
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const isScrolled = currentScrollY > 15; // Slightly increased threshold
-          if (isScrolled !== scrolled) {
-            setScrolled(isScrolled);
-          }
-          ticking = false;
-        });
-        
-        ticking = true;
-      }
-    };
+    );
     
-    // Add passive: true for better scroll performance
-    document.addEventListener("scroll", handleScroll, { passive: true });
+    // We observe a placeholder element at the top of the page
+    const sentinel = document.createElement('div');
+    sentinel.style.position = 'absolute';
+    sentinel.style.top = '0';
+    sentinel.style.height = '1px';
+    sentinel.style.width = '100%';
+    sentinel.style.pointerEvents = 'none';
+    sentinel.style.opacity = '0';
+    document.body.prepend(sentinel);
     
-    // Initial check
-    handleScroll();
+    // Start observing
+    observer.observe(sentinel);
     
+    // Initial check on mount
+    setScrolled(window.scrollY > 5);
+    
+    // Cleanup
     return () => {
-      document.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+      sentinel.remove();
     };
-  }, [scrolled]);
+  }, []);
 
   // Close mobile menu when clicking on a link
   const handleNavClick = () => {
@@ -72,17 +73,22 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-white shadow-md py-4" : "bg-transparent py-5"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 py-5"
       style={{ 
-        transform: 'translate3d(0,0,0)',  // Enhanced GPU acceleration
-        backfaceVisibility: 'hidden',     // Prevent flickering in some browsers
-        WebkitBackfaceVisibility: 'hidden',
-        perspective: 1000,
-        WebkitPerspective: 1000
+        transform: 'translate3d(0,0,0)',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden'
       }}
     >
+      {/* Background overlay - separated from content to avoid layout shifts */}
+      <div 
+        className="absolute inset-0 z-0 transition-opacity duration-200"
+        style={{
+          opacity: scrolled ? 1 : 0,
+          backgroundColor: 'white',
+          boxShadow: scrolled ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+        }}
+      ></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -110,9 +116,12 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className={`font-semibold text-sm relative group ${
-                  scrolled ? "text-gray-800" : "text-white text-with-shadow"
-                } ${location === item.href ? "text-primary font-bold" : ""}`}
+                className={`font-semibold text-sm relative group transition-colors duration-200 ${
+                  location === item.href ? "font-bold" : ""}`}
+                style={{
+                  color: scrolled ? "#1f2937" : "#ffffff", // text-gray-800 or text-white
+                  textShadow: scrolled ? "none" : "0 1px 2px rgba(0,0,0,0.1)"
+                }}
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary opacity-80 transition-all duration-300 group-hover:w-full transform group-hover:-translate-y-0.5 group-hover:opacity-100"></span>
@@ -139,9 +148,10 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               type="button"
-              className={`transition-colors p-2 ${
-                scrolled ? "text-gray-700" : "text-white"
-              }`}
+              className="transition-colors duration-200 p-2"
+              style={{
+                color: scrolled ? "#374151" : "#ffffff" // text-gray-700 or text-white
+              }}
               aria-expanded="false"
               onClick={toggleMobileMenu}
             >
