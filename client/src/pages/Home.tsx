@@ -29,7 +29,7 @@ const Home = () => {
       <Hero />
       
       {/* Simple gradient divider */}
-      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.05} />
+      <SectionDivider gradient="brain-blue" height="60px" mobileHeight="30px" parallaxSpeed={0.05} />
       
       {/* Client logos section */}
       <ParallaxSection 
@@ -42,52 +42,52 @@ const Home = () => {
         <ClientLogos />
       </ParallaxSection>
       
-      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Services section - simple regular section */}
-      <section id="services" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
+      <section id="services" className="py-10 md:py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ServicesSection />
       </section>
       
-      <SectionDivider gradient="brain-magenta" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-magenta" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Benefits section - no sticky effect for simpler scrolling */}
-      <section id="benefits" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
+      <section id="benefits" className="py-10 md:py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <BenefitsSection />
       </section>
       
-      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-blue" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Testimonials section */}
-      <section id="testimonials" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
+      <section id="testimonials" className="py-10 md:py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <TestimonialsSection />
       </section>
       
-      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Why hire us section */}
-      <section id="why-hire-us" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
+      <section id="why-hire-us" className="py-10 md:py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <WhyHireUsSection />
       </section>
       
-      <SectionDivider gradient="brain-magenta" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-magenta" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Content funnel section */}
-      <section id="content-funnel" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
+      <section id="content-funnel" className="py-10 md:py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ContentFunnelSection />
       </section>
       
-      <SectionDivider gradient="brain-blue" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-blue" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Future insights section */}
-      <section id="future-insights" className="py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
+      <section id="future-insights" className="py-10 md:py-16 bg-gradient-to-br from-[#ffffff] to-[#f5f5f5]">
         <FutureInsights />
       </section>
       
-      <SectionDivider gradient="brain-purple" height="60px" parallaxSpeed={0.03} zIndex={2} />
+      <SectionDivider gradient="brain-purple" height="60px" mobileHeight="30px" parallaxSpeed={0.03} zIndex={2} />
       
       {/* Contact section */}
-      <section id="contact" className="py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
+      <section id="contact" className="py-10 md:py-16 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef]">
         <ContactSection />
       </section>
       
