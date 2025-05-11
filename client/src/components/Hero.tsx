@@ -4,18 +4,9 @@ import { Bot } from "lucide-react";
 import christianColgate from '../assets/christian-colgate.webp';
 
 const Hero = () => {
-  // Function to trigger the ElevenLabs Convai widget
-  const triggerConvaiWidget = () => {
-    const convaiElement = document.querySelector('elevenlabs-convai');
-    if (convaiElement) {
-      // Create and dispatch a click event to open the widget
-      const event = new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      convaiElement.dispatchEvent(event);
-    }
+  // Function to open ElevenLabs agent in a new tab
+  const openElevenLabsAgent = () => {
+    window.open('https://elevenlabs.io/app/talk-to?agent_id=9r6C9zlC7olJEeuP1vOv&conversation_signature=ngTH0uLdT9d5onBy9mtz', '_blank');
   };
   
   return (
@@ -65,6 +56,19 @@ const Hero = () => {
                   <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL NOW</a>
                 </Button>
               </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  onClick={openElevenLabsAgent}
+                  size="lg"
+                  className="bg-[#357BD8] text-white hover:bg-[#357BD8]/90 rounded-full font-bold text-base flex items-center gap-2 focus:ring-2 focus:ring-[#357BD8] focus:ring-offset-2"
+                >
+                  <Bot className="h-5 w-5" />
+                  Chat with AI Assistant
+                </Button>
+              </motion.div>
               <Button
                 asChild
                 size="lg"
@@ -90,9 +94,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Static chat card that triggers the ElevenLabs Convai widget when clicked */}
+            {/* Chat card that links to ElevenLabs AI Assistant */}
             <div 
-              onClick={triggerConvaiWidget}
+              onClick={openElevenLabsAgent}
               className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-lg mx-auto cursor-pointer hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-6">
@@ -140,12 +144,12 @@ const Hero = () => {
                 </div>
               </div>
               
-              {/* Static input field */}
+              {/* Chat with AI prompt */}
               <div className="relative">
-                <div className="w-full p-4 pr-12 rounded-full border border-gray-200 bg-gray-50 text-gray-400">
-                  Click to chat with our AI marketing assistant...
+                <div className="w-full p-4 pr-12 rounded-full border border-gray-200 bg-gray-50 text-gray-600 font-medium">
+                  Chat with our AI marketing expert on ElevenLabs
                 </div>
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white h-8 w-8 rounded-full flex items-center justify-center">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#357BD8] text-white h-8 w-8 rounded-full flex items-center justify-center animate-pulse">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2L11 13"></path>
                     <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
