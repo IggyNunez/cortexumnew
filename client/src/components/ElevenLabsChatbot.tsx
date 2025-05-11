@@ -3,6 +3,7 @@ import { Bot, X, Maximize2, Minimize2, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { nanoid } from 'nanoid';
+import brainIcon from '../assets/brain.png';
 
 interface Message {
   id: string;
@@ -253,13 +254,19 @@ const ElevenLabsChatbot = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={handleToggleChat}
-          className="w-14 h-14 rounded-full bg-[#357BD8] hover:bg-[#357BD8]/90 text-white shadow-lg flex items-center justify-center p-0 relative"
+          className="w-14 h-14 rounded-full bg-[#1A1347] hover:bg-[#1A1347]/90 text-white shadow-lg flex items-center justify-center p-0 relative"
           aria-label={isOpen ? "Close chat" : "Open chat"}
         >
           {isOpen ? (
             <X className="h-6 w-6" />
           ) : (
-            <Bot className="h-6 w-6" />
+            <div className="w-10 h-10 relative overflow-hidden">
+              <img 
+                src={brainIcon} 
+                alt="AI Brain" 
+                className="w-full h-full object-contain"
+              />
+            </div>
           )}
           {isPlaying && (
             <span className="absolute -top-1 -right-1 bg-[#E63E8B] w-4 h-4 rounded-full animate-pulse"></span>
@@ -281,9 +288,15 @@ const ElevenLabsChatbot = () => {
             className="fixed bottom-24 right-6 z-50 w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200"
           >
             {/* Chat header */}
-            <div className="bg-[#357BD8] text-white px-4 py-3 flex items-center justify-between">
+            <div className="bg-[#1A1347] text-white px-4 py-3 flex items-center justify-between">
               <div className="flex items-center">
-                <Bot className="h-5 w-5 mr-2" />
+                <div className="w-6 h-6 mr-2">
+                  <img 
+                    src={brainIcon} 
+                    alt="AI Brain" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
                 <h3 className="font-semibold">AI Marketing Assistant</h3>
               </div>
               <div className="flex items-center space-x-2">
