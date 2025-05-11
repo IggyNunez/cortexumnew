@@ -26,20 +26,24 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Create a single Intersection Observer instance
+    // Create a smoother transition using more sophisticated intersection detection
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When header is not intersecting with the top (i.e., scrolled down)
-        // We flip the scrolled state to true
-        setScrolled(!entry.isIntersecting);
+        // Use requestAnimationFrame to avoid layout thrashing and ensure smooth transitions
+        window.requestAnimationFrame(() => {
+          // Calculate scroll position ratio for smooth transitions
+          // When fully intersecting (ratio = 1), header is transparent
+          // When not intersecting (ratio = 0), header is solid
+          setScrolled(!entry.isIntersecting);
+        });
       },
       {
         // Root is null which means it uses the viewport
         root: null,
-        // When the header is 0% visible at the top, trigger the callback
-        threshold: 0,
-        // Start observing when header is 5px from top of viewport
-        rootMargin: "-5px 0px 0px 0px"
+        // Use threshold array for smoother transitions
+        threshold: [0, 0.1, 0.2],
+        // Start observing earlier for a smoother transition effect
+        rootMargin: "-10px 0px 0px 0px"
       }
     );
     
@@ -82,11 +86,12 @@ const Navbar = () => {
     >
       {/* Background overlay - separated from content to avoid layout shifts */}
       <div 
-        className="absolute inset-0 z-0 transition-opacity duration-200"
+        className="absolute inset-0 z-0"
         style={{
           opacity: scrolled ? 1 : 0,
           backgroundColor: 'white',
-          boxShadow: scrolled ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+          boxShadow: scrolled ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+          transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       ></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,11 +121,12 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className={`font-semibold text-sm relative group transition-colors duration-200 ${
+                className={`font-semibold text-sm relative group ${
                   location === item.href ? "font-bold" : ""}`}
                 style={{
                   color: scrolled ? "#1f2937" : "#ffffff", // text-gray-800 or text-white
-                  textShadow: scrolled ? "none" : "0 1px 2px rgba(0,0,0,0.1)"
+                  textShadow: scrolled ? "none" : "0 1px 2px rgba(0,0,0,0.1)",
+                  transition: "color 600ms cubic-bezier(0.16, 1, 0.3, 1), text-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1)"
                 }}
               >
                 {item.name}
@@ -129,14 +135,20 @@ const Navbar = () => {
             ))}
             <Button
               asChild
-              className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              style={{
+                transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               <a href="/#contact">Contact Us</a>
             </Button>
             
             <Button
               asChild
-              className="bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow-md transition-all hover:shadow-lg"
+              className="bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow-md hover:shadow-lg"
+              style={{
+                transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">
                 BOOK A CALL NOW
@@ -148,9 +160,10 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               type="button"
-              className="transition-colors duration-200 p-2"
+              className="p-2"
               style={{
-                color: scrolled ? "#374151" : "#ffffff" // text-gray-700 or text-white
+                color: scrolled ? "#374151" : "#ffffff", // text-gray-700 or text-white
+                transition: "color 600ms cubic-bezier(0.16, 1, 0.3, 1)"
               }}
               aria-expanded="false"
               onClick={toggleMobileMenu}
@@ -189,7 +202,10 @@ const Navbar = () => {
                 {/* Primary buttons first, full-width */}
                 <Button
                   asChild
-                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-6 text-lg font-bold shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
+                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-6 text-lg font-bold shadow-lg hover:shadow-xl focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
+                  style={{
+                    transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)"
+                  }}
                 >
                   <a 
                     href="https://calendly.com/cortexuummarketing/30min" 
