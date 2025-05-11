@@ -21,6 +21,7 @@ import { initGA } from "./lib/analytics";
 import { initFBPixel } from "./lib/fbPixel";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import ElevenLabsChatbot from "./components/ElevenLabsChatbot";
 
 function Router() {
   // Initialize analytics for route changes
@@ -35,7 +36,9 @@ function Router() {
       <Route path="/cookies" component={CookiePolicy} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/login" component={AuthPage} />
-      <Route path="/checkout" component={CheckoutPage} />
+      <Route path="/checkout">
+        {(params) => <CheckoutPage />}
+      </Route>
       <Route path="/payment-success" component={PaymentSuccessPage} />
       <ProtectedRoute path="/leads" component={LeadManagement} />
       <ProtectedRoute path="/leads/lifecycle" component={LeadLifecycle} />
@@ -60,6 +63,7 @@ function App() {
           <Toaster />
           <AnalyticsInitializer />
           <Router />
+          <ElevenLabsChatbot />
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

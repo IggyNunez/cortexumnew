@@ -497,6 +497,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ElevenLabs Chat API integration
+  app.post("/api/elevenlabs/chat", async (req: Request, res: Response) => {
+    try {
+      const { message, history = [] } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Message is required" 
+        });
+      }
+      
+      // Define the API endpoint for ElevenLabs chat
+      const apiUrl = `https://api.elevenlabs.io/v1/chat`;
+      
+      // Log the chat request
+      console.log("Chat request received:", message.substring(0, 50) + (message.length > 50 ? "..." : ""));
+      
+      // Format history for the API (if needed)
+      const formattedHistory = history.map((msg: any) => ({
+        content: msg.content,
+        role: msg.role
+      }));
+      
+      // Make the request to ElevenLabs API
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+        },
+        body: JSON.stringify({
+          text: message,
+          model_id: 'eleven_turbo_v2', // Use the appropriate model
+          chat_history: formattedHistory,
+          // Additional parameters as needed
+          voice_settings: {
+            stability: 0.15,
+            similarity_boost: 0.45,
+            style: 1.0,
+            use_speaker_boost: true
+          }
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('ElevenLabs API error:', errorText);
+        throw new Error('ElevenLabs API request failed: ' + errorText);
+      }
+      
+      // Parse the response
+      const data = await response.json();
+      
+      // Send the response back to the client
+      res.status(200).json({
+        success: true,
+        response: data.text || data.response || data.message
+      });
+    } catch (error: any) {
+      console.error("Error processing chat request:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || "Failed to process chat request" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
