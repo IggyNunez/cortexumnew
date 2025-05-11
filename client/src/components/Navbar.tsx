@@ -95,19 +95,10 @@ const Navbar = () => {
             
             <Button
               asChild
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg"
+              className="bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow-md transition-all hover:shadow-lg"
             >
               <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">
-                BOOK A CALL
-              </a>
-            </Button>
-            
-            <Button
-              asChild
-              className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg"
-            >
-              <a href="/checkout?product=strategy-call">
-                PURCHASE
+                BOOK A CALL NOW
               </a>
             </Button>
           </nav>
@@ -172,7 +163,7 @@ const Navbar = () => {
                   
                   <Button
                     asChild
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 text-base font-bold shadow-md"
+                    className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full py-3 text-base font-bold shadow-md"
                   >
                     <a 
                       href="https://calendly.com/cortexuummarketing/30min" 
@@ -180,19 +171,7 @@ const Navbar = () => {
                       rel="noopener noreferrer"
                       onClick={handleNavClick}
                     >
-                      BOOK A CALL
-                    </a>
-                  </Button>
-                  
-                  <Button
-                    asChild
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3 text-base font-bold shadow-md"
-                  >
-                    <a 
-                      href="/checkout?product=strategy-call"
-                      onClick={handleNavClick}
-                    >
-                      PURCHASE
+                      BOOK A CALL NOW
                     </a>
                   </Button>
                 </div>

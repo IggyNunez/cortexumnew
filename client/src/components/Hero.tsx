@@ -43,13 +43,28 @@ const Hero = () => {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#E63E8B] text-white hover:bg-[#E63E8B]/90 rounded-full font-bold text-base shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ scale: 1 }}
+                animate={{ 
+                  scale: [1, 1.03, 1],
+                  boxShadow: ["0 4px 6px rgba(230, 62, 139, 0.2)", "0 10px 15px rgba(230, 62, 139, 0.3)", "0 4px 6px rgba(230, 62, 139, 0.2)"] 
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
               >
-                <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL</a>
-              </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-[#E63E8B] text-white hover:bg-[#E63E8B]/90 rounded-full font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
+                >
+                  <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">BOOK A CALL NOW</a>
+                </Button>
+              </motion.div>
               <Button
                 asChild
                 size="lg"
