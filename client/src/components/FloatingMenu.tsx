@@ -203,11 +203,9 @@ const FloatingMenu: React.FC = () => {
                       <span>{item.name}</span>
                     </a>
                   ) : (
-                    <Link href={item.href} onClick={handleLinkClick}>
-                      <a className="group flex items-center py-2 text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                        <ChevronRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <span>{item.name}</span>
-                      </a>
+                    <Link href={item.href} onClick={handleLinkClick} className="group flex items-center py-2 text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                      <ChevronRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <span>{item.name}</span>
                     </Link>
                   )}
                 </motion.div>
