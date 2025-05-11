@@ -90,9 +90,6 @@ const Hero = () => {
                     alt="Christian Colgate" 
                     className="w-16 h-16 rounded-full object-cover object-center border-2 border-[#E63E8B] mr-4"
                   />
-                  <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#E63E8B] flex items-center justify-center text-white shadow-md">
-                    <Bot className="h-4 w-4" />
-                  </div>
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">AI Marketing Specialist</h3>
