@@ -335,11 +335,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Get audio blob from response
-      const audioData = await response.arrayBuffer();
+      const audioBuffer = await response.arrayBuffer();
+      
+      console.log("Audio synthesis successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
       
       // Send the audio data back to the client
       res.set('Content-Type', 'audio/mpeg');
-      res.send(Buffer.from(audioData));
+      res.send(Buffer.from(audioBuffer));
     } catch (error) {
       console.error("Error processing speech synthesis request:", error);
       res.status(500).json({ 

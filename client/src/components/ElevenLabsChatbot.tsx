@@ -64,49 +64,45 @@ const ElevenLabsChatbot = () => {
   
   // Function to play audio for a message
   const playMessageAudio = (audioData: string) => {
-    if (audioRef.current) {
-      try {
-        // Reset audio element
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        
-        // Set new source
-        audioRef.current.src = audioData;
-        
-        // Set up event handlers
-        audioRef.current.oncanplaythrough = () => {
-          console.log("Audio can play through");
-          if (audioRef.current) {
-            setIsPlaying(true);
-            audioRef.current.play().catch(e => {
-              console.error('Error playing audio:', e);
-              setIsPlaying(false);
-            });
-          }
-        };
-        
-        audioRef.current.onended = () => {
-          console.log("Audio playback ended");
-          setIsPlaying(false);
-        };
-        
-        audioRef.current.onerror = (e) => {
-          console.error('Error loading audio:', e);
-          setIsPlaying(false);
-        };
-        
-        // If we already have the data loaded, try to play immediately
-        if (audioRef.current.readyState >= 3) {
-          setIsPlaying(true);
-          audioRef.current.play().catch(e => {
-            console.error('Error playing audio immediately:', e);
-            setIsPlaying(false);
-          });
-        }
-      } catch (err) {
-        console.error('Error setting up audio playback:', err);
+    console.log("Attempting to play audio");
+    
+    // Use a simple approach with a new Audio object instead of the ref
+    // This can help bypass some browser restrictions
+    try {
+      // Create a new audio element programmatically
+      const audio = new Audio();
+      audio.src = audioData;
+      
+      // Set callbacks
+      audio.onloadeddata = () => {
+        console.log("Audio data loaded successfully");
+      };
+      
+      audio.onplay = () => {
+        console.log("Audio playback started");
+        setIsPlaying(true);
+      };
+      
+      audio.onended = () => {
+        console.log("Audio playback ended");
         setIsPlaying(false);
-      }
+      };
+      
+      audio.onerror = (e) => {
+        console.error("Audio error:", e);
+        setIsPlaying(false);
+      };
+      
+      // Play the audio
+      audio.play().then(() => {
+        console.log("Audio playback promise resolved");
+      }).catch(error => {
+        console.error("Could not play audio:", error);
+        setIsPlaying(false);
+      });
+    } catch (err) {
+      console.error('Error setting up audio playback:', err);
+      setIsPlaying(false);
     }
   };
   
@@ -158,9 +154,13 @@ const ElevenLabsChatbot = () => {
       
       setMessages(prev => [...prev, botMessage]);
       
-      // Play audio if available
+      // Play audio with a slight delay to ensure UI has updated
       if (data.audio) {
-        playMessageAudio(data.audio);
+        // Short delay to ensure the UI has updated
+        setTimeout(() => {
+          console.log("Playing audio response after delay");
+          playMessageAudio(data.audio);
+        }, 500);
       }
     } catch (error) {
       console.error('Error communicating with chatbot:', error);
