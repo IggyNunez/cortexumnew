@@ -6,23 +6,29 @@ import { Bot } from 'lucide-react';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
+  // Define interface for navigation items
+  interface NavItem {
+    name: string;
+    href: string;
+  }
+  
   const navigation = {
     solutions: [
       { name: 'Paid Media', href: '/#services' },
       { name: 'Funnel Buildouts', href: '/#services' },
       { name: 'Offer Creation', href: '/#services' },
       { name: 'Social Media', href: '/#services' },
-    ],
+    ] as NavItem[],
     company: [
       { name: 'About', href: '/#about' },
       { name: 'Testimonials', href: '/#testimonials' },
       { name: 'Results', href: '/#results' },
-    ],
+    ] as NavItem[],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
       { name: 'Terms & Conditions', href: '/terms' },
       { name: 'Cookie Policy', href: '/cookies' },
-    ],
+    ] as NavItem[],
   };
 
   return (
@@ -54,17 +60,9 @@ const Footer = () => {
                 <li key={item.name}>
                   <a 
                     href={item.href}
-                    target={item.isExternal ? "_blank" : undefined}
-                    rel={item.isExternal ? "noopener noreferrer" : undefined}
-                    className={`text-gray-300 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline transition-colors ${item.name === 'AI Assistant' ? 'flex items-center gap-1' : ''}`}
+                    className="text-gray-300 hover:text-white hover:underline focus:outline-none focus:text-white focus:underline transition-colors"
                   >
-                    {item.name === 'AI Assistant' && <Bot className="h-3 w-3" />}
                     {item.name}
-                    {item.isExternal && (
-                      <svg className="ml-1 h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    )}
                   </a>
                 </li>
               ))}

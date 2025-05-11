@@ -66,32 +66,72 @@ const ElevenLabsChatbot = () => {
   const playMessageAudio = (audioData: string) => {
     console.log("Attempting to play audio");
     
-    // Use a simple approach with a new Audio object instead of the ref
-    // This can help bypass some browser restrictions
+    // Function to convert base64 to a Blob
+    const base64ToBlob = (base64: string) => {
+      try {
+        // Extract the MIME type and the base64 data itself
+        const parts = base64.split(';base64,');
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const rawLength = raw.length;
+        const uInt8Array = new Uint8Array(rawLength);
+        
+        for (let i = 0; i < rawLength; ++i) {
+          uInt8Array[i] = raw.charCodeAt(i);
+        }
+        
+        return new Blob([uInt8Array], { type: contentType });
+      } catch (error) {
+        console.error('Failed to convert base64 to blob:', error);
+        return null;
+      }
+    };
+    
     try {
+      // Handle both data URI and direct base64 formats
+      let blob;
+      if (audioData.startsWith('data:')) {
+        // It's a data URI
+        blob = base64ToBlob(audioData);
+      } else {
+        // If it's just a base64 string, add the data URI prefix
+        blob = base64ToBlob(`data:audio/mpeg;base64,${audioData}`);
+      }
+      
+      if (!blob) {
+        console.error('Could not create blob from audio data');
+        return;
+      }
+      
+      // Create an object URL from the blob
+      const audioUrl = URL.createObjectURL(blob);
+      
       // Create a new audio element programmatically
-      const audio = new Audio();
-      audio.src = audioData;
+      const audio = new Audio(audioUrl);
       
-      // Set callbacks
-      audio.onloadeddata = () => {
+      // Add event listeners
+      audio.addEventListener('loadeddata', () => {
         console.log("Audio data loaded successfully");
-      };
+      });
       
-      audio.onplay = () => {
+      audio.addEventListener('play', () => {
         console.log("Audio playback started");
         setIsPlaying(true);
-      };
+      });
       
-      audio.onended = () => {
+      audio.addEventListener('ended', () => {
         console.log("Audio playback ended");
         setIsPlaying(false);
-      };
+        // Clean up the URL object
+        URL.revokeObjectURL(audioUrl);
+      });
       
-      audio.onerror = (e) => {
+      audio.addEventListener('error', (e) => {
         console.error("Audio error:", e);
         setIsPlaying(false);
-      };
+        // Clean up the URL object
+        URL.revokeObjectURL(audioUrl);
+      });
       
       // Play the audio
       audio.play().then(() => {
@@ -99,7 +139,10 @@ const ElevenLabsChatbot = () => {
       }).catch(error => {
         console.error("Could not play audio:", error);
         setIsPlaying(false);
+        // Clean up the URL object on error
+        URL.revokeObjectURL(audioUrl);
       });
+      
     } catch (err) {
       console.error('Error setting up audio playback:', err);
       setIsPlaying(false);

@@ -305,8 +305,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Use "Rachel" voice - a professional sounding female voice
-      const voiceId = 'MF3mGyEYCl7XYWbV9V6O';
+      // Use "Sarah" voice - a professional sounding female voice
+      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
       const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
       
       // Log the synthesis request
@@ -320,10 +320,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_monolingual_v1', // Using a model we know exists from our API test
+          model_id: 'eleven_multilingual_v2', // Using best available model
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.5
+            stability: 0.75,
+            similarity_boost: 0.75,
+            style: 0.5,
+            use_speaker_boost: true
           }
         }),
       });
@@ -416,10 +418,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           },
           body: JSON.stringify({
             text: textResponse,
-            model_id: 'eleven_monolingual_v1',
+            model_id: 'eleven_multilingual_v2',
             voice_settings: {
-              stability: 0.5,
-              similarity_boost: 0.5
+              stability: 0.75,
+              similarity_boost: 0.75,
+              style: 0.5,
+              use_speaker_boost: true
             }
           }),
         });
