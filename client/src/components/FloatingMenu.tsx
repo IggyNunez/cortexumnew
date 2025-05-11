@@ -55,20 +55,52 @@ const FloatingMenu: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // Close menu when navigating
-  const handleLinkClick = () => {
+  // Smooth scroll function
+  const smoothScrollTo = (targetId: string) => {
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      const headerOffset = 80; // Adjust based on your header/navbar height
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Handle navigation and close menu
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    // Close menu
     setIsOpen(false);
+    
+    // Check if it's a hash link
+    const href = e.currentTarget.getAttribute('href');
+    if (href && href.includes('#') && href !== '#') {
+      e.preventDefault();
+      
+      // Extract the id from the hash
+      const targetId = href.split('#')[1];
+      if (targetId) {
+        // Wait a tiny bit to ensure menu closing animation doesn't interfere
+        setTimeout(() => {
+          smoothScrollTo(targetId);
+        }, 100);
+      }
+    }
   };
 
   const navItems: MenuItem[] = [
     { name: 'Home', href: '/' },
-    { name: 'Services', href: '/#services' },
-    { name: 'Benefits', href: '/#benefits' },
-    { name: 'Testimonials', href: '/#testimonials' },
-    { name: 'Why Hire Us', href: '/#why-hire-us' },
-    { name: 'Content Funnel', href: '/#content-funnel' },
-    { name: 'Future Insights', href: '/#future-insights' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Services', href: '#services' },
+    { name: 'Benefits', href: '#benefits' },
+    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Why Hire Us', href: '#why-hire-us' },
+    { name: 'Content Funnel', href: '#content-funnel' },
+    { name: 'Future Insights', href: '#future-insights' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   const menuVariants = {
@@ -161,12 +193,23 @@ const FloatingMenu: React.FC = () => {
                   variants={itemVariants}
                   className="overflow-hidden"
                 >
-                  <Link href={item.href} onClick={handleLinkClick}>
-                    <a className="group flex items-center py-2 text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                  {item.href.includes('#') ? (
+                    <a 
+                      href={item.href} 
+                      onClick={handleLinkClick}
+                      className="group flex items-center py-2 text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    >
                       <ChevronRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <span>{item.name}</span>
                     </a>
-                  </Link>
+                  ) : (
+                    <Link href={item.href} onClick={handleLinkClick}>
+                      <a className="group flex items-center py-2 text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                        <ChevronRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span>{item.name}</span>
+                      </a>
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </nav>
