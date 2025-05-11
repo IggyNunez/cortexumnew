@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { LineChart, MousePointerClick, Layers, Brain } from "lucide-react";
+import { LineChart, MousePointerClick, Layers, Brain, Code, User, PenTool, BarChart } from "lucide-react";
 
 const WhyHireUsSection = () => {
   return (
@@ -81,6 +81,99 @@ const WhyHireUsSection = () => {
               </p>
             </div>
           </motion.div>
+        </div>
+        
+        {/* Team Section */}
+        <div className="my-16 max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-block bg-amber-50 border-2 border-amber-300 rounded-lg px-4 py-1 mb-4">
+              <p className="text-amber-700 font-medium text-sm">70+ Years of Combined Industry Experience</p>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Hire Us</h3>
+            <p className="text-gray-700 max-w-3xl mx-auto">
+              Our team is made up of four industry-leading professionals who came together to help 
+              agencies and local businesses get the most out of AI, with our sales manager actively 
+              consulting the best upcoming agencies.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Development Expert */}
+            <motion.div 
+              className="bg-blue-50 rounded-lg shadow-md overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="p-6">
+                <Code className="h-8 w-8 text-blue-600 mb-3" />
+                <h4 className="text-lg font-bold text-gray-900">Development Expert</h4>
+                <p className="text-sm text-gray-600 mb-3">20+ Years Experience</p>
+                <p className="text-gray-700 text-sm">
+                  Our lead developer brings over 20 years of experience in the eCommerce world, 
+                  helping agencies and their clients—both B2C and B2B—across retail, tech, and service industries.
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* Project Manager */}
+            <motion.div 
+              className="bg-blue-50 rounded-lg shadow-md overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              <div className="p-6">
+                <User className="h-8 w-8 text-blue-600 mb-3" />
+                <h4 className="text-lg font-bold text-gray-900">Project Manager</h4>
+                <p className="text-sm text-gray-600 mb-3">15+ Years Experience</p>
+                <p className="text-gray-700 text-sm">
+                  Our dedicated project manager has over 15 years of experience orchestrating 
+                  successful implementations for agencies of all sizes, ensuring smooth delivery and client satisfaction.
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* Copywriter */}
+            <motion.div 
+              className="bg-blue-50 rounded-lg shadow-md overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <div className="p-6">
+                <PenTool className="h-8 w-8 text-blue-600 mb-3" />
+                <h4 className="text-lg font-bold text-gray-900">Copywriter</h4>
+                <p className="text-sm text-gray-600 mb-3">15+ Years Experience</p>
+                <p className="text-gray-700 text-sm">
+                  Our expert copywriter has been crafting compelling content for over 15 years, 
+                  specializing in marketing messaging that converts and AI prompting strategies that drive results.
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* Sales Manager */}
+            <motion.div 
+              className="bg-blue-50 rounded-lg shadow-md overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <div className="p-6">
+                <BarChart className="h-8 w-8 text-blue-600 mb-3" />
+                <h4 className="text-lg font-bold text-gray-900">Sales Manager</h4>
+                <p className="text-sm text-gray-600 mb-3">20+ Years Experience</p>
+                <p className="text-gray-700 text-sm">
+                  Our sales manager brings over 20 years of expertise in building effective sales processes, 
+                  consulting the best upcoming agencies, and implementing AI-driven strategies that consistently increase conversion rates.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
         
         <div className="mt-16 max-w-3xl mx-auto">
