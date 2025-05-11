@@ -3,28 +3,20 @@ import { motion } from "framer-motion";
 const ClientLogos = () => {
   const clients = [
     {
-      name: "SoftRx",
+      name: "Social Revelation",
       logo: "SR"
     },
     {
-      name: "RX Surgical",
-      logo: "RX"
+      name: "Millennial Marketers",
+      logo: "MM"
     },
     {
-      name: "Bommorito Performance",
-      logo: "BP"
-    },
-    {
-      name: "FormRx",
-      logo: "Rx"
+      name: "Splash Media",
+      logo: "SM"
     },
     {
       name: "vibeagency.ai",
       logo: "VA"
-    },
-    {
-      name: "Sunday Golf",
-      logo: "SG"
     }
   ];
 
@@ -38,9 +30,9 @@ const ClientLogos = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Trusted by forward-thinking brands and agencies
+          Trusted Partners & Collaborators
         </motion.h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {clients.map((client, index) => (
             <motion.div 
               key={index} 
