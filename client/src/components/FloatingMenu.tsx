@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { Link } from 'wouter';
@@ -11,7 +11,36 @@ interface MenuItem {
 
 const FloatingMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  
+  // Setup intersection observer to detect when hero is out of view
+  useEffect(() => {
+    const heroSection = document.getElementById('hero');
+    
+    if (!heroSection) {
+      // If hero section not found, default to showing menu
+      setIsHeroVisible(false);
+      return;
+    }
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When hero is not intersecting (out of view), show the menu
+        setIsHeroVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: '0px',
+        threshold: 0.1, // When 10% of hero is visible
+      }
+    );
+    
+    observer.observe(heroSection);
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
   
   // Close menu when clicking outside
   useEffect(() => {
@@ -82,28 +111,39 @@ const FloatingMenu: React.FC = () => {
 
   const buttonPosition = isMobile
     ? 'fixed top-4 right-4 z-50'
-    : 'fixed top-1/2 right-0 -translate-y-1/2 z-50';
+    : 'fixed top-4 left-1/2 -translate-x-1/2 z-50';
 
   const menuPosition = isMobile
     ? 'fixed top-0 right-0 h-screen w-[300px] z-40'
-    : 'fixed top-1/2 right-12 -translate-y-1/2 z-40 w-[300px]';
+    : 'fixed top-16 left-1/2 -translate-x-1/2 z-40 w-[300px]';
 
   return (
     <div className="floating-menu-container">
-      {/* Toggle Button */}
-      <motion.button
-        className={`${buttonPosition} bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white p-3 rounded-full shadow-lg`}
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        animate={{ rotate: isOpen ? 90 : 0 }}
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </motion.button>
+      {/* Toggle Button - only shown when hero is not visible */}
+      <AnimatePresence>
+        {!isHeroVisible && (
+          <motion.button
+            className={`${buttonPosition} bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white p-3 rounded-full shadow-lg`}
+            onClick={() => setIsOpen(!isOpen)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{
+              rotate: isOpen ? 90 : 0,
+              opacity: 1,
+              scale: 1
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Menu Panel */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && !isHeroVisible && (
           <motion.div
             className={`${menuPosition} bg-white/95 backdrop-blur-sm dark:bg-gray-900/95 rounded-lg shadow-xl p-6 overflow-hidden`}
             initial="closed"
