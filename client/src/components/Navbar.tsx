@@ -27,14 +27,40 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    // Use a more efficient scroll handler with debounce mechanism
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+      const currentScrollY = window.scrollY;
+      
+      // Skip processing if the scroll change is very minor (reduces jitter)
+      if (Math.abs(currentScrollY - lastScrollY) < 5) {
+        return;
+      }
+      
+      lastScrollY = currentScrollY;
+      
+      // Use requestAnimationFrame to optimize performance
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isScrolled = currentScrollY > 15; // Slightly increased threshold
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled);
+          }
+          ticking = false;
+        });
+        
+        ticking = true;
       }
     };
-
-    document.addEventListener("scroll", handleScroll);
+    
+    // Add passive: true for better scroll performance
+    document.addEventListener("scroll", handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
+    
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
@@ -47,9 +73,13 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 will-change-transform ${
         scrolled ? "bg-white shadow-md py-4" : "bg-transparent py-6"
       }`}
+      style={{ 
+        transform: 'translateZ(0)', // Force GPU acceleration for smoother animations
+        backfaceVisibility: 'hidden' // Prevent flickering in some browsers
+      }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -101,8 +131,6 @@ const Navbar = () => {
                 BOOK A CALL NOW
               </a>
             </Button>
-            
-
           </nav>
 
           {/* Mobile menu button */}
@@ -136,49 +164,44 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-white border-t overflow-hidden"
           >
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex flex-col space-y-4 py-4">
-                {navItems.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={`text-gray-800 block px-3 py-2 text-base font-semibold relative group ${
-                      location === item.href ? "text-primary font-bold" : ""
-                    }`}
+            <div className="px-4 pt-2 pb-3">
+              <div className="flex flex-col space-y-0">
+                
+                <Button
+                  asChild
+                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full py-3 text-base font-bold shadow-md mb-3"
+                >
+                  <a 
+                    href="https://calendly.com/cortexuummarketing/30min" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
                     onClick={handleNavClick}
                   >
-                    <span className="relative inline-block">
-                      {item.name}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary opacity-80 transition-all duration-300 group-hover:w-full transform group-hover:-translate-y-0.5 group-hover:opacity-100"></span>
-                    </span>
+                    BOOK A CALL NOW
                   </a>
-                ))}
-                <div className="pt-4 space-y-3">
-                  <Button
-                    asChild
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-3 text-base font-bold shadow-md focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                  >
-                    <a href="/#contact" onClick={handleNavClick}>
-                      Contact Us
-                    </a>
-                  </Button>
-                  
-                  <Button
-                    asChild
-                    className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full py-3 text-base font-bold shadow-md"
-                  >
-                    <a 
-                      href="https://calendly.com/cortexuummarketing/30min" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                </Button>
+                
+                <Button
+                  asChild
+                  className="w-full bg-[#1A1347] hover:bg-[#1A1347]/90 text-white rounded-full py-3 text-base font-bold shadow-md mb-3"
+                >
+                  <a href="/#services" onClick={handleNavClick}>
+                    Our Services
+                  </a>
+                </Button>
+                                
+                {navItems.map((item) => (
+                  item.name !== "Services" && (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-800 block px-3 py-2 text-base font-medium border-b border-gray-100 last:border-0"
                       onClick={handleNavClick}
                     >
-                      BOOK A CALL NOW
+                      {item.name}
                     </a>
-                  </Button>
-                  
-
-                </div>
+                  )
+                ))}
               </div>
             </div>
           </motion.div>
