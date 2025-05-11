@@ -186,23 +186,45 @@ const ElevenLabsChatbot = () => {
 
       const data = await response.json();
       
-      // Add bot response with audio if available
+      // Add bot response with audio URL if available
       const botMessage: Message = {
         id: nanoid(),
         content: data.response || "I'm sorry, I couldn't process your request. Please try again.",
         isUser: false,
         timestamp: new Date(),
-        audio: data.audio || undefined
+        audio: data.audioUrl || undefined  // Now using audioUrl instead of base64 audio
       };
       
       setMessages(prev => [...prev, botMessage]);
       
       // Play audio with a slight delay to ensure UI has updated
-      if (data.audio) {
+      if (botMessage.audio) {
         // Short delay to ensure the UI has updated
         setTimeout(() => {
-          console.log("Playing audio response after delay");
-          playMessageAudio(data.audio);
+          console.log("Playing audio from direct URL");
+          // Just create an audio element with the URL
+          const audio = new Audio(botMessage.audio);
+          
+          // Set up event listeners
+          audio.addEventListener('play', () => {
+            console.log("Audio playback started");
+            setIsPlaying(true);
+          });
+          
+          audio.addEventListener('ended', () => {
+            console.log("Audio playback ended");
+            setIsPlaying(false);
+          });
+          
+          audio.addEventListener('error', (e) => {
+            console.error("Audio error:", e);
+            setIsPlaying(false);
+          });
+          
+          // Play the audio
+          audio.play()
+            .then(() => console.log("Audio playback started successfully"))
+            .catch(error => console.error("Could not play audio:", error));
         }, 500);
       }
     } catch (error) {
@@ -297,12 +319,37 @@ const ElevenLabsChatbot = () => {
                         
                         {!message.isUser && message.audio && (
                           <button 
-                            onClick={() => playMessageAudio(message.audio!)}
+                            onClick={() => {
+                              const audio = new Audio(message.audio);
+                              
+                              audio.addEventListener('play', () => {
+                                console.log("Audio playback started");
+                                setIsPlaying(true);
+                              });
+                              
+                              audio.addEventListener('ended', () => {
+                                console.log("Audio playback ended");
+                                setIsPlaying(false);
+                              });
+                              
+                              audio.addEventListener('error', (e) => {
+                                console.error("Audio error:", e);
+                                setIsPlaying(false);
+                              });
+                              
+                              audio.play()
+                                .then(() => console.log("Audio playback started successfully"))
+                                .catch(error => console.error("Could not play audio:", error));
+                            }}
                             className="ml-2 mt-0.5 inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors flex-shrink-0"
                             aria-label="Play message audio"
                             title="Play audio"
                           >
-                            <Volume2 className="h-3 w-3 text-gray-700" />
+                            {isPlaying ? (
+                              <VolumeX className="h-3 w-3 text-gray-700" />
+                            ) : (
+                              <Volume2 className="h-3 w-3 text-gray-700" />
+                            )}
                           </button>
                         )}
                       </div>

@@ -353,6 +353,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Direct audio file from text endpoint - both GET and POST supported
+  app.get("/api/generate-audio", async (req: Request, res: Response) => {
+    try {
+      const text = req.query.message as string;
+      
+      if (!text) {
+        return res.status(400).json({
+          success: false,
+          error: "Text message is required as a query parameter"
+        });
+      }
+      
+      // Use "Sarah" voice
+      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
+      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+      
+      // Log the synthesis request
+      console.log("Audio generation GET request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+        },
+        body: JSON.stringify({
+          text,
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: 0.75,
+            similarity_boost: 0.75,
+            style: 0.5,
+            use_speaker_boost: true
+          }
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('ElevenLabs API error in GET generate-audio:', errorText);
+        throw new Error('ElevenLabs audio generation failed: ' + errorText);
+      }
+      
+      // Get audio data directly from response
+      const audioBuffer = await response.arrayBuffer();
+      
+      console.log("Audio generation (GET) successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
+      
+      // Send the audio file directly to client
+      res.set('Content-Type', 'audio/mpeg');
+      res.set('Content-Disposition', 'attachment; filename="response.mp3"');
+      res.set('Cache-Control', 'no-cache');
+      res.send(Buffer.from(audioBuffer));
+      
+    } catch (error) {
+      console.error("Error generating audio (GET):", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to generate audio response" 
+      });
+    }
+  });
+  
+  app.post("/api/generate-audio", async (req: Request, res: Response) => {
+    try {
+      const { text } = req.body;
+      
+      if (!text) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Text is required" 
+        });
+      }
+      
+      // Use "Sarah" voice
+      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
+      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+      
+      // Log the synthesis request
+      console.log("Audio generation request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
+        },
+        body: JSON.stringify({
+          text,
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: 0.75,
+            similarity_boost: 0.75,
+            style: 0.5,
+            use_speaker_boost: true
+          }
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('ElevenLabs API error:', errorText);
+        throw new Error('ElevenLabs audio generation failed: ' + errorText);
+      }
+      
+      // Get audio data directly from response
+      const audioBuffer = await response.arrayBuffer();
+      
+      console.log("Audio generation successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
+      
+      // Send the audio file directly to client
+      res.set('Content-Type', 'audio/mpeg');
+      res.set('Content-Disposition', 'attachment; filename="response.mp3"');
+      res.set('Cache-Control', 'no-cache');
+      res.send(Buffer.from(audioBuffer));
+      
+    } catch (error) {
+      console.error("Error generating audio:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to generate audio response" 
+      });
+    }
+  });
+
   // Combined chat and speech synthesis endpoint
   app.post("/api/elevenlabs/chat-with-voice", async (req: Request, res: Response) => {
     try {
@@ -404,59 +529,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         textResponse = "I'm sorry, I couldn't process your request at the moment. Can you please try again?";
       }
       
-      // Now generate speech for the response
-      try {
-        // Use "Sarah" voice from our API lookup
-        const voiceId = 'EXAVITQu4vr4xnSDxMaL';
-        const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-        
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-          },
-          body: JSON.stringify({
-            text: textResponse,
-            model_id: 'eleven_multilingual_v2',
-            voice_settings: {
-              stability: 0.75,
-              similarity_boost: 0.75,
-              style: 0.5,
-              use_speaker_boost: true
-            }
-          }),
-        });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('ElevenLabs API error in voice synthesis:', errorText);
-          throw new Error('ElevenLabs API speech synthesis failed: ' + errorText);
-        }
-        
-        // Get audio data
-        const audioBuffer = await response.arrayBuffer();
-        const audioBase64 = Buffer.from(audioBuffer).toString('base64');
-        
-        console.log("Audio synthesis successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
-        
-        // Return both text and audio with proper data URI format
-        res.status(200).json({
-          success: true,
-          response: textResponse,
-          audio: `data:audio/mpeg;base64,${audioBase64}`
-        });
-        
-      } catch (voiceError) {
-        console.error("Error generating voice:", voiceError);
-        // Return just the text if voice fails
-        res.status(200).json({
-          success: true,
-          response: textResponse,
-          audio: null,
-          error: "Voice generation failed"
-        });
-      }
+      // Generate a unique ID for this message
+      const messageId = Date.now().toString();
+      
+      // Return the text response with a URL to fetch the audio
+      res.status(200).json({
+        success: true,
+        response: textResponse,
+        audioUrl: `/api/generate-audio?message=${encodeURIComponent(textResponse)}&id=${messageId}`,
+        messageId
+      });
       
     } catch (error: any) {
       console.error("Error processing voice chat request:", error);
