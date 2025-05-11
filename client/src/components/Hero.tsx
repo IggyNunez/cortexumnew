@@ -98,8 +98,11 @@ const Hero = () => {
                   <h3 className="font-bold text-lg">AI Marketing Specialist</h3>
                   <div className="flex flex-col">
                     <div className="flex items-center">
-                      <p className="text-gray-500 text-sm">Christian Colgate, Founder</p>
+                      <p className="text-gray-700 text-sm font-medium">Christian Colgate</p>
                       <span className="ml-2 bg-[#B485FF]/20 text-xs px-1.5 py-0.5 rounded text-[#B485FF] font-medium">AI-Powered</span>
+                    </div>
+                    <div className="flex items-center">
+                      <p className="text-gray-500 text-xs">Founder</p>
                     </div>
                     <span className="text-[#E63E8B] text-xs font-medium mt-1">
                       Book a consultation with Christian →
