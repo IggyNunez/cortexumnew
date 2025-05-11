@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Bot } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CortexuumLogo from "./CortexuumLogo";
 import cortexuumLogo from '../assets/cortexuum-logo.png';
 import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
 
@@ -161,15 +160,18 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ 
+              duration: 0.2,
+              ease: "easeInOut"
+            }}
             className="md:hidden bg-white border-t overflow-hidden"
           >
             <div className="px-4 pt-2 pb-3">
-              <div className="flex flex-col space-y-0">
-                
+              <div className="grid gap-2 my-2">
+                {/* Primary buttons first, full-width */}
                 <Button
                   asChild
-                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full py-3 text-base font-bold shadow-md mb-3"
+                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-5 text-base font-bold shadow-md"
                 >
                   <a 
                     href="https://calendly.com/cortexuummarketing/30min" 
@@ -183,25 +185,31 @@ const Navbar = () => {
                 
                 <Button
                   asChild
-                  className="w-full bg-[#1A1347] hover:bg-[#1A1347]/90 text-white rounded-full py-3 text-base font-bold shadow-md mb-3"
+                  className="w-full bg-[#1A1347] hover:bg-[#1A1347]/90 text-white rounded-full px-6 py-5 text-base font-bold shadow-md"
                 >
-                  <a href="/#services" onClick={handleNavClick}>
+                  <a 
+                    href="/#services" 
+                    onClick={handleNavClick}
+                  >
                     Our Services
                   </a>
                 </Button>
-                                
-                {navItems.map((item) => (
-                  item.name !== "Services" && (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="text-gray-800 block px-3 py-2 text-base font-medium border-b border-gray-100 last:border-0"
-                      onClick={handleNavClick}
-                    >
-                      {item.name}
-                    </a>
-                  )
-                ))}
+                
+                {/* Navigation links */}              
+                <div className="grid gap-0 border-t border-gray-100 mt-2 pt-2">
+                  {navItems.map((item) => (
+                    item.name !== "Services" && (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className="text-gray-800 block px-3 py-2.5 text-base font-medium border-b border-gray-100 last:border-0"
+                        onClick={handleNavClick}
+                      >
+                        {item.name}
+                      </a>
+                    )
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
