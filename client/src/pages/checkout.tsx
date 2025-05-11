@@ -110,7 +110,10 @@ interface CheckoutPageProps {
   productId?: string;
 }
 
-export default function CheckoutPage({ productId = "default" }: CheckoutPageProps) {
+export default function CheckoutPage({ productId: propProductId = "default" }: CheckoutPageProps) {
+  // Get product from URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('product') || propProductId;
   const [clientSecret, setClientSecret] = useState("");
   const [productData, setProductData] = useState({
     amount: 299,

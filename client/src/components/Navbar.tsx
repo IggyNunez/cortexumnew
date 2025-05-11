@@ -101,6 +101,15 @@ const Navbar = () => {
                 BOOK A CALL
               </a>
             </Button>
+            
+            <Button
+              asChild
+              className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-6 py-2 text-sm font-bold shadow transition-all hover:shadow-lg"
+            >
+              <a href="/checkout?product=strategy-call">
+                PURCHASE
+              </a>
+            </Button>
           </nav>
 
           {/* Mobile menu button */}
@@ -172,6 +181,18 @@ const Navbar = () => {
                       onClick={handleNavClick}
                     >
                       BOOK A CALL
+                    </a>
+                  </Button>
+                  
+                  <Button
+                    asChild
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3 text-base font-bold shadow-md"
+                  >
+                    <a 
+                      href="/checkout?product=strategy-call"
+                      onClick={handleNavClick}
+                    >
+                      PURCHASE
                     </a>
                   </Button>
                 </div>
