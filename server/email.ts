@@ -46,12 +46,11 @@ New Contact Form Submission
 Name: ${lead.name}
 Email: ${lead.email}
 Phone: ${lead.phone || 'Not provided'}
-Company: ${lead.companyName}
-Company Website: ${lead.companyWebsite || 'Not provided'}
-Business Type: ${lead.businessType || 'Not provided'}
-Company Size: ${lead.companySize || 'Not provided'}
-Annual Revenue: ${lead.annualRevenue || 'Not provided'}
-Average Client Value: ${lead.avgClientValue || 'Not provided'}
+Company: ${lead.company}
+Business Type: ${lead.business_type || 'Not provided'}
+Company Size: ${lead.company_size || 'Not provided'}
+Annual Revenue: ${lead.annual_revenue || 'Not provided'}
+Average Client Value: ${lead.client_value || 'Not provided'}
 Message: ${lead.message || 'Not provided'}
 
 Submitted on: ${new Date().toLocaleString()}
@@ -88,22 +87,19 @@ Submitted on: ${new Date().toLocaleString()}
         <span class="label">Phone:</span> ${lead.phone || 'Not provided'}
       </div>
       <div class="field">
-        <span class="label">Company:</span> ${lead.companyName}
+        <span class="label">Company:</span> ${lead.company}
       </div>
       <div class="field">
-        <span class="label">Company Website:</span> ${lead.companyWebsite || 'Not provided'}
+        <span class="label">Business Type:</span> ${lead.business_type || 'Not provided'}
       </div>
       <div class="field">
-        <span class="label">Business Type:</span> ${lead.businessType || 'Not provided'}
+        <span class="label">Company Size:</span> ${lead.company_size || 'Not provided'}
       </div>
       <div class="field">
-        <span class="label">Company Size:</span> ${lead.companySize || 'Not provided'}
+        <span class="label">Annual Revenue:</span> ${lead.annual_revenue || 'Not provided'}
       </div>
       <div class="field">
-        <span class="label">Annual Revenue:</span> ${lead.annualRevenue || 'Not provided'}
-      </div>
-      <div class="field">
-        <span class="label">Average Client Value:</span> ${lead.avgClientValue || 'Not provided'}
+        <span class="label">Average Client Value:</span> ${lead.client_value || 'Not provided'}
       </div>
       <div class="field">
         <span class="label">Message:</span> ${lead.message || 'Not provided'}

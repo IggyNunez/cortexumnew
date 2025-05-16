@@ -35,6 +35,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const lead = insertLeadSchema.parse(req.body);
       const createdLead = await storage.createLead(lead);
+      
+      // Send email notification
+      try {
+        await sendLeadNotification(createdLead);
+      } catch (emailError) {
+        console.error("Error sending lead notification email:", emailError);
+        // Don't return an error to the client if only the email fails
+      }
+      
       res.status(201).json({ success: true, data: createdLead });
     } catch (error) {
       if (error instanceof z.ZodError) {
