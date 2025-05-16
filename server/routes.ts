@@ -6,6 +6,7 @@ import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema }
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import Stripe from "stripe";
+import { sendLeadNotification } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
