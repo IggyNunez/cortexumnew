@@ -3,7 +3,15 @@ import { Lead } from '@shared/schema';
 
 // Initialize SendGrid mail service
 const mailService = new MailService();
-mailService.setApiKey(process.env.SENDGRID_API_KEY as string);
+
+if (!process.env.SENDGRID_API_KEY) {
+  console.error('SENDGRID_API_KEY environment variable is not set');
+} else {
+  // Log first and last 4 characters to verify key is loaded (without exposing full key)
+  const key = process.env.SENDGRID_API_KEY;
+  console.log(`SendGrid API key loaded: ${key.substring(0, 4)}...${key.substring(key.length - 4)}`);
+  mailService.setApiKey(key);
+}
 
 // List of email recipients for contact form submissions
 const NOTIFICATION_RECIPIENTS = [
@@ -21,16 +29,20 @@ export async function sendLeadNotification(lead: Lead): Promise<boolean> {
     
     await mailService.send({
       to: NOTIFICATION_RECIPIENTS,
-      from: 'notifications@cortexuum.com', // This must be a verified sender in your SendGrid account
+      from: 'no-reply@cortexuum.com', // This must be a verified sender in your SendGrid account
       subject: `New Lead Submission: ${lead.name} from ${lead.company}`,
       text: formattedData.textContent,
       html: formattedData.htmlContent,
+      replyTo: lead.email, // Allow replies to go to the lead submitter
     });
     
     console.log(`Lead notification sent for ${lead.name}`);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to send lead notification email:', error);
+    if (error.response?.body?.errors) {
+      console.error('SendGrid error details:', JSON.stringify(error.response.body.errors, null, 2));
+    }
     return false;
   }
 }
