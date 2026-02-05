@@ -7,6 +7,7 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import Stripe from "stripe";
 import { sendLeadNotification } from "./email";
+import { addLeadToSheet } from "./googleSheets";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
@@ -330,6 +331,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       } catch (emailError) {
         console.error("Error sending page review notification email:", emailError);
+      }
+      
+      // Add lead to Google Sheets
+      try {
+        await addLeadToSheet({
+          fullName: createdReview.name,
+          email: createdReview.email,
+          companyName: createdReview.website_url,
+          websiteUrl: createdReview.website_url,
+          monthlyAdSpend: createdReview.monthly_traffic,
+          biggestChallenge: createdReview.page_goal,
+          createdAt: createdReview.created_at
+        });
+      } catch (sheetError) {
+        console.error("Error adding lead to Google Sheet:", sheetError);
       }
       
       res.status(201).json({ success: true, data: createdReview });
