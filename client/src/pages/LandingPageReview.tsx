@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -85,13 +84,17 @@ export default function LandingPageReview() {
     mutation.mutate(data);
   };
 
+  useEffect(() => {
+    if (isSubmitted) {
+      document.title = "Request Received | vibeagency.ai Landing Page Review";
+    } else {
+      document.title = "Free Landing Page Review | Fix Conversion Leaks | vibeagency.ai";
+    }
+  }, [isSubmitted]);
+
   if (isSubmitted) {
     return (
-      <>
-        <Helmet>
-          <title>Request Received | vibeagency.ai Landing Page Review</title>
-        </Helmet>
-        <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4">
           <div className="max-w-xl text-center">
             <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-8">
               <Check className="w-10 h-10 text-white" />
@@ -113,30 +116,11 @@ export default function LandingPageReview() {
             </a>
           </div>
         </div>
-      </>
     );
   }
 
   return (
-    <>
-      <Helmet>
-        <title>Free Landing Page Review | Fix Conversion Leaks | vibeagency.ai</title>
-        <meta
-          name="description"
-          content="Your marketing isn't broken. Your landing page is. Get a free conversion audit to find where leads are leaking and what to fix first. No sales pitch."
-        />
-        <meta property="og:title" content="Free Landing Page Review | vibeagency.ai" />
-        <meta
-          property="og:description"
-          content="Before spending more on ads, content, or traffic — we'll show you where conversion is leaking and what to fix first."
-        />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://vibeagency.ai/landing-page-review" />
-      </Helmet>
-
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32 px-4 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent" />
@@ -552,6 +536,5 @@ export default function LandingPageReview() {
           </div>
         </footer>
       </div>
-    </>
   );
 }
