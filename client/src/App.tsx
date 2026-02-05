@@ -3,6 +3,7 @@ import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { HelmetProvider } from "react-helmet-async";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -13,6 +14,7 @@ import LeadLifecycle from "@/pages/LeadLifecycle";
 import AuthPage from "@/pages/auth-page";
 import CheckoutPage from "@/pages/checkout";
 import PaymentSuccessPage from "@/pages/payment-success";
+import LandingPageReview from "@/pages/LandingPageReview";
 
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
@@ -31,6 +33,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/landing-page-review" component={LandingPageReview} />
+      <Route path="/lp-review" component={LandingPageReview} />
 
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
@@ -58,17 +62,19 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <AuthProvider>
-          <Toaster />
-          <AnalyticsInitializer />
-          <Router />
-          <FloatingMenu />
-          <ElevenLabsChatbot />
-        </AuthProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <AuthProvider>
+            <Toaster />
+            <AnalyticsInitializer />
+            <Router />
+            <FloatingMenu />
+            <ElevenLabsChatbot />
+          </AuthProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

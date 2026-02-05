@@ -1,0 +1,146 @@
+﻿SECTION 1: HERO
+Headline:
+ Your marketing isn’t broken.
+Your landing page is.
+Subheadline:
+ Before spending more on ads, content, or traffic — we’ll show you where conversion is leaking and what to fix first.
+Primary CTA Button:
+ 👉 Request a Landing Page Review
+Supporting Microcopy (under CTA):
+ No sales pitch. If we see a clear opportunity, we’ll show you.
+________________
+
+
+Headline:
+ We’ll show you what you’ve been missing.
+Body Copy:
+ Traffic doesn’t disappear.
+Attention doesn’t vanish.
+It leaks — quietly — at specific points most founders never see.
+We’ll surface those points and show you how your page should guide decisions instead of forcing them.
+
+
+________________
+
+
+SECTION 3: WHAT YOU’LL RECEIVE
+Section Title:
+ What happens after you submit
+Step 1:
+ We review your page + responses
+ We’re not looking for flaws — we’re looking for friction.
+Step 2:
+ We draft an optimized page direction
+ This may include a revised hero, CTA flow, page structure, and messaging hierarchy.
+Step 3 (Conditional):
+ If it makes sense to implement together, we’ll outline next steps.
+If not, you’ll still have clarity you can act on.
+________________
+
+
+SECTION 4: WHAT’S INCLUDED (IMPORTANT ADDITION)
+Section Title:
+[a] What we evaluate (beyond surface-level design)
+Bullet Points:
+* Message-to-market alignment
+
+* Conversion flow and cognitive friction
+
+* Offer clarity and CTA sequencing
+
+* Trust signals and objection handling
+
+* AI SEO + traditional SEO structure
+ (ensuring the page is optimized for both human decision-making and modern search behavior)
+
+Supporting Line:
+ High-converting pages today need to speak clearly to people and be structured for how search engines now interpret intent.
+Developer Note:
+ Do not over-explain AI here.
+This should read as “of course they do this”, not a feature pitch.
+________________
+
+
+SECTION 5: WHO THIS IS FOR / NOT FOR
+Section Title:
+ Is this a fit?
+This is for founders who:
+   * Are already driving traffic
+
+   * Believe in their offer
+
+   * Feel conversions lag behind attention
+
+   * Want clarity, not gimmicks
+
+This is not for:
+      * Early-stage idea validation
+
+      * Businesses without existing traffic
+
+      * Anyone looking for “free work” with no intent
+
+________________
+
+
+SECTION 6: FORM SECTION
+Section Title:
+ Start with the form. We’ll take it from there.
+Form Fields (Required Unless Noted)
+
+         1. Website or landing page URL
+ “Link the page you’re currently driving traffic to.”
+
+         2. Contact Info (name, email, phone number) 
+
+         3. Primary goal of this page
+ (Dropdown)
+
+            * Book a call
+
+            * Request a quote
+
+            * Purchase
+
+            * Start a trial
+
+            * Join a list
+
+            * Other
+
+               4. Who is this page primarily for?
+ (Short answer)
+Prompt: Role, awareness level, or situation.
+
+               5. Describe your offer in one sentence — no buzzwords.
+ (Short answer)
+
+               6. Why do you believe you’re the right choice?
+ (Short paragraph)
+
+               7. What objections do you hear most before someone buys or books?
+ (Multi-line text)
+
+               8. Approximate monthly traffic to this page
+ (Dropdown)
+
+                  * <1k
+
+                  * 1–5k
+
+                  * 5–20k
+
+                  * 20k+
+
+
+________________
+
+
+SECTION 7: FORM SUBMISSION CONFIRMATION (IMPORTANT)
+Confirmation Message (On-Page or Email):
+ Thanks — we’ll review your responses.
+If a walkthrough would be valuable, you’ll hear from us shortly.
+If not, we’ll still share any clarity we uncover.
+
+
+[a]may need this higher on page

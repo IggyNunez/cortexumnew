@@ -13,7 +13,10 @@ import {
   type InsertLeadMilestone,
   marketingSettings,
   type MarketingSettings,
-  type InsertMarketingSettings
+  type InsertMarketingSettings,
+  pageReviews,
+  type PageReview,
+  type InsertPageReview
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and } from "drizzle-orm";
@@ -44,6 +47,11 @@ export interface IStorage {
   getMarketingSettings(): Promise<MarketingSettings | undefined>;
   createMarketingSettings(settings: InsertMarketingSettings): Promise<MarketingSettings>;
   updateMarketingSettings(id: number, updates: Partial<InsertMarketingSettings>): Promise<MarketingSettings | undefined>;
+  
+  // Page review operations
+  createPageReview(review: InsertPageReview): Promise<PageReview>;
+  getPageReviews(): Promise<PageReview[]>;
+  getPageReview(id: number): Promise<PageReview | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -181,6 +189,36 @@ export class DatabaseStorage implements IStorage {
       })
       .where(eq(marketingSettings.id, id))
       .returning();
+    return result;
+  }
+
+  // Page review methods
+  async createPageReview(review: InsertPageReview): Promise<PageReview> {
+    const [result] = await db
+      .insert(pageReviews)
+      .values({
+        website_url: review.website_url,
+        name: review.name,
+        email: review.email,
+        phone: review.phone || null,
+        page_goal: review.page_goal,
+        target_audience: review.target_audience,
+        offer_description: review.offer_description,
+        why_right_choice: review.why_right_choice,
+        common_objections: review.common_objections || null,
+        monthly_traffic: review.monthly_traffic,
+        source: review.source || "linkedin_outreach"
+      })
+      .returning();
+    return result;
+  }
+
+  async getPageReviews(): Promise<PageReview[]> {
+    return await db.select().from(pageReviews).orderBy(desc(pageReviews.created_at));
+  }
+
+  async getPageReview(id: number): Promise<PageReview | undefined> {
+    const [result] = await db.select().from(pageReviews).where(eq(pageReviews.id, id));
     return result;
   }
 }

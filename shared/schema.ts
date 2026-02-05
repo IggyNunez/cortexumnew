@@ -130,3 +130,37 @@ export const insertMarketingSettingsSchema = createInsertSchema(marketingSetting
 
 export type InsertMarketingSettings = z.infer<typeof insertMarketingSettingsSchema>;
 export type MarketingSettings = typeof marketingSettings.$inferSelect;
+
+// Landing Page Review requests (LinkedIn outreach campaign)
+export const pageReviews = pgTable("page_reviews", {
+  id: serial("id").primaryKey(),
+  website_url: text("website_url").notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  page_goal: text("page_goal").notNull(),
+  target_audience: text("target_audience").notNull(),
+  offer_description: text("offer_description").notNull(),
+  why_right_choice: text("why_right_choice").notNull(),
+  common_objections: text("common_objections"),
+  monthly_traffic: text("monthly_traffic").notNull(),
+  source: text("source").default("linkedin_outreach"),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPageReviewSchema = createInsertSchema(pageReviews).pick({
+  website_url: true,
+  name: true,
+  email: true,
+  phone: true,
+  page_goal: true,
+  target_audience: true,
+  offer_description: true,
+  why_right_choice: true,
+  common_objections: true,
+  monthly_traffic: true,
+  source: true,
+});
+
+export type InsertPageReview = z.infer<typeof insertPageReviewSchema>;
+export type PageReview = typeof pageReviews.$inferSelect;

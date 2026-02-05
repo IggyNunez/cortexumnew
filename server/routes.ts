@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema } from "@shared/schema";
+import { insertLeadSchema, insertConversationSchema, insertLeadMilestoneSchema, insertPageReviewSchema } from "@shared/schema";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import Stripe from "stripe";
@@ -299,6 +299,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         error: "Failed to update milestone" 
+      });
+    }
+  });
+
+  // Landing Page Review submissions (LinkedIn outreach campaign)
+  app.post("/api/page-reviews", async (req: Request, res: Response) => {
+    try {
+      const review = insertPageReviewSchema.parse(req.body);
+      const createdReview = await storage.createPageReview(review);
+      
+      // Send email notification
+      try {
+        await sendLeadNotification({
+          id: createdReview.id,
+          name: createdReview.name,
+          email: createdReview.email,
+          company: createdReview.website_url,
+          phone: createdReview.phone || "",
+          message: `Landing Page Review Request\n\nWebsite: ${createdReview.website_url}\nGoal: ${createdReview.page_goal}\nTarget Audience: ${createdReview.target_audience}\nOffer: ${createdReview.offer_description}\nWhy Right Choice: ${createdReview.why_right_choice}\nObjections: ${createdReview.common_objections || "N/A"}\nMonthly Traffic: ${createdReview.monthly_traffic}`,
+          business_type: "Landing Page Review",
+          company_size: null,
+          annual_revenue: null,
+          client_value: null,
+          marketing_needs: null,
+          timeline: null,
+          budget: null,
+          source: createdReview.source,
+          created_at: createdReview.created_at
+        });
+      } catch (emailError) {
+        console.error("Error sending page review notification email:", emailError);
+      }
+      
+      res.status(201).json({ success: true, data: createdReview });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const validationError = fromZodError(error);
+        res.status(400).json({ 
+          success: false, 
+          error: validationError.message 
+        });
+      } else {
+        console.error("Error creating page review:", error);
+        res.status(500).json({ 
+          success: false, 
+          error: "Failed to create page review" 
+        });
+      }
+    }
+  });
+
+  // Get all page reviews (protected)
+  app.get("/api/page-reviews", requireAuth, async (_req: Request, res: Response) => {
+    try {
+      const reviews = await storage.getPageReviews();
+      res.status(200).json({ success: true, data: reviews });
+    } catch (error) {
+      console.error("Error fetching page reviews:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to fetch page reviews" 
       });
     }
   });
