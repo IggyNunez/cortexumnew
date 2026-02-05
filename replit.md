@@ -1,8 +1,8 @@
-# Cortexuum/VibeAgency.ai
+# Cortexuum/kalyxi.ai
 
 ## Overview
 
-This is a full-stack marketing agency website for Cortexuum/VibeAgency.ai, an AI-powered marketing platform. The application serves as a lead generation and client management system with features including a conversational AI chatbot, lead capture forms, milestone tracking, Stripe payment integration, and an admin dashboard for managing leads.
+This is a full-stack marketing agency website for Cortexuum/kalyxi.ai, an AI-powered marketing platform. The application serves as a lead generation and client management system with features including a conversational AI chatbot, lead capture forms, milestone tracking, Stripe payment integration, and an admin dashboard for managing leads.
 
 ## User Preferences
 

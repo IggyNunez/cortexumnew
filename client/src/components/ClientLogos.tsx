@@ -15,8 +15,8 @@ const ClientLogos = () => {
       logo: "SM"
     },
     {
-      name: "vibeagency.ai",
-      logo: "VA"
+      name: "kalyxi.ai",
+      logo: "KA"
     }
   ];
 
