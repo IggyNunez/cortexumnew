@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import LegalHeader from "@/components/LegalHeader";
+import DesignerFooter from "@/components/DesignerFooter";
 
 const CookiePolicy = () => {
   return (
@@ -96,6 +97,7 @@ const CookiePolicy = () => {
           </div>
         </motion.div>
       </div>
+      <DesignerFooter />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import LegalHeader from "@/components/LegalHeader";
+import DesignerFooter from "@/components/DesignerFooter";
 
 const Terms = () => {
   return (
@@ -120,6 +121,7 @@ const Terms = () => {
           </div>
         </motion.div>
       </div>
+      <DesignerFooter />
     </div>
   );
 };

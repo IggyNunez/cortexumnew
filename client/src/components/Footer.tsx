@@ -136,6 +136,11 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <div className="border-t border-gray-800 mt-6 pt-4 text-center">
+          <p className="text-gray-500 text-xs">
+            Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-gray-300 transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">plaintalk.dev</a>
+          </p>
+        </div>
       </div>
     </footer>
   );

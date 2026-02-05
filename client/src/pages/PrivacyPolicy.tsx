@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import LegalHeader from "@/components/LegalHeader";
+import DesignerFooter from "@/components/DesignerFooter";
 
 const PrivacyPolicy = () => {
   return (
@@ -83,6 +84,7 @@ const PrivacyPolicy = () => {
           </div>
         </motion.div>
       </div>
+      <DesignerFooter />
     </div>
   );
 };
