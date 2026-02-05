@@ -531,7 +531,7 @@ export default function LandingPageReview() {
         <footer className="py-8 px-4 border-t border-slate-800/50">
           <div className="max-w-5xl mx-auto text-center">
             <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} vibeagency.ai — AI-Powered Marketing Intelligence
+              © {new Date().getFullYear()} Cortexuum — AI-Powered Marketing Intelligence
             </p>
           </div>
         </footer>
