@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Check, ArrowRight, Target, Eye, Zap, Users, X, Search, MessageSquare, Shield, BarChart3 } from "lucide-react";
+import { Check, ArrowRight, Target, Zap, X, Search, MessageSquare, Shield } from "lucide-react";
 
 const formSchema = z.object({
   website_url: z.string().url("Please enter a valid URL"),
