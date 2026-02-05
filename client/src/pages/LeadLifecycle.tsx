@@ -41,8 +41,8 @@ const LeadLifecycle = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Meta information */}
-      <title>Lead Lifecycle Timeline | Vibe Marketing AI</title>
-      <meta name="description" content="Track your leads through their journey with interactive milestone celebrations using Vibe Marketing AI." />
+      <title>Lead Lifecycle Timeline | PlainTalk Developers</title>
+      <meta name="description" content="Track your leads through their journey with interactive milestone celebrations." />
       
       <Navbar />
       

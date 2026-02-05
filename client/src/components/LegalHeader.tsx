@@ -8,7 +8,7 @@ const LegalHeader = () => {
           <Link href="/">
             <a className="flex items-center">
               <span className="text-2xl font-bold">
-                VibeMarketing<span className="text-primary">Agency.ai</span>
+                PlainTalk<span className="text-primary"> Developers</span>
               </span>
             </a>
           </Link>

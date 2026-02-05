@@ -19,7 +19,7 @@ const CookiePolicy = () => {
             
             <h2>1. Introduction</h2>
             <p>
-              This Cookie Policy explains how VibeMarketingAgency.ai ("we," "our," or "us") uses cookies and similar technologies on our website to enhance your browsing experience, analyze website traffic, and personalize content.
+              This Cookie Policy explains how PlainTalk Developers ("we," "our," or "us") uses cookies and similar technologies on our website to enhance your browsing experience, analyze website traffic, and personalize content.
             </p>
 
             <h2>2. What Are Cookies?</h2>
@@ -90,8 +90,8 @@ const CookiePolicy = () => {
               If you have any questions or concerns about this Cookie Policy or our use of cookies, please contact us at:
             </p>
             <p>
-              VibeMarketingAgency.ai<br />
-              Email: privacy@vibemarketingagency.ai
+              PlainTalk Developers<br />
+              Email: dev@ignacionunez.dev
             </p>
           </div>
         </motion.div>

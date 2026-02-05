@@ -22,7 +22,7 @@ const AuthPage = () => {
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: 'vibeadmin',
+      username: 'plaintalkadmin',
       password: 'aimoneymakers',
     },
   });
@@ -43,7 +43,7 @@ const AuthPage = () => {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                VibeMarketingAgency.ai
+                PlainTalk Developers
               </CardTitle>
               <CardDescription>
                 Sign in to access your admin dashboard and analytics
@@ -101,7 +101,7 @@ const AuthPage = () => {
         
         <div className="bg-primary rounded-lg p-8 flex flex-col justify-center hidden md:block">
           <div className="text-white">
-            <h2 className="text-3xl font-bold mb-4">VibeMarketingAgency.ai</h2>
+            <h2 className="text-3xl font-bold mb-4">PlainTalk Developers</h2>
             <h3 className="text-xl font-semibold mb-6">Admin Dashboard</h3>
             <p className="mb-4">
               Welcome to your secure admin dashboard where you can:

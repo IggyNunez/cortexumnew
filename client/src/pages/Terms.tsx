@@ -18,7 +18,7 @@ const Terms = () => {
             </p>
             
             <p>
-              Please read these Terms and Conditions ("Terms") carefully before using the VibeMarketingAgency.ai website and services operated by VibeMarketingAgency.ai.
+              Please read these Terms and Conditions ("Terms") carefully before using the PlainTalk Developers website and services operated by PlainTalk Developers.
             </p>
             
             <p>
@@ -31,7 +31,7 @@ const Terms = () => {
 
             <h2>1. Services</h2>
             <p>
-              VibeMarketingAgency.ai offers AI-powered marketing solutions for marketing agencies and businesses, including but not limited to AI chatbots, content creation, workflow automation, and strategic consulting.
+              PlainTalk Developers offers AI-powered marketing solutions for marketing agencies and businesses, including but not limited to AI chatbots, content creation, workflow automation, and strategic consulting.
             </p>
 
             <h2>2. Use of Service</h2>
@@ -48,11 +48,11 @@ const Terms = () => {
 
             <h2>3. Intellectual Property</h2>
             <p>
-              The Service and its original content, features, and functionality are and will remain the exclusive property of VibeMarketingAgency.ai and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.
+              The Service and its original content, features, and functionality are and will remain the exclusive property of PlainTalk Developers and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.
             </p>
             
             <p>
-              Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of VibeMarketingAgency.ai.
+              Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of PlainTalk Developers.
             </p>
 
             <h2>4. AI Technology and Voice Synthesis</h2>
@@ -81,7 +81,7 @@ const Terms = () => {
 
             <h2>7. Limitation of Liability</h2>
             <p>
-              In no event shall VibeMarketingAgency.ai, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
+              In no event shall PlainTalk Developers, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
             </p>
             <ul>
               <li>Your access to or use of or inability to access or use the Service;</li>
@@ -114,8 +114,8 @@ const Terms = () => {
               If you have any questions about these Terms, please contact us at:
             </p>
             <p>
-              VibeMarketingAgency.ai<br />
-              Email: legal@vibemarketingagency.ai
+              PlainTalk Developers<br />
+              Email: dev@ignacionunez.dev
             </p>
           </div>
         </motion.div>

@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
             
             <h2>1. Introduction</h2>
             <p>
-              VibeMarketingAgency.ai ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our AI marketing services.
+              PlainTalk Developers ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our AI marketing services.
             </p>
 
             <h2>2. Information We Collect</h2>
@@ -77,8 +77,8 @@ const PrivacyPolicy = () => {
               If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
             </p>
             <p>
-              VibeMarketingAgency.ai<br />
-              Email: privacy@vibemarketingagency.ai
+              PlainTalk Developers<br />
+              Email: dev@ignacionunez.dev
             </p>
           </div>
         </motion.div>
