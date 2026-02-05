@@ -529,9 +529,12 @@ export default function LandingPageReview() {
 
         {/* Footer */}
         <footer className="py-8 px-4 border-t border-slate-800/50">
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center space-y-2">
             <p className="text-slate-500 text-sm">
               © {new Date().getFullYear()} Cortexuum — AI-Powered Marketing Intelligence
+            </p>
+            <p className="text-slate-600 text-xs">
+              Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-slate-400 transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-slate-400 transition-colors">plaintalk.dev</a>
             </p>
           </div>
         </footer>
