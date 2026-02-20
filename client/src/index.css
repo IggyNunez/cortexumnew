@@ -265,3 +265,11 @@
 .focus-visible:focus {
   @apply outline-none ring-2 ring-primary ring-offset-2;
 }
+
+@keyframes scroll-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-scroll-x {
+  animation: scroll-x 30s linear infinite;
+}

@@ -14,6 +14,7 @@ import AuthPage from "@/pages/auth-page";
 import CheckoutPage from "@/pages/checkout";
 import PaymentSuccessPage from "@/pages/payment-success";
 import LandingPageReview from "@/pages/LandingPageReview";
+import WebsiteOutreach from "@/pages/WebsiteOutreach";
 
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
@@ -36,6 +37,9 @@ function Router() {
       <Route path="/free-review" component={LandingPageReview} />
       <Route path="/landing-page-review" component={LandingPageReview} />
       <Route path="/lp-review" component={LandingPageReview} />
+      <Route path="/outreach" component={WebsiteOutreach} />
+      <Route path="/web" component={WebsiteOutreach} />
+      <Route path="/services" component={WebsiteOutreach} />
 
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
