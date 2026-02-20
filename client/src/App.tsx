@@ -37,9 +37,7 @@ function Router() {
       <Route path="/free-review" component={LandingPageReview} />
       <Route path="/landing-page-review" component={LandingPageReview} />
       <Route path="/lp-review" component={LandingPageReview} />
-      <Route path="/outreach" component={WebsiteOutreach} />
-      <Route path="/web" component={WebsiteOutreach} />
-      <Route path="/services" component={WebsiteOutreach} />
+      <Route path="/services/websites" component={WebsiteOutreach} />
 
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
