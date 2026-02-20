@@ -86,9 +86,9 @@ export default function LandingPageReview() {
 
   useEffect(() => {
     if (isSubmitted) {
-      document.title = "Request Received | kalyxi.ai Landing Page Review";
+      document.title = "Request Received | Cortexuum Landing Page Review";
     } else {
-      document.title = "Free Landing Page Review | Fix Conversion Leaks | kalyxi.ai";
+      document.title = "Free Landing Page Review | Fix Conversion Leaks | Cortexuum";
     }
   }, [isSubmitted]);
 

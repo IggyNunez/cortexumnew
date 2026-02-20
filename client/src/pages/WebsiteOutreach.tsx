@@ -245,9 +245,68 @@ export default function WebsiteOutreach() {
   };
 
   useEffect(() => {
-    document.title = isSubmitted
-      ? "Message Received | Cortexuum"
-      : "Web Development, Translated | Cortexuum";
+    if (isSubmitted) {
+      document.title = "Message Received | Cortexuum";
+    } else {
+      document.title = "Custom Web Development & AI Automation | Cortexuum";
+    }
+
+    const metaTags: Record<string, string> = {
+      description: "Cortexuum builds custom websites, online stores, and AI automation for real businesses. 150+ projects shipped. Plain-English communication, honest pricing, and results that speak for themselves.",
+      "og:title": "Custom Web Development & AI Automation | Cortexuum",
+      "og:description": "Custom websites, e-commerce, AI automation, and healthcare tech. 150+ projects shipped with plain-English communication and honest pricing.",
+      "og:url": "https://cortexuum.com/services/websites",
+      "og:type": "website",
+      "twitter:title": "Custom Web Development & AI Automation | Cortexuum",
+      "twitter:description": "Custom websites, e-commerce, AI automation, and healthcare tech. 150+ projects shipped with honest pricing.",
+    };
+
+    Object.entries(metaTags).forEach(([key, content]) => {
+      const isOg = key.startsWith("og:") || key.startsWith("twitter:");
+      const attr = isOg ? "property" : "name";
+      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    });
+
+    const jsonLd = document.createElement("script");
+    jsonLd.type = "application/ld+json";
+    jsonLd.id = "outreach-jsonld";
+    jsonLd.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      name: "Cortexuum",
+      url: "https://cortexuum.com",
+      description: "Custom web development, AI automation, and psychology-based marketing for real businesses.",
+      areaServed: "Worldwide",
+      serviceType: ["Web Development", "AI Automation", "E-Commerce", "Healthcare Technology", "Marketing"],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Web Development Services",
+        itemListElement: [
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Custom Websites" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Online Stores" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "AI & Automation" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Healthcare Tech" } },
+        ],
+      },
+    });
+    if (!document.getElementById("outreach-jsonld")) {
+      document.head.appendChild(jsonLd);
+    }
+
+    return () => {
+      ["og:title", "og:description", "og:url", "og:type", "twitter:title", "twitter:description"].forEach((key) => {
+        const attr = key.startsWith("og:") || key.startsWith("twitter:") ? "property" : "name";
+        const el = document.querySelector(`meta[${attr}="${key}"]`);
+        if (el) el.remove();
+      });
+      document.getElementById("outreach-jsonld")?.remove();
+    };
   }, [isSubmitted]);
 
   if (isSubmitted) {
