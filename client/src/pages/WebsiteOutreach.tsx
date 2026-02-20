@@ -95,13 +95,13 @@ const services = [
   {
     icon: Bot,
     title: "AI & Automation",
-    description: "We connect your tools so things just work. Automated workflows, AI voice agents, smart integrations — so you can focus on growth, not repetitive tasks.",
+    description: "We connect your tools so things just work. Automated workflows, AI voice agents, smart integrations, so you can focus on growth, not repetitive tasks.",
     color: "from-pink-500 to-rose-600",
   },
   {
     icon: GraduationCap,
     title: "Developer Training",
-    description: "We train developers who don't just write code — they explain it. The best engineers are the ones who can tell a client what they built without sounding like a robot.",
+    description: "We train developers who don't just write code, they explain it. The best engineers are the ones who can tell a client what they built without sounding like a robot.",
     color: "from-amber-500 to-orange-600",
   },
   {
@@ -113,7 +113,7 @@ const services = [
   {
     icon: Lightbulb,
     title: "Honest Consulting",
-    description: "Sometimes the answer is \"you don't need a new website, you need better SEO.\" We'll always give it to you straight — even if it means a smaller invoice.",
+    description: "Sometimes the answer is \"you don't need a new website, you need better SEO.\" We'll always give it to you straight, even if it means a smaller invoice.",
     color: "from-sky-500 to-cyan-600",
   },
 ];
@@ -165,7 +165,7 @@ const portfolio = [
     label: "Healthcare + HIPAA",
     name: "Lake Lucien ASC",
     url: "lucienasc.com",
-    description: "Full digital platform for a premier ambulatory surgery center. HIPAA-compliant infrastructure, responsive site, and 99.95% uptime SLA — delivered in 3 weeks.",
+    description: "Full digital platform for a premier ambulatory surgery center. HIPAA-compliant infrastructure, responsive site, and 99.95% uptime SLA, delivered in 3 weeks.",
     stats: [
       { value: "3 wk", label: "Delivery" },
       { value: "95+", label: "Mobile Score" },
@@ -181,7 +181,7 @@ const steps = [
   {
     icon: MessageSquare,
     title: "We Talk",
-    description: "Tell us what you need in your own words. No forms with 40 fields — just a real conversation about your business.",
+    description: "Tell us what you need in your own words. No forms with 40 fields, just a real conversation about your business.",
     color: "from-cyan-500 to-blue-500",
   },
   {
@@ -325,7 +325,7 @@ export default function WebsiteOutreach() {
             </span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-            No jargon. No mystery invoices. Just real developers who explain what we're building, why it matters, and how much it costs — in words you actually understand.
+            No jargon. No mystery invoices. Just real developers who explain what we're building, why it matters, and how much it costs, in words you actually understand.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
@@ -396,7 +396,7 @@ export default function WebsiteOutreach() {
                   We believe if you can't explain it simply, you don't understand it well enough.
                 </p>
                 <p>
-                  <strong className="text-cyan-400">Cortexuum</strong> was built on one principle: you deserve to know exactly what's being built, how it works, and what it costs. Every project starts with a real conversation — not a 40-page spec doc.
+                  <strong className="text-cyan-400">Cortexuum</strong> was built on one principle: you deserve to know exactly what's being built, how it works, and what it costs. Every project starts with a real conversation, not a 40-page spec doc.
                 </p>
                 <p>
                   We build real-world web solutions for real businesses. We train developers who can actually communicate. And we deliver projects that work on day one.
@@ -479,7 +479,7 @@ export default function WebsiteOutreach() {
               </span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-slate-400 text-lg max-w-2xl mx-auto">
-              No corporate fluff. Here's what we actually build — described so anyone can understand.
+              No corporate fluff. Here's what we actually build, described so anyone can understand.
             </motion.p>
           </motion.div>
 
@@ -530,7 +530,7 @@ export default function WebsiteOutreach() {
               </span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Every one of these started with a simple conversation — and ended with something we're all proud of.
+              Every one of these started with a simple conversation, and ended with something we're all proud of.
             </motion.p>
           </motion.div>
 
@@ -646,7 +646,7 @@ export default function WebsiteOutreach() {
           >
             <div className="text-5xl text-slate-700 mb-6">"</div>
             <blockquote className="text-xl md:text-2xl text-slate-200 italic leading-relaxed mb-8">
-              For the first time, I actually understood what my developer was building — and why. That changed everything.
+              For the first time, I actually understood what my developer was building, and why. That changed everything.
             </blockquote>
             <p className="text-slate-400 font-medium">— A Cortexuum Client</p>
           </motion.div>
@@ -692,7 +692,7 @@ export default function WebsiteOutreach() {
                 </div>
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-slate-300">Honest pricing — no hidden fees</span>
+                  <span className="text-slate-300">Honest pricing, no hidden fees</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -847,7 +847,7 @@ export default function WebsiteOutreach() {
       <footer className="py-8 px-4 border-t border-slate-800/50">
         <div className="max-w-5xl mx-auto text-center space-y-2">
           <p className="text-slate-500 text-sm">
-            &copy; {new Date().getFullYear()} Cortexuum — AI-Powered Marketing & Web Development
+            &copy; {new Date().getFullYear()} Cortexuum, AI-Powered Marketing & Web Development
           </p>
           <p className="text-slate-600 text-xs">
             Designed by Ignacio Nunez &middot;{" "}
