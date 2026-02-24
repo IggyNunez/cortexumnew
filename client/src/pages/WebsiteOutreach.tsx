@@ -128,60 +128,72 @@ const portfolio = [
     name: "Kalyxi AI",
     url: "kalyxi.ai",
     image: portfolioKalyxi,
-    description: "Full-stack voice AI platform powering automated call handling, lead qualification, and CRM workflows for 12+ client accounts.",
+    headline: "From 4-hour response times to 47 seconds.",
+    challenge: "Businesses were drowning in manual call handling, lead qualification, and CRM updates. Average response time to new leads was over 4 hours, and 38% of leads went completely uncontacted. Every missed call was a missed deal, and the cost of human agents was scaling faster than revenue.",
+    approach: "Built a complete voice AI platform from the ground up. Custom dashboard for real-time monitoring, automation engine orchestrating every workflow, voice agents with natural conversation flows, and deep CRM integration. Every automation was designed to eliminate human bottlenecks without losing the human touch.",
+    result: "12+ active client accounts running on the platform. Lead contact rate jumped from 62% to 94%. Response time dropped from 4 hours to 47 seconds. Clients saw 3.2x ROI within the first 90 days.",
     stats: [
       { value: "2,400+", label: "Calls / Month" },
-      { value: "94%", label: "Contact Rate" },
+      { value: "62% → 94%", label: "Contact Rate" },
+      { value: "4hr → 47s", label: "Response Time" },
       { value: "3.2x", label: "Client ROI" },
     ],
-    tags: ["Next.js", "Voice AI", "n8n", "Twilio"],
-    color: "from-cyan-500/20 to-blue-500/20",
-    border: "border-cyan-500/30",
+    tags: ["Next.js", "Voice AI", "n8n", "Twilio", "GoHighLevel"],
+    accent: "cyan",
   },
   {
     label: "Lead Generation",
     name: "Jetts Windows",
     url: "jettswindows.com",
     image: portfolioJetts,
-    description: "Full website build for a local window services company. Mobile-first design and local SEO that turned zero digital presence into 40+ qualified leads per month.",
+    headline: "Zero online presence to 40+ leads per month. $0 ad spend.",
+    challenge: "A local window services company had zero online presence. All business came from word-of-mouth, and they were losing bids to competitors who ranked on Google. They needed a website that didn't just look professional, it needed to turn visitors into booked appointments.",
+    approach: "Built a mobile-first site optimized for local search from day one. Implemented schema markup, Google Business Profile optimization, and location-specific content targeting high-intent keywords. Designed a streamlined quote request flow that captures leads in under 30 seconds, reducing every possible point of friction between \"I need windows\" and \"appointment booked.\"",
+    result: "Ranked #1 for 8 local keywords within 3 months. 12% form conversion rate on mobile. 67% of all traffic comes from mobile devices with a 1.4s load time. Over 40 qualified leads every month with zero ad spend.",
     stats: [
       { value: "40+", label: "Leads / Month" },
-      { value: "#1", label: "Local Rankings" },
+      { value: "#1", label: "8 Local Keywords" },
+      { value: "12%", label: "Form Conversion" },
       { value: "$0", label: "Ad Spend" },
     ],
-    tags: ["Next.js 16", "Sanity", "Vercel", "Local SEO"],
-    color: "from-purple-500/20 to-indigo-500/20",
-    border: "border-purple-500/30",
+    tags: ["Next.js 16", "Sanity CMS", "Vercel", "Local SEO", "Schema Markup"],
+    accent: "purple",
   },
   {
-    label: "Healthcare",
+    label: "Healthcare Platform",
     name: "PropVera",
     url: "propvera.net",
     image: portfolioPropvera,
-    description: "Healthcare platform built for trust at first click. WCAG-compliant, mobile-optimized, and designed so patients find what they need in under 3 seconds.",
+    headline: "52% more appointments. Built for trust at first click.",
+    challenge: "A healthcare provider needed a digital presence that inspired the same confidence as an in-person visit. The existing site was inaccessible, slow, and failed to communicate credibility. Patients researching care options online were bouncing before they ever picked up the phone.",
+    approach: "Designed with patients first. Every page was built to answer the question \"Can I trust this provider?\" within 3 seconds. Built to WCAG 2.1 AA standards for full accessibility, implemented fast-loading architecture for mobile-heavy audiences, and created clear pathways from symptom research to appointment booking with zero dead ends.",
+    result: "100% WCAG 2.1 AA compliant. Online appointments increased by 52%. Mobile performance score of 91. Time to first meaningful action dropped to 2.8 seconds. Patients can find what they need and book in under 3 clicks.",
     stats: [
-      { value: "94", label: "Accessibility" },
-      { value: "+52%", label: "Appointments" },
+      { value: "94", label: "Accessibility Score" },
+      { value: "+52%", label: "Online Appointments" },
+      { value: "2.8s", label: "Time to Action" },
       { value: "100%", label: "WCAG 2.1 AA" },
     ],
-    tags: ["Healthcare", "Accessible", "Custom", "WCAG"],
-    color: "from-emerald-500/20 to-teal-500/20",
-    border: "border-emerald-500/30",
+    tags: ["Healthcare", "WCAG 2.1 AA", "Accessible", "Custom Build", "Mobile-First"],
+    accent: "emerald",
   },
   {
     label: "Healthcare + HIPAA",
     name: "Lake Lucien ASC",
     url: "lucienasc.com",
     image: portfolioLakelucien,
-    description: "Full digital platform for a premier ambulatory surgery center. HIPAA-compliant infrastructure, responsive site, and 99.95% uptime SLA, delivered in 3 weeks.",
+    headline: "Full surgery center website. HIPAA compliant. 3 weeks.",
+    challenge: "A new ambulatory surgery center in Maitland, FL needed a complete digital presence before their facility opened. The site had to project surgical-grade professionalism, comply with HIPAA regulations, support 4 medical specialties plus 15 additional services, and present 6 physicians with credibility, all on a tight pre-opening timeline.",
+    approach: "Built on Google Cloud and Firebase for enterprise-level reliability. Delivered a polished, accessible frontend with detailed physician profiles, Google Maps integration, an emergency notice system, and a patient portal architected for future scheduling software integration. Full HIPAA-compliant infrastructure with documentation.",
+    result: "6-page site delivered in just 3 weeks. Page load under 2 seconds. 95+ mobile performance score. 99.95% uptime SLA. 19 services listed across 4 specialties. Ready for patients before the doors even opened.",
     stats: [
-      { value: "3 wk", label: "Delivery" },
+      { value: "3 wk", label: "Delivery Time" },
+      { value: "<2s", label: "Page Load" },
       { value: "95+", label: "Mobile Score" },
       { value: "99.95%", label: "Uptime SLA" },
     ],
-    tags: ["React 18", "Google Cloud", "Firebase", "HIPAA"],
-    color: "from-pink-500/20 to-rose-500/20",
-    border: "border-pink-500/30",
+    tags: ["React 18", "Chakra UI", "Google Cloud", "Firebase", "HIPAA"],
+    accent: "pink",
   },
 ];
 
@@ -577,91 +589,176 @@ export default function WebsiteOutreach() {
         </div>
       </section>
 
-      {/* Portfolio */}
-      <section id="work" className="py-20 md:py-28 px-4 scroll-mt-20">
+      {/* Portfolio Header */}
+      <section id="work" className="pt-20 md:pt-28 pb-10 px-4 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="text-center mb-16"
+            className="text-center"
           >
             <motion.p variants={fadeUp} className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-4">
               Our Work
             </motion.p>
             <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-bold mb-4">
-              Projects we shipped.{" "}
+              The full story.{" "}
               <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                In plain sight.
+                No fluff.
               </span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Every one of these started with a simple conversation, and ended with something we're all proud of.
+              What we built, why it mattered, and what happened after launch.
             </motion.p>
           </motion.div>
+        </div>
+      </section>
 
+      {/* Individual Case Study Sections */}
+      {portfolio.map((project, i) => {
+        const accentColors: Record<string, { gradient: string; text: string; border: string; bg: string; statBg: string }> = {
+          cyan: { gradient: "from-cyan-500 to-blue-600", text: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10", statBg: "from-cyan-500/15 to-blue-500/15" },
+          purple: { gradient: "from-purple-500 to-indigo-600", text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", statBg: "from-purple-500/15 to-indigo-500/15" },
+          emerald: { gradient: "from-emerald-500 to-teal-600", text: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10", statBg: "from-emerald-500/15 to-teal-500/15" },
+          pink: { gradient: "from-pink-500 to-rose-600", text: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10", statBg: "from-pink-500/15 to-rose-500/15" },
+        };
+        const colors = accentColors[project.accent] || accentColors.cyan;
+        const isReversed = i % 2 === 1;
+
+        return (
+          <section
+            key={i}
+            className={`py-16 md:py-24 px-4 ${i % 2 === 0 ? "bg-slate-900/40" : ""} ${i === 0 ? "border-t border-slate-800/50" : ""}`}
+          >
+            <div className="max-w-6xl mx-auto">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-80px" }}
+                variants={staggerContainer}
+              >
+                {/* Label + Title */}
+                <motion.div variants={fadeUp} className="mb-8">
+                  <span className={`text-xs font-mono ${colors.text} tracking-widest uppercase`}>
+                    {project.label}
+                  </span>
+                  <div className="flex items-center gap-4 mt-2 mb-2">
+                    <h3 className="text-3xl md:text-4xl font-bold text-white">{project.name}</h3>
+                    <a
+                      href={`https://${project.url}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${colors.text} hover:text-white transition-colors inline-flex items-center gap-1.5 text-sm font-medium`}
+                    >
+                      {project.url} <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                  <p className="text-xl md:text-2xl text-slate-200 font-medium max-w-3xl">
+                    {project.headline}
+                  </p>
+                </motion.div>
+
+                {/* Screenshot + Content Grid */}
+                <div className={`grid lg:grid-cols-2 gap-8 lg:gap-12 items-start ${isReversed ? "lg:grid-flow-dense" : ""}`}>
+                  {/* Screenshot */}
+                  <motion.div
+                    variants={fadeUp}
+                    className={`${isReversed ? "lg:col-start-2" : ""}`}
+                  >
+                    <a
+                      href={`https://${project.url}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block group relative rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl shadow-black/30"
+                    >
+                      <img
+                        src={project.image}
+                        alt={`${project.name} website screenshot`}
+                        className="w-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className={`bg-gradient-to-r ${colors.gradient} text-white text-xs font-semibold px-4 py-2 rounded-full inline-flex items-center gap-1.5`}>
+                          Visit Live Site <ExternalLink className="w-3 h-3" />
+                        </span>
+                      </div>
+                    </a>
+                  </motion.div>
+
+                  {/* Content */}
+                  <motion.div
+                    variants={fadeUp}
+                    className={`space-y-6 ${isReversed ? "lg:col-start-1 lg:row-start-1" : ""}`}
+                  >
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {project.stats.map((stat, j) => (
+                        <div key={j} className={`bg-gradient-to-br ${colors.statBg} border ${colors.border} rounded-xl p-4 text-center`}>
+                          <div className="text-xl md:text-2xl font-bold text-white">{stat.value}</div>
+                          <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Challenge */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">The Challenge</h4>
+                      <p className="text-slate-400 leading-relaxed">{project.challenge}</p>
+                    </div>
+
+                    {/* Approach */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">Our Approach</h4>
+                      <p className="text-slate-400 leading-relaxed">{project.approach}</p>
+                    </div>
+
+                    {/* Result */}
+                    <div className={`${colors.bg} border ${colors.border} rounded-xl p-5`}>
+                      <h4 className={`text-sm font-semibold ${colors.text} uppercase tracking-wider mb-2`}>The Result</h4>
+                      <p className="text-slate-200 leading-relaxed">{project.result}</p>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, j) => (
+                        <span
+                          key={j}
+                          className={`text-xs ${colors.bg} ${colors.text} px-3 py-1.5 rounded-full border ${colors.border} font-medium`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        );
+      })}
+
+      {/* CTA between portfolio and process */}
+      <section className="py-16 px-4 border-y border-slate-800/50">
+        <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="grid md:grid-cols-2 gap-6"
+            viewport={{ once: true }}
+            variants={fadeUp}
           >
-            {portfolio.map((project, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className={`bg-gradient-to-br ${project.color} border ${project.border} rounded-2xl overflow-hidden hover:scale-[1.01] transition-transform duration-300`}
-              >
-                <a
-                  href={`https://${project.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block relative group"
-                >
-                  <img
-                    src={project.image}
-                    alt={`${project.name} website preview`}
-                    className="w-full h-48 object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-xs font-mono text-slate-200 bg-slate-900/70 backdrop-blur-sm px-3 py-1 rounded-full">
-                      {project.label}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="text-slate-200 bg-slate-900/70 backdrop-blur-sm p-1.5 rounded-full inline-flex">
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </a>
-                <div className="p-7 pt-5">
-                  <h3 className="text-2xl font-bold text-white mb-1">{project.name}</h3>
-                  <p className="text-slate-400 text-sm mb-4">{project.url}</p>
-                  <p className="text-slate-300 leading-relaxed mb-6">{project.description}</p>
-                  <div className="grid grid-cols-3 gap-4 mb-5">
-                    {project.stats.map((stat, j) => (
-                      <div key={j}>
-                        <div className="text-xl font-bold text-white">{stat.value}</div>
-                        <div className="text-xs text-slate-400">{stat.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, j) => (
-                      <span
-                        key={j}
-                        className="text-xs bg-slate-800/60 text-slate-300 px-2.5 py-1 rounded-full border border-slate-700/50"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Want results like these for your business?
+            </h3>
+            <p className="text-slate-400 text-lg mb-8">
+              Every project above started with one simple conversation. Yours can too.
+            </p>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold px-8 py-4 rounded-full text-lg hover:opacity-90 transition-opacity shadow-lg shadow-cyan-500/25"
+            >
+              Start Your Project <ArrowRight className="w-5 h-5" />
+            </a>
           </motion.div>
         </div>
       </section>
