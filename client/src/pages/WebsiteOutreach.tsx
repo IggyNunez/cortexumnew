@@ -41,6 +41,10 @@ import {
   Send,
 } from "lucide-react";
 import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
+import portfolioKalyxi from "../assets/portfolio-kalyxi.png";
+import portfolioJetts from "../assets/portfolio-jetts.png";
+import portfolioPropvera from "../assets/portfolio-propvera.png";
+import portfolioLakelucien from "../assets/portfolio-lakelucien.png";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -123,6 +127,7 @@ const portfolio = [
     label: "AI Platform",
     name: "Kalyxi AI",
     url: "kalyxi.ai",
+    image: portfolioKalyxi,
     description: "Full-stack voice AI platform powering automated call handling, lead qualification, and CRM workflows for 12+ client accounts.",
     stats: [
       { value: "2,400+", label: "Calls / Month" },
@@ -137,6 +142,7 @@ const portfolio = [
     label: "Lead Generation",
     name: "Jetts Windows",
     url: "jettswindows.com",
+    image: portfolioJetts,
     description: "Full website build for a local window services company. Mobile-first design and local SEO that turned zero digital presence into 40+ qualified leads per month.",
     stats: [
       { value: "40+", label: "Leads / Month" },
@@ -151,6 +157,7 @@ const portfolio = [
     label: "Healthcare",
     name: "PropVera",
     url: "propvera.net",
+    image: portfolioPropvera,
     description: "Healthcare platform built for trust at first click. WCAG-compliant, mobile-optimized, and designed so patients find what they need in under 3 seconds.",
     stats: [
       { value: "94", label: "Accessibility" },
@@ -165,6 +172,7 @@ const portfolio = [
     label: "Healthcare + HIPAA",
     name: "Lake Lucien ASC",
     url: "lucienasc.com",
+    image: portfolioLakelucien,
     description: "Full digital platform for a premier ambulatory surgery center. HIPAA-compliant infrastructure, responsive site, and 99.95% uptime SLA, delivered in 3 weeks.",
     stats: [
       { value: "3 wk", label: "Delivery" },
@@ -604,41 +612,53 @@ export default function WebsiteOutreach() {
               <motion.div
                 key={i}
                 variants={fadeUp}
-                className={`bg-gradient-to-br ${project.color} border ${project.border} rounded-2xl p-7 hover:scale-[1.01] transition-transform duration-300`}
+                className={`bg-gradient-to-br ${project.color} border ${project.border} rounded-2xl overflow-hidden hover:scale-[1.01] transition-transform duration-300`}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono text-slate-400 bg-slate-800/60 px-3 py-1 rounded-full">
-                    {project.label}
-                  </span>
-                  <a
-                    href={`https://${project.url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-white transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-1">{project.name}</h3>
-                <p className="text-slate-400 text-sm mb-4">{project.url}</p>
-                <p className="text-slate-300 leading-relaxed mb-6">{project.description}</p>
-                <div className="grid grid-cols-3 gap-4 mb-5">
-                  {project.stats.map((stat, j) => (
-                    <div key={j}>
-                      <div className="text-xl font-bold text-white">{stat.value}</div>
-                      <div className="text-xs text-slate-400">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, j) => (
-                    <span
-                      key={j}
-                      className="text-xs bg-slate-800/60 text-slate-300 px-2.5 py-1 rounded-full border border-slate-700/50"
-                    >
-                      {tag}
+                <a
+                  href={`https://${project.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block relative group"
+                >
+                  <img
+                    src={project.image}
+                    alt={`${project.name} website preview`}
+                    className="w-full h-48 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <span className="text-xs font-mono text-slate-200 bg-slate-900/70 backdrop-blur-sm px-3 py-1 rounded-full">
+                      {project.label}
                     </span>
-                  ))}
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="text-slate-200 bg-slate-900/70 backdrop-blur-sm p-1.5 rounded-full inline-flex">
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </a>
+                <div className="p-7 pt-5">
+                  <h3 className="text-2xl font-bold text-white mb-1">{project.name}</h3>
+                  <p className="text-slate-400 text-sm mb-4">{project.url}</p>
+                  <p className="text-slate-300 leading-relaxed mb-6">{project.description}</p>
+                  <div className="grid grid-cols-3 gap-4 mb-5">
+                    {project.stats.map((stat, j) => (
+                      <div key={j}>
+                        <div className="text-xl font-bold text-white">{stat.value}</div>
+                        <div className="text-xs text-slate-400">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, j) => (
+                      <span
+                        key={j}
+                        className="text-xs bg-slate-800/60 text-slate-300 px-2.5 py-1 rounded-full border border-slate-700/50"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             ))}
