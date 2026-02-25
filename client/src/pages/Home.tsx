@@ -200,31 +200,31 @@ function NeuralNetworkSVG() {
 function OrbitRings() {
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <svg viewBox="0 0 200 200" className="w-full h-full">
-        {/* Ring 1 -slow rotation */}
-        <motion.circle cx={100} cy={100} r={70} fill="none" stroke="#357BD8" strokeWidth={0.5} strokeDasharray="8 12"
+      <svg viewBox="0 0 300 300" className="w-full h-full">
+        {/* Ring 1 - inner */}
+        <motion.circle cx={150} cy={150} r={90} fill="none" stroke="#357BD8" strokeWidth={0.8} strokeDasharray="10 14"
           initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "100px 100px" }} />
-        {/* Ring 2 -counter-rotation */}
-        <motion.circle cx={100} cy={100} r={85} fill="none" stroke="#00BCD4" strokeWidth={0.5} strokeDasharray="4 16"
+          style={{ transformOrigin: "150px 150px" }} />
+        {/* Ring 2 - middle */}
+        <motion.circle cx={150} cy={150} r={115} fill="none" stroke="#00BCD4" strokeWidth={0.6} strokeDasharray="6 18"
           initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "100px 100px" }} />
-        {/* Ring 3 -outermost */}
-        <motion.circle cx={100} cy={100} r={95} fill="none" stroke="#E63E8B" strokeWidth={0.3} strokeDasharray="2 20"
+          style={{ transformOrigin: "150px 150px" }} />
+        {/* Ring 3 - outer */}
+        <motion.circle cx={150} cy={150} r={140} fill="none" stroke="#E63E8B" strokeWidth={0.5} strokeDasharray="4 22"
           initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "100px 100px" }} />
+          style={{ transformOrigin: "150px 150px" }} />
         {/* Orbiting dots */}
-        <motion.circle r={3} fill="#357BD8" filter="url(#orbitGlow)"
-          initial={{ cx: 170, cy: 100 }} animate={{ cx: [170, 100, 30, 100, 170], cy: [100, 30, 100, 170, 100] }}
+        <motion.circle r={4} fill="#357BD8" filter="url(#orbitGlow)"
+          initial={{ cx: 240, cy: 150 }} animate={{ cx: [240, 150, 60, 150, 240], cy: [150, 60, 150, 240, 150] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
-        <motion.circle r={2.5} fill="#E63E8B" filter="url(#orbitGlow)"
-          initial={{ cx: 30, cy: 100 }} animate={{ cx: [30, 100, 170, 100, 30], cy: [100, 170, 100, 30, 100] }}
+        <motion.circle r={3.5} fill="#E63E8B" filter="url(#orbitGlow)"
+          initial={{ cx: 60, cy: 150 }} animate={{ cx: [60, 150, 240, 150, 60], cy: [150, 240, 150, 60, 150] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }} />
-        <motion.circle r={2} fill="#00BCD4" filter="url(#orbitGlow)"
-          initial={{ cx: 100, cy: 15 }} animate={{ cx: [100, 185, 100, 15, 100], cy: [15, 100, 185, 100, 15] }}
+        <motion.circle r={3} fill="#00BCD4" filter="url(#orbitGlow)"
+          initial={{ cx: 150, cy: 20 }} animate={{ cx: [150, 270, 150, 30, 150], cy: [20, 150, 280, 150, 20] }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }} />
         <defs>
-          <filter id="orbitGlow"><feGaussianBlur stdDeviation="2" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          <filter id="orbitGlow"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
         </defs>
       </svg>
     </div>
@@ -1047,7 +1047,7 @@ export default function Home() {
           <div className="max-w-5xl mx-auto text-center relative z-10">
             {/* Logo with orbit rings */}
             <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="relative inline-flex items-center justify-center w-40 h-40 mb-6">
+              <div className="relative inline-flex items-center justify-center w-48 h-48 mb-6">
                 <OrbitRings />
                 <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="rounded-full ring-2 ring-[#357BD8]/20 shadow-lg relative z-10" />
               </div>
