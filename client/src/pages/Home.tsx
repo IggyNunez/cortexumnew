@@ -1047,9 +1047,9 @@ export default function Home() {
           <div className="max-w-5xl mx-auto text-center relative z-10">
             {/* Logo with orbit rings */}
             <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="relative inline-flex items-center justify-center w-24 h-24 mb-6">
+              <div className="relative inline-flex items-center justify-center w-40 h-40 mb-6">
                 <OrbitRings />
-                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-14 w-14 rounded-full ring-2 ring-[#357BD8]/20 shadow-lg relative z-10" />
+                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="rounded-full ring-2 ring-[#357BD8]/20 shadow-lg relative z-10" />
               </div>
             </motion.div>
 
