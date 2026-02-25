@@ -2,9 +2,11 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
 import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
+import { pool } from "./db";
 import { User as SelectUser } from "@shared/schema";
 
 declare global {
@@ -51,14 +53,20 @@ export function setupAuth(app: Express) {
   // Ensure admin user exists
   ensureAdminExists();
   
-  // Using memorystore for session storage in development
-  // In production, you would use a database store
+  // Use PostgreSQL session store for serverless compatibility
+  const PgSession = connectPgSimple(session);
   const sessionSettings: session.SessionOptions = {
+    store: new PgSession({
+      pool: pool as any,
+      tableName: "session",
+      createTableIfMissing: true,
+    }),
     secret: process.env.SESSION_SECRET || "vibe-marketing-agency-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   };
