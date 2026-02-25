@@ -14,32 +14,13 @@ const FloatingMenu: React.FC = () => {
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const isMobile = useMediaQuery('(max-width: 768px)');
   
-  // Setup intersection observer to detect when hero is out of view
   useEffect(() => {
-    const heroSection = document.getElementById('hero');
-    
-    if (!heroSection) {
-      // If hero section not found, default to showing menu
-      setIsHeroVisible(false);
-      return;
-    }
-    
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // When hero is not intersecting (out of view), show the menu
-        setIsHeroVisible(entry.isIntersecting);
-      },
-      {
-        rootMargin: '0px',
-        threshold: 0.1, // When 10% of hero is visible
-      }
-    );
-    
-    observer.observe(heroSection);
-    
-    return () => {
-      observer.disconnect();
+    const handleScroll = () => {
+      setIsHeroVisible(window.scrollY < 500);
     };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
   // Close menu when clicking outside
@@ -142,12 +123,12 @@ const FloatingMenu: React.FC = () => {
   };
 
   const buttonPosition = isMobile
-    ? 'fixed top-4 right-4 z-50'
-    : 'fixed top-4 left-1/2 -translate-x-1/2 z-50';
+    ? 'fixed top-20 right-4 z-50'
+    : 'fixed top-20 left-1/2 -translate-x-1/2 z-50';
 
   const menuPosition = isMobile
     ? 'fixed top-0 right-0 h-screen w-[300px] z-40'
-    : 'fixed top-16 left-1/2 -translate-x-1/2 z-40 w-[300px]';
+    : 'fixed top-32 left-1/2 -translate-x-1/2 z-40 w-[300px]';
 
   return (
     <div className="floating-menu-container">
