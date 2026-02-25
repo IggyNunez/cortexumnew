@@ -997,21 +997,20 @@ export default function Home() {
           transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
           style={{ top: "80%", right: "6%" }} />
 
-        {/* Floating thin connecting lines */}
-        <svg className="absolute inset-0 w-full h-full">
-          <motion.line x1="2%" y1="15%" x2="8%" y2="45%" stroke="#357BD8" strokeWidth={0.5} strokeOpacity={0.06}
-            animate={{ x1: ["2%", "5%", "2%"], y1: ["15%", "20%", "15%"], x2: ["8%", "4%", "8%"], y2: ["45%", "50%", "45%"] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.line x1="92%" y1="25%" x2="96%" y2="55%" stroke="#E63E8B" strokeWidth={0.5} strokeOpacity={0.06}
-            animate={{ x1: ["92%", "95%", "92%"], y1: ["25%", "30%", "25%"], x2: ["96%", "93%", "96%"], y2: ["55%", "60%", "55%"] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.line x1="4%" y1="60%" x2="7%" y2="85%" stroke="#00BCD4" strokeWidth={0.5} strokeOpacity={0.05}
-            animate={{ x1: ["4%", "6%", "4%"], y1: ["60%", "65%", "60%"], x2: ["7%", "5%", "7%"], y2: ["85%", "80%", "85%"] }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.line x1="94%" y1="50%" x2="97%" y2="75%" stroke="#F5841F" strokeWidth={0.5} strokeOpacity={0.05}
-            animate={{ x1: ["94%", "96%", "94%"], y1: ["50%", "55%", "50%"], x2: ["97%", "95%", "97%"], y2: ["75%", "70%", "75%"] }}
-            transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }} />
-        </svg>
+        {/* Floating thin connecting lines - use div-based approach to avoid SVG percentage issues */}
+        {[
+          { top: "15%", left: "2%", height: "30%", rotate: 15, color: "#357BD8", dur: 20 },
+          { top: "25%", right: "4%", height: "30%", rotate: -12, color: "#E63E8B", dur: 25 },
+          { top: "60%", left: "4%", height: "25%", rotate: 10, color: "#00BCD4", dur: 22 },
+          { top: "50%", right: "3%", height: "25%", rotate: -8, color: "#F5841F", dur: 28 },
+        ].map((line, i) => (
+          <motion.div key={`line-${i}`}
+            className="absolute w-[1px]"
+            style={{ top: line.top, left: line.left, right: (line as any).right, height: line.height, backgroundColor: line.color, opacity: 0.06 }}
+            animate={{ rotate: [line.rotate, -line.rotate, line.rotate], scaleY: [1, 1.2, 1] }}
+            transition={{ duration: line.dur, repeat: Infinity, ease: "easeInOut" }}
+          />
+        ))}
 
         {/* Small orbiting ring clusters in the margins */}
         <motion.div className="absolute top-[30%] left-[2%] w-16 h-16"

@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-  const cspDirectives = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.elevenlabs.io https://api.stripe.com https://api-platform.hume.ai; frame-src 'self' https://js.stripe.com;";
+  const cspDirectives = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://api.elevenlabs.io https://api.stripe.com https://calendly.com https://*.calendly.com; frame-src 'self' https://js.stripe.com https://calendly.com; media-src 'self' https:;";
   res.setHeader('Content-Security-Policy', cspDirectives);
 
   next();

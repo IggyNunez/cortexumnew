@@ -1,7 +1,7 @@
 {
-  "name": "VibeMarketingAgency.ai",
-  "short_name": "VibeAI",
-  "description": "AI-powered marketing intelligence platform for marketing agencies",
+  "name": "CORTEXUUM - AI-Powered Marketing",
+  "short_name": "CORTEXUUM",
+  "description": "AI-powered marketing intelligence that thinks, adapts, and converts",
   "icons": [
     {
       "src": "/favicon.png",
@@ -14,8 +14,8 @@
       "type": "image/svg+xml"
     }
   ],
-  "theme_color": "#6366F1",
-  "background_color": "#ffffff",
+  "theme_color": "#357BD8",
+  "background_color": "#f8fafc",
   "display": "standalone",
   "start_url": "/"
 }

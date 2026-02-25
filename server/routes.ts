@@ -11,7 +11,12 @@ import { addLeadToSheet } from "./googleSheets";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
-  setupAuth(app);
+  try {
+    setupAuth(app);
+  } catch (authError) {
+    console.error("[Routes] Auth setup failed:", authError);
+    // Continue without auth - leads endpoint doesn't require it
+  }
   
   // Initialize Stripe (lazy - only used for payment routes)
   let stripe: Stripe | null = null;
