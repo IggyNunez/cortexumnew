@@ -692,9 +692,10 @@ function ServiceCard({ service, index, progress, isMobile }: { service: typeof s
         ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
         : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
       )}
-      className="bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-lg hover:border-slate-300 transition-all group"
+      className="relative bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden"
     >
-      <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${service.accent} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-transparent via-transparent to-[#357BD8]/[0.03] rounded-bl-full group-hover:to-[#357BD8]/[0.08] transition-all duration-300" />
+      <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${service.accent} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
         <service.icon className="w-6 h-6 text-white" />
       </div>
       <h3 className="text-lg font-bold text-slate-800 mb-2">{service.title}</h3>
@@ -714,16 +715,18 @@ function BenefitCard({ benefit, index, progress, isMobile }: { benefit: typeof b
         ? { initial: { opacity: 0, x: index % 2 === 0 ? -30 : 30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
         : { style: { opacity, x } }
       )}
-      className="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-slate-300 transition-all group"
+      className="relative bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-xl hover:shadow-[#E63E8B]/8 hover:border-[#E63E8B]/20 transition-all duration-300 group overflow-hidden"
     >
-      <div className="flex items-start gap-5">
-        <div className="w-12 h-12 rounded-xl bg-[#357BD8]/5 border border-[#357BD8]/15 flex items-center justify-center flex-shrink-0 group-hover:bg-[#357BD8]/10 transition-colors">
-          <benefit.icon className="w-6 h-6 text-[#357BD8]" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#E63E8B]/[0.04] via-transparent to-transparent rounded-tr-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
+      <div className="absolute top-0 right-0 h-[2px] w-0 group-hover:w-1/3 bg-gradient-to-r from-[#E63E8B]/40 to-transparent transition-all duration-500" />
+      <div className="flex items-start gap-5 relative z-10">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E63E8B]/10 to-[#F5841F]/5 border border-[#E63E8B]/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#E63E8B]/10 transition-all duration-300">
+          <benefit.icon className="w-6 h-6 text-[#E63E8B]" />
         </div>
         <div>
           <div className="flex flex-wrap items-center gap-3 mb-2">
-            <h3 className="text-lg font-bold text-slate-800">{benefit.title}</h3>
-            <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-semibold">
+            <h3 className="text-lg font-bold text-slate-800 group-hover:text-slate-900 transition-colors">{benefit.title}</h3>
+            <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-semibold group-hover:bg-emerald-100 transition-colors">
               {benefit.stat}
             </span>
           </div>
@@ -746,13 +749,15 @@ function TestimonialCard({ testimonial, index, progress, isMobile }: { testimoni
         ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
         : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
       )}
-      className="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col hover:shadow-lg transition-all"
+      className="relative bg-white border border-slate-200 rounded-2xl p-8 flex flex-col hover:shadow-xl hover:shadow-amber-500/6 hover:border-amber-400/20 transition-all duration-300 group overflow-hidden"
     >
-      <div className="flex gap-1 mb-4">
-        {[...Array(testimonial.rating)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
+      <div className="absolute top-4 right-5 text-5xl font-serif text-amber-400/10 group-hover:text-amber-400/20 transition-colors duration-300 leading-none select-none">"</div>
+      <div className="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-tl from-amber-500/[0.04] via-transparent to-transparent rounded-tl-full group-hover:from-amber-500/[0.10] transition-all duration-300" />
+      <div className="flex gap-1 mb-4 relative z-10">
+        {[...Array(testimonial.rating)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400 group-hover:scale-110 transition-transform duration-300" style={{ transitionDelay: `${j * 30}ms` }} />)}
       </div>
-      <p className="text-slate-600 leading-relaxed mb-6 flex-1">"{testimonial.quote}"</p>
-      <div className="pt-4 border-t border-slate-100">
+      <p className="text-slate-600 leading-relaxed mb-6 flex-1 relative z-10">"{testimonial.quote}"</p>
+      <div className="pt-4 border-t border-slate-100 group-hover:border-amber-200/50 transition-colors duration-300 relative z-10">
         <p className="text-slate-800 font-bold">{testimonial.name}</p>
         <p className="text-slate-500 text-sm">{testimonial.role}</p>
       </div>
@@ -814,8 +819,9 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
             </p>
             <div className="grid grid-cols-2 gap-4">
               {teamExpertise.map((exp, i) => (
-                <div key={i} className="bg-slate-50 border border-slate-200 rounded-xl p-5">
-                  <div className="text-2xl font-black text-slate-800 mb-1">{exp.years} <span className="text-slate-400 text-base">yrs</span></div>
+                <div key={i} className="relative bg-slate-50 border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:shadow-[#357BD8]/6 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden">
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#357BD8]/[0.05] to-transparent rounded-bl-full group-hover:from-[#357BD8]/[0.12] transition-all duration-300" />
+                  <div className="text-2xl font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent mb-1">{exp.years} <span className="text-slate-400 text-base bg-none [-webkit-text-fill-color:unset]">yrs</span></div>
                   <div className="text-slate-500 text-sm">{exp.area}</div>
                 </div>
               ))}
@@ -830,9 +836,12 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
             className="flex justify-center"
           >
             <div className="relative">
-              <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-sm shadow-lg">
-                <div className="relative inline-block mb-6">
-                  <img src={christianColgate} alt="Christian Colgate" className="w-32 h-32 rounded-full object-cover object-center border-4 border-[#357BD8]/15" />
+              <div className="relative bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-sm shadow-xl shadow-slate-200/60 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#357BD8]/[0.03] via-transparent to-[#E63E8B]/[0.03]" />
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
+                <div className="relative inline-block mb-6 z-10">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#357BD8] to-[#E63E8B] blur-md opacity-20 scale-110" />
+                  <img src={christianColgate} alt="Christian Colgate" className="relative w-32 h-32 rounded-full object-cover object-center border-4 border-white shadow-lg" />
                   <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center">
                     <Check className="w-3.5 h-3.5 text-white" />
                   </div>
@@ -867,14 +876,18 @@ function ProcessStep({ step, index, progress, isMobile }: { step: typeof funnelS
         ? { initial: { opacity: 0, y: 20, scale: 0.9 }, whileInView: { opacity: 1, y: 0, scale: 1 }, viewport: { once: true, margin: "-30px" }, transition: { duration: 0.4, delay: index * 0.08 } }
         : { style: { opacity, scale, y } }
       )}
-      className="bg-white border border-slate-200 rounded-xl p-5 text-center hover:shadow-lg hover:border-slate-300 transition-all group"
+      className="relative bg-white border border-slate-200 rounded-xl p-5 text-center hover:shadow-xl hover:shadow-emerald-500/8 hover:border-emerald-400/25 transition-all duration-300 group overflow-hidden"
     >
-      <div className="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-100 transition-colors">
-        <step.icon className="w-5 h-5 text-emerald-600" />
+      <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-2/3 bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent transition-all duration-500" />
+      <div className="relative z-10">
+        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-emerald-500/10 transition-all duration-300">
+          <step.icon className="w-5 h-5 text-emerald-600" />
+        </div>
+        <div className="text-[10px] text-emerald-600/60 font-mono mb-1 tracking-widest">{String(index + 1).padStart(2, "0")}</div>
+        <h4 className="text-sm font-bold text-slate-800 mb-1 group-hover:text-slate-900 transition-colors">{step.label}</h4>
+        <p className="text-xs text-slate-500">{step.desc}</p>
       </div>
-      <div className="text-[10px] text-emerald-600/60 font-mono mb-1 tracking-widest">{String(index + 1).padStart(2, "0")}</div>
-      <h4 className="text-sm font-bold text-slate-800 mb-1">{step.label}</h4>
-      <p className="text-xs text-slate-500">{step.desc}</p>
     </motion.div>
   );
 }
@@ -1098,7 +1111,10 @@ export default function Home() {
 
       {/* ===== STATS -Animated counters ===== */}
       <section className="relative py-24 px-6 -mt-[50vh]" style={{ position: 'relative', zIndex: 2 }}>
-        <div className="max-w-5xl mx-auto bg-white border border-slate-200 rounded-3xl p-10 md:p-14 shadow-xl shadow-slate-200/50">
+        <div className="max-w-5xl mx-auto relative bg-white border border-slate-200 rounded-3xl p-10 md:p-14 shadow-2xl shadow-slate-200/60 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
+          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#357BD8]/[0.04] to-transparent rounded-bl-full" />
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#E63E8B]/[0.04] to-transparent rounded-tr-full" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <CounterCard value={200} suffix="M+" label="Managed Ad Spend" />
             <CounterCard value={70} suffix="+" label="Years Combined Exp." />
@@ -1248,31 +1264,46 @@ export default function Home() {
 
       {/* ===== CTA BANNER ===== */}
       <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#357BD8]/5 via-[#E63E8B]/5 to-[#357BD8]/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#357BD8]/8 via-[#E63E8B]/5 to-[#00BCD4]/8" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#357BD8]/[0.06] rounded-full blur-[120px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.04)_1px,transparent_1px)] bg-[size:56px_56px]" />
-          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] opacity-30">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#357BD8]/[0.08] rounded-full blur-[150px]" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E63E8B]/[0.05] rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-[#00BCD4]/[0.05] rounded-full blur-[100px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.05)_1px,transparent_1px)] bg-[size:48px_48px]" />
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-25">
             <SignalBurstSVG />
+          </div>
+          <div className="hidden lg:block absolute top-10 -left-10 w-[250px] h-[180px] opacity-15">
+            <NeuralNetworkSVG />
+          </div>
+          <div className="hidden lg:block absolute bottom-10 -right-10 w-[250px] h-[180px] opacity-15 scale-x-[-1]">
+            <NeuralNetworkSVG />
           </div>
         </div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-800">
-            Ready to see what<br />AI-powered marketing can do?
-          </h2>
-          <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. No obligations, just real insights for your business.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-            <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#357BD8] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/20 hover:bg-[#2d6bc0] transition-all"
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              BOOK A CALL NOW <ArrowRight className="w-5 h-5" />
-            </motion.a>
-            <a href="#contact" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium transition-colors">
-              Or fill out the form below <ChevronDown className="w-4 h-4" />
-            </a>
-          </div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-[#357BD8]/15 rounded-full px-5 py-2 mb-8">
+              <Sparkles className="w-4 h-4 text-[#357BD8]" />
+              <span className="text-sm font-semibold text-[#357BD8]">Free Strategy Session</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-slate-800">
+              Ready to see what<br />
+              <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">AI-powered marketing</span> can do?
+            </h2>
+            <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+              Book a free 30-minute strategy call. No obligations, just real insights for your business.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+              <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-12 py-5 rounded-full text-lg shadow-2xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
+                whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
+                BOOK A CALL NOW <ArrowRight className="w-5 h-5" />
+              </motion.a>
+              <a href="#contact" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium transition-colors">
+                Or fill out the form below <ChevronDown className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -1426,7 +1457,8 @@ export default function Home() {
             </div>
 
             <div className="space-y-5">
-              <div className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+              <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#357BD8]/15 transition-all duration-300">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-transparent" />
                 <h3 className="text-base font-bold text-slate-800 mb-5">What happens next?</h3>
                 <div className="space-y-4">
                   {[
@@ -1436,26 +1468,28 @@ export default function Home() {
                     { step: "4", text: "Launch your first campaign in weeks" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className="w-7 h-7 rounded-full bg-[#357BD8]/5 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#357BD8]/10 to-[#00BCD4]/10 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
                       <p className="text-slate-500 text-sm pt-0.5">{item.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-[#357BD8]/5 to-[#E63E8B]/5 border border-[#357BD8]/15 rounded-2xl p-7">
-                <h3 className="text-base font-bold text-slate-800 mb-3">Prefer to talk?</h3>
-                <p className="text-slate-500 text-sm mb-5">Skip the form and book a free 30-minute strategy call.</p>
+              <div className="relative bg-gradient-to-br from-[#357BD8]/8 to-[#E63E8B]/8 border border-[#357BD8]/20 rounded-2xl p-7 overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-[120px] h-[120px] bg-[#357BD8]/10 rounded-full blur-[40px]" />
+                <h3 className="text-base font-bold text-slate-800 mb-3 relative z-10">Prefer to talk?</h3>
+                <p className="text-slate-500 text-sm mb-5 relative z-10">Skip the form and book a free 30-minute strategy call.</p>
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-[#357BD8] text-white font-bold px-6 py-3.5 rounded-full hover:bg-[#2d6bc0] transition-colors shadow-lg shadow-[#357BD8]/20 text-sm">
+                  className="relative z-10 inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-6 py-3.5 rounded-full hover:shadow-lg hover:shadow-[#357BD8]/25 transition-all text-sm">
                   BOOK A CALL <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+              <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#E63E8B]/15 transition-all duration-300">
+                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-[#E63E8B]/[0.04] to-transparent rounded-tl-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
                 <h3 className="text-base font-bold text-slate-800 mb-3">See our work</h3>
                 <p className="text-slate-500 text-sm mb-4">Check out real projects we've shipped for real businesses.</p>
-                <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#2d6bc0] font-medium text-sm transition-colors">
+                <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#E63E8B] font-medium text-sm transition-colors group-hover:gap-3">
                   View Portfolio <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -1465,60 +1499,79 @@ export default function Home() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="py-14 px-6 border-t border-slate-200 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-5">
-                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-10 w-10 rounded-full ring-2 ring-slate-100" />
-                <span className="font-bold text-lg text-slate-800 tracking-wide uppercase">CORTEXUUM</span>
+      <footer className="relative overflow-hidden bg-slate-900 text-white">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#E63E8B]/8 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
+          <div className="hidden lg:block absolute top-10 right-10 w-[250px] h-[180px] opacity-20">
+            <NeuralNetworkSVG />
+          </div>
+        </div>
+
+        {/* Main footer CTA area */}
+        <div className="relative z-10 pt-20 pb-16 px-6">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 relative">
+                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="w-16 h-16 rounded-full ring-2 ring-white/10" />
               </div>
-              <p className="text-slate-500 text-sm leading-relaxed">AI-powered marketing, funnel building, and psychology-based strategies for businesses ready to scale.</p>
-            </div>
-            <div>
-              <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Solutions</h4>
-              <ul className="space-y-2.5">
-                {["Paid Media", "Funnel Buildouts", "Offer Creation", "Social Media"].map(s => (
-                  <li key={s}><a href="#services" className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{s}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
-              <ul className="space-y-2.5">
-                {[{ label: "About", href: "#" }, { label: "Testimonials", href: "#results" }, { label: "Portfolio", href: "/services/websites" }].map(l => (
-                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{l.label}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Legal</h4>
-              <ul className="space-y-2.5">
-                {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms & Conditions", href: "/terms" }, { label: "Cookie Policy", href: "/cookies" }].map(l => (
-                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{l.label}</a></li>
-                ))}
-              </ul>
+              <h3 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
+                Let's build something{" "}
+                <span className="bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B] bg-clip-text text-transparent">intelligent.</span>
+              </h3>
+              <p className="text-slate-400 text-base max-w-lg mx-auto mb-8">
+                Your competitors are still guessing. You don't have to.
+              </p>
+              <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-10 py-4 rounded-full text-base shadow-xl shadow-[#357BD8]/30 hover:shadow-[#357BD8]/50 transition-all"
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                Book a Strategy Call <ArrowRight className="w-4 h-4" />
+              </motion.a>
+            </motion.div>
+          </div>
+
+          {/* Stats strip */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="grid grid-cols-3 gap-6">
+              {[
+                { value: "$200M+", label: "Ad Spend Managed" },
+                { value: "70+", label: "Years Experience" },
+                { value: "3x", label: "Avg Lead Increase" },
+              ].map((stat, i) => (
+                <motion.div key={i} className="text-center"
+                  initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                  <div className="text-2xl md:text-3xl font-black bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">{stat.value}</div>
+                  <div className="text-slate-500 text-xs uppercase tracking-widest mt-1">{stat.label}</div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          <div className="border-t border-slate-200 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div>
-                <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} CORTEXUUM AI Marketing Agency. All rights reserved.</p>
-                <p className="text-slate-400 text-xs mt-1">Data-driven solutions that beat opinions, every time.</p>
+          {/* Bottom bar */}
+          <div className="max-w-6xl mx-auto border-t border-white/10 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-sm tracking-[0.2em] uppercase text-white/60">CORTEXUUM</span>
+                <span className="text-white/20">|</span>
+                <span className="text-slate-500 text-xs">&copy; {new Date().getFullYear()}</span>
               </div>
-              <div className="flex items-center gap-4">
-                <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="bg-[#357BD8] text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-[#2d6bc0] transition-colors shadow-md shadow-[#357BD8]/20">BOOK A CALL</a>
-                <a href="/login" className="text-slate-400 hover:text-slate-600 text-xs transition-colors">Admin</a>
+
+              <div className="flex items-center gap-6">
+                {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
+                  <a key={l.label} href={l.href} className="text-slate-500 hover:text-white/80 text-xs transition-colors">{l.label}</a>
+                ))}
+                <a href="/login" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Admin</a>
               </div>
             </div>
-          </div>
 
-          <div className="border-t border-slate-200 mt-6 pt-4 text-center">
-            <p className="text-slate-400 text-xs">
-              Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-[#357BD8] transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#357BD8] transition-colors">plaintalk.dev</a>
-            </p>
+            <div className="text-center mt-6">
+              <p className="text-slate-600 text-xs">
+                Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-[#357BD8] transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#357BD8] transition-colors">plaintalk.dev</a>
+              </p>
+            </div>
           </div>
         </div>
       </footer>
