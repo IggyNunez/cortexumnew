@@ -13,13 +13,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
   setupAuth(app);
   
-  // Initialize Stripe
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.warn('Missing required Stripe secret: STRIPE_SECRET_KEY');
+  // Initialize Stripe (lazy - only used for payment routes)
+  let stripe: Stripe | null = null;
+  function getStripe(): Stripe {
+    if (!stripe) {
+      if (!process.env.STRIPE_SECRET_KEY) {
+        throw new Error('STRIPE_SECRET_KEY is not configured');
+      }
+      stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: '2025-04-30.basil' as any,
+      });
+    }
+    return stripe;
   }
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-    apiVersion: '2025-04-30.basil',
-  });
   
   // Authentication middleware for protected routes
   const requireAuth = (req: Request, res: Response, next: Function) => {
@@ -54,10 +60,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           error: validationError.message 
         });
       } else {
-        console.error("Error creating lead:", error);
-        res.status(500).json({ 
-          success: false, 
-          error: "Failed to create lead" 
+        console.error("Error creating lead:", error instanceof Error ? error.message : error);
+        console.error("Stack:", error instanceof Error ? error.stack : "N/A");
+        res.status(500).json({
+          success: false,
+          error: error instanceof Error ? error.message : "Failed to create lead"
         });
       }
     }
@@ -380,261 +387,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ElevenLabs API integration for speech synthesis
-  app.post("/api/synthesize", async (req: Request, res: Response) => {
-    try {
-      const { text } = req.body;
-      
-      if (!text) {
-        return res.status(400).json({ 
-          success: false, 
-          error: "Text is required" 
-        });
-      }
-      
-      // Use "Sarah" voice - a professional sounding female voice
-      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
-      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-      
-      // Log the synthesis request
-      console.log("Speech synthesis request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-        body: JSON.stringify({
-          text,
-          model_id: 'eleven_multilingual_v2', // Using best available model
-          voice_settings: {
-            stability: 0.75,
-            similarity_boost: 0.75,
-            style: 0.5,
-            use_speaker_boost: true
-          }
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('ElevenLabs API error in synthesize:', errorText);
-        throw new Error('ElevenLabs API request failed: ' + errorText);
-      }
-      
-      // Get audio blob from response
-      const audioBuffer = await response.arrayBuffer();
-      
-      console.log("Audio synthesis successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
-      
-      // Send the audio data back to the client
-      res.set('Content-Type', 'audio/mpeg');
-      res.send(Buffer.from(audioBuffer));
-    } catch (error) {
-      console.error("Error processing speech synthesis request:", error);
-      res.status(500).json({ 
-        success: false, 
-        error: "Failed to process speech synthesis request" 
-      });
-    }
-  });
-  
-  // Direct audio file from text endpoint - both GET and POST supported
-  app.get("/api/generate-audio", async (req: Request, res: Response) => {
-    try {
-      const text = req.query.message as string;
-      
-      if (!text) {
-        return res.status(400).json({
-          success: false,
-          error: "Text message is required as a query parameter"
-        });
-      }
-      
-      // Use "Sarah" voice
-      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
-      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-      
-      // Log the synthesis request
-      console.log("Audio generation GET request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-        body: JSON.stringify({
-          text,
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.75,
-            similarity_boost: 0.75,
-            style: 0.5,
-            use_speaker_boost: true
-          }
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('ElevenLabs API error in GET generate-audio:', errorText);
-        throw new Error('ElevenLabs audio generation failed: ' + errorText);
-      }
-      
-      // Get audio data directly from response
-      const audioBuffer = await response.arrayBuffer();
-      
-      console.log("Audio generation (GET) successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
-      
-      // Send the audio file directly to client
-      res.set('Content-Type', 'audio/mpeg');
-      res.set('Content-Disposition', 'attachment; filename="response.mp3"');
-      res.set('Cache-Control', 'no-cache');
-      res.send(Buffer.from(audioBuffer));
-      
-    } catch (error) {
-      console.error("Error generating audio (GET):", error);
-      res.status(500).json({ 
-        success: false, 
-        error: "Failed to generate audio response" 
-      });
-    }
-  });
-  
-  app.post("/api/generate-audio", async (req: Request, res: Response) => {
-    try {
-      const { text } = req.body;
-      
-      if (!text) {
-        return res.status(400).json({ 
-          success: false, 
-          error: "Text is required" 
-        });
-      }
-      
-      // Use "Sarah" voice
-      const voiceId = 'EXAVITQu4vr4xnSDxMaL';
-      const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-      
-      // Log the synthesis request
-      console.log("Audio generation request received for text:", text.substring(0, 50) + (text.length > 50 ? "..." : ""));
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-        body: JSON.stringify({
-          text,
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.75,
-            similarity_boost: 0.75,
-            style: 0.5,
-            use_speaker_boost: true
-          }
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('ElevenLabs API error:', errorText);
-        throw new Error('ElevenLabs audio generation failed: ' + errorText);
-      }
-      
-      // Get audio data directly from response
-      const audioBuffer = await response.arrayBuffer();
-      
-      console.log("Audio generation successful, size:", Math.round(audioBuffer.byteLength / 1024), "KB");
-      
-      // Send the audio file directly to client
-      res.set('Content-Type', 'audio/mpeg');
-      res.set('Content-Disposition', 'attachment; filename="response.mp3"');
-      res.set('Cache-Control', 'no-cache');
-      res.send(Buffer.from(audioBuffer));
-      
-    } catch (error) {
-      console.error("Error generating audio:", error);
-      res.status(500).json({ 
-        success: false, 
-        error: "Failed to generate audio response" 
-      });
-    }
-  });
-
-  // Combined chat and speech synthesis endpoint
-  app.post("/api/elevenlabs/chat-with-voice", async (req: Request, res: Response) => {
-    try {
-      const { message, history = [] } = req.body;
-      
-      if (!message) {
-        return res.status(400).json({ 
-          success: false, 
-          error: "Message is required" 
-        });
-      }
-      
-      // Log the chat request
-      console.log("Voice chat request received:", message.substring(0, 50) + (message.length > 50 ? "..." : ""));
-      
-      // First get text response (using our existing chat logic)
-      let textResponse = "";
-      
-      try {
-        // Use the fallback pattern matching since the text generation API isn't working
-        const lowercaseMessage = message.toLowerCase();
-        
-        if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi') || lowercaseMessage.includes('hey')) {
-          textResponse = "Hello! I'm your AI marketing assistant. How can I help you today?";
-        } else if (lowercaseMessage.includes('marketing') && (lowercaseMessage.includes('help') || lowercaseMessage.includes('service'))) {
-          textResponse = "We offer a wide range of AI-powered marketing services including content generation, media buying strategies, audience analysis, and predictive campaign optimization. Would you like to know more about any specific service?";
-        } else if (lowercaseMessage.includes('content') || lowercaseMessage.includes('blog') || lowercaseMessage.includes('article')) {
-          textResponse = "Our AI content generation services help create engaging, SEO-optimized content that resonates with your target audience. We can create blog posts, social media content, email campaigns, and more!";
-        } else if (lowercaseMessage.includes('price') || lowercaseMessage.includes('cost') || lowercaseMessage.includes('package')) {
-          textResponse = "Our pricing depends on your specific needs. We offer custom packages starting at $999/month for small businesses. Would you like to schedule a call to discuss a personalized solution?";
-        } else if (lowercaseMessage.includes('book') || lowercaseMessage.includes('schedule') || lowercaseMessage.includes('call') || lowercaseMessage.includes('consultation')) {
-          textResponse = "Great! You can book a call with our team at https://calendly.com/cortexuummarketing/30min. We look forward to discussing how we can help your business grow!";
-        } else if (lowercaseMessage.includes('social media') || lowercaseMessage.includes('facebook') || lowercaseMessage.includes('instagram') || lowercaseMessage.includes('linkedin')) {
-          textResponse = "Our social media marketing services leverage AI to create engaging content, optimize posting schedules, and target the right audience for maximum engagement and conversion.";
-        } else if (lowercaseMessage.includes('seo') || lowercaseMessage.includes('search engine')) {
-          textResponse = "Our AI-powered SEO services help improve your website's visibility in search results. We analyze key metrics, identify trending topics in your industry, and optimize your content to rank higher.";
-        } else if (lowercaseMessage.includes('email') || lowercaseMessage.includes('newsletter')) {
-          textResponse = "Our email marketing services use AI to segment your audience, personalize content, and optimize send times for maximum open and conversion rates.";
-        } else if (lowercaseMessage.includes('thank')) {
-          textResponse = "You're welcome! Is there anything else I can help you with today?";
-        } else if (lowercaseMessage.includes('bye') || lowercaseMessage.includes('goodbye')) {
-          textResponse = "Thank you for chatting! If you'd like to learn more about our services or schedule a consultation, feel free to book a call at any time. Have a great day!";
-        } else {
-          textResponse = "Thank you for your message. Our AI-powered marketing solutions can help your business grow with data-driven strategies. Would you like to learn more about our specific services or schedule a consultation?";
-        }
-        
-      } catch (error) {
-        console.error("Error generating text response:", error);
-        textResponse = "I'm sorry, I couldn't process your request at the moment. Can you please try again?";
-      }
-      
-      // Generate a unique ID for this message
-      const messageId = Date.now().toString();
-      
-      // Return the text response with a URL to fetch the audio
-      res.status(200).json({
-        success: true,
-        response: textResponse,
-        audioUrl: `/api/generate-audio?message=${encodeURIComponent(textResponse)}&id=${messageId}`,
-        messageId
-      });
-      
-    } catch (error: any) {
-      console.error("Error processing voice chat request:", error);
-      res.status(500).json({ 
-        success: false, 
-        error: error.message || "Failed to process voice chat request" 
-      });
-    }
-  });
+  // ElevenLabs and chatbot endpoints removed - feature deprecated
 
   // Marketing Settings API Endpoints
   // Get marketing settings
@@ -722,7 +475,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Amount should be in cents for Stripe
       const amountInCents = Math.round(parseFloat(amount) * 100);
       
-      const paymentIntent = await stripe.paymentIntents.create({
+      const paymentIntent = await getStripe().paymentIntents.create({
         amount: amountInCents,
         currency,
         metadata,
@@ -784,146 +537,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Test ElevenLabs API connection
-  app.get("/api/elevenlabs/test", async (_req: Request, res: Response) => {
-    try {
-      console.log("Testing ElevenLabs API connection...");
-      
-      const response = await fetch('https://api.elevenlabs.io/v1/models', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-        },
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('ElevenLabs API error:', errorText);
-        throw new Error('ElevenLabs API request failed: ' + errorText);
-      }
-      
-      const data = await response.json();
-      console.log('ElevenLabs API test successful:', data.length ? `${data.length} models available` : 'No models available');
-      
-      res.status(200).json({
-        success: true,
-        message: 'ElevenLabs API connection successful',
-        models: data
-      });
-    } catch (error: any) {
-      console.error("Error testing ElevenLabs API:", error);
-      res.status(500).json({ 
-        success: false, 
-        error: error.message || "Failed to test ElevenLabs API connection"
-      });
-    }
-  });
-  
-  // ElevenLabs Chat API integration using ElevenLabs API
-  app.post("/api/elevenlabs/chat", async (req: Request, res: Response) => {
-    try {
-      const { message, history = [] } = req.body;
-      
-      if (!message) {
-        return res.status(400).json({ 
-          success: false, 
-          error: "Message is required" 
-        });
-      }
-      
-      // Log the chat request
-      console.log("Chat request received:", message.substring(0, 50) + (message.length > 50 ? "..." : ""));
-      
-      try {
-        // First attempt to use the ElevenLabs API
-        // Using the text generation endpoint instead
-        const modelId = "eleven_monolingual_v1"; // Using available model from the API test
-        const apiUrl = `https://api.elevenlabs.io/v1/text-generation/generate-text`;
-        
-        // Format prompt with context about Cortexuum AI Marketing
-        let prompt = "You are an AI assistant for Cortexuum AI Marketing Agency. ";
-        prompt += "Provide helpful, accurate information about our AI marketing services. ";
-        prompt += "Our services include content generation, media buying, audience analysis, ";
-        prompt += "and social media management, all powered by AI. ";
-        prompt += "If asked about booking a call, direct users to https://calendly.com/cortexuummarketing/30min. ";
-        prompt += "Be friendly, professional, and concise in your responses. ";
-        prompt += "User question: " + message;
-        
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
-          },
-          body: JSON.stringify({
-            model_id: modelId,
-            prompt: prompt,
-            temperature: 0.7,
-            max_tokens: 150
-          }),
-        });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('ElevenLabs API error:', errorText);
-          throw new Error('ElevenLabs API request failed: ' + errorText);
-        }
-        
-        const data = await response.json();
-        
-        // Send the AI-generated response back to the client
-        res.status(200).json({
-          success: true,
-          response: data.text || data.output || data.generated_text || "I'm sorry, I couldn't process your request. Please try again."
-        });
-        
-      } catch (apiError) {
-        console.error("Error with ElevenLabs API, falling back to pattern matching:", apiError);
-        
-        // Fall back to pattern matching if the API fails
-        let response: string;
-        const lowercaseMessage = message.toLowerCase();
-        
-        if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi') || lowercaseMessage.includes('hey')) {
-          response = "Hello! I'm your AI marketing assistant. How can I help you today?";
-        } else if (lowercaseMessage.includes('marketing') && (lowercaseMessage.includes('help') || lowercaseMessage.includes('service'))) {
-          response = "We offer a wide range of AI-powered marketing services including content generation, media buying strategies, audience analysis, and predictive campaign optimization. Would you like to know more about any specific service?";
-        } else if (lowercaseMessage.includes('content') || lowercaseMessage.includes('blog') || lowercaseMessage.includes('article')) {
-          response = "Our AI content generation services help create engaging, SEO-optimized content that resonates with your target audience. We can create blog posts, social media content, email campaigns, and more!";
-        } else if (lowercaseMessage.includes('price') || lowercaseMessage.includes('cost') || lowercaseMessage.includes('package')) {
-          response = "Our pricing depends on your specific needs. We offer custom packages starting at $999/month for small businesses. Would you like to schedule a call to discuss a personalized solution?";
-        } else if (lowercaseMessage.includes('book') || lowercaseMessage.includes('schedule') || lowercaseMessage.includes('call') || lowercaseMessage.includes('consultation')) {
-          response = "Great! You can book a call with our team at https://calendly.com/cortexuummarketing/30min. We look forward to discussing how we can help your business grow!";
-        } else if (lowercaseMessage.includes('social media') || lowercaseMessage.includes('facebook') || lowercaseMessage.includes('instagram') || lowercaseMessage.includes('linkedin')) {
-          response = "Our social media marketing services leverage AI to create engaging content, optimize posting schedules, and target the right audience for maximum engagement and conversion.";
-        } else if (lowercaseMessage.includes('seo') || lowercaseMessage.includes('search engine')) {
-          response = "Our AI-powered SEO services help improve your website's visibility in search results. We analyze key metrics, identify trending topics in your industry, and optimize your content to rank higher.";
-        } else if (lowercaseMessage.includes('email') || lowercaseMessage.includes('newsletter')) {
-          response = "Our email marketing services use AI to segment your audience, personalize content, and optimize send times for maximum open and conversion rates.";
-        } else if (lowercaseMessage.includes('thank')) {
-          response = "You're welcome! Is there anything else I can help you with today?";
-        } else if (lowercaseMessage.includes('bye') || lowercaseMessage.includes('goodbye')) {
-          response = "Thank you for chatting! If you'd like to learn more about our services or schedule a consultation, feel free to book a call at any time. Have a great day!";
-        } else {
-          response = "Thank you for your message. Our AI-powered marketing solutions can help your business grow with data-driven strategies. Would you like to learn more about our specific services or schedule a consultation?";
-        }
-        
-        // Send the fallback response back to the client
-        res.status(200).json({
-          success: true,
-          response: response
-        });
-      }
-      
-    } catch (error: any) {
-      console.error("Error processing chat request:", error);
-      res.status(500).json({ 
-        success: false, 
-        error: error.message || "Failed to process chat request" 
-      });
-    }
-  });
+  // ElevenLabs test and chat endpoints removed - feature deprecated
+
+  // In serverless (Vercel), don't create an HTTP server
+  // The Express app is used directly as the handler
+  if (process.env.VERCEL) {
+    return null as any;
+  }
 
   const httpServer = createServer(app);
   return httpServer;

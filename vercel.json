@@ -1,21 +1,21 @@
 {
   "version": 2,
-  "buildCommand": "vite build",
+  "buildCommand": "npm run build && npm run build:api",
   "outputDirectory": "dist/public",
   "installCommand": "npm install",
-  "framework": null,
+  "framework": "vite",
   "functions": {
-    "api/index.ts": {
+    "api/index.js": {
       "maxDuration": 30
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

@@ -57,6 +57,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health check endpoint (no dependencies required)
+app.get("/api/health", (_req: Request, res: Response) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 // Register all API routes
 let routesRegistered = false;
 let routePromise: Promise<void> | null = null;
@@ -66,16 +71,26 @@ async function ensureRoutes() {
   if (routePromise) return routePromise;
 
   routePromise = (async () => {
-    await registerRoutes(app);
+    try {
+      console.log("[API] Starting route registration...");
+      await registerRoutes(app);
+      console.log("[API] Routes registered successfully");
 
-    // Error handler
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-      res.status(status).json({ message });
-    });
+      // Error handler
+      app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+        const status = err.status || err.statusCode || 500;
+        const message = err.message || "Internal Server Error";
+        console.error("[API] Express error:", message);
+        res.status(status).json({ message });
+      });
 
-    routesRegistered = true;
+      routesRegistered = true;
+    } catch (error) {
+      console.error("[API] Failed to register routes:", error);
+      // Reset so it can be retried
+      routePromise = null;
+      throw error;
+    }
   })();
 
   return routePromise;
@@ -83,6 +98,16 @@ async function ensureRoutes() {
 
 // Vercel serverless handler
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
-  await ensureRoutes();
-  app(req, res);
+  try {
+    await ensureRoutes();
+    app(req, res);
+  } catch (error: any) {
+    console.error("[API] Handler error:", error?.message || error);
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({
+      error: "Internal Server Error",
+      message: error?.message || "Unknown error during initialization"
+    }));
+  }
 }

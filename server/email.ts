@@ -1,7 +1,15 @@
 import { Resend } from 'resend';
 import { Lead } from '@shared/schema';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-init to avoid crashing at import time if env var is missing
+let _resend: Resend | null = null;
+function getResend(): Resend | null {
+  if (!process.env.RESEND_API_KEY) return null;
+  if (!_resend) {
+    _resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return _resend;
+}
 
 const FROM_EMAIL = 'Cortexuum <no-reply@cortexuum.com>';
 const NOTIFICATION_RECIPIENTS = [
@@ -13,7 +21,8 @@ const NOTIFICATION_RECIPIENTS = [
  * Send notification email about new lead submission
  */
 export async function sendLeadNotification(lead: Lead): Promise<boolean> {
-  if (!process.env.RESEND_API_KEY) {
+  const resend = getResend();
+  if (!resend) {
     console.error('RESEND_API_KEY environment variable is not set');
     return false;
   }

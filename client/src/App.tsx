@@ -24,8 +24,6 @@ import { initGA } from "./lib/analytics";
 import { initFBPixel } from "./lib/fbPixel";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import ElevenLabsChatbot from "./components/ElevenLabsChatbot";
-import FloatingMenu from "./components/FloatingMenu";
 
 function Router() {
   // Initialize analytics for route changes
@@ -74,8 +72,6 @@ function App() {
           <Toaster />
           <AnalyticsInitializer />
           <Router />
-          <FloatingMenu />
-          <ElevenLabsChatbot />
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

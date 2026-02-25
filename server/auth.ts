@@ -50,8 +50,8 @@ async function ensureAdminExists() {
 }
 
 export function setupAuth(app: Express) {
-  // Ensure admin user exists
-  ensureAdminExists();
+  // Ensure admin user exists (fire-and-forget, don't crash if it fails)
+  ensureAdminExists().catch(err => console.error("ensureAdminExists failed:", err));
   
   // Use PostgreSQL session store for serverless compatibility
   const PgSession = connectPgSimple(session);

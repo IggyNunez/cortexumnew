@@ -1,161 +1,23 @@
-import { useState } from "react";
-import { useLocation } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import cortexuumLogoWhite from '../assets/cortexuum-logo-white.png';
+// Minimal navbar for sub-pages (Home uses scroll-based sections instead)
+import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
+import { ArrowRight } from "lucide-react";
 
-const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
-
-  const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Services", href: "/#services" },
-    { name: "Benefits", href: "/#benefits" },
-    { name: "Why Hire Us", href: "/#why-hire-us" },
-    { name: "Testimonials", href: "/#testimonials" },
-    { name: "Content Funnel", href: "/#content-funnel" },
-    { name: "Contact", href: "/#contact" },
-  ];
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  // Close mobile menu when clicking on a link
-  const handleNavClick = () => {
-    setMobileMenuOpen(false);
-  };
-
+export default function Navbar() {
   return (
-    <header className="absolute top-0 left-0 right-0 z-50 py-5">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <a href="/" className="flex items-center group">
-              <img 
-                src={cortexuumLogoWhite} 
-                alt="Cortexuum AI Marketing Agency"
-                className="w-44 transition-transform group-hover:scale-105 duration-300"
-              />
-            </a>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={`font-semibold text-sm relative group text-white ${
-                  location === item.href ? "font-bold" : ""}`}
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary opacity-80 transition-all duration-300 group-hover:w-full transform group-hover:-translate-y-0.5 group-hover:opacity-100"></span>
-              </a>
-            ))}
-            <Button
-              asChild
-              className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow hover:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            >
-              <a href="/#contact">Contact Us</a>
-            </Button>
-            
-            <Button
-              asChild
-              className="bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-2 text-sm font-bold shadow-md hover:shadow-lg"
-            >
-              <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer">
-                BOOK A CALL NOW
-              </a>
-            </Button>
-          </nav>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              type="button"
-              className="p-2 text-white"
-              aria-expanded="false"
-              onClick={toggleMobileMenu}
-            >
-              <span className="sr-only">Open menu</span>
-              {mobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="/" className="flex items-center gap-3">
+          <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-9 w-9 rounded-full ring-2 ring-slate-100" />
+          <span className="text-base font-bold tracking-tight text-slate-800">Cortexuum</span>
+        </a>
+        <div className="flex items-center gap-4">
+          <a href="/" className="text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors">Home</a>
+          <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-indigo-600 text-white text-sm font-bold px-5 py-2 rounded-full hover:bg-indigo-700 transition-colors shadow-sm">
+            Book a Call <ArrowRight className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: "auto" }}
-            exit={{ opacity: 0, y: -10, height: 0 }}
-            transition={{ 
-              duration: 0.25,
-              ease: [0.04, 0.62, 0.23, 0.98]
-            }}
-            className="md:hidden bg-white border-t overflow-hidden"
-          >
-            <div className="px-4 pt-2 pb-3">
-              <div className="grid gap-2 my-2">
-                {/* Primary buttons first, full-width */}
-                <Button
-                  asChild
-                  className="w-full bg-[#E63E8B] hover:bg-[#E63E8B]/90 text-white rounded-full px-6 py-6 text-lg font-bold shadow-lg hover:shadow-xl focus:ring-2 focus:ring-[#E63E8B] focus:ring-offset-2"
-                >
-                  <a 
-                    href="https://calendly.com/cortexuummarketing/30min" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    onClick={handleNavClick}
-                  >
-                    BOOK A CALL NOW
-                  </a>
-                </Button>
-                
-                <Button
-                  asChild
-                  className="w-full bg-[#1A1347] hover:bg-[#1A1347]/90 text-white rounded-full px-6 py-5 text-base font-bold shadow-md"
-                >
-                  <a 
-                    href="/#services" 
-                    onClick={handleNavClick}
-                  >
-                    Our Services
-                  </a>
-                </Button>
-                
-                {/* Navigation links */}              
-                <div className="grid gap-0 border-t border-gray-100 mt-2 pt-2">
-                  {navItems.map((item) => (
-                    item.name !== "Services" && (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className="text-gray-800 block px-3 py-2.5 text-base font-medium border-b border-gray-100 last:border-0"
-                        onClick={handleNavClick}
-                      >
-                        {item.name}
-                      </a>
-                    )
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+    </nav>
   );
-};
-
-export default Navbar;
+}
