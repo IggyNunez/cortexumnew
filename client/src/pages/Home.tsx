@@ -78,6 +78,199 @@ function ThinkingText() {
   );
 }
 
+// ===== ANIMATED SVG: Neural network that draws itself =====
+function NeuralNetworkSVG() {
+  const nodes = [
+    // Input layer
+    { x: 60, y: 80, layer: 0 }, { x: 60, y: 160, layer: 0 }, { x: 60, y: 240, layer: 0 }, { x: 60, y: 320, layer: 0 },
+    // Hidden layer 1
+    { x: 200, y: 100, layer: 1 }, { x: 200, y: 180, layer: 1 }, { x: 200, y: 260, layer: 1 },
+    // Hidden layer 2
+    { x: 340, y: 120, layer: 2 }, { x: 340, y: 200, layer: 2 }, { x: 340, y: 280, layer: 2 },
+    // Output layer
+    { x: 480, y: 160, layer: 3 }, { x: 480, y: 240, layer: 3 },
+  ];
+
+  const connections: { from: number; to: number }[] = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      if (nodes[j].layer === nodes[i].layer + 1) connections.push({ from: i, to: j });
+    }
+  }
+
+  return (
+    <svg viewBox="0 0 540 400" className="w-full h-full" fill="none">
+      {/* Connection lines with staggered draw animation */}
+      {connections.map((conn, i) => {
+        const from = nodes[conn.from];
+        const to = nodes[conn.to];
+        return (
+          <motion.line
+            key={`conn-${i}`}
+            x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+            stroke="url(#neuralGrad)"
+            strokeWidth={1.5}
+            strokeOpacity={0.3}
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 + i * 0.03, ease: "easeOut" }}
+          />
+        );
+      })}
+
+      {/* Traveling data pulses along connections */}
+      {connections.filter((_, i) => i % 4 === 0).map((conn, i) => {
+        const from = nodes[conn.from];
+        const to = nodes[conn.to];
+        return (
+          <motion.circle
+            key={`pulse-${i}`}
+            r={3}
+            fill="#00BCD4"
+            filter="url(#glow)"
+            initial={{ cx: from.x, cy: from.y, opacity: 0 }}
+            animate={{
+              cx: [from.x, to.x],
+              cy: [from.y, to.y],
+              opacity: [0, 1, 1, 0],
+            }}
+            transition={{
+              duration: 2,
+              delay: 2.5 + i * 0.6,
+              repeat: Infinity,
+              repeatDelay: 3,
+              ease: "easeInOut",
+            }}
+          />
+        );
+      })}
+
+      {/* Nodes with staggered pop-in */}
+      {nodes.map((node, i) => (
+        <motion.g key={`node-${i}`}>
+          {/* Outer ring */}
+          <motion.circle
+            cx={node.x} cy={node.y} r={16}
+            stroke={node.layer === 0 ? "#357BD8" : node.layer === 3 ? "#E63E8B" : "#00BCD4"}
+            strokeWidth={2}
+            fill="white"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 + node.layer * 0.3 + (i % 4) * 0.08, ease: [0.34, 1.56, 0.64, 1] }}
+          />
+          {/* Inner dot */}
+          <motion.circle
+            cx={node.x} cy={node.y} r={5}
+            fill={node.layer === 0 ? "#357BD8" : node.layer === 3 ? "#E63E8B" : "#00BCD4"}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.8 }}
+            transition={{ duration: 0.4, delay: 1.0 + node.layer * 0.3 + (i % 4) * 0.08 }}
+          />
+          {/* Pulse ring on output nodes */}
+          {node.layer === 3 && (
+            <motion.circle
+              cx={node.x} cy={node.y} r={16}
+              stroke="#E63E8B"
+              strokeWidth={1}
+              fill="none"
+              initial={{ scale: 1, opacity: 0.6 }}
+              animate={{ scale: 2.5, opacity: 0 }}
+              transition={{ duration: 2, delay: 3 + i * 0.3, repeat: Infinity, repeatDelay: 2 }}
+            />
+          )}
+        </motion.g>
+      ))}
+
+      <defs>
+        <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#357BD8" />
+          <stop offset="50%" stopColor="#00BCD4" />
+          <stop offset="100%" stopColor="#E63E8B" />
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Orbiting rings around logo =====
+function OrbitRings() {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      <svg viewBox="0 0 200 200" className="w-full h-full">
+        {/* Ring 1 — slow rotation */}
+        <motion.circle cx={100} cy={100} r={70} fill="none" stroke="#357BD8" strokeWidth={0.5} strokeDasharray="8 12"
+          initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "100px 100px" }} />
+        {/* Ring 2 — counter-rotation */}
+        <motion.circle cx={100} cy={100} r={85} fill="none" stroke="#00BCD4" strokeWidth={0.5} strokeDasharray="4 16"
+          initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "100px 100px" }} />
+        {/* Ring 3 — outermost */}
+        <motion.circle cx={100} cy={100} r={95} fill="none" stroke="#E63E8B" strokeWidth={0.3} strokeDasharray="2 20"
+          initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "100px 100px" }} />
+        {/* Orbiting dots */}
+        <motion.circle r={3} fill="#357BD8" filter="url(#orbitGlow)"
+          initial={{ cx: 170, cy: 100 }} animate={{ cx: [170, 100, 30, 100, 170], cy: [100, 30, 100, 170, 100] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
+        <motion.circle r={2.5} fill="#E63E8B" filter="url(#orbitGlow)"
+          initial={{ cx: 30, cy: 100 }} animate={{ cx: [30, 100, 170, 100, 30], cy: [100, 170, 100, 30, 100] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }} />
+        <motion.circle r={2} fill="#00BCD4" filter="url(#orbitGlow)"
+          initial={{ cx: 100, cy: 15 }} animate={{ cx: [100, 185, 100, 15, 100], cy: [15, 100, 185, 100, 15] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }} />
+        <defs>
+          <filter id="orbitGlow"><feGaussianBlur stdDeviation="2" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+        </defs>
+      </svg>
+    </div>
+  );
+}
+
+// ===== Scroll indicator =====
+function ScrollIndicator() {
+  return (
+    <motion.div
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 2, duration: 1 }}
+    >
+      <span className="text-slate-400 text-xs font-medium tracking-widest uppercase">Scroll</span>
+      <motion.div
+        className="w-6 h-10 rounded-full border-2 border-slate-300 flex justify-center pt-2"
+        animate={{ borderColor: ["rgba(148,163,184,0.5)", "rgba(53,123,216,0.6)", "rgba(148,163,184,0.5)"] }}
+        transition={{ duration: 3, repeat: Infinity }}
+      >
+        <motion.div
+          className="w-1.5 h-1.5 rounded-full bg-[#357BD8]"
+          animate={{ y: [0, 16, 0], opacity: [1, 0.3, 1] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ===== Animated hero stat pill =====
+function HeroStat({ value, label, delay, color }: { value: string; label: string; delay: number; color: string }) {
+  return (
+    <motion.div
+      className="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-full px-5 py-2.5 shadow-sm"
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <span className={`text-lg font-black ${color}`}>{value}</span>
+      <span className="text-slate-500 text-sm font-medium">{label}</span>
+    </motion.div>
+  );
+}
+
 function useCountUp(end: number, duration: number = 2000, inView: boolean) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -524,53 +717,77 @@ export default function Home() {
       <div ref={heroRef} className="relative h-[150vh]">
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
-          className="sticky top-0 h-screen flex items-center justify-center px-6"
+          className="sticky top-0 h-screen flex items-center justify-center px-6 overflow-hidden"
         >
+          {/* Background layers */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
             <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#E63E8B]/8 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00BCD4]/6 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }} />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.12)_1px,transparent_1px)] bg-[size:48px_48px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(248,250,252,0.6)_70%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.08)_1px,transparent_1px)] bg-[size:48px_48px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(248,250,252,0.7)_70%)]" />
           </div>
 
+          {/* Neural network — left side on desktop, hidden on mobile */}
+          <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-60">
+            <NeuralNetworkSVG />
+          </div>
+
+          {/* Neural network — right side mirrored on desktop */}
+          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-40 scale-x-[-1]">
+            <NeuralNetworkSVG />
+          </div>
+
+          {/* Main content */}
           <div className="max-w-5xl mx-auto text-center relative z-10">
-            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="inline-flex items-center gap-3 mb-8">
-                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-12 w-12 rounded-full ring-2 ring-[#357BD8]/20 shadow-lg" />
-                <span className="text-lg font-extrabold tracking-[0.15em] uppercase text-[#357BD8]">CORTEXUUM</span>
+            {/* Logo with orbit rings */}
+            <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
+              <div className="relative inline-flex items-center justify-center w-24 h-24 mb-6">
+                <OrbitRings />
+                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-14 w-14 rounded-full ring-2 ring-[#357BD8]/20 shadow-lg relative z-10" />
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-5 py-2 mb-8 shadow-sm">
-                <Shield className="w-4 h-4 text-emerald-500" />
-                <span className="text-slate-600 text-sm font-medium">Trusted by businesses across the US</span>
-              </div>
+            {/* Brand name */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}>
+              <span className="text-sm font-extrabold tracking-[0.3em] uppercase text-[#357BD8] block mb-6">CORTEXUUM</span>
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-8 tracking-tight text-slate-800">
+            {/* Headline */}
+            <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-6 tracking-tight text-slate-800">
               Marketing that
               <br />
               <ThinkingText />
             </motion.h1>
 
-            <motion.p initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-              AI agents trained on cognitive psychology.<br className="hidden md:block" />
-              Campaigns that understand why people buy.
+            {/* Subcopy — punchy, not generic */}
+            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="text-lg md:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
+              We build AI systems that study how your customers make decisions — then engineer every ad, funnel, and follow-up to convert.
+              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth engine trained on psychology.</span>
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            {/* Stat pills */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+              <HeroStat value="$200M+" label="Ad spend managed" delay={1.0} color="text-[#357BD8]" />
+              <HeroStat value="3x" label="Avg lead increase" delay={1.15} color="text-[#00BCD4]" />
+              <HeroStat value="40%" label="Lower acquisition cost" delay={1.3} color="text-[#E63E8B]" />
+            </div>
+
+            {/* CTA */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                whileHover={{ scale: 1.03, boxShadow: "0 20px 40px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
                 Book a Strategy Call <ArrowRight className="w-5 h-5" />
               </motion.a>
             </motion.div>
           </div>
+
+          {/* Scroll indicator */}
+          <ScrollIndicator />
         </motion.div>
       </div>
 
