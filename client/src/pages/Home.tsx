@@ -569,9 +569,6 @@ export default function Home() {
                 whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                 Book a Strategy Call <ArrowRight className="w-5 h-5" />
               </motion.a>
-              <a href="#services" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium px-8 py-5 transition-colors">
-                Explore Services <ChevronDown className="w-4 h-4" />
-              </a>
             </motion.div>
           </div>
         </motion.div>
