@@ -49,7 +49,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
+import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
 
 const fadeUp = {
@@ -394,7 +394,7 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center">
-            <img src={cortexuumLogoWhite} alt="Cortexuum" className="h-8 w-auto" />
+            <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-10 w-10 rounded-full" />
           </a>
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
@@ -1170,7 +1170,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
             <div>
-              <img src={cortexuumLogoWhite} alt="Cortexuum" className="h-8 w-auto mb-4 opacity-80" />
+              <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-10 w-10 rounded-full mb-4 opacity-90" />
               <p className="text-slate-400 text-sm leading-relaxed">
                 We're your partners in online success. Specializing in AI-powered marketing, funnel building, and psychology-based strategies.
               </p>

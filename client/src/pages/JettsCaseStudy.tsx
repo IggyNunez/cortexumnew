@@ -45,7 +45,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import cortexuumLogo from "../assets/cortexuum-logo.png";
+import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import jettsHero from "../assets/portfolio-jetts.png";
 import jettsServices from "../assets/jetts-services.png";
 import jettsPricing from "../assets/jetts-pricing.png";
@@ -181,7 +181,7 @@ export default function JettsCaseStudy() {
         className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2">
-            <img src={cortexuumLogo} alt="Cortexuum" className="h-8 w-auto" />
+            <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-10 w-10 rounded-full" />
           </a>
           <div className="hidden sm:flex items-center gap-4">
             <a href="/services/websites" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">

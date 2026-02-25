@@ -40,7 +40,7 @@ import {
   Rocket,
   Send,
 } from "lucide-react";
-import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
+import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import portfolioKalyxi from "../assets/portfolio-kalyxi.png";
 import portfolioJetts from "../assets/portfolio-jetts.png";
 import portfolioLakelucien from "../assets/portfolio-lakelucien.png";
@@ -358,7 +358,7 @@ export default function WebsiteOutreach() {
         className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center">
-            <img src={cortexuumLogoWhite} alt="Cortexuum" className="w-36 md:w-44" />
+            <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-10 w-10 rounded-full" />
           </a>
           <a
             href="#contact"
