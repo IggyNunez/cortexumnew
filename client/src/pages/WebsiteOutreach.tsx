@@ -43,7 +43,6 @@ import {
 import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
 import portfolioKalyxi from "../assets/portfolio-kalyxi.png";
 import portfolioJetts from "../assets/portfolio-jetts.png";
-import portfolioPropvera from "../assets/portfolio-propvera.png";
 import portfolioLakelucien from "../assets/portfolio-lakelucien.png";
 
 const formSchema = z.object({
@@ -158,24 +157,7 @@ const portfolio = [
     ],
     tags: ["Next.js 16", "Sanity CMS", "Vercel", "Local SEO", "Schema Markup"],
     accent: "purple",
-  },
-  {
-    label: "Healthcare Platform",
-    name: "PropVera",
-    url: "propvera.net",
-    image: portfolioPropvera,
-    headline: "52% more appointments. Built for trust at first click.",
-    challenge: "A healthcare provider needed a digital presence that inspired the same confidence as an in-person visit. The existing site was inaccessible, slow, and failed to communicate credibility. Patients researching care options online were bouncing before they ever picked up the phone.",
-    approach: "Designed with patients first. Every page was built to answer the question \"Can I trust this provider?\" within 3 seconds. Built to WCAG 2.1 AA standards for full accessibility, implemented fast-loading architecture for mobile-heavy audiences, and created clear pathways from symptom research to appointment booking with zero dead ends.",
-    result: "100% WCAG 2.1 AA compliant. Online appointments increased by 52%. Mobile performance score of 91. Time to first meaningful action dropped to 2.8 seconds. Patients can find what they need and book in under 3 clicks.",
-    stats: [
-      { value: "94", label: "Accessibility Score" },
-      { value: "+52%", label: "Online Appointments" },
-      { value: "2.8s", label: "Time to Action" },
-      { value: "100%", label: "WCAG 2.1 AA" },
-    ],
-    tags: ["Healthcare", "WCAG 2.1 AA", "Accessible", "Custom Build", "Mobile-First"],
-    accent: "emerald",
+    caseStudyUrl: "/case-study/jetts-windows",
   },
   {
     label: "Healthcare + HIPAA",
@@ -730,6 +712,16 @@ export default function WebsiteOutreach() {
                         </span>
                       ))}
                     </div>
+
+                    {/* Case Study Link */}
+                    {"caseStudyUrl" in project && project.caseStudyUrl && (
+                      <a
+                        href={project.caseStudyUrl}
+                        className={`inline-flex items-center gap-2 bg-gradient-to-r ${colors.gradient} text-white font-semibold px-6 py-3 rounded-full hover:opacity-90 transition-opacity shadow-lg mt-2`}
+                      >
+                        Read Full Case Study <ArrowRight className="w-4 h-4" />
+                      </a>
+                    )}
                   </motion.div>
                 </div>
               </motion.div>

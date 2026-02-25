@@ -56,6 +56,22 @@ Preferred communication style: Simple, everyday language.
 └── migrations/       # Database migrations
 ```
 
+### Key Routes
+- `/` - Home page
+- `/services/websites` - Website outreach / portfolio page
+- `/case-study/jetts-windows` (also `/cleaning-services`) - Jetts Windows dedicated case study targeting cleaning services businesses
+- `/review` (`/free-review`, `/landing-page-review`, `/lp-review`) - Landing page review form
+- `/auth` - Admin login
+- `/leads` - Admin lead management dashboard
+
+### Portfolio Screenshots (client/src/assets/)
+- `portfolio-kalyxi.png` - Kalyxi AI homepage
+- `portfolio-jetts.png` - Jetts Windows homepage
+- `portfolio-lakelucien.png` - Lake Lucien Surgery Center
+- `jetts-services.png` - Jetts Windows services page
+- `jetts-pricing.png` - Jetts Windows pricing page  
+- `jetts-about.png` - Jetts Windows about page
+
 ## External Dependencies
 
 ### Database
