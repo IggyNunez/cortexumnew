@@ -140,9 +140,9 @@ function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { ch
 const services = [
   { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
   { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
-  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#4A1D6A] to-[#E63E8B]" },
+  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#00BCD4] to-[#E63E8B]" },
   { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
-  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#4A1D6A]" },
+  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#00BCD4]" },
   { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
@@ -538,7 +538,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
               <div className="inline-flex items-center gap-3 mb-8">
                 <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-12 w-12 rounded-full ring-2 ring-[#357BD8]/20 shadow-lg" />
-                <span className="text-lg font-extrabold tracking-[0.15em] uppercase text-[#4A1D6A]">CORTEXUUM</span>
+                <span className="text-lg font-extrabold tracking-[0.15em] uppercase text-[#357BD8]">CORTEXUUM</span>
               </div>
             </motion.div>
 
@@ -565,7 +565,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#4A1D6A] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
                 whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                 Book a Strategy Call <ArrowRight className="w-5 h-5" />
               </motion.a>
@@ -623,7 +623,7 @@ export default function Home() {
           <div className="w-full px-6 relative">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-1/4 -left-20 w-[300px] h-[300px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#4A1D6A]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_70%_30%,rgba(230,62,139,0.03),transparent)]" />
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
@@ -631,7 +631,7 @@ export default function Home() {
                 <p className="text-[#E63E8B] font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800">
                   Marketing that understands{" "}
-                  <span className="bg-gradient-to-r from-[#E63E8B] to-[#4A1D6A] bg-clip-text text-transparent">how people think.</span>
+                  <span className="bg-gradient-to-r from-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">how people think.</span>
                 </h2>
               </SectionHeading>
               <div className="grid md:grid-cols-2 gap-6">
