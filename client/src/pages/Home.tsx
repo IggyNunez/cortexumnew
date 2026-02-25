@@ -25,6 +25,55 @@ import { AnimatePresence } from "framer-motion";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
 
+const thinkingWords = ["thinks.", "adapts.", "learns.", "converts.", "scales."];
+
+function ThinkingText() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const currentWord = thinkingWords[wordIndex];
+
+    if (isPaused) {
+      const pauseTimer = setTimeout(() => {
+        setIsPaused(false);
+        setIsDeleting(true);
+      }, 2000);
+      return () => clearTimeout(pauseTimer);
+    }
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      setIsPaused(true);
+      return;
+    }
+
+    if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setWordIndex((prev) => (prev + 1) % thinkingWords.length);
+      return;
+    }
+
+    const speed = isDeleting ? 50 : 120;
+    const timer = setTimeout(() => {
+      setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, isPaused, wordIndex]);
+
+  const currentWord = thinkingWords[wordIndex];
+  const displayText = currentWord.slice(0, charIndex);
+
+  return (
+    <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+      {displayText}
+      <span className="inline-block w-[3px] h-[0.85em] bg-gradient-to-b from-cyan-400 to-purple-400 ml-1 align-middle animate-[blink_0.8s_step-end_infinite] rounded-full" />
+    </span>
+  );
+}
+
 function useCountUp(end: number, duration: number = 2000, inView: boolean) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -417,7 +466,7 @@ export default function Home() {
               className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-8 tracking-tight">
               Marketing that
               <br />
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">thinks.</span>
+              <ThinkingText />
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
