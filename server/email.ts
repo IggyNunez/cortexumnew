@@ -3,7 +3,7 @@ import { Lead } from '@shared/schema';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = 'Cortexuum <no-reply@cortexum.com>';
+const FROM_EMAIL = 'Cortexuum <no-reply@cortexuum.com>';
 const NOTIFICATION_RECIPIENTS = [
   'christian@cortexuum.com',
   'dev@ignacionunez.dev',
