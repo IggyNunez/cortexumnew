@@ -1158,8 +1158,11 @@ export default function Home() {
               <div className="absolute -top-24 right-1/4 w-[350px] h-[350px] bg-emerald-500/[0.03] rounded-full blur-[100px]" />
               <div className="absolute -bottom-24 left-1/3 w-[300px] h-[300px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
-              <div className="hidden lg:block absolute top-8 left-1/2 -translate-x-1/2 w-[340px] h-[80px] opacity-40">
+              <div className="hidden lg:block absolute bottom-12 left-1/2 -translate-x-1/2 w-[500px] h-[80px] opacity-30">
                 <PipelineSVG />
+              </div>
+              <div className="hidden lg:block absolute top-10 -right-10 w-[300px] h-[200px] opacity-40">
+                <CircuitBoardSVG />
               </div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
