@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent, trackLeadConversion } from "@/lib/analytics";
 import { trackFBLeadEvent } from "@/lib/fbPixel";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -109,13 +109,30 @@ function CounterCard({ value, suffix, label }: { value: number; suffix: string; 
   );
 }
 
-function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { children: (progress: any) => React.ReactNode; id?: string; scrollTrackHeight?: string }) {
+function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { children: (progress: any, isMobile: boolean) => React.ReactNode; id?: string; scrollTrackHeight?: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [mobile, setMobile] = useState(false);
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
+
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  if (mobile) {
+    return (
+      <div id={id} className="relative scroll-mt-20 py-16 px-6">
+        {children(null, true)}
+      </div>
+    );
+  }
+
   return (
-    <div ref={trackRef} id={id} className="relative" style={{ height: scrollTrackHeight }}>
+    <div ref={trackRef} id={id} className="relative scroll-mt-20" style={{ height: scrollTrackHeight }}>
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {children(scrollYProgress)}
+        {children(scrollYProgress, false)}
       </div>
     </div>
   );
@@ -234,15 +251,18 @@ const timelines = [
   { value: "exploring", label: "Just exploring options" },
 ];
 
-function ServiceCard({ service, index, progress }: { service: typeof services[0]; index: number; progress: any }) {
+function ServiceCard({ service, index, progress, isMobile }: { service: typeof services[0]; index: number; progress: any; isMobile: boolean }) {
   const delay = index * 0.15;
-  const cardOpacity = useTransform(progress, [delay, delay + 0.15], [0, 1]);
-  const cardY = useTransform(progress, [delay, delay + 0.15], [60, 0]);
-  const cardScale = useTransform(progress, [delay, delay + 0.15], [0.9, 1]);
+  const cardOpacity = useTransform(progress ?? new MotionValue(), [delay, delay + 0.15], [0, 1]);
+  const cardY = useTransform(progress ?? new MotionValue(), [delay, delay + 0.15], [60, 0]);
+  const cardScale = useTransform(progress ?? new MotionValue(), [delay, delay + 0.15], [0.9, 1]);
 
   return (
     <motion.div
-      style={{ opacity: cardOpacity, y: cardY, scale: cardScale }}
+      {...(isMobile
+        ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
+        : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
+      )}
       className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-7 hover:bg-white/[0.06] transition-colors group"
     >
       <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${service.accent} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
@@ -254,14 +274,17 @@ function ServiceCard({ service, index, progress }: { service: typeof services[0]
   );
 }
 
-function BenefitCard({ benefit, index, progress }: { benefit: typeof benefits[0]; index: number; progress: any }) {
+function BenefitCard({ benefit, index, progress, isMobile }: { benefit: typeof benefits[0]; index: number; progress: any; isMobile: boolean }) {
   const start = 0.1 + index * 0.2;
-  const opacity = useTransform(progress, [start, start + 0.15], [0, 1]);
-  const x = useTransform(progress, [start, start + 0.15], [index % 2 === 0 ? -80 : 80, 0]);
+  const opacity = useTransform(progress ?? new MotionValue(), [start, start + 0.15], [0, 1]);
+  const x = useTransform(progress ?? new MotionValue(), [start, start + 0.15], [index % 2 === 0 ? -80 : 80, 0]);
 
   return (
     <motion.div
-      style={{ opacity, x }}
+      {...(isMobile
+        ? { initial: { opacity: 0, x: index % 2 === 0 ? -30 : 30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
+        : { style: { opacity, x } }
+      )}
       className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 hover:bg-white/[0.06] transition-colors group"
     >
       <div className="flex items-start gap-5">
@@ -282,15 +305,18 @@ function BenefitCard({ benefit, index, progress }: { benefit: typeof benefits[0]
   );
 }
 
-function ProcessStep({ step, index, progress }: { step: typeof funnelSteps[0]; index: number; progress: any }) {
+function ProcessStep({ step, index, progress, isMobile }: { step: typeof funnelSteps[0]; index: number; progress: any; isMobile: boolean }) {
   const start = index * 0.1;
-  const opacity = useTransform(progress, [start, start + 0.1], [0, 1]);
-  const scale = useTransform(progress, [start, start + 0.1], [0.7, 1]);
-  const y = useTransform(progress, [start, start + 0.1], [40, 0]);
+  const opacity = useTransform(progress ?? new MotionValue(), [start, start + 0.1], [0, 1]);
+  const scale = useTransform(progress ?? new MotionValue(), [start, start + 0.1], [0.7, 1]);
+  const y = useTransform(progress ?? new MotionValue(), [start, start + 0.1], [40, 0]);
 
   return (
     <motion.div
-      style={{ opacity, scale, y }}
+      {...(isMobile
+        ? { initial: { opacity: 0, y: 20, scale: 0.9 }, whileInView: { opacity: 1, y: 0, scale: 1 }, viewport: { once: true, margin: "-30px" }, transition: { duration: 0.4, delay: index * 0.08 } }
+        : { style: { opacity, scale, y } }
+      )}
       className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5 text-center hover:bg-white/[0.06] transition-colors group"
     >
       <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-500/20 transition-colors">
@@ -509,20 +535,31 @@ export default function Home() {
 
       {/* ===== SERVICES — Sticky with scroll-linked card reveals ===== */}
       <StickyRevealSection id="services" scrollTrackHeight="250vh">
-        {(progress) => (
+        {(progress, isMobile) => (
           <div className="w-full px-6">
             <div className="max-w-6xl mx-auto">
-              <motion.div style={{ opacity: useTransform(progress, [0, 0.08], [0, 1]), y: useTransform(progress, [0, 0.08], [40, 0]) }} className="text-center mb-12">
-                <p className="text-cyan-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-                  Intelligent solutions{" "}
-                  <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">that beat generic marketing.</span>
-                </h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">Every service powered by AI models trained on psychological principles.</p>
-              </motion.div>
+              {isMobile ? (
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+                  <p className="text-cyan-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
+                  <h2 className="text-3xl font-black tracking-tight mb-4">
+                    Intelligent solutions{" "}
+                    <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">that beat generic marketing.</span>
+                  </h2>
+                  <p className="text-slate-500 text-base max-w-xl mx-auto">Every service powered by AI models trained on psychological principles.</p>
+                </motion.div>
+              ) : (
+                <motion.div style={{ opacity: useTransform(progress, [0, 0.08], [0, 1]), y: useTransform(progress, [0, 0.08], [40, 0]) }} className="text-center mb-12">
+                  <p className="text-cyan-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
+                  <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+                    Intelligent solutions{" "}
+                    <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">that beat generic marketing.</span>
+                  </h2>
+                  <p className="text-slate-500 text-base max-w-xl mx-auto">Every service powered by AI models trained on psychological principles.</p>
+                </motion.div>
+              )}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {services.map((service, i) => (
-                  <ServiceCard key={i} service={service} index={i} progress={progress} />
+                  <ServiceCard key={i} service={service} index={i} progress={progress} isMobile={isMobile} />
                 ))}
               </div>
             </div>
@@ -532,19 +569,29 @@ export default function Home() {
 
       {/* ===== BENEFITS — Sticky with slide-in cards ===== */}
       <StickyRevealSection id="benefits" scrollTrackHeight="250vh">
-        {(progress) => (
+        {(progress, isMobile) => (
           <div className="w-full px-6">
             <div className="max-w-6xl mx-auto">
-              <motion.div style={{ opacity: useTransform(progress, [0, 0.08], [0, 1]), y: useTransform(progress, [0, 0.08], [40, 0]) }} className="text-center mb-12">
-                <p className="text-purple-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight">
-                  Marketing that understands{" "}
-                  <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">how people think.</span>
-                </h2>
-              </motion.div>
+              {isMobile ? (
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+                  <p className="text-purple-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
+                  <h2 className="text-3xl font-black tracking-tight">
+                    Marketing that understands{" "}
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">how people think.</span>
+                  </h2>
+                </motion.div>
+              ) : (
+                <motion.div style={{ opacity: useTransform(progress, [0, 0.08], [0, 1]), y: useTransform(progress, [0, 0.08], [40, 0]) }} className="text-center mb-12">
+                  <p className="text-purple-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
+                  <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+                    Marketing that understands{" "}
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">how people think.</span>
+                  </h2>
+                </motion.div>
+              )}
               <div className="grid md:grid-cols-2 gap-6">
                 {benefits.map((benefit, i) => (
-                  <BenefitCard key={i} benefit={benefit} index={i} progress={progress} />
+                  <BenefitCard key={i} benefit={benefit} index={i} progress={progress} isMobile={isMobile} />
                 ))}
               </div>
             </div>
@@ -554,24 +601,35 @@ export default function Home() {
 
       {/* ===== TESTIMONIALS — Sticky with staggered pop-in ===== */}
       <StickyRevealSection id="results" scrollTrackHeight="200vh">
-        {(progress) => {
-          const headingOpacity = useTransform(progress, [0, 0.1], [0, 1]);
-          const headingY = useTransform(progress, [0, 0.1], [40, 0]);
+        {(progress, isMobile) => {
+          const headingOpacity = useTransform(progress ?? new MotionValue(), [0, 0.1], [0, 1]);
+          const headingY = useTransform(progress ?? new MotionValue(), [0, 0.1], [40, 0]);
           return (
             <div className="w-full px-6">
               <div className="max-w-6xl mx-auto">
-                <motion.div style={{ opacity: headingOpacity, y: headingY }} className="text-center mb-12">
-                  <p className="text-pink-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Results</p>
-                  <h2 className="text-3xl md:text-5xl font-black tracking-tight">Don't take our word for it.</h2>
-                </motion.div>
+                {isMobile ? (
+                  <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+                    <p className="text-pink-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Results</p>
+                    <h2 className="text-3xl font-black tracking-tight">Don't take our word for it.</h2>
+                  </motion.div>
+                ) : (
+                  <motion.div style={{ opacity: headingOpacity, y: headingY }} className="text-center mb-12">
+                    <p className="text-pink-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Results</p>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tight">Don't take our word for it.</h2>
+                  </motion.div>
+                )}
                 <div className="grid md:grid-cols-3 gap-6">
                   {testimonials.map((t, i) => {
                     const start = 0.15 + i * 0.2;
-                    const cardOpacity = useTransform(progress, [start, start + 0.15], [0, 1]);
-                    const cardY = useTransform(progress, [start, start + 0.15], [80, 0]);
-                    const cardScale = useTransform(progress, [start, start + 0.15], [0.85, 1]);
+                    const cardOpacity = useTransform(progress ?? new MotionValue(), [start, start + 0.15], [0, 1]);
+                    const cardY = useTransform(progress ?? new MotionValue(), [start, start + 0.15], [80, 0]);
+                    const cardScale = useTransform(progress ?? new MotionValue(), [start, start + 0.15], [0.85, 1]);
                     return (
-                      <motion.div key={i} style={{ opacity: cardOpacity, y: cardY, scale: cardScale }}
+                      <motion.div key={i}
+                        {...(isMobile
+                          ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: i * 0.1 } }
+                          : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
+                        )}
                         className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 flex flex-col">
                         <div className="flex gap-1 mb-4">
                           {[...Array(t.rating)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
@@ -593,16 +651,21 @@ export default function Home() {
 
       {/* ===== TEAM — Sticky split reveal ===== */}
       <StickyRevealSection scrollTrackHeight="200vh">
-        {(progress) => {
-          const leftOpacity = useTransform(progress, [0, 0.15], [0, 1]);
-          const leftX = useTransform(progress, [0, 0.15], [-60, 0]);
-          const rightOpacity = useTransform(progress, [0.1, 0.25], [0, 1]);
-          const rightX = useTransform(progress, [0.1, 0.25], [60, 0]);
+        {(progress, isMobile) => {
+          const leftOpacity = useTransform(progress ?? new MotionValue(), [0, 0.15], [0, 1]);
+          const leftX = useTransform(progress ?? new MotionValue(), [0, 0.15], [-60, 0]);
+          const rightOpacity = useTransform(progress ?? new MotionValue(), [0.1, 0.25], [0, 1]);
+          const rightX = useTransform(progress ?? new MotionValue(), [0.1, 0.25], [60, 0]);
           return (
             <div className="w-full px-6">
               <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
-                  <motion.div style={{ opacity: leftOpacity, x: leftX }}>
+                  <motion.div
+                    {...(isMobile
+                      ? { initial: { opacity: 0, x: -30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.6 } }
+                      : { style: { opacity: leftOpacity, x: leftX } }
+                    )}
+                  >
                     <p className="text-cyan-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why Cortexuum</p>
                     <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight leading-tight">
                       Data-driven solutions that beat opinions.{" "}
@@ -621,7 +684,13 @@ export default function Home() {
                     </div>
                   </motion.div>
 
-                  <motion.div style={{ opacity: rightOpacity, x: rightX }} className="flex justify-center">
+                  <motion.div
+                    {...(isMobile
+                      ? { initial: { opacity: 0, x: 30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.6, delay: 0.2 } }
+                      : { style: { opacity: rightOpacity, x: rightX } }
+                    )}
+                    className="flex justify-center"
+                  >
                     <div className="relative">
                       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 text-center max-w-sm">
                         <div className="relative inline-block mb-6">
@@ -651,20 +720,31 @@ export default function Home() {
 
       {/* ===== PROCESS — Sticky with step-by-step reveal ===== */}
       <StickyRevealSection id="process" scrollTrackHeight="250vh">
-        {(progress) => (
+        {(progress, isMobile) => (
           <div className="w-full px-6">
             <div className="max-w-6xl mx-auto">
-              <motion.div style={{ opacity: useTransform(progress, [0, 0.06], [0, 1]), y: useTransform(progress, [0, 0.06], [40, 0]) }} className="text-center mb-12">
-                <p className="text-emerald-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">The 90-Day Approach</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-                  From strategy to{" "}
-                  <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">consistent conversions.</span>
-                </h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">A systematic buildout engineered to create a predictable pipeline.</p>
-              </motion.div>
+              {isMobile ? (
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+                  <p className="text-emerald-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">The 90-Day Approach</p>
+                  <h2 className="text-3xl font-black tracking-tight mb-4">
+                    From strategy to{" "}
+                    <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">consistent conversions.</span>
+                  </h2>
+                  <p className="text-slate-500 text-base max-w-xl mx-auto">A systematic buildout engineered to create a predictable pipeline.</p>
+                </motion.div>
+              ) : (
+                <motion.div style={{ opacity: useTransform(progress, [0, 0.06], [0, 1]), y: useTransform(progress, [0, 0.06], [40, 0]) }} className="text-center mb-12">
+                  <p className="text-emerald-400 font-mono text-xs tracking-[0.3em] uppercase mb-4">The 90-Day Approach</p>
+                  <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+                    From strategy to{" "}
+                    <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">consistent conversions.</span>
+                  </h2>
+                  <p className="text-slate-500 text-base max-w-xl mx-auto">A systematic buildout engineered to create a predictable pipeline.</p>
+                </motion.div>
+              )}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {funnelSteps.map((step, i) => (
-                  <ProcessStep key={i} step={step} index={i} progress={progress} />
+                  <ProcessStep key={i} step={step} index={i} progress={progress} isMobile={isMobile} />
                 ))}
               </div>
             </div>
