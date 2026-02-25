@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -208,7 +208,14 @@ const steps = [
 
 export default function WebsiteOutreach() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 400);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -343,8 +350,12 @@ export default function WebsiteOutreach() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      {/* Navbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
+      {/* Navbar — fades out on scroll */}
+      <motion.header
+        animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{ pointerEvents: scrolled ? "none" : "auto" }}
+        className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center">
             <img src={cortexuumLogoWhite} alt="Cortexuum" className="w-36 md:w-44" />
@@ -356,7 +367,7 @@ export default function WebsiteOutreach() {
             Start a Conversation
           </a>
         </div>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 px-4 overflow-hidden">

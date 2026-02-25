@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent, trackLeadConversion } from "@/lib/analytics";
 import { trackFBLeadEvent } from "@/lib/fbPixel";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -306,8 +306,13 @@ export default function Home() {
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  const [scrolled, setScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 400);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const { data: settingsData } = useQuery<{ success: boolean; data: any }>({
     queryKey: ['/api/marketing-settings'],
@@ -381,10 +386,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
-      {/* Navbar */}
+      {/* Navbar — fades out on scroll, floating menu takes over */}
       <motion.nav
-        style={{ backgroundColor: `rgba(2, 6, 23, ${headerOpacity})` }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-slate-800/50"
+        animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0, pointerEvents: scrolled ? "none" as any : "auto" as any }}
+        transition={{ duration: 0.3 }}
+        className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/50"
       >
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center">

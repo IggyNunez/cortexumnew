@@ -123,12 +123,12 @@ const FloatingMenu: React.FC = () => {
   };
 
   const buttonPosition = isMobile
-    ? 'fixed top-20 right-4 z-50'
-    : 'fixed top-20 left-1/2 -translate-x-1/2 z-50';
+    ? 'fixed top-4 right-4 z-50'
+    : 'fixed top-4 left-1/2 -translate-x-1/2 z-50';
 
   const menuPosition = isMobile
     ? 'fixed top-0 right-0 h-screen w-[300px] z-40'
-    : 'fixed top-32 left-1/2 -translate-x-1/2 z-40 w-[300px]';
+    : 'fixed top-16 left-1/2 -translate-x-1/2 z-40 w-[300px]';
 
   return (
     <div className="floating-menu-container">

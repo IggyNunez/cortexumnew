@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -129,6 +129,13 @@ export default function JettsCaseStudy() {
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 400);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const form = useForm<IntakeFormData>({
     resolver: zodResolver(intakeSchema),
@@ -166,8 +173,12 @@ export default function JettsCaseStudy() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+      {/* Nav — fades out on scroll */}
+      <motion.nav
+        animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{ pointerEvents: scrolled ? "none" : "auto" }}
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2">
             <img src={cortexuumLogo} alt="Cortexuum" className="h-8 w-auto" />
@@ -206,7 +217,7 @@ export default function JettsCaseStudy() {
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </motion.nav>
 
       {/* Hero */}
       <section className="pt-24 pb-16 md:pt-32 md:pb-24 px-4 bg-gradient-to-b from-emerald-50/80 via-white to-white relative">
