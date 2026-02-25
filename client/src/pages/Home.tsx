@@ -201,15 +201,15 @@ function OrbitRings() {
   return (
     <div className="absolute inset-0 pointer-events-none">
       <svg viewBox="0 0 200 200" className="w-full h-full">
-        {/* Ring 1 — slow rotation */}
+        {/* Ring 1 -slow rotation */}
         <motion.circle cx={100} cy={100} r={70} fill="none" stroke="#357BD8" strokeWidth={0.5} strokeDasharray="8 12"
           initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "100px 100px" }} />
-        {/* Ring 2 — counter-rotation */}
+        {/* Ring 2 -counter-rotation */}
         <motion.circle cx={100} cy={100} r={85} fill="none" stroke="#00BCD4" strokeWidth={0.5} strokeDasharray="4 16"
           initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "100px 100px" }} />
-        {/* Ring 3 — outermost */}
+        {/* Ring 3 -outermost */}
         <motion.circle cx={100} cy={100} r={95} fill="none" stroke="#E63E8B" strokeWidth={0.3} strokeDasharray="2 20"
           initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "100px 100px" }} />
@@ -268,6 +268,243 @@ function HeroStat({ value, label, delay, color }: { value: string; label: string
       <span className={`text-lg font-black ${color}`}>{value}</span>
       <span className="text-slate-500 text-sm font-medium">{label}</span>
     </motion.div>
+  );
+}
+
+// ===== ANIMATED SVG: Circuit board pattern for Services =====
+function CircuitBoardSVG() {
+  const paths = [
+    "M 20,50 L 80,50 L 80,20 L 140,20",
+    "M 20,100 L 60,100 L 60,150 L 120,150",
+    "M 160,30 L 160,80 L 220,80 L 220,40 L 280,40",
+    "M 100,120 L 180,120 L 180,170 L 240,170",
+    "M 40,170 L 100,170 L 100,200 L 160,200",
+    "M 200,100 L 260,100 L 260,140 L 300,140",
+  ];
+  const nodes = [
+    { x: 20, y: 50 }, { x: 80, y: 50 }, { x: 140, y: 20 },
+    { x: 20, y: 100 }, { x: 120, y: 150 }, { x: 160, y: 30 },
+    { x: 280, y: 40 }, { x: 100, y: 120 }, { x: 240, y: 170 },
+    { x: 40, y: 170 }, { x: 160, y: 200 }, { x: 300, y: 140 },
+  ];
+  return (
+    <svg viewBox="0 0 320 220" className="w-full h-full" fill="none">
+      {paths.map((d, i) => (
+        <motion.path key={`p-${i}`} d={d} stroke="#357BD8" strokeWidth={1.5} strokeOpacity={0.2}
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: i * 0.3, ease: "easeOut" }} />
+      ))}
+      {nodes.map((n, i) => (
+        <motion.circle key={`n-${i}`} cx={n.x} cy={n.y} r={4} fill="#357BD8" fillOpacity={0.4}
+          initial={{ scale: 0 }} animate={{ scale: 1 }}
+          transition={{ duration: 0.4, delay: 1 + i * 0.1, ease: [0.34, 1.56, 0.64, 1] }} />
+      ))}
+      {paths.filter((_, i) => i % 2 === 0).map((d, i) => (
+        <motion.circle key={`dp-${i}`} r={2.5} fill="#00BCD4"
+          initial={{ offsetDistance: "0%" }} animate={{ offsetDistance: "100%" }}
+          transition={{ duration: 3, delay: 2 + i * 1.2, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
+          style={{ offsetPath: `path('${d}')` } as any} />
+      ))}
+      <defs>
+        <linearGradient id="circuitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#357BD8" /><stop offset="100%" stopColor="#00BCD4" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Synapse/brain connections for Benefits =====
+function SynapseSVG() {
+  const synapses = [
+    { x1: 30, y1: 40, x2: 120, y2: 80, cx: 75, cy: 30 },
+    { x1: 100, y1: 20, x2: 200, y2: 60, cx: 150, cy: 10 },
+    { x1: 60, y1: 120, x2: 170, y2: 140, cx: 115, cy: 100 },
+    { x1: 150, y1: 100, x2: 250, y2: 120, cx: 200, cy: 80 },
+    { x1: 20, y1: 160, x2: 130, y2: 180, cx: 75, cy: 150 },
+    { x1: 180, y1: 150, x2: 270, y2: 170, cx: 225, cy: 130 },
+  ];
+  return (
+    <svg viewBox="0 0 300 200" className="w-full h-full" fill="none">
+      {synapses.map((s, i) => (
+        <motion.g key={`syn-${i}`}>
+          <motion.path
+            d={`M ${s.x1},${s.y1} Q ${s.cx},${s.cy} ${s.x2},${s.y2}`}
+            stroke={i % 2 === 0 ? "#E63E8B" : "#F5841F"} strokeWidth={1.5} strokeOpacity={0.25}
+            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+            transition={{ duration: 1.2, delay: i * 0.25, ease: "easeOut" }} />
+          <motion.circle cx={s.x1} cy={s.y1} r={5} fill={i % 2 === 0 ? "#E63E8B" : "#F5841F"} fillOpacity={0.5}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.5 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
+          <motion.circle cx={s.x2} cy={s.y2} r={5} fill={i % 2 === 0 ? "#F5841F" : "#E63E8B"} fillOpacity={0.5}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.7 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
+          <motion.circle r={2} fill={i % 2 === 0 ? "#E63E8B" : "#F5841F"}
+            initial={{ offsetDistance: "0%", opacity: 0 }}
+            animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 2, delay: 1.5 + i * 0.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+            style={{ offsetPath: `path('M ${s.x1},${s.y1} Q ${s.cx},${s.cy} ${s.x2},${s.y2}')` } as any} />
+        </motion.g>
+      ))}
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Floating quote bubbles for Testimonials =====
+function QuoteBubblesSVG() {
+  const bubbles = [
+    { x: 40, y: 50, size: 35, delay: 0 },
+    { x: 140, y: 30, size: 28, delay: 0.3 },
+    { x: 240, y: 60, size: 32, delay: 0.6 },
+    { x: 90, y: 130, size: 25, delay: 0.9 },
+    { x: 200, y: 140, size: 30, delay: 1.2 },
+  ];
+  return (
+    <svg viewBox="0 0 300 180" className="w-full h-full" fill="none">
+      {bubbles.map((b, i) => (
+        <motion.g key={`bub-${i}`}
+          initial={{ y: 20, opacity: 0, scale: 0.5 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: b.delay, ease: [0.22, 1, 0.36, 1] }}>
+          <rect x={b.x - b.size / 2} y={b.y - b.size / 2} width={b.size} height={b.size * 0.7}
+            rx={8} fill="white" stroke="#F5841F" strokeWidth={1} strokeOpacity={0.3} />
+          <motion.text x={b.x} y={b.y + 2} textAnchor="middle" fontSize={b.size * 0.4}
+            fill="#F5841F" fillOpacity={0.4} fontWeight="bold"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 3, delay: b.delay + 1, repeat: Infinity }}>"</motion.text>
+          <motion.circle cx={b.x - 3} cy={b.y + b.size * 0.35 + 4} r={2} fill="#F5841F" fillOpacity={0.2}
+            animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, delay: b.delay + 0.5, repeat: Infinity }} />
+          <motion.circle cx={b.x - 8} cy={b.y + b.size * 0.35 + 8} r={1.5} fill="#F5841F" fillOpacity={0.15} />
+        </motion.g>
+      ))}
+      {bubbles.map((b, i) => (
+        <motion.line key={`line-${i}`}
+          x1={b.x + b.size / 2 + 5} y1={b.y}
+          x2={bubbles[(i + 1) % bubbles.length].x - bubbles[(i + 1) % bubbles.length].size / 2 - 5}
+          y2={bubbles[(i + 1) % bubbles.length].y}
+          stroke="#F5841F" strokeWidth={0.5} strokeOpacity={0.15} strokeDasharray="4 6"
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: 1.5 + i * 0.2 }} />
+      ))}
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Connection graph for Team =====
+function ConnectionGraphSVG() {
+  const people = [
+    { x: 60, y: 50, color: "#357BD8" },
+    { x: 160, y: 30, color: "#00BCD4" },
+    { x: 260, y: 55, color: "#E63E8B" },
+    { x: 110, y: 120, color: "#F5841F" },
+    { x: 210, y: 130, color: "#357BD8" },
+  ];
+  const links = [[0,1],[1,2],[0,3],[1,4],[2,4],[3,4]];
+  return (
+    <svg viewBox="0 0 320 170" className="w-full h-full" fill="none">
+      {links.map(([a, b], i) => (
+        <motion.line key={`link-${i}`}
+          x1={people[a].x} y1={people[a].y} x2={people[b].x} y2={people[b].y}
+          stroke="#357BD8" strokeWidth={1} strokeOpacity={0.15}
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 + i * 0.15 }} />
+      ))}
+      {people.map((p, i) => (
+        <motion.g key={`person-${i}`}>
+          <motion.circle cx={p.x} cy={p.y} r={18} fill="white" stroke={p.color} strokeWidth={2} strokeOpacity={0.4}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: i * 0.15, ease: [0.34, 1.56, 0.64, 1] }} />
+          <motion.circle cx={p.x} cy={p.y - 4} r={5} fill={p.color} fillOpacity={0.4}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 + i * 0.15 }} />
+          <motion.path d={`M ${p.x - 8},${p.y + 10} Q ${p.x},${p.y + 2} ${p.x + 8},${p.y + 10}`}
+            stroke={p.color} strokeWidth={1.5} strokeOpacity={0.4} fill="none"
+            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 + i * 0.15 }} />
+          <motion.circle cx={p.x} cy={p.y} r={18} stroke={p.color} strokeWidth={1} fill="none"
+            initial={{ scale: 1, opacity: 0.4 }} animate={{ scale: 2, opacity: 0 }}
+            transition={{ duration: 2.5, delay: 2 + i * 0.5, repeat: Infinity, repeatDelay: 3 }} />
+        </motion.g>
+      ))}
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Pipeline flow for Process =====
+function PipelineSVG() {
+  const stages = [
+    { x: 30, label: "IN", color: "#10B981" },
+    { x: 100, label: "", color: "#00BCD4" },
+    { x: 170, label: "", color: "#357BD8" },
+    { x: 240, label: "", color: "#E63E8B" },
+    { x: 310, label: "OUT", color: "#F5841F" },
+  ];
+  return (
+    <svg viewBox="0 0 340 80" className="w-full h-full" fill="none">
+      <motion.path d="M 30,40 L 310,40" stroke="url(#pipelineGrad)" strokeWidth={2} strokeOpacity={0.2}
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }} />
+      {stages.map((s, i) => (
+        <motion.g key={`stage-${i}`}>
+          <motion.circle cx={s.x} cy={40} r={12} fill="white" stroke={s.color} strokeWidth={2}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
+          <motion.circle cx={s.x} cy={40} r={4} fill={s.color}
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 + i * 0.2 }} />
+        </motion.g>
+      ))}
+      {[0, 1, 2].map(i => (
+        <motion.circle key={`flow-${i}`} r={3} fill="#00BCD4"
+          animate={{ cx: [30, 310], cy: [40, 40], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 3, delay: 2 + i * 1.5, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }} />
+      ))}
+      <defs>
+        <linearGradient id="pipelineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#10B981" /><stop offset="50%" stopColor="#357BD8" /><stop offset="100%" stopColor="#F5841F" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+// ===== ANIMATED SVG: Signal burst for CTA =====
+function SignalBurstSVG() {
+  const rings = [50, 80, 110, 140];
+  const particles = Array.from({ length: 12 }, (_, i) => ({
+    angle: (i * 30) * Math.PI / 180,
+    distance: 60 + Math.random() * 60,
+    size: 2 + Math.random() * 3,
+    delay: Math.random() * 2,
+  }));
+  return (
+    <svg viewBox="0 0 300 300" className="w-full h-full" fill="none">
+      {rings.map((r, i) => (
+        <motion.circle key={`ring-${i}`} cx={150} cy={150} r={r} stroke="#357BD8" strokeWidth={1} fill="none"
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.1, 0.25, 0.1] }}
+          transition={{ duration: 3 + i * 0.5, delay: i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "150px 150px" }} />
+      ))}
+      {particles.map((p, i) => (
+        <motion.circle key={`part-${i}`} r={p.size}
+          fill={i % 3 === 0 ? "#357BD8" : i % 3 === 1 ? "#00BCD4" : "#E63E8B"}
+          initial={{
+            cx: 150 + Math.cos(p.angle) * 20,
+            cy: 150 + Math.sin(p.angle) * 20,
+            opacity: 0,
+          }}
+          animate={{
+            cx: [150 + Math.cos(p.angle) * 20, 150 + Math.cos(p.angle) * p.distance],
+            cy: [150 + Math.sin(p.angle) * 20, 150 + Math.sin(p.angle) * p.distance],
+            opacity: [0, 0.6, 0],
+          }}
+          transition={{ duration: 2.5, delay: 1 + p.delay, repeat: Infinity, repeatDelay: 2, ease: "easeOut" }} />
+      ))}
+      <motion.circle cx={150} cy={150} r={15} fill="#357BD8" fillOpacity={0.3}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity }} style={{ transformOrigin: "150px 150px" }} />
+    </svg>
   );
 }
 
@@ -331,19 +568,19 @@ function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { ch
 }
 
 const services = [
-  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
+  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows. Running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
+  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative, produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
   { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#00BCD4] to-[#E63E8B]" },
   { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
   { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
+  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology, understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
 const benefits = [
-  { icon: AnimatedBrain, title: "Psychology-Based AI", stat: "30-50% Higher ROI", description: "Our AI models are trained on cognitive and behavioral psychology principles. They don't just target audiences — they understand why people buy." },
-  { icon: AnimatedZap, title: "24/7 Marketing Intelligence", stat: "Always On", description: "Your campaigns never sleep. AI agents monitor, adjust, and optimize around the clock — catching opportunities humans would miss." },
+  { icon: AnimatedBrain, title: "Psychology-Based AI", stat: "30-50% Higher ROI", description: "Our AI models are trained on cognitive and behavioral psychology principles. They don't just target audiences. They understand why people buy." },
+  { icon: AnimatedZap, title: "24/7 Marketing Intelligence", stat: "Always On", description: "Your campaigns never sleep. AI agents monitor, adjust, and optimize around the clock, catching opportunities humans would miss." },
   { icon: AnimatedTarget, title: "Hyper-Personalization", stat: "40-60% Lower Acquisition", description: "Every touchpoint is tailored. From ad creative to landing pages to follow-ups, each prospect gets a unique journey optimized for conversion." },
-  { icon: AnimatedEye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends — anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
+  { icon: AnimatedEye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends. Anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
 ];
 
 const testimonials = [
@@ -552,6 +789,12 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
         <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_20%_50%,rgba(53,123,216,0.02),transparent)]" />
+        <div className="hidden lg:block absolute top-0 left-0 w-[320px] h-[170px] opacity-40">
+          <ConnectionGraphSVG />
+        </div>
+        <div className="hidden lg:block absolute bottom-0 right-0 w-[320px] h-[170px] opacity-30 scale-x-[-1]">
+          <ConnectionGraphSVG />
+        </div>
       </div>
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -595,7 +838,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                   </div>
                 </div>
                 <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
-                <p className="text-[#357BD8] font-medium mb-4 text-sm">Founder — Digital Growth Architect</p>
+                <p className="text-[#357BD8] font-medium mb-4 text-sm">Founder, Digital Growth Architect</p>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
                   Combining deep psychology expertise with cutting-edge AI to build marketing systems that understand how people actually make decisions.
                 </p>
@@ -713,7 +956,7 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800">
 
-      {/* ===== HERO — Parallax fade out ===== */}
+      {/* ===== HERO -Parallax fade out ===== */}
       <div ref={heroRef} className="relative h-[150vh]">
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
@@ -728,12 +971,12 @@ export default function Home() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(248,250,252,0.7)_70%)]" />
           </div>
 
-          {/* Neural network — left side on desktop, hidden on mobile */}
+          {/* Neural network -left side on desktop, hidden on mobile */}
           <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-60">
             <NeuralNetworkSVG />
           </div>
 
-          {/* Neural network — right side mirrored on desktop */}
+          {/* Neural network -right side mirrored on desktop */}
           <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-40 scale-x-[-1]">
             <NeuralNetworkSVG />
           </div>
@@ -761,10 +1004,10 @@ export default function Home() {
               <ThinkingText />
             </motion.h1>
 
-            {/* Subcopy — punchy, not generic */}
+            {/* Subcopy -punchy, not generic */}
             <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="text-lg md:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
-              We build AI systems that study how your customers make decisions — then engineer every ad, funnel, and follow-up to convert.
+              We build AI systems that study how your customers make decisions, then engineer every ad, funnel, and follow-up to convert.
               <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth engine trained on psychology.</span>
             </motion.p>
 
@@ -791,7 +1034,7 @@ export default function Home() {
         </motion.div>
       </div>
 
-      {/* ===== STATS — Animated counters ===== */}
+      {/* ===== STATS -Animated counters ===== */}
       <section className="relative py-24 px-6 -mt-[50vh]" style={{ position: 'relative', zIndex: 2 }}>
         <div className="max-w-5xl mx-auto bg-white border border-slate-200 rounded-3xl p-10 md:p-14 shadow-xl shadow-slate-200/50">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -803,7 +1046,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SERVICES — Sticky with scroll-linked card reveals ===== */}
+      {/* ===== SERVICES -Sticky with scroll-linked card reveals ===== */}
       <StickyRevealSection id="services" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
           <div className="w-full px-6 relative">
@@ -811,6 +1054,12 @@ export default function Home() {
               <div className="absolute -top-32 -right-32 w-[400px] h-[400px] bg-[#357BD8]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute -bottom-32 -left-32 w-[350px] h-[350px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+              <div className="hidden lg:block absolute -top-10 -right-10 w-[320px] h-[220px] opacity-50">
+                <CircuitBoardSVG />
+              </div>
+              <div className="hidden lg:block absolute -bottom-10 -left-10 w-[320px] h-[220px] opacity-30 scale-x-[-1]">
+                <CircuitBoardSVG />
+              </div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile}>
@@ -831,7 +1080,7 @@ export default function Home() {
         )}
       </StickyRevealSection>
 
-      {/* ===== BENEFITS — Sticky with slide-in cards ===== */}
+      {/* ===== BENEFITS -Sticky with slide-in cards ===== */}
       <StickyRevealSection id="benefits" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
           <div className="w-full px-6 relative">
@@ -839,6 +1088,12 @@ export default function Home() {
               <div className="absolute top-1/4 -left-20 w-[300px] h-[300px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_70%_30%,rgba(230,62,139,0.03),transparent)]" />
+              <div className="hidden lg:block absolute top-0 right-0 w-[300px] h-[200px] opacity-50">
+                <SynapseSVG />
+              </div>
+              <div className="hidden lg:block absolute bottom-0 left-0 w-[300px] h-[200px] opacity-30 scale-y-[-1]">
+                <SynapseSVG />
+              </div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile}>
@@ -858,7 +1113,7 @@ export default function Home() {
         )}
       </StickyRevealSection>
 
-      {/* ===== TESTIMONIALS — Sticky with staggered pop-in ===== */}
+      {/* ===== TESTIMONIALS -Sticky with staggered pop-in ===== */}
       <StickyRevealSection id="results" scrollTrackHeight="200vh">
         {(progress, isMobile) => (
           <div className="w-full px-6 relative">
@@ -866,6 +1121,12 @@ export default function Home() {
               <div className="absolute -top-20 left-1/3 w-[400px] h-[400px] bg-[#F5841F]/[0.03] rounded-full blur-[120px]" />
               <div className="absolute -bottom-20 right-1/4 w-[300px] h-[300px] bg-[#357BD8]/[0.03] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_30%_60%,rgba(245,132,31,0.02),transparent)]" />
+              <div className="hidden lg:block absolute top-5 -left-5 w-[300px] h-[180px] opacity-50">
+                <QuoteBubblesSVG />
+              </div>
+              <div className="hidden lg:block absolute bottom-5 -right-5 w-[300px] h-[180px] opacity-30 scale-x-[-1]">
+                <QuoteBubblesSVG />
+              </div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile} end={0.1}>
@@ -882,14 +1143,14 @@ export default function Home() {
         )}
       </StickyRevealSection>
 
-      {/* ===== TEAM — Sticky split reveal ===== */}
+      {/* ===== TEAM -Sticky split reveal ===== */}
       <StickyRevealSection scrollTrackHeight="200vh">
         {(progress, isMobile) => (
           <TeamSection progress={progress} isMobile={isMobile} />
         )}
       </StickyRevealSection>
 
-      {/* ===== PROCESS — Sticky with step-by-step reveal ===== */}
+      {/* ===== PROCESS -Sticky with step-by-step reveal ===== */}
       <StickyRevealSection id="process" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
           <div className="w-full px-6 relative">
@@ -897,6 +1158,9 @@ export default function Home() {
               <div className="absolute -top-24 right-1/4 w-[350px] h-[350px] bg-emerald-500/[0.03] rounded-full blur-[100px]" />
               <div className="absolute -bottom-24 left-1/3 w-[300px] h-[300px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+              <div className="hidden lg:block absolute top-8 left-1/2 -translate-x-1/2 w-[340px] h-[80px] opacity-40">
+                <PipelineSVG />
+              </div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile} end={0.06}>
@@ -923,6 +1187,9 @@ export default function Home() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#357BD8]/[0.06] rounded-full blur-[120px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.04)_1px,transparent_1px)] bg-[size:56px_56px]" />
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] opacity-30">
+            <SignalBurstSVG />
+          </div>
         </div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-800">
