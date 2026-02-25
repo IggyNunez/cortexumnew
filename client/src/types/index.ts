@@ -6,13 +6,6 @@ export interface Lead {
   message?: string;
 }
 
-export interface Message {
-  id: string;
-  text: string;
-  isBot: boolean;
-  timestamp: Date;
-}
-
 export interface Service {
   id: string;
   icon: string;

@@ -46,6 +46,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
+import cortexuumLogo from "../assets/cortexuum-logo.png";
 import jettsHero from "../assets/portfolio-jetts.png";
 import jettsServices from "../assets/jetts-services.png";
 import jettsPricing from "../assets/jetts-pricing.png";

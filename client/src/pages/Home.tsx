@@ -71,9 +71,9 @@ function ThinkingText() {
   const displayText = currentWord.slice(0, charIndex);
 
   return (
-    <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+    <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">
       {displayText}
-      <span className="inline-block w-[3px] h-[0.85em] bg-gradient-to-b from-blue-600 to-indigo-600 ml-1 align-middle animate-[blink_0.8s_step-end_infinite] rounded-full" />
+      <span className="inline-block w-[3px] h-[0.85em] bg-gradient-to-b from-[#357BD8] to-[#E63E8B] ml-1 align-middle animate-[blink_0.8s_step-end_infinite] rounded-full" />
     </span>
   );
 }
@@ -138,12 +138,12 @@ function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { ch
 }
 
 const services = [
-  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-blue-500 to-indigo-600" },
-  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-indigo-500 to-violet-600" },
-  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-violet-500 to-purple-600" },
-  { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-emerald-500 to-teal-600" },
-  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-sky-500 to-blue-600" },
-  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-amber-500 to-orange-600" },
+  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
+  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
+  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#4A1D6A] to-[#E63E8B]" },
+  { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
+  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#4A1D6A]" },
+  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
 const benefits = [
@@ -287,8 +287,8 @@ function BenefitCard({ benefit, index, progress, isMobile }: { benefit: typeof b
       className="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-slate-300 transition-all group"
     >
       <div className="flex items-start gap-5">
-        <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-100 transition-colors">
-          <benefit.icon className="w-6 h-6 text-indigo-600" />
+        <div className="w-12 h-12 rounded-xl bg-[#357BD8]/5 border border-[#357BD8]/15 flex items-center justify-center flex-shrink-0 group-hover:bg-[#357BD8]/10 transition-colors">
+          <benefit.icon className="w-6 h-6 text-[#357BD8]" />
         </div>
         <div>
           <div className="flex flex-wrap items-center gap-3 mb-2">
@@ -354,8 +354,13 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
   const rightX = useTransform(progress ?? motionValue(0), [0.1, 0.25], [60, 0]);
 
   return (
-    <div className="w-full px-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full px-6 relative">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_20%_50%,rgba(53,123,216,0.02),transparent)]" />
+      </div>
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
             {...(isMobile
@@ -363,10 +368,10 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
               : { style: { opacity: leftOpacity, x: leftX } }
             )}
           >
-            <p className="text-indigo-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why Cortexuum</p>
+            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Why CORTEXUUM</p>
             <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6 tracking-tight leading-tight">
               Data-driven solutions that beat opinions.{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Every time.</span>
+              <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">Every time.</span>
             </h2>
             <p className="text-slate-500 leading-relaxed mb-10">
               With over $200 million in managed ad spend and 70+ years of combined industry experience, we've seen what works and what doesn't.
@@ -391,18 +396,18 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
             <div className="relative">
               <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-sm shadow-lg">
                 <div className="relative inline-block mb-6">
-                  <img src={christianColgate} alt="Christian Colgate" className="w-32 h-32 rounded-full object-cover object-center border-4 border-indigo-100" />
+                  <img src={christianColgate} alt="Christian Colgate" className="w-32 h-32 rounded-full object-cover object-center border-4 border-[#357BD8]/15" />
                   <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center">
                     <Check className="w-3.5 h-3.5 text-white" />
                   </div>
                 </div>
                 <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
-                <p className="text-indigo-600 font-medium mb-4 text-sm">Founder — Digital Growth Architect</p>
+                <p className="text-[#357BD8] font-medium mb-4 text-sm">Founder — Digital Growth Architect</p>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
                   Combining deep psychology expertise with cutting-edge AI to build marketing systems that understand how people actually make decisions.
                 </p>
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-indigo-600 text-white font-bold px-7 py-3 rounded-full hover:bg-indigo-700 transition-colors text-sm shadow-lg shadow-indigo-200">
+                  className="inline-flex items-center gap-2 bg-[#357BD8] text-white font-bold px-7 py-3 rounded-full hover:bg-[#2d6bc0] transition-colors text-sm shadow-lg shadow-[#357BD8]/20">
                   Book a Call <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -522,17 +527,18 @@ export default function Home() {
           className="sticky top-0 h-screen flex items-center justify-center px-6"
         >
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[150px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-100/40 rounded-full blur-[150px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-100/30 rounded-full blur-[200px]" />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
+            <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#E63E8B]/8 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00BCD4]/6 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }} />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.12)_1px,transparent_1px)] bg-[size:48px_48px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(248,250,252,0.6)_70%)]" />
           </div>
 
           <div className="max-w-5xl mx-auto text-center relative z-10">
             <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
               <div className="inline-flex items-center gap-3 mb-8">
-                <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-12 w-12 rounded-full ring-2 ring-indigo-100 shadow-lg" />
-                <span className="text-lg font-bold tracking-tight text-slate-700">Cortexuum</span>
+                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-12 w-12 rounded-full ring-2 ring-[#357BD8]/20 shadow-lg" />
+                <span className="text-lg font-extrabold tracking-[0.15em] uppercase text-[#4A1D6A]">CORTEXUUM</span>
               </div>
             </motion.div>
 
@@ -559,7 +565,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-indigo-600 text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-indigo-200 hover:bg-indigo-700 hover:shadow-indigo-300 transition-all"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#4A1D6A] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
                 whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                 Book a Strategy Call <ArrowRight className="w-5 h-5" />
               </motion.a>
@@ -586,13 +592,18 @@ export default function Home() {
       {/* ===== SERVICES — Sticky with scroll-linked card reveals ===== */}
       <StickyRevealSection id="services" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
-          <div className="w-full px-6">
-            <div className="max-w-6xl mx-auto">
+          <div className="w-full px-6 relative">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-32 -right-32 w-[400px] h-[400px] bg-[#357BD8]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute -bottom-32 -left-32 w-[350px] h-[350px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+            </div>
+            <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile}>
-                <p className="text-indigo-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
+                <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
                   Intelligent solutions{" "}
-                  <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">that beat generic marketing.</span>
+                  <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">that beat generic marketing.</span>
                 </h2>
                 <p className="text-slate-500 text-base max-w-xl mx-auto">Every service powered by AI models trained on psychological principles.</p>
               </SectionHeading>
@@ -609,13 +620,18 @@ export default function Home() {
       {/* ===== BENEFITS — Sticky with slide-in cards ===== */}
       <StickyRevealSection id="benefits" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
-          <div className="w-full px-6">
-            <div className="max-w-6xl mx-auto">
+          <div className="w-full px-6 relative">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-1/4 -left-20 w-[300px] h-[300px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#4A1D6A]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_70%_30%,rgba(230,62,139,0.03),transparent)]" />
+            </div>
+            <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile}>
-                <p className="text-violet-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
+                <p className="text-[#E63E8B] font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800">
                   Marketing that understands{" "}
-                  <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">how people think.</span>
+                  <span className="bg-gradient-to-r from-[#E63E8B] to-[#4A1D6A] bg-clip-text text-transparent">how people think.</span>
                 </h2>
               </SectionHeading>
               <div className="grid md:grid-cols-2 gap-6">
@@ -631,8 +647,13 @@ export default function Home() {
       {/* ===== TESTIMONIALS — Sticky with staggered pop-in ===== */}
       <StickyRevealSection id="results" scrollTrackHeight="200vh">
         {(progress, isMobile) => (
-          <div className="w-full px-6">
-            <div className="max-w-6xl mx-auto">
+          <div className="w-full px-6 relative">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-20 left-1/3 w-[400px] h-[400px] bg-[#F5841F]/[0.03] rounded-full blur-[120px]" />
+              <div className="absolute -bottom-20 right-1/4 w-[300px] h-[300px] bg-[#357BD8]/[0.03] rounded-full blur-[100px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_30%_60%,rgba(245,132,31,0.02),transparent)]" />
+            </div>
+            <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile} end={0.1}>
                 <p className="text-amber-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Results</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800">Don't take our word for it.</h2>
@@ -657,8 +678,13 @@ export default function Home() {
       {/* ===== PROCESS — Sticky with step-by-step reveal ===== */}
       <StickyRevealSection id="process" scrollTrackHeight="250vh">
         {(progress, isMobile) => (
-          <div className="w-full px-6">
-            <div className="max-w-6xl mx-auto">
+          <div className="w-full px-6 relative">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-24 right-1/4 w-[350px] h-[350px] bg-emerald-500/[0.03] rounded-full blur-[100px]" />
+              <div className="absolute -bottom-24 left-1/3 w-[300px] h-[300px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+            </div>
+            <div className="max-w-6xl mx-auto relative z-10">
               <SectionHeading progress={progress} isMobile={isMobile} end={0.06}>
                 <p className="text-emerald-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">The 90-Day Approach</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
@@ -679,8 +705,12 @@ export default function Home() {
 
       {/* ===== CTA BANNER ===== */}
       <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-violet-50 to-indigo-50" />
-        <div className="max-w-4xl mx-auto text-center relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#357BD8]/5 via-[#E63E8B]/5 to-[#357BD8]/5" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#357BD8]/[0.06] rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.04)_1px,transparent_1px)] bg-[size:56px_56px]" />
+        </div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-800">
             Ready to see what<br />AI-powered marketing can do?
           </h2>
@@ -689,7 +719,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-indigo-600 text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all"
+              className="inline-flex items-center gap-3 bg-[#357BD8] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/20 hover:bg-[#2d6bc0] transition-all"
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
               BOOK A CALL NOW <ArrowRight className="w-5 h-5" />
             </motion.a>
@@ -702,9 +732,13 @@ export default function Home() {
 
       {/* ===== CONTACT FORM ===== */}
       <section id="contact" className="relative py-24 px-6 scroll-mt-20">
-        <div className="max-w-6xl mx-auto">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 right-0 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute -bottom-40 left-0 w-[350px] h-[350px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
+        </div>
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-14">
-            <p className="text-indigo-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">Get Started</p>
+            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Get Started</p>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">Ready to see results?</h2>
             <p className="text-slate-500 text-base max-w-2xl mx-auto">Complete this form and we'll review your details within 48 hours.</p>
           </div>
@@ -719,7 +753,7 @@ export default function Home() {
                     </div>
                     <h3 className="text-2xl font-black text-slate-800 mb-3">Application Received!</h3>
                     <p className="text-slate-500 mb-6 max-w-md mx-auto">Our team will review your details and get back to you within 48 hours.</p>
-                    <Button onClick={() => setFormSubmitted(false)} className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-full px-8 font-bold">Submit Another</Button>
+                    <Button onClick={() => setFormSubmitted(false)} className="bg-[#357BD8] text-white hover:bg-[#2d6bc0] rounded-full px-8 font-bold">Submit Another</Button>
                   </div>
                 ) : (
                   <Form {...form}>
@@ -729,30 +763,30 @@ export default function Home() {
                         <div className="grid md:grid-cols-2 gap-4">
                           <FormField control={form.control} name="fullName" render={({ field }) => (
                             <FormItem><FormLabel className="text-slate-600 text-sm">Full Name *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your name" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl h-11" /></FormControl>
+                              <FormControl><Input {...field} placeholder="Your name" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
                               <FormMessage /></FormItem>
                           )} />
                           <FormField control={form.control} name="email" render={({ field }) => (
                             <FormItem><FormLabel className="text-slate-600 text-sm">Email *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your email" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl h-11" /></FormControl>
+                              <FormControl><Input {...field} placeholder="Your email" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
                               <FormMessage /></FormItem>
                           )} />
                         </div>
                         <div className="grid md:grid-cols-2 gap-4">
                           <FormField control={form.control} name="phone" render={({ field }) => (
                             <FormItem><FormLabel className="text-slate-600 text-sm">Phone *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your phone" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl h-11" /></FormControl>
+                              <FormControl><Input {...field} placeholder="Your phone" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
                               <FormMessage /></FormItem>
                           )} />
                           <FormField control={form.control} name="companyName" render={({ field }) => (
                             <FormItem><FormLabel className="text-slate-600 text-sm">Company Name *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your company" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl h-11" /></FormControl>
+                              <FormControl><Input {...field} placeholder="Your company" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
                               <FormMessage /></FormItem>
                           )} />
                         </div>
                         <FormField control={form.control} name="companyWebsite" render={({ field }) => (
                           <FormItem><FormLabel className="text-slate-600 text-sm">Company Website</FormLabel>
-                            <FormControl><Input {...field} placeholder="yourcompany.com" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl h-11" /></FormControl>
+                            <FormControl><Input {...field} placeholder="yourcompany.com" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
                             <FormDescription className="text-xs text-slate-400">Just enter the domain name (e.g., example.com)</FormDescription>
                             <FormMessage /></FormItem>
                         )} />
@@ -806,7 +840,7 @@ export default function Home() {
                         <FormField control={form.control} name="primaryChallenges" render={({ field }) => (
                           <FormItem><FormLabel className="text-slate-600 text-sm">Primary Business Challenges *</FormLabel>
                             <FormDescription className="text-xs text-slate-400">What specific challenges are you hoping to solve?</FormDescription>
-                            <FormControl><Textarea {...field} placeholder="Describe your current challenges and pain points" rows={4} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl resize-none" /></FormControl>
+                            <FormControl><Textarea {...field} placeholder="Describe your current challenges and pain points" rows={4} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl resize-none" /></FormControl>
                             <FormMessage /></FormItem>
                         )} />
                         <div className="grid md:grid-cols-2 gap-4">
@@ -827,12 +861,12 @@ export default function Home() {
                         </div>
                         <FormField control={form.control} name="additionalInfo" render={({ field }) => (
                           <FormItem><FormLabel className="text-slate-600 text-sm">Additional Information</FormLabel>
-                            <FormControl><Textarea {...field} placeholder="Anything else you'd like us to know?" rows={3} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-xl resize-none" /></FormControl>
+                            <FormControl><Textarea {...field} placeholder="Anything else you'd like us to know?" rows={3} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl resize-none" /></FormControl>
                             <FormMessage /></FormItem>
                         )} />
                       </div>
 
-                      <Button type="submit" disabled={isPending} className="w-full bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-6 text-base rounded-xl shadow-lg shadow-indigo-200">
+                      <Button type="submit" disabled={isPending} className="w-full bg-[#357BD8] text-white hover:bg-[#2d6bc0] font-bold py-6 text-base rounded-xl shadow-lg shadow-[#357BD8]/20">
                         {isPending ? (
                           <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Submitting...</span>
                         ) : (
@@ -856,18 +890,18 @@ export default function Home() {
                     { step: "4", text: "Launch your first campaign in weeks" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className="w-7 h-7 rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center flex-shrink-0 text-indigo-600 text-xs font-bold">{item.step}</div>
+                      <div className="w-7 h-7 rounded-full bg-[#357BD8]/5 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
                       <p className="text-slate-500 text-sm pt-0.5">{item.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl p-7">
+              <div className="bg-gradient-to-br from-[#357BD8]/5 to-[#E63E8B]/5 border border-[#357BD8]/15 rounded-2xl p-7">
                 <h3 className="text-base font-bold text-slate-800 mb-3">Prefer to talk?</h3>
                 <p className="text-slate-500 text-sm mb-5">Skip the form and book a free 30-minute strategy call.</p>
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-indigo-600 text-white font-bold px-6 py-3.5 rounded-full hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 text-sm">
+                  className="inline-flex items-center gap-2 w-full justify-center bg-[#357BD8] text-white font-bold px-6 py-3.5 rounded-full hover:bg-[#2d6bc0] transition-colors shadow-lg shadow-[#357BD8]/20 text-sm">
                   BOOK A CALL <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -875,7 +909,7 @@ export default function Home() {
               <div className="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
                 <h3 className="text-base font-bold text-slate-800 mb-3">See our work</h3>
                 <p className="text-slate-500 text-sm mb-4">Check out real projects we've shipped for real businesses.</p>
-                <a href="/services/websites" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors">
+                <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#2d6bc0] font-medium text-sm transition-colors">
                   View Portfolio <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -890,8 +924,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
               <div className="flex items-center gap-3 mb-5">
-                <img src={cortexuumLogoCircle} alt="Cortexuum" className="h-10 w-10 rounded-full ring-2 ring-slate-100" />
-                <span className="font-bold text-lg text-slate-800">Cortexuum</span>
+                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="h-10 w-10 rounded-full ring-2 ring-slate-100" />
+                <span className="font-bold text-lg text-slate-800 tracking-wide uppercase">CORTEXUUM</span>
               </div>
               <p className="text-slate-500 text-sm leading-relaxed">AI-powered marketing, funnel building, and psychology-based strategies for businesses ready to scale.</p>
             </div>
@@ -899,7 +933,7 @@ export default function Home() {
               <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Solutions</h4>
               <ul className="space-y-2.5">
                 {["Paid Media", "Funnel Buildouts", "Offer Creation", "Social Media"].map(s => (
-                  <li key={s}><a href="#services" className="text-slate-500 hover:text-indigo-600 text-sm transition-colors">{s}</a></li>
+                  <li key={s}><a href="#services" className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{s}</a></li>
                 ))}
               </ul>
             </div>
@@ -907,7 +941,7 @@ export default function Home() {
               <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
               <ul className="space-y-2.5">
                 {[{ label: "About", href: "#" }, { label: "Testimonials", href: "#results" }, { label: "Portfolio", href: "/services/websites" }].map(l => (
-                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-indigo-600 text-sm transition-colors">{l.label}</a></li>
+                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{l.label}</a></li>
                 ))}
               </ul>
             </div>
@@ -915,7 +949,7 @@ export default function Home() {
               <h4 className="text-slate-800 font-semibold mb-4 text-sm uppercase tracking-wider">Legal</h4>
               <ul className="space-y-2.5">
                 {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms & Conditions", href: "/terms" }, { label: "Cookie Policy", href: "/cookies" }].map(l => (
-                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-indigo-600 text-sm transition-colors">{l.label}</a></li>
+                  <li key={l.label}><a href={l.href} className="text-slate-500 hover:text-[#357BD8] text-sm transition-colors">{l.label}</a></li>
                 ))}
               </ul>
             </div>
@@ -924,12 +958,12 @@ export default function Home() {
           <div className="border-t border-slate-200 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div>
-                <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} Cortexuum AI Marketing Agency. All rights reserved.</p>
+                <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} CORTEXUUM AI Marketing Agency. All rights reserved.</p>
                 <p className="text-slate-400 text-xs mt-1">Data-driven solutions that beat opinions, every time.</p>
               </div>
               <div className="flex items-center gap-4">
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="bg-indigo-600 text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200">BOOK A CALL</a>
+                  className="bg-[#357BD8] text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-[#2d6bc0] transition-colors shadow-md shadow-[#357BD8]/20">BOOK A CALL</a>
                 <a href="/login" className="text-slate-400 hover:text-slate-600 text-xs transition-colors">Admin</a>
               </div>
             </div>
@@ -937,7 +971,7 @@ export default function Home() {
 
           <div className="border-t border-slate-200 mt-6 pt-4 text-center">
             <p className="text-slate-400 text-xs">
-              Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-indigo-600 transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">plaintalk.dev</a>
+              Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-[#357BD8] transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#357BD8] transition-colors">plaintalk.dev</a>
             </p>
           </div>
         </div>
