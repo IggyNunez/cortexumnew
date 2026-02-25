@@ -954,7 +954,69 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800">
+    <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 relative">
+
+      {/* ===== FLOATING AMBIENT DECORATIONS ===== */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden lg:block">
+        {/* Floating nodes that drift across the viewport */}
+        <motion.div className="absolute w-3 h-3 rounded-full bg-[#357BD8]/15"
+          animate={{ x: [0, 200, -100, 150, 0], y: [0, 300, 600, 200, 0] }}
+          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+          style={{ top: "10%", left: "5%" }} />
+        <motion.div className="absolute w-2 h-2 rounded-full bg-[#E63E8B]/12"
+          animate={{ x: [0, -150, 100, -200, 0], y: [0, 400, 200, 500, 0] }}
+          transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
+          style={{ top: "20%", right: "8%" }} />
+        <motion.div className="absolute w-4 h-4 rounded-full bg-[#00BCD4]/10"
+          animate={{ x: [0, 120, -80, 60, 0], y: [0, 250, 500, 150, 0] }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          style={{ top: "35%", left: "3%" }} />
+        <motion.div className="absolute w-2.5 h-2.5 rounded-full bg-[#F5841F]/12"
+          animate={{ x: [0, -100, 200, -50, 0], y: [0, 350, 100, 450, 0] }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          style={{ top: "50%", right: "4%" }} />
+        <motion.div className="absolute w-2 h-2 rounded-full bg-[#357BD8]/10"
+          animate={{ x: [0, 80, -120, 180, 0], y: [0, 200, 400, 100, 0] }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          style={{ top: "65%", left: "7%" }} />
+        <motion.div className="absolute w-3 h-3 rounded-full bg-[#E63E8B]/10"
+          animate={{ x: [0, -180, 60, -120, 0], y: [0, 150, 350, 500, 0] }}
+          transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
+          style={{ top: "80%", right: "6%" }} />
+
+        {/* Floating thin connecting lines */}
+        <svg className="absolute inset-0 w-full h-full">
+          <motion.line x1="2%" y1="15%" x2="8%" y2="45%" stroke="#357BD8" strokeWidth={0.5} strokeOpacity={0.06}
+            animate={{ x1: ["2%", "5%", "2%"], y1: ["15%", "20%", "15%"], x2: ["8%", "4%", "8%"], y2: ["45%", "50%", "45%"] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.line x1="92%" y1="25%" x2="96%" y2="55%" stroke="#E63E8B" strokeWidth={0.5} strokeOpacity={0.06}
+            animate={{ x1: ["92%", "95%", "92%"], y1: ["25%", "30%", "25%"], x2: ["96%", "93%", "96%"], y2: ["55%", "60%", "55%"] }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.line x1="4%" y1="60%" x2="7%" y2="85%" stroke="#00BCD4" strokeWidth={0.5} strokeOpacity={0.05}
+            animate={{ x1: ["4%", "6%", "4%"], y1: ["60%", "65%", "60%"], x2: ["7%", "5%", "7%"], y2: ["85%", "80%", "85%"] }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.line x1="94%" y1="50%" x2="97%" y2="75%" stroke="#F5841F" strokeWidth={0.5} strokeOpacity={0.05}
+            animate={{ x1: ["94%", "96%", "94%"], y1: ["50%", "55%", "50%"], x2: ["97%", "95%", "97%"], y2: ["75%", "70%", "75%"] }}
+            transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }} />
+        </svg>
+
+        {/* Small orbiting ring clusters in the margins */}
+        <motion.div className="absolute top-[30%] left-[2%] w-16 h-16"
+          animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}>
+          <div className="w-full h-full rounded-full border border-[#357BD8]/8 border-dashed" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#357BD8]/20" />
+        </motion.div>
+        <motion.div className="absolute top-[55%] right-[2%] w-14 h-14"
+          animate={{ rotate: -360 }} transition={{ duration: 35, repeat: Infinity, ease: "linear" }}>
+          <div className="w-full h-full rounded-full border border-[#E63E8B]/8 border-dashed" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#E63E8B]/20" />
+        </motion.div>
+        <motion.div className="absolute top-[75%] left-[3%] w-12 h-12"
+          animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}>
+          <div className="w-full h-full rounded-full border border-[#00BCD4]/8 border-dashed" />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#00BCD4]/20" />
+        </motion.div>
+      </div>
 
       {/* ===== HERO -Parallax fade out ===== */}
       <div ref={heroRef} className="relative h-[150vh]">
