@@ -24,6 +24,11 @@ import {
 import { AnimatePresence } from "framer-motion";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
+import {
+  AnimatedBot, AnimatedMegaphone, AnimatedTarget, AnimatedTrendingUp,
+  AnimatedBarChart, AnimatedBrain, AnimatedZap, AnimatedEye,
+  AnimatedLightbulb, AnimatedMessageSquare, AnimatedSparkles, AnimatedUsers,
+} from "@/components/AnimatedIcons";
 
 const thinkingWords = ["thinks.", "adapts.", "learns.", "converts.", "scales."];
 
@@ -117,19 +122,19 @@ function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { ch
 }
 
 const services = [
-  { icon: Bot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-cyan-500 to-blue-600" },
-  { icon: Megaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-purple-500 to-indigo-600" },
-  { icon: Target, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-pink-500 to-rose-600" },
-  { icon: TrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-emerald-500 to-teal-600" },
-  { icon: BarChart3, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-amber-500 to-orange-600" },
-  { icon: Brain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-violet-500 to-purple-600" },
+  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows — running 24/7 so you don't have to.", accent: "from-cyan-500 to-blue-600" },
+  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative — produced at scale with psychological precision baked in.", accent: "from-purple-500 to-indigo-600" },
+  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-pink-500 to-rose-600" },
+  { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-emerald-500 to-teal-600" },
+  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-amber-500 to-orange-600" },
+  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology — understanding how people actually make decisions, then designing for it.", accent: "from-violet-500 to-purple-600" },
 ];
 
 const benefits = [
-  { icon: Brain, title: "Psychology-Based AI", stat: "30-50% Higher ROI", description: "Our AI models are trained on cognitive and behavioral psychology principles. They don't just target audiences — they understand why people buy." },
-  { icon: Zap, title: "24/7 Marketing Intelligence", stat: "Always On", description: "Your campaigns never sleep. AI agents monitor, adjust, and optimize around the clock — catching opportunities humans would miss." },
-  { icon: Target, title: "Hyper-Personalization", stat: "40-60% Lower Acquisition", description: "Every touchpoint is tailored. From ad creative to landing pages to follow-ups, each prospect gets a unique journey optimized for conversion." },
-  { icon: Eye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends — anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
+  { icon: AnimatedBrain, title: "Psychology-Based AI", stat: "30-50% Higher ROI", description: "Our AI models are trained on cognitive and behavioral psychology principles. They don't just target audiences — they understand why people buy." },
+  { icon: AnimatedZap, title: "24/7 Marketing Intelligence", stat: "Always On", description: "Your campaigns never sleep. AI agents monitor, adjust, and optimize around the clock — catching opportunities humans would miss." },
+  { icon: AnimatedTarget, title: "Hyper-Personalization", stat: "40-60% Lower Acquisition", description: "Every touchpoint is tailored. From ad creative to landing pages to follow-ups, each prospect gets a unique journey optimized for conversion." },
+  { icon: AnimatedEye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends — anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
 ];
 
 const testimonials = [
@@ -146,14 +151,14 @@ const teamExpertise = [
 ];
 
 const funnelSteps = [
-  { icon: Lightbulb, label: "Ideation", desc: "Strategy and concept development" },
-  { icon: MessageSquare, label: "Writing", desc: "Psychology-driven copy" },
-  { icon: Eye, label: "Filming", desc: "Authentic video content" },
-  { icon: Sparkles, label: "Editing", desc: "Polished creative assets" },
-  { icon: Megaphone, label: "Publishing", desc: "Multi-channel distribution" },
-  { icon: Users, label: "Capture", desc: "Lead generation systems" },
-  { icon: Target, label: "Nurture", desc: "Automated follow-up sequences" },
-  { icon: TrendingUp, label: "Convert", desc: "Sales optimization" },
+  { icon: AnimatedLightbulb, label: "Ideation", desc: "Strategy and concept development" },
+  { icon: AnimatedMessageSquare, label: "Writing", desc: "Psychology-driven copy" },
+  { icon: AnimatedEye, label: "Filming", desc: "Authentic video content" },
+  { icon: AnimatedSparkles, label: "Editing", desc: "Polished creative assets" },
+  { icon: AnimatedMegaphone, label: "Publishing", desc: "Multi-channel distribution" },
+  { icon: AnimatedUsers, label: "Capture", desc: "Lead generation systems" },
+  { icon: AnimatedTarget, label: "Nurture", desc: "Automated follow-up sequences" },
+  { icon: AnimatedTrendingUp, label: "Convert", desc: "Sales optimization" },
 ];
 
 const formSchema = z.object({
