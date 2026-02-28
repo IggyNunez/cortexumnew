@@ -87,7 +87,7 @@ const WhyHireUsSection = () => {
         <div className="my-16 max-w-6xl mx-auto">
           <div className="text-center mb-10">
             <div className="inline-block bg-amber-50 border-2 border-amber-300 rounded-lg px-4 py-1 mb-4">
-              <p className="text-amber-700 font-medium text-sm">70+ Years of Combined Industry Experience</p>
+              <p className="text-amber-700 font-medium text-sm">7 Years of Industry Experience</p>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Hire Us</h3>
             <p className="text-gray-700 max-w-3xl mx-auto">

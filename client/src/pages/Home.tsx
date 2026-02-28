@@ -1,24 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
-import { trackEvent, trackLeadConversion } from "@/lib/analytics";
-import { trackFBLeadEvent } from "@/lib/fbPixel";
 import { motion, useScroll, useTransform, useInView, motionValue } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription,
-} from "@/components/ui/form";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
 import {
   ArrowRight, Brain, Target, TrendingUp, Zap, BarChart3, Users, Sparkles,
-  Shield, Clock, ChevronDown, Check, Star, Megaphone, Lightbulb, Eye,
+  Shield, Clock, Check, Star, Megaphone, Lightbulb, Eye,
   MessageSquare, Bot,
 } from "lucide-react";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
@@ -607,79 +591,6 @@ const funnelSteps = [
   { icon: AnimatedTrendingUp, label: "Convert", desc: "Sales optimization" },
 ];
 
-const formSchema = z.object({
-  fullName: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z.string().min(10, { message: "Phone number must be at least 10 digits" }),
-  companyName: z.string().min(2, { message: "Company name is required" }),
-  companyWebsite: z.string()
-    .refine((value) => { if (!value) return true; return /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/.test(value); }, { message: "Please enter a valid domain (e.g., example.com)" })
-    .optional(),
-  businessType: z.string(),
-  companySize: z.string(),
-  annualRevenue: z.string(),
-  avgClientValue: z.string(),
-  marketingBudget: z.string(),
-  primaryChallenges: z.string().min(10, { message: "Please provide more detail" }),
-  serviceInterest: z.string(),
-  implementationTimeline: z.string(),
-  additionalInfo: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-const businessTypes = [
-  { value: "ecommerce", label: "E-commerce Store" }, { value: "local-business", label: "Local Business" },
-  { value: "saas", label: "SaaS Company" }, { value: "service-business", label: "Service Business" },
-  { value: "coaching", label: "Coaching/Consulting" }, { value: "b2b", label: "B2B Business" },
-  { value: "info-products", label: "Information Products" }, { value: "agency", label: "Marketing/Advertising Agency" },
-  { value: "other", label: "Other" },
-];
-
-const companySizes = [
-  { value: "1-5", label: "1-5 employees" }, { value: "6-10", label: "6-10 employees" },
-  { value: "11-25", label: "11-25 employees" }, { value: "26-50", label: "26-50 employees" },
-  { value: "51-100", label: "51-100 employees" }, { value: "101-250", label: "101-250 employees" },
-  { value: "250+", label: "250+ employees" },
-];
-
-const revenueRanges = [
-  { value: "less-than-250k", label: "Less than $250K" }, { value: "250k-500k", label: "$250K - $500K" },
-  { value: "500k-1m", label: "$500K - $1M" }, { value: "1m-5m", label: "$1M - $5M" },
-  { value: "5m-10m", label: "$5M - $10M" }, { value: "10m-plus", label: "$10M+" },
-];
-
-const clientValues = [
-  { value: "less-than-1k", label: "Less than $1K" }, { value: "1k-5k", label: "$1K - $5K" },
-  { value: "5k-10k", label: "$5K - $10K" }, { value: "10k-25k", label: "$10K - $25K" },
-  { value: "25k-50k", label: "$25K - $50K" }, { value: "50k-100k", label: "$50K - $100K" },
-  { value: "100k-plus", label: "$100K+" },
-];
-
-const marketingBudgets = [
-  { value: "less-than-10k", label: "Less than $10K/month" }, { value: "10k-25k", label: "$10K - $25K/month" },
-  { value: "25k-50k", label: "$25K - $50K/month" }, { value: "50k-100k", label: "$50K - $100K/month" },
-  { value: "100k-plus", label: "$100K+/month" },
-];
-
-const serviceOptions = [
-  { value: "paid-media", label: "Paid Media (Facebook, Google, YouTube)" },
-  { value: "funnel-buildouts", label: "Funnel Buildouts & Optimization" },
-  { value: "offer-creation", label: "Custom Offer Creation" },
-  { value: "local-marketing", label: "Local Marketing Services" },
-  { value: "social-media", label: "Social Media Marketing" },
-  { value: "data-analytics", label: "Data-Driven Analytics & Insights" },
-  { value: "psychology-based", label: "Psychology-Based Marketing Strategies" },
-  { value: "linkedin-marketing", label: "LinkedIn Marketing" },
-  { value: "multiple", label: "Multiple Services" },
-];
-
-const timelines = [
-  { value: "immediate", label: "Immediate (0-2 weeks)" }, { value: "short-term", label: "Short-term (1-2 months)" },
-  { value: "mid-term", label: "Mid-term (3-6 months)" }, { value: "long-term", label: "Long-term (6+ months)" },
-  { value: "exploring", label: "Just exploring options" },
-];
-
 function ServiceCard({ service, index, progress, isMobile }: { service: typeof services[0]; index: number; progress: any; isMobile: boolean }) {
   const delay = index * 0.15;
   const cardOpacity = useTransform(progress ?? motionValue(0), [delay, delay + 0.15], [0, 1]);
@@ -815,7 +726,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
               <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">Every time.</span>
             </h2>
             <p className="text-slate-500 leading-relaxed mb-10">
-              With over $200 million in managed ad spend and 70+ years of combined industry experience, we've seen what works and what doesn't.
+              With over $200 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't.
             </p>
             <div className="grid grid-cols-2 gap-4">
               {teamExpertise.map((exp, i) => (
@@ -893,78 +804,11 @@ function ProcessStep({ step, index, progress, isMobile }: { step: typeof funnelS
 }
 
 export default function Home() {
-  const { toast } = useToast();
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(heroProgress, [0, 1], [0, 300]);
   const heroOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
   const heroScale = useTransform(heroProgress, [0, 1], [1, 0.85]);
-
-  const { data: settingsData } = useQuery<{ success: boolean; data: any }>({
-    queryKey: ['/api/marketing-settings'],
-  });
-  const marketingSettings = settingsData?.data;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      fullName: "", email: "", phone: "", companyName: "", companyWebsite: "",
-      businessType: "", companySize: "", annualRevenue: "", avgClientValue: "",
-      marketingBudget: "", primaryChallenges: "", serviceInterest: "",
-      implementationTimeline: "", additionalInfo: "",
-    },
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: FormValues) => {
-      const leadData = {
-        name: data.fullName, email: data.email, company: data.companyName,
-        phone: data.phone, message: data.additionalInfo,
-        business_type: data.businessType, company_size: data.companySize,
-        annual_revenue: data.annualRevenue, client_value: data.avgClientValue,
-        marketing_needs: data.primaryChallenges, timeline: data.implementationTimeline,
-        budget: data.marketingBudget, source: 'contact_form',
-      };
-      const response = await fetch('/api/leads', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to submit form');
-      }
-      return response.json();
-    },
-    onSuccess: (response) => {
-      setFormSubmitted(true);
-      toast({ title: "Application Received", description: "We'll review your details and contact you within 48 hours." });
-      if (marketingSettings?.ga_enabled && marketingSettings?.ga_measurement_id) {
-        trackEvent('lead_submission', 'conversion', 'contact_form');
-        if (response.data) trackLeadConversion(response.data);
-      }
-      if (marketingSettings?.fb_capi_enabled && marketingSettings?.fb_pixel_id) {
-        trackFBLeadEvent(response.data || {});
-      }
-      form.reset();
-    },
-    onError: (error) => {
-      toast({ title: "Something went wrong", description: error.message || "Please try again later.", variant: "destructive" });
-    },
-  });
-
-  const cleanWebsiteFormat = (website: string): string => {
-    if (!website) return "";
-    let cleaned = website.trim();
-    cleaned = cleaned.replace(/^(https?:\/\/)?(www\.)?/i, '');
-    cleaned = cleaned.replace(/\/+$/, '');
-    return cleaned;
-  };
-
-  const onSubmit = (data: FormValues) => {
-    mutate({ ...data, companyWebsite: cleanWebsiteFormat(data.companyWebsite || '') });
-  };
 
   return (
     <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 relative">
@@ -1116,7 +960,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#E63E8B]/[0.04] to-transparent rounded-tr-full" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <CounterCard value={200} suffix="M+" label="Managed Ad Spend" />
-            <CounterCard value={70} suffix="+" label="Years Combined Exp." />
+            <CounterCard value={7} suffix="" label="Years Experience" />
             <CounterCard value={3} suffix="x" label="Avg Lead Increase" />
             <CounterCard value={40} suffix="%" label="Avg Cost Reduction" />
           </div>
@@ -1292,207 +1136,65 @@ export default function Home() {
             <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
               Book a free 30-minute strategy call. No obligations, just real insights for your business.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <div className="flex items-center justify-center">
               <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-12 py-5 rounded-full text-lg shadow-2xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
                 whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
                 BOOK A CALL NOW <ArrowRight className="w-5 h-5" />
               </motion.a>
-              <a href="#contact" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium transition-colors">
-                Or fill out the form below <ChevronDown className="w-4 h-4" />
-              </a>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ===== CONTACT FORM ===== */}
+      {/* ===== CONTACT / BOOK A CALL ===== */}
       <section id="contact" className="relative py-24 px-6 scroll-mt-20">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 right-0 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
           <div className="absolute -bottom-40 left-0 w-[350px] h-[350px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
         </div>
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="max-w-3xl mx-auto relative z-10">
           <div className="text-center mb-14">
             <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Get Started</p>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">Ready to see results?</h2>
-            <p className="text-slate-500 text-base max-w-2xl mx-auto">Complete this form and we'll review your details within 48 hours.</p>
+            <p className="text-slate-500 text-base max-w-2xl mx-auto">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-                {formSubmitted ? (
-                  <div className="text-center py-14">
-                    <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Check className="w-8 h-8 text-emerald-600" />
-                    </div>
-                    <h3 className="text-2xl font-black text-slate-800 mb-3">Application Received!</h3>
-                    <p className="text-slate-500 mb-6 max-w-md mx-auto">Our team will review your details and get back to you within 48 hours.</p>
-                    <Button onClick={() => setFormSubmitted(false)} className="bg-[#357BD8] text-white hover:bg-[#2d6bc0] rounded-full px-8 font-bold">Submit Another</Button>
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
+            <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#357BD8]/15 transition-all duration-300">
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-transparent" />
+              <h3 className="text-base font-bold text-slate-800 mb-5">What happens next?</h3>
+              <div className="space-y-4">
+                {[
+                  { step: "1", text: "Schedule a free 30-minute strategy call" },
+                  { step: "2", text: "We deep-dive into your business goals" },
+                  { step: "3", text: "Receive a custom AI marketing proposal" },
+                  { step: "4", text: "Launch your first campaign in weeks" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#357BD8]/10 to-[#00BCD4]/10 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
+                    <p className="text-slate-500 text-sm pt-0.5">{item.text}</p>
                   </div>
-                ) : (
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                      <div className="space-y-5">
-                        <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">Contact Information</h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <FormField control={form.control} name="fullName" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Full Name *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your name" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
-                              <FormMessage /></FormItem>
-                          )} />
-                          <FormField control={form.control} name="email" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Email *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your email" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
-                              <FormMessage /></FormItem>
-                          )} />
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <FormField control={form.control} name="phone" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Phone *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your phone" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
-                              <FormMessage /></FormItem>
-                          )} />
-                          <FormField control={form.control} name="companyName" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Company Name *</FormLabel>
-                              <FormControl><Input {...field} placeholder="Your company" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
-                              <FormMessage /></FormItem>
-                          )} />
-                        </div>
-                        <FormField control={form.control} name="companyWebsite" render={({ field }) => (
-                          <FormItem><FormLabel className="text-slate-600 text-sm">Company Website</FormLabel>
-                            <FormControl><Input {...field} placeholder="yourcompany.com" className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl h-11" /></FormControl>
-                            <FormDescription className="text-xs text-slate-400">Just enter the domain name (e.g., example.com)</FormDescription>
-                            <FormMessage /></FormItem>
-                        )} />
-                      </div>
-
-                      <div className="space-y-5">
-                        <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">Business Information</h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <FormField control={form.control} name="businessType" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Type of Business *</FormLabel>
-                              <Select onValueChange={field.onChange} value={field.value || undefined}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select business type" /></SelectTrigger></FormControl>
-                                <SelectContent>{businessTypes.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                          <FormField control={form.control} name="companySize" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Company Size *</FormLabel>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select company size" /></SelectTrigger></FormControl>
-                                <SelectContent>{companySizes.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <FormField control={form.control} name="annualRevenue" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Annual Revenue *</FormLabel>
-                              <Select onValueChange={field.onChange} value={field.value || undefined}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select revenue range" /></SelectTrigger></FormControl>
-                                <SelectContent>{revenueRanges.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                          <FormField control={form.control} name="avgClientValue" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Average Client Value *</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select average value" /></SelectTrigger></FormControl>
-                                <SelectContent>{clientValues.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                        </div>
-                        <FormField control={form.control} name="marketingBudget" render={({ field }) => (
-                          <FormItem><FormLabel className="text-slate-600 text-sm">Monthly Marketing Budget *</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select budget range" /></SelectTrigger></FormControl>
-                              <SelectContent>{marketingBudgets.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                            </Select><FormMessage /></FormItem>
-                        )} />
-                      </div>
-
-                      <div className="space-y-5">
-                        <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">AI Implementation Details</h3>
-                        <FormField control={form.control} name="primaryChallenges" render={({ field }) => (
-                          <FormItem><FormLabel className="text-slate-600 text-sm">Primary Business Challenges *</FormLabel>
-                            <FormDescription className="text-xs text-slate-400">What specific challenges are you hoping to solve?</FormDescription>
-                            <FormControl><Textarea {...field} placeholder="Describe your current challenges and pain points" rows={4} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl resize-none" /></FormControl>
-                            <FormMessage /></FormItem>
-                        )} />
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <FormField control={form.control} name="serviceInterest" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Primary Service Interest *</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select service" /></SelectTrigger></FormControl>
-                                <SelectContent>{serviceOptions.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                          <FormField control={form.control} name="implementationTimeline" render={({ field }) => (
-                            <FormItem><FormLabel className="text-slate-600 text-sm">Implementation Timeline *</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl><SelectTrigger className="bg-slate-50 border-slate-200 text-slate-800 rounded-xl h-11"><SelectValue placeholder="Select timeline" /></SelectTrigger></FormControl>
-                                <SelectContent>{timelines.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
-                              </Select><FormMessage /></FormItem>
-                          )} />
-                        </div>
-                        <FormField control={form.control} name="additionalInfo" render={({ field }) => (
-                          <FormItem><FormLabel className="text-slate-600 text-sm">Additional Information</FormLabel>
-                            <FormControl><Textarea {...field} placeholder="Anything else you'd like us to know?" rows={3} className="bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-[#357BD8] focus:ring-[#357BD8]/20 rounded-xl resize-none" /></FormControl>
-                            <FormMessage /></FormItem>
-                        )} />
-                      </div>
-
-                      <Button type="submit" disabled={isPending} className="w-full bg-[#357BD8] text-white hover:bg-[#2d6bc0] font-bold py-6 text-base rounded-xl shadow-lg shadow-[#357BD8]/20">
-                        {isPending ? (
-                          <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Submitting...</span>
-                        ) : (
-                          <span className="flex items-center gap-2">Submit Application <ArrowRight className="w-5 h-5" /></span>
-                        )}
-                      </Button>
-                    </form>
-                  </Form>
-                )}
+                ))}
               </div>
             </div>
 
-            <div className="space-y-5">
-              <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#357BD8]/15 transition-all duration-300">
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-transparent" />
-                <h3 className="text-base font-bold text-slate-800 mb-5">What happens next?</h3>
-                <div className="space-y-4">
-                  {[
-                    { step: "1", text: "We review your application within 48 hours" },
-                    { step: "2", text: "Schedule a deep-dive strategy call" },
-                    { step: "3", text: "Receive a custom AI marketing proposal" },
-                    { step: "4", text: "Launch your first campaign in weeks" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#357BD8]/10 to-[#00BCD4]/10 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
-                      <p className="text-slate-500 text-sm pt-0.5">{item.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="relative bg-gradient-to-br from-[#357BD8]/8 to-[#E63E8B]/8 border border-[#357BD8]/20 rounded-2xl p-7 overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-[120px] h-[120px] bg-[#357BD8]/10 rounded-full blur-[40px]" />
-                <h3 className="text-base font-bold text-slate-800 mb-3 relative z-10">Prefer to talk?</h3>
-                <p className="text-slate-500 text-sm mb-5 relative z-10">Skip the form and book a free 30-minute strategy call.</p>
-                <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="relative z-10 inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-6 py-3.5 rounded-full hover:shadow-lg hover:shadow-[#357BD8]/25 transition-all text-sm">
-                  BOOK A CALL <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-
-              <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#E63E8B]/15 transition-all duration-300">
-                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-[#E63E8B]/[0.04] to-transparent rounded-tl-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
-                <h3 className="text-base font-bold text-slate-800 mb-3">See our work</h3>
-                <p className="text-slate-500 text-sm mb-4">Check out real projects we've shipped for real businesses.</p>
-                <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#E63E8B] font-medium text-sm transition-colors group-hover:gap-3">
-                  View Portfolio <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
+            <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#E63E8B]/15 transition-all duration-300">
+              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-[#E63E8B]/[0.04] to-transparent rounded-tl-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
+              <h3 className="text-base font-bold text-slate-800 mb-3">See our work</h3>
+              <p className="text-slate-500 text-sm mb-4">Check out real projects we've shipped for real businesses.</p>
+              <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#E63E8B] font-medium text-sm transition-colors group-hover:gap-3">
+                View Portfolio <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
+          </div>
+
+          <div className="text-center">
+            <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-12 py-5 rounded-full text-lg shadow-2xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
+              whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
+              BOOK A CALL <ArrowRight className="w-5 h-5" />
+            </motion.a>
           </div>
         </div>
       </section>
@@ -1536,7 +1238,7 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-6">
               {[
                 { value: "$200M+", label: "Ad Spend Managed" },
-                { value: "70+", label: "Years Experience" },
+                { value: "7", label: "Years Experience" },
                 { value: "3x", label: "Avg Lead Increase" },
               ].map((stat, i) => (
                 <motion.div key={i} className="text-center"
