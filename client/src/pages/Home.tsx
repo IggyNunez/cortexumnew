@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { ArrowRight, ChevronDown, BarChart3, Megaphone, Palette } from "lucide-react";
+import { ArrowRight, ChevronDown, BarChart3, Megaphone, Palette, Trophy, Users, Zap } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
@@ -8,8 +8,8 @@ import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
 import portfolioJetts from "../assets/portfolio-jetts.png";
 import portfolioKalyxi from "../assets/portfolio-kalyxi.png";
 import portfolioLakeLucien from "../assets/portfolio-lakelucien.png";
-import portfolioPropvera from "../assets/portfolio-propvera.png";
 import jettsHero from "../assets/jetts-hero.png";
+import christianColgate from "../assets/christian-colgate.webp";
 
 const typingWords = ["thinks.", "adapts.", "learns.", "converts.", "scales."];
 
@@ -108,16 +108,21 @@ function FadeIn({ children, className = "", delay = 0 }: { children: React.React
 const partners = ["Meta Ads", "Google Ads", "TikTok Ads", "LinkedIn Ads", "Klaviyo", "HubSpot", "Shopify", "WordPress"];
 
 const portfolioItems = [
-  { title: "Jetts Windows", category: "Lead Gen + Paid Media", image: portfolioJetts },
-  { title: "Kalyxi Beauty", category: "E-Commerce + Social", image: portfolioKalyxi },
-  { title: "Lake Lucien Homes", category: "Real Estate + Funnels", image: portfolioLakeLucien },
-  { title: "Propvera", category: "SaaS + Paid Media", image: portfolioPropvera },
+  { title: "Jetts Window Cleaning", category: "Home Services + Lead Gen", image: portfolioJetts },
+  { title: "Kalyxi AI", category: "AI Solutions + Brand Launch", image: portfolioKalyxi },
+  { title: "Lake Lucien", category: "Commercial Property + Web Design", image: portfolioLakeLucien },
 ];
 
 const results = [
-  { stat: "312%", label: "ROAS Increase", desc: "Scaled a local services brand from break-even to 3x return through strategic Meta + Google campaigns.", image: jettsHero },
-  { stat: "4.2x", label: "Revenue Growth", desc: "Took an e-commerce brand from $12k/mo to $50k/mo in 90 days with full-funnel paid media strategy.", image: portfolioKalyxi },
-  { stat: "67%", label: "Cost Per Lead Drop", desc: "Reduced acquisition costs by 67% for a real estate client through landing page optimization and retargeting.", image: portfolioLakeLucien },
+  { stat: "312%", label: "ROAS Increase", desc: "Scaled Jetts Window Cleaning from break-even to 3x return through strategic Meta + Google campaigns, driving booked jobs across nine Utah cities.", image: jettsHero },
+  { stat: "4.2x", label: "Revenue Growth", desc: "Launched Kalyxi AI with full brand identity, website, and paid media strategy — generating enterprise leads from day one.", image: portfolioKalyxi },
+  { stat: "67%", label: "Cost Per Lead Drop", desc: "Reduced acquisition costs by 67% for Lake Lucien through landing page optimization, retargeting, and a complete funnel rebuild.", image: portfolioLakeLucien },
+];
+
+const highlights = [
+  { icon: Trophy, title: "Professional Athletes", desc: "We have worked with professional athletes to build their personal brands and launch consumer products." },
+  { icon: Users, title: "Trusted by 50+ Businesses", desc: "From local service companies to AI startups, brands trust Cortexuum to deliver real, measurable growth." },
+  { icon: Zap, title: "Full-Stack Marketing", desc: "Strategy, creative, media buying, funnels, and analytics — all under one roof with full transparency." },
 ];
 
 const services = [
@@ -128,11 +133,11 @@ const services = [
 
 const faqs = [
   { q: "How quickly will I see results?", a: "Most clients see measurable improvements within the first 30 days. Full campaign optimization typically takes 60-90 days as we gather data and refine targeting." },
-  { q: "What industries do you work with?", a: "We specialize in service-based businesses, e-commerce, real estate, and SaaS. Our frameworks adapt to any B2C or B2B model." },
+  { q: "What industries do you work with?", a: "We work with home service businesses, AI and tech startups, commercial real estate, professional athletes, and more. Our frameworks adapt to any B2C or B2B model." },
   { q: "Do you require long-term contracts?", a: "No. We work on month-to-month agreements because we believe results should earn your loyalty, not contracts." },
   { q: "What platforms do you advertise on?", a: "Primarily Meta (Facebook/Instagram), Google Ads, TikTok, and LinkedIn. We choose platforms based on where your audience spends time." },
   { q: "How much ad spend do I need?", a: "We recommend a minimum of $2,000/month in ad spend to generate meaningful data and results, though ideal budgets vary by industry." },
-  { q: "What makes Cortexuum different?", a: "We combine behavioral psychology with data-driven marketing. Every campaign is built on real consumer insights, not guesswork." },
+  { q: "What makes Cortexuum different?", a: "We combine behavioral psychology with data-driven marketing. Every campaign is built on real consumer insights, not guesswork. We have also worked with professional athletes, giving us a unique edge in high-profile brand building." },
 ];
 
 export default function Home() {
@@ -192,11 +197,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* HIGHLIGHTS */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {highlights.map((h, i) => (
+              <FadeIn key={h.title} delay={i * 0.1}>
+                <div className="text-center">
+                  <div className="w-14 h-14 rounded-2xl bg-[#6C3AFF]/10 flex items-center justify-center mx-auto mb-5">
+                    <h.icon className="w-7 h-7 text-[#6C3AFF]" />
+                  </div>
+                  <h3 className="text-xl font-heading font-bold text-white">{h.title}</h3>
+                  <p className="text-white/50 mt-3 leading-relaxed max-w-sm mx-auto">{h.desc}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PORTFOLIO */}
-      <section id="portfolio" className="py-24 md:py-32">
+      <section id="portfolio" className="py-24 md:py-32 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeading label="Our Work" title="Selected" accent="Projects" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {portfolioItems.map((item, i) => (
               <FadeIn key={item.title} delay={i * 0.1}>
                 <div className="dark-card group cursor-pointer">
@@ -215,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* RESULTS */}
-      <section id="results" className="py-24 md:py-32 bg-[#0a0a0a]">
+      <section id="results" className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeading label="Results" title="Real Numbers," accent="Real Growth" />
           <div className="space-y-20">
