@@ -25,6 +25,11 @@ const Header = () => {
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
 
+  // Safety: ensure scroll is never stuck on mount (HMR recovery)
+  useEffect(() => {
+    if (!mobileMenuOpen) document.body.style.overflow = "";
+  }, []);
+
   const navLinks = [
     { label: "Home", href: "#" },
     { label: "How We Help", href: "#how-we-help" },
@@ -61,75 +66,95 @@ const Header = () => {
 
   return (
     <>
+      {/* Desktop: Centered floating pill navbar */}
       <header
-        className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 transition-all duration-700 ${
           mobileMenuOpen ? "z-[60]" : "z-50"
-        } ${
-          scrolled && !mobileMenuOpen
-            ? "bg-[var(--navy)]/95 backdrop-blur-md border-b border-[var(--gold)]/5 py-3"
-            : mobileMenuOpen
-              ? "bg-transparent py-5"
-              : "bg-transparent py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center">
-              <SacredLogo className="h-8 text-[var(--gold)]" showText animate={false} />
-            </Link>
+        {/* Mobile: full-width bar */}
+        <div className="md:hidden px-6 py-4 flex justify-between items-center">
+          <Link href="/" className="flex items-center relative z-[60]">
+            <SacredLogo className="h-8 text-[var(--gold)]" showText animate={false} />
+          </Link>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-white p-2 relative z-[60]"
+            aria-label="Toggle menu"
+          >
+            <AnimatePresence mode="wait">
+              {mobileMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="h-6 w-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="h-6 w-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
 
-            <nav className="hidden md:flex items-center gap-8">
+        {/* Desktop: Centered glassmorphic pill with rotating glow border */}
+        <div className="hidden md:flex justify-center pt-5">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="header-glow-wrapper relative"
+          >
+            {/* Subtle outer glow aura */}
+            <div className="absolute -inset-3 rounded-full opacity-40 blur-xl pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%)" }} />
+
+            <nav
+              className={`relative z-10 inline-flex items-center gap-1 px-2 py-2 rounded-full transition-all duration-700 ${
+                scrolled
+                  ? "bg-black/70 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_80px_rgba(201,168,76,0.06)]"
+                  : "bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              }`}
+            >
+              <Link
+                href="/"
+                className="flex items-center px-4 py-2 rounded-full hover:bg-white/[0.04] transition-all duration-300"
+              >
+                <SacredLogo className="h-7 text-[var(--gold)]" showText animate={false} />
+              </Link>
+
+              <div className="w-px h-5 bg-white/[0.08] mx-1" />
+
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors duration-200 font-medium tracking-wide"
+                  className="text-[13px] text-white/80 hover:text-white hover:bg-white/[0.06] px-4 py-2 rounded-full transition-all duration-300 font-medium tracking-wide whitespace-nowrap uppercase"
                 >
                   {link.label}
                 </a>
               ))}
-            </nav>
 
-            <div className="hidden md:block">
+              <div className="w-px h-5 bg-white/[0.08] mx-1" />
+
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 border border-[var(--gold)]/20 hover:border-[var(--gold)]/50 text-[var(--gold)] text-sm font-medium px-5 py-2.5 rounded transition-all duration-300 hover:bg-[var(--gold)]/5"
+                className="inline-flex items-center gap-2 bg-[var(--gold)]/10 hover:bg-[var(--gold)]/20 border border-[var(--gold)]/20 hover:border-[var(--gold)]/40 text-[var(--gold)] text-[13px] font-medium px-5 py-2 rounded-full transition-all duration-300 whitespace-nowrap"
               >
-                Book a Strategy Call
+                Book a Call
               </a>
-            </div>
-
-            {/* Mobile hamburger / close */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white p-2 relative z-[60]"
-              aria-label="Toggle menu"
-            >
-              <AnimatePresence mode="wait">
-                {mobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="h-6 w-6" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="h-6 w-6" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
+            </nav>
+          </motion.div>
         </div>
       </header>
 
@@ -216,7 +241,7 @@ const Header = () => {
                         0{i + 1}
                       </span>
                       {/* Label */}
-                      <span className="text-2xl font-heading font-semibold text-white/70 group-hover:text-[var(--gold)] transition-colors duration-300">
+                      <span className="text-2xl font-heading font-semibold text-white/90 group-hover:text-[var(--gold)] transition-colors duration-300">
                         {link.label}
                       </span>
                       {/* Hover arrow */}

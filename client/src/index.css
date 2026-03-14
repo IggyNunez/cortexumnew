@@ -160,15 +160,87 @@
 }
 
 .dark-card {
+  position: relative;
   background-color: var(--navy-card);
   border: 1px solid rgba(201, 168, 76, 0.08);
   border-radius: 1rem;
-  overflow: hidden;
-  transition: all 0.3s;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dark-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 55%,
+    rgba(201,168,76,0.08) 65%,
+    rgba(201,168,76,0.2) 72%,
+    rgba(226,201,126,0.35) 76%,
+    rgba(201,168,76,0.2) 80%,
+    rgba(201,168,76,0.08) 87%,
+    transparent 95%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glow-border-spin 6s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.dark-card::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 1.2rem;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 60%,
+    rgba(201,168,76,0.03) 72%,
+    rgba(201,168,76,0.06) 76%,
+    rgba(201,168,76,0.03) 80%,
+    transparent 90%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  animation: glow-border-spin 6s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.dark-card:hover::before {
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 55%,
+    rgba(201,168,76,0.12) 65%,
+    rgba(201,168,76,0.35) 72%,
+    rgba(226,201,126,0.55) 76%,
+    rgba(201,168,76,0.35) 80%,
+    rgba(201,168,76,0.12) 87%,
+    transparent 95%,
+    transparent 100%
+  );
+}
+.dark-card:hover::after {
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 60%,
+    rgba(201,168,76,0.06) 72%,
+    rgba(201,168,76,0.12) 76%,
+    rgba(201,168,76,0.06) 80%,
+    transparent 90%,
+    transparent 100%
+  );
 }
 .dark-card:hover {
-  border-color: rgba(201, 168, 76, 0.2);
-  box-shadow: 0 0 30px rgba(201, 168, 76, 0.05);
+  border-color: transparent;
+  box-shadow: 0 0 60px rgba(201, 168, 76, 0.08), 0 0 120px rgba(201, 168, 76, 0.03);
+  transform: translateY(-4px);
 }
 
 .text-gradient-gold {
@@ -183,8 +255,31 @@
 .border-gold { border-color: rgba(201, 168, 76, 0.15); }
 
 .divider-gold {
+  position: relative;
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(201, 168, 76, 0.3), transparent);
+}
+.divider-gold::before {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  height: 60px;
+  background: radial-gradient(ellipse at center bottom, rgba(201, 168, 76, 0.07) 0%, rgba(201, 168, 76, 0.03) 30%, transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+.divider-gold::after {
+  content: "";
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: 0;
+  height: 30px;
+  background: radial-gradient(ellipse at center bottom, rgba(226, 201, 126, 0.12) 0%, rgba(201, 168, 76, 0.04) 40%, transparent 80%);
+  filter: blur(4px);
+  pointer-events: none;
 }
 
 .star {
@@ -194,6 +289,62 @@
   background: rgba(201, 168, 76, 0.6);
   border-radius: 50%;
   animation: twinkle 3s ease-in-out infinite;
+}
+
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes glow-border-spin {
+  0% { --glow-angle: 0deg; }
+  100% { --glow-angle: 360deg; }
+}
+
+.header-glow-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 55%,
+    rgba(201,168,76,0.15) 65%,
+    rgba(201,168,76,0.4) 72%,
+    rgba(226,201,126,0.7) 76%,
+    rgba(201,168,76,0.4) 80%,
+    rgba(201,168,76,0.15) 87%,
+    transparent 95%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glow-border-spin 5s linear infinite;
+  pointer-events: none;
+}
+
+.header-glow-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 60%,
+    rgba(201,168,76,0.06) 72%,
+    rgba(201,168,76,0.12) 76%,
+    rgba(201,168,76,0.06) 80%,
+    transparent 90%,
+    transparent 100%
+  );
+  filter: blur(8px);
+  animation: glow-border-spin 5s linear infinite;
+  pointer-events: none;
 }
 
 .sacred-line {
