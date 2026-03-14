@@ -4,47 +4,47 @@
 @tailwind utilities;
 
 :root {
-  --background: 220 20% 6%;
+  --background: 0 0% 2%;
   --foreground: 40 20% 90%;
-  --muted: 220 15% 12%;
+  --muted: 0 0% 6%;
   --muted-foreground: 40 10% 55%;
-  --popover: 220 20% 8%;
+  --popover: 0 0% 4%;
   --popover-foreground: 40 20% 90%;
-  --card: 220 15% 10%;
+  --card: 0 0% 5%;
   --card-foreground: 40 20% 90%;
-  --border: 220 10% 18%;
-  --input: 220 10% 18%;
+  --border: 0 0% 12%;
+  --input: 0 0% 12%;
   --primary: 43 55% 54%;
-  --primary-foreground: 220 20% 6%;
-  --secondary: 220 15% 12%;
+  --primary-foreground: 0 0% 2%;
+  --secondary: 0 0% 6%;
   --secondary-foreground: 40 20% 90%;
   --accent: 43 55% 54%;
-  --accent-foreground: 220 20% 6%;
+  --accent-foreground: 0 0% 2%;
   --tertiary: 43 70% 65%;
-  --tertiary-foreground: 220 20% 6%;
+  --tertiary-foreground: 0 0% 2%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
   --ring: 43 55% 54%;
   --chart-1: 43 55% 54%;
   --chart-2: 43 70% 65%;
-  --chart-3: 220 30% 50%;
+  --chart-3: 0 0% 30%;
   --chart-4: 43 40% 45%;
   --chart-5: 174 86% 45%;
-  --sidebar-background: 220 20% 5%;
+  --sidebar-background: 0 0% 3%;
   --sidebar-foreground: 40 20% 90%;
   --sidebar-primary: 43 55% 54%;
-  --sidebar-primary-foreground: 220 20% 6%;
-  --sidebar-accent: 220 15% 10%;
+  --sidebar-primary-foreground: 0 0% 2%;
+  --sidebar-accent: 0 0% 5%;
   --sidebar-accent-foreground: 40 20% 90%;
-  --sidebar-border: 220 10% 15%;
+  --sidebar-border: 0 0% 10%;
   --sidebar-ring: 43 55% 54%;
   --radius: 0.5rem;
   --gold: #C9A84C;
   --gold-light: #E2C97E;
   --gold-dark: #A08535;
-  --navy: #0B0E1A;
-  --navy-light: #131729;
-  --navy-card: #111528;
+  --navy: #050505;
+  --navy-light: #0A0A0A;
+  --navy-card: #0D0D0D;
 }
 
 @layer base {
@@ -58,6 +58,10 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight leading-tight;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   button, .btn {
     @apply font-medium;
@@ -77,8 +81,8 @@
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--navy); }
-::-webkit-scrollbar-thumb { background: #2a2d3d; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #3a3d4d; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #333; }
 
 .scroll-hidden::-webkit-scrollbar { display: none; }
 .scroll-hidden { -ms-overflow-style: none; scrollbar-width: none; }
@@ -117,7 +121,7 @@
 
 .celestial-bg {
   background: radial-gradient(ellipse at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 50%, rgba(30, 40, 80, 0.4) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 50%, rgba(20, 20, 20, 0.5) 0%, transparent 50%),
               radial-gradient(ellipse at 20% 80%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
 }
 
@@ -126,7 +130,7 @@
   align-items: center;
   gap: 0.75rem;
   background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
-  color: #0B0E1A;
+  color: #050505;
   font-weight: 600;
   padding: 1rem 2rem;
   border-radius: 0.5rem;

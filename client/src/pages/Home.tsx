@@ -272,12 +272,12 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <h1 className="text-5xl md:text-7xl font-heading font-bold leading-tight">
-              We Scale <span className="text-gradient-gold">Personal Development</span> Brands
+              We Scale <span className="text-gradient-gold">Personal&nbsp;Development</span>&nbsp;Brands
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
             <p className="text-lg md:text-xl text-white/65 mt-8 max-w-2xl mx-auto leading-relaxed font-body">
-              Driving Growth Through Paid Media, Optimized Offers, and Conversion Systems
+              Driving Growth Through Paid Media, Optimized Offers, and Conversion&nbsp;Systems
             </p>
           </FadeIn>
           <FadeIn delay={0.3}>
@@ -299,12 +299,12 @@ export default function Home() {
           <FadeIn><SectionLabel>Our Mission</SectionLabel></FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-white leading-tight">
-              Help the people transforming the world build businesses strong enough to <span className="text-gradient-gold">carry their impact.</span>
+              Help the people transforming the world build businesses strong enough to <span className="text-gradient-gold">carry their&nbsp;impact.</span>
             </h2>
           </FadeIn>
           <FadeIn delay={0.2}>
             <p className="text-white/65 mt-8 leading-relaxed max-w-2xl mx-auto">
-              Many personal development brands grow quickly through great work, referrals, and audience trust. But eventually growth becomes harder to sustain.
+              Many personal development brands grow quickly through great work, referrals, and audience trust. But eventually growth becomes harder to&nbsp;sustain.
             </p>
           </FadeIn>
           <FadeIn delay={0.3}>
@@ -316,7 +316,7 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.4}>
             <p className="text-white/70 mt-10 leading-relaxed">
-              We help solve that by installing the <span className="text-[var(--gold)]">marketing systems and growth infrastructure</span> required to scale sustainably.
+              We help solve that by installing the <span className="text-[var(--gold)]">marketing systems and growth&nbsp;infrastructure</span> required to scale&nbsp;sustainably.
             </p>
           </FadeIn>
         </div>
@@ -331,8 +331,8 @@ export default function Home() {
           <FadeIn>
             <div className="text-center">
               <SectionLabel>Built by Operators</SectionLabel>
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Who Have <span className="text-gradient-gold">Done This Before</span></h2>
-              <p className="text-white/65 mt-6 max-w-2xl mx-auto leading-relaxed">Our team has helped scale some of the most successful information brands in the industry.</p>
+              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Who Have <span className="text-gradient-gold">Done This&nbsp;Before</span></h2>
+              <p className="text-white/65 mt-6 max-w-2xl mx-auto leading-relaxed">Our team has helped scale some of the most successful information brands in the&nbsp;industry.</p>
             </div>
           </FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
@@ -341,7 +341,7 @@ export default function Home() {
             <FadeIn delay={0.3}><div className="text-center"><div className="text-4xl md:text-5xl font-heading font-bold text-gradient-gold">8-Figure</div><div className="text-white/60 text-sm mt-3 uppercase tracking-wider">Systems Built</div></div></FadeIn>
           </div>
           <FadeIn delay={0.4}>
-            <p className="text-center text-white/55 mt-12 max-w-lg mx-auto italic text-sm">We don't just run ads. We understand the entire ecosystem required for a transformation brand to scale.</p>
+            <p className="text-center text-white/55 mt-12 max-w-lg mx-auto italic text-sm">We don&rsquo;t just run ads. We understand the entire ecosystem required for a transformation brand to&nbsp;scale.</p>
           </FadeIn>
         </div>
       </section>
@@ -382,7 +382,7 @@ export default function Home() {
           <FadeIn>
             <div className="text-center">
               <SectionLabel>Case Studies</SectionLabel>
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Proven Growth for <span className="text-gradient-gold">Transformation Brands</span></h2>
+              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Proven Growth for <span className="text-gradient-gold">Transformation&nbsp;Brands</span></h2>
             </div>
           </FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
@@ -411,7 +411,7 @@ export default function Home() {
           </div>
           <FadeIn delay={0.4}>
             <div className="mt-12 text-center max-w-2xl mx-auto">
-              <p className="text-white/70 font-heading text-lg italic leading-relaxed">"Cortexuum helped us scale faster than we imagined. True experts in the personal development space."</p>
+              <p className="text-white/70 font-heading text-lg italic leading-relaxed">&ldquo;Cortexuum helped us scale faster than we imagined. True experts in the personal development&nbsp;space.&rdquo;</p>
               <p className="text-[var(--gold)]/50 text-sm mt-4">&mdash; Sarah M., Transformational Coach</p>
             </div>
           </FadeIn>
@@ -448,7 +448,7 @@ export default function Home() {
           <FadeIn>
             <div className="text-center">
               <SectionLabel>Frequently Asked</SectionLabel>
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Common <span className="text-gradient-gold">Questions</span></h2>
+              <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">Common&nbsp;<span className="text-gradient-gold">Questions</span></h2>
             </div>
           </FadeIn>
           <div className="mt-12">
@@ -471,9 +471,9 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.2}>
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mt-4">
-              Architects of Growth <span className="text-gradient-gold">& Transformation</span>
+              Architects of Growth <span className="text-gradient-gold">&amp;&nbsp;Transformation</span>
             </h2>
-            <p className="text-white/65 text-lg mt-8 leading-relaxed max-w-xl mx-auto italic font-heading">Engineer the systems behind your vision.</p>
+            <p className="text-white/65 text-lg mt-8 leading-relaxed max-w-xl mx-auto italic font-heading">Engineer the systems behind your&nbsp;vision.</p>
             <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer" className="btn-cta mt-10 inline-flex">
               Book a Strategy Call <ArrowRight className="w-5 h-5" />
             </a>

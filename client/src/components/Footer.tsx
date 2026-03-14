@@ -121,13 +121,10 @@ const Footer = () => {
         </div>
 
         <div className="divider-gold mt-10 md:mt-12" />
-        <div className="mt-6 md:mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-xs text-center md:text-left">
-            &copy; {currentYear} Cortexuum. Engineering Growth & Transformation. All rights reserved.
+        <div className="mt-6 md:mt-8 text-center">
+          <p className="text-white/40 text-xs">
+            &copy; {currentYear} Cortexuum. Engineering Growth &amp;&nbsp;Transformation. All rights&nbsp;reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="/login" className="text-white/20 hover:text-white/40 text-xs transition-colors">Admin</a>
-          </div>
         </div>
       </div>
     </footer>
