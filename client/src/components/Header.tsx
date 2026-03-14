@@ -72,40 +72,56 @@ const Header = () => {
           mobileMenuOpen ? "z-[60]" : "z-50"
         }`}
       >
-        {/* Mobile: full-width bar */}
-        <div className="md:hidden px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center relative z-[60]">
-            <SacredLogo className="h-8 text-[var(--gold)]" showText animate={false} />
-          </Link>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white p-2 relative z-[60]"
-            aria-label="Toggle menu"
+        {/* Mobile: glassmorphic pill bar */}
+        <div className="md:hidden flex justify-center pt-4 px-4">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="header-glow-wrapper relative w-full"
           >
-            <AnimatePresence mode="wait">
-              {mobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="h-6 w-6" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className="h-6 w-6" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
+            <div className="absolute -inset-3 rounded-full opacity-40 blur-xl pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%)" }} />
+            <div
+              className={`relative z-10 flex justify-between items-center px-4 py-2.5 rounded-full transition-all duration-700 ${
+                scrolled
+                  ? "bg-black/70 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_80px_rgba(201,168,76,0.06)]"
+                  : "bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              }`}
+            >
+              <Link href="/" className="flex items-center relative z-[60]">
+                <SacredLogo className="h-7 text-[var(--gold)]" showText animate={false} />
+              </Link>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-white p-2 relative z-[60]"
+                aria-label="Toggle menu"
+              >
+                <AnimatePresence mode="wait">
+                  {mobileMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X className="h-6 w-6" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu className="h-6 w-6" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
+            </div>
+          </motion.div>
         </div>
 
         {/* Desktop: Centered glassmorphic pill with rotating glow border */}
