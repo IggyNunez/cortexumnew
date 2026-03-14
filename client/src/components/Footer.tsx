@@ -18,7 +18,7 @@ const Footer = () => {
 
         {/* Mobile logo — centered at top, hidden on desktop */}
         <div className="md:hidden flex flex-col items-center text-center mb-10">
-          <SacredLogo className="h-16 text-[var(--gold)] mb-3" stacked animate={false} />
+          <SacredLogo className="h-24 text-[var(--gold)] mb-3" stacked animate={false} />
           <p className="text-white/90 text-sm leading-relaxed max-w-xs">
             Growth architecture for personal development brands, coaches, and transformational educators.
           </p>
