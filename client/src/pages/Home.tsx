@@ -556,7 +556,7 @@ export default function Home() {
             </p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.9 }}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 md:mt-12 px-4 md:px-0">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-8 md:mt-12 px-4 md:px-0">
               <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer" className="btn-cta text-base md:text-lg px-8 md:px-10 py-3.5 md:py-4">
                 Book a Strategy Call <ArrowRight className="w-5 h-5" />
               </a>
