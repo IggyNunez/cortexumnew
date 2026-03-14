@@ -4,64 +4,38 @@ import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const navigation = {
-    solutions: [
-      { name: "Paid Media", href: "/#services" },
-      { name: "Funnel Buildouts", href: "/#services" },
-      { name: "Offer Creation", href: "/#services" },
-      { name: "Social Media", href: "/#services" },
-    ],
-    company: [
-      { name: "About", href: "/#about" },
-      { name: "Results", href: "/#results" },
-      { name: "Portfolio", href: "/#portfolio" },
-    ],
-    legal: [
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Terms & Conditions", href: "/terms" },
-      { name: "Cookie Policy", href: "/cookies" },
-    ],
-  };
-
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/5">
+    <footer className="bg-[var(--navy)] border-t border-[var(--gold)]/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="md:col-span-1">
             <img src={cortexuumLogoWhite} alt="Cortexuum" className="h-8 w-auto mb-6" />
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
-              Data-driven performance marketing that blends behavioral psychology with proven frameworks to scale your business.
+            <p className="text-white/30 text-sm leading-relaxed max-w-xs">
+              Growth architecture for personal development brands, coaches, and transformational educators.
             </p>
             <a
               href="https://calendly.com/cortexuummarketing/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-sm font-medium text-[#6C3AFF] hover:text-[#9B6FFF] transition-colors"
+              className="inline-flex items-center gap-2 mt-6 text-sm font-medium text-[var(--gold)] hover:text-[var(--gold-light)] transition-colors"
             >
-              Book a Call <ArrowRight className="w-4 h-4" />
+              Book a Strategy Call <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
-          {/* Solutions */}
+          {/* Nav */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Solutions</h3>
+            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Navigate</h3>
             <ul className="space-y-3">
-              {navigation.solutions.map((item) => (
+              {[
+                { name: "How We Help", href: "/#how-we-help" },
+                { name: "Case Studies", href: "/#results" },
+                { name: "FAQs", href: "/#faqs" },
+                { name: "Book a Call", href: "/#contact" },
+              ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/40 hover:text-white transition-colors">{item.name}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Company</h3>
-            <ul className="space-y-3">
-              {navigation.company.map((item) => (
-                <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/40 hover:text-white transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/30 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -69,28 +43,28 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Legal</h3>
+            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Legal</h3>
             <ul className="space-y-3">
-              {navigation.legal.map((item) => (
+              {[
+                { name: "Privacy Policy", href: "/privacy" },
+                { name: "Terms & Conditions", href: "/terms" },
+                { name: "Cookie Policy", href: "/cookies" },
+              ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/40 hover:text-white transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/30 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/30 text-xs">
-            &copy; {currentYear} Cortexuum AI Marketing Agency. All rights reserved.
+        <div className="divider-gold mt-12" />
+        <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/20 text-xs">
+            &copy; {currentYear} Cortexuum. Engineering Growth & Transformation. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="/login" className="text-white/20 hover:text-white/40 text-xs transition-colors">Admin</a>
-            <span className="text-white/10 text-xs">|</span>
-            <span className="text-white/20 text-xs">
-              Built by <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-white/40 transition-colors">plaintalk.dev</a>
-            </span>
+            <a href="/login" className="text-white/15 hover:text-white/30 text-xs transition-colors">Admin</a>
           </div>
         </div>
       </div>
