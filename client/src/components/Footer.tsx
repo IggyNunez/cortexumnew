@@ -1,17 +1,79 @@
 import { ArrowRight } from "lucide-react";
-import cortexuumLogoWhite from "../assets/cortexuum-logo-white.png";
+import SacredLogo from "./SacredLogo";
+import MysticOrb from "./MysticOrb";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--navy)] border-t border-[var(--gold)]/5">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-[var(--navy)] border-t border-[var(--gold)]/5 relative overflow-hidden">
+      {/* Mystic Orb background — centered behind content */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <MysticOrb className="w-[600px] h-[600px] opacity-30" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12 md:py-16">
+        {/* === MOBILE: Logo centered top + 2-col grid === */}
+        {/* === DESKTOP: 3-col as before === */}
+
+        {/* Mobile logo — centered at top, hidden on desktop */}
+        <div className="md:hidden flex flex-col items-center text-center mb-10">
+          <SacredLogo className="h-16 text-[var(--gold)] mb-5" stacked showText showTagline animate={false} />
+          <p className="text-white/70 text-sm leading-relaxed max-w-xs">
+            Growth architecture for personal development brands, coaches, and transformational educators.
+          </p>
+          <a
+            href="https://calendly.com/cortexuummarketing/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-cta mt-6 text-sm px-6 py-2.5"
+          >
+            Book a Strategy Call <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+
+        {/* Mobile 2-column grid for nav + legal */}
+        <div className="grid grid-cols-2 gap-8 md:hidden">
+          {/* Nav */}
+          <div>
+            <h3 className="text-xs font-semibold text-[var(--gold)] uppercase tracking-[0.2em] mb-4">Navigate</h3>
+            <ul className="space-y-3">
+              {[
+                { name: "How We Help", href: "/#how-we-help" },
+                { name: "Case Studies", href: "/#results" },
+                { name: "FAQs", href: "/#faqs" },
+                { name: "Book a Call", href: "/#contact" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-xs font-semibold text-[var(--gold)] uppercase tracking-[0.2em] mb-4">Legal</h3>
+            <ul className="space-y-3">
+              {[
+                { name: "Privacy Policy", href: "/privacy" },
+                { name: "Terms", href: "/terms" },
+                { name: "Cookies", href: "/cookies" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Desktop 3-column layout — hidden on mobile */}
+        <div className="hidden md:grid md:grid-cols-3 gap-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <img src={cortexuumLogoWhite} alt="Cortexuum" className="h-8 w-auto mb-6" />
-            <p className="text-white/30 text-sm leading-relaxed max-w-xs">
+            <SacredLogo className="h-14 text-[var(--gold)] mb-6" showText showTagline animate={false} />
+            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
               Growth architecture for personal development brands, coaches, and transformational educators.
             </p>
             <a
@@ -26,7 +88,7 @@ const Footer = () => {
 
           {/* Nav */}
           <div>
-            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Navigate</h3>
+            <h3 className="text-xs font-semibold text-[var(--gold)] uppercase tracking-[0.2em] mb-4">Navigate</h3>
             <ul className="space-y-3">
               {[
                 { name: "How We Help", href: "/#how-we-help" },
@@ -35,7 +97,7 @@ const Footer = () => {
                 { name: "Book a Call", href: "/#contact" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/30 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -43,7 +105,7 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Legal</h3>
+            <h3 className="text-xs font-semibold text-[var(--gold)] uppercase tracking-[0.2em] mb-4">Legal</h3>
             <ul className="space-y-3">
               {[
                 { name: "Privacy Policy", href: "/privacy" },
@@ -51,20 +113,20 @@ const Footer = () => {
                 { name: "Cookie Policy", href: "/cookies" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/30 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="divider-gold mt-12" />
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/20 text-xs">
+        <div className="divider-gold mt-10 md:mt-12" />
+        <div className="mt-6 md:mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/40 text-xs text-center md:text-left">
             &copy; {currentYear} Cortexuum. Engineering Growth & Transformation. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="/login" className="text-white/15 hover:text-white/30 text-xs transition-colors">Admin</a>
+            <a href="/login" className="text-white/20 hover:text-white/40 text-xs transition-colors">Admin</a>
           </div>
         </div>
       </div>
