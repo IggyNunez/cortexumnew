@@ -139,7 +139,7 @@ const Header = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-[13px] text-white/80 hover:text-white hover:bg-white/[0.06] px-4 py-2 rounded-full transition-all duration-300 font-medium tracking-wide whitespace-nowrap uppercase"
+                  className="text-[13px] text-white/80 hover:text-white hover:bg-white/[0.06] px-4 py-2 rounded-full transition-all duration-300 font-body font-medium tracking-wide whitespace-nowrap uppercase"
                 >
                   {link.label}
                 </a>
@@ -149,7 +149,7 @@ const Header = () => {
 
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 bg-[var(--gold)]/10 hover:bg-[var(--gold)]/20 border border-[var(--gold)]/20 hover:border-[var(--gold)]/40 text-[var(--gold)] text-[13px] font-medium px-5 py-2 rounded-full transition-all duration-300 whitespace-nowrap"
+                className="inline-flex items-center gap-2 bg-[var(--gold)]/10 hover:bg-[var(--gold)]/20 border border-[var(--gold)]/20 hover:border-[var(--gold)]/40 text-[var(--gold)] text-[13px] font-body font-medium px-5 py-2 rounded-full transition-all duration-300 whitespace-nowrap"
               >
                 Book a Call
               </a>

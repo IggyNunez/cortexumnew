@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--navy)] border-t border-[var(--gold)]/5 relative overflow-hidden">
+    <footer className="bg-black/60 backdrop-blur-sm border-t border-[var(--gold)]/5 relative overflow-hidden">
       {/* Mystic Orb background — centered behind content */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
         <MysticOrb className="w-[600px] h-[600px] opacity-30" />
@@ -19,7 +19,7 @@ const Footer = () => {
         {/* Mobile logo — centered at top, hidden on desktop */}
         <div className="md:hidden flex flex-col items-center text-center mb-10">
           <SacredLogo className="h-16 text-[var(--gold)] mb-5" stacked showText showTagline animate={false} />
-          <p className="text-white/70 text-sm leading-relaxed max-w-xs">
+          <p className="text-white/90 text-sm leading-relaxed max-w-xs">
             Growth architecture for personal development brands, coaches, and transformational educators.
           </p>
           <a
@@ -45,7 +45,7 @@ const Footer = () => {
                 { name: "Book a Call", href: "/#contact" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/90 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -61,7 +61,7 @@ const Footer = () => {
                 { name: "Cookies", href: "/cookies" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/90 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -73,7 +73,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <SacredLogo className="h-14 text-[var(--gold)] mb-6" showText showTagline animate={false} />
-            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+            <p className="text-white/90 text-sm leading-relaxed max-w-xs">
               Growth architecture for personal development brands, coaches, and transformational educators.
             </p>
             <a
@@ -97,7 +97,7 @@ const Footer = () => {
                 { name: "Book a Call", href: "/#contact" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/90 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -113,7 +113,7 @@ const Footer = () => {
                 { name: "Cookie Policy", href: "/cookies" },
               ].map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors">{item.name}</a>
+                  <a href={item.href} className="text-sm text-white/90 hover:text-[var(--gold)] transition-colors">{item.name}</a>
                 </li>
               ))}
             </ul>
@@ -122,7 +122,7 @@ const Footer = () => {
 
         <div className="divider-gold mt-10 md:mt-12" />
         <div className="mt-6 md:mt-8 text-center">
-          <p className="text-white/40 text-xs">
+          <p className="text-white/60 text-xs">
             &copy; {currentYear} Cortexuum. Engineering Growth &amp;&nbsp;Transformation. All rights&nbsp;reserved.
           </p>
         </div>
