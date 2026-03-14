@@ -18,7 +18,7 @@ const Footer = () => {
 
         {/* Mobile logo — centered at top, hidden on desktop */}
         <div className="md:hidden flex flex-col items-center text-center mb-10">
-          <SacredLogo className="h-16 text-[var(--gold)] mb-5" stacked showText showTagline animate={false} />
+          <SacredLogo className="h-16 text-[var(--gold)] mb-5" stacked showText animate={false} />
           <p className="text-white/90 text-sm leading-relaxed max-w-xs">
             Growth architecture for personal development brands, coaches, and transformational educators.
           </p>
@@ -121,9 +121,12 @@ const Footer = () => {
         </div>
 
         <div className="divider-gold mt-10 md:mt-12" />
-        <div className="mt-6 md:mt-8 text-center">
+        <div className="mt-6 md:mt-8 text-center space-y-2">
           <p className="text-white/60 text-xs">
             &copy; {currentYear} Cortexuum. Engineering Growth &amp;&nbsp;Transformation. All rights&nbsp;reserved.
+          </p>
+          <p className="text-white/30 text-[10px] tracking-wide">
+            Designed by Ignacio Nunez&nbsp;&nbsp;|&nbsp;&nbsp;plaintalk.dev&nbsp;&nbsp;|&nbsp;&nbsp;cortexuum.com&nbsp;&nbsp;|&nbsp;&nbsp;dev@ignacionunez.dev&nbsp;&nbsp;|&nbsp;&nbsp;ignacio@cortexuum.com
           </p>
         </div>
       </div>
