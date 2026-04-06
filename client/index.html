@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#f8fafc" />
     <meta name="author" content="Cortexuum" />
     <!-- Security headers -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; worker-src 'self' blob: * https://elevenlabs.io; child-src 'self' blob: * https://elevenlabs.io https://js.stripe.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; connect-src 'self' https: http:; img-src 'self' data: https: http:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' data: https:;">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; worker-src 'self' blob: * https://elevenlabs.io; child-src 'self' blob: * https://elevenlabs.io https://js.stripe.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: https://connect.facebook.net; connect-src 'self' https: http: https://www.facebook.com https://connect.facebook.net; img-src 'self' data: https: http: https://www.facebook.com; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' data: https:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
@@ -40,6 +40,75 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1446534276921018');
+      fbq('track', 'PageView');
+
+      // Enhanced event tracking
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track all CTA clicks (Book a Strategy Call, outbound links)
+        document.addEventListener('click', function(e) {
+          var link = e.target.closest('a');
+          if (!link) return;
+          var href = link.href || '';
+
+          // Calendly / booking clicks
+          if (href.includes('calendly.com')) {
+            fbq('track', 'Schedule', { content_name: 'Strategy Call' });
+            fbq('track', 'Lead', { content_name: 'Strategy Call Booking' });
+          }
+
+          // Internal nav clicks
+          if (href.includes('#how-we-help')) {
+            fbq('track', 'ViewContent', { content_name: 'How We Help' });
+          }
+          if (href.includes('#results')) {
+            fbq('track', 'ViewContent', { content_name: 'Case Studies' });
+          }
+          if (href.includes('#contact')) {
+            fbq('track', 'ViewContent', { content_name: 'Contact Section' });
+          }
+
+          // External link clicks
+          if (link.target === '_blank' && !href.includes(window.location.hostname)) {
+            fbq('trackCustom', 'OutboundClick', { url: href });
+          }
+        });
+
+        // Track scroll depth milestones
+        var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+        window.addEventListener('scroll', function() {
+          var scrollPct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+          [25, 50, 75, 100].forEach(function(m) {
+            if (scrollPct >= m && !scrollMilestones[m]) {
+              scrollMilestones[m] = true;
+              fbq('trackCustom', 'ScrollDepth', { percent: m });
+            }
+          });
+        }, { passive: true });
+
+        // Track time on page milestones
+        [30, 60, 120, 300].forEach(function(seconds) {
+          setTimeout(function() {
+            fbq('trackCustom', 'TimeOnPage', { seconds: seconds });
+          }, seconds * 1000);
+        });
+      });
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1446534276921018&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <div id="root"></div>
