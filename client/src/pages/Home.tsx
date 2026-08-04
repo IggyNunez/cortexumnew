@@ -12,6 +12,7 @@ import {
   AnimatedBarChart, AnimatedBrain, AnimatedZap, AnimatedEye,
   AnimatedLightbulb, AnimatedMessageSquare, AnimatedSparkles, AnimatedUsers,
 } from "@/components/AnimatedIcons";
+import Header from "@/components/Header";
 
 const thinkingWords = ["thinks.", "adapts.", "learns.", "converts.", "scales."];
 
@@ -532,21 +533,15 @@ function useMobileDetect() {
   return mobile;
 }
 
-function StickyRevealSection({ children, id, scrollTrackHeight = "300vh" }: { children: (progress: any, isMobile: boolean) => React.ReactNode; id?: string; scrollTrackHeight?: string }) {
-  const mobile = useMobileDetect();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
-
+function StickyRevealSection({ children, id }: { children: (progress: any, isMobile: boolean) => React.ReactNode; id?: string; scrollTrackHeight?: string }) {
+  // Render as normal (non-sticky) section on all screens.
+  // Pass null progress + isMobile=true so child cards render static (no scroll-driven animation).
   return (
     <div
-      ref={trackRef}
       id={id}
-      className="relative scroll-mt-20"
-      style={mobile ? undefined : { height: scrollTrackHeight }}
+      className="relative scroll-mt-24 py-20 md:py-28 px-6"
     >
-      <div className={mobile ? "py-16 px-6" : "sticky top-0 h-screen overflow-hidden flex items-center"}>
-        {children(mobile ? null : scrollYProgress, mobile)}
-      </div>
+      {children(null, true)}
     </div>
   );
 }
@@ -578,6 +573,12 @@ const teamExpertise = [
   { years: "15+", area: "Project Management" },
   { years: "15+", area: "Copywriting & Content" },
   { years: "20+", area: "Sales & Growth" },
+];
+
+const founderStats = [
+  { icon: TrendingUp, value: "$200M+", label: "Personally managed in ad spend" },
+  { icon: BarChart3, value: "8 Figures", label: "Marketing orgs scaled from six figures" },
+  { icon: Users, value: "200+", label: "Team members, grown from 15" },
 ];
 
 const funnelSteps = [
@@ -758,7 +759,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                   </div>
                 </div>
                 <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
-                <p className="text-[#357BD8] font-medium mb-4 text-sm">Founder, Digital Growth Architect</p>
+                <p className="text-[#357BD8] font-medium mb-4 text-sm">CEO &amp; Founder</p>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
                   Combining deep psychology expertise with cutting-edge AI to build marketing systems that understand how people actually make decisions.
                 </p>
@@ -770,6 +771,58 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
             </div>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6 }}
+          className="mt-16 md:mt-20"
+        >
+          <div className="relative bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/60 overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#357BD8]/[0.02] via-transparent to-[#E63E8B]/[0.03] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-48 h-48 bg-[#357BD8]/[0.04] rounded-full blur-[80px] pointer-events-none" />
+
+            <div className="relative z-10 p-8 md:p-12">
+              <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Founder Bio</p>
+              <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight mb-8">
+                Christian Colgate,{" "}
+                <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">CEO &amp; Founder</span>
+              </h3>
+
+              <div className="space-y-5 max-w-3xl mb-10">
+                <p className="text-slate-600 leading-relaxed">
+                  Christian Colgate is CEO and Founder of Cortexuum, where he leads the paid media division, scaling brands across Meta, Google, and TikTok.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  Christian founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground up.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-4 mb-10">
+                {founderStats.map((stat, i) => (
+                  <div key={i} className="relative bg-slate-50 border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:shadow-[#357BD8]/6 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden">
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#357BD8]/[0.05] to-transparent rounded-bl-full group-hover:from-[#357BD8]/[0.12] transition-all duration-300" />
+                    <stat.icon className="w-5 h-5 text-[#357BD8] mb-3" />
+                    <div className="text-2xl font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent mb-1">{stat.value}</div>
+                    <div className="text-slate-500 text-sm leading-snug">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="relative bg-slate-50 border border-slate-200 rounded-xl p-6 md:p-7 overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
+                <p className="text-slate-600 leading-relaxed mb-3">
+                  He has managed the systems and marketing behind some of the most recognizable names in DTC and coaching.
+                </p>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -812,6 +865,7 @@ export default function Home() {
 
   return (
     <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 relative">
+      <Header />
 
       {/* ===== FLOATING AMBIENT DECORATIONS ===== */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden lg:block">
@@ -874,12 +928,9 @@ export default function Home() {
         </motion.div>
       </div>
 
-      {/* ===== HERO -Parallax fade out ===== */}
-      <div ref={heroRef} className="relative h-[150vh]">
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
-          className="sticky top-0 h-screen flex items-center justify-center px-6 overflow-hidden"
-        >
+      {/* ===== HERO - Static (no sticky / no parallax fade) ===== */}
+      <div ref={heroRef} className="relative">
+        <div className="relative min-h-screen flex items-center justify-center px-6 py-24 md:py-32 overflow-hidden">
           {/* Background layers */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
@@ -949,11 +1000,11 @@ export default function Home() {
 
           {/* Scroll indicator */}
           <ScrollIndicator />
-        </motion.div>
+        </div>
       </div>
 
       {/* ===== STATS -Animated counters ===== */}
-      <section className="relative py-24 px-6 -mt-[50vh]" style={{ position: 'relative', zIndex: 2 }}>
+      <section className="relative py-16 md:py-24 px-6" style={{ position: 'relative', zIndex: 2 }}>
         <div className="max-w-5xl mx-auto relative bg-white border border-slate-200 rounded-3xl p-10 md:p-14 shadow-2xl shadow-slate-200/60 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
           <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#357BD8]/[0.04] to-transparent rounded-bl-full" />
