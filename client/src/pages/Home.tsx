@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, motionValue } from "framer-motion";
 import {
-  ArrowRight, Brain, Target, TrendingUp, Zap, BarChart3, Users, Sparkles,
-  Shield, Clock, Check, Star, Megaphone, Lightbulb, Eye,
-  MessageSquare, Bot,
+  ArrowRight, TrendingUp, BarChart3, Users, Sparkles,
+  Shield, Check, Star,
 } from "lucide-react";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
 import {
-  AnimatedBot, AnimatedMegaphone, AnimatedTarget, AnimatedTrendingUp,
+  AnimatedMegaphone, AnimatedTarget, AnimatedTrendingUp,
   AnimatedBarChart, AnimatedBrain, AnimatedZap, AnimatedEye,
   AnimatedLightbulb, AnimatedMessageSquare, AnimatedSparkles, AnimatedUsers,
 } from "@/components/AnimatedIcons";
@@ -547,12 +546,11 @@ function StickyRevealSection({ children, id }: { children: (progress: any, isMob
 }
 
 const services = [
-  { icon: AnimatedBot, title: "Automated Sales Systems", description: "Always-on systems that handle customer interactions, qualify leads, and move them through your pipeline. Running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedMegaphone, title: "Content That Converts", description: "Compelling copy, blog posts, social media content, and ad creative, produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
-  { icon: AnimatedTarget, title: "Performance Media Buying", description: "Data-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#00BCD4] to-[#E63E8B]" },
-  { icon: AnimatedTrendingUp, title: "Adaptive Sales Funnels", description: "Dynamic sales funnels that respond to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
-  { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology, understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
+  { icon: AnimatedTarget, title: "Paid Media", description: "Meta, Google, and TikTok. Account builds, media buying, creative direction and testing, plus the tracking and attribution to prove what worked.", accent: "from-[#357BD8] to-[#00BCD4]" },
+  { icon: AnimatedTrendingUp, title: "Funnel & Website Builds", description: "Opt-ins, VSL and webinar funnels, membership checkouts, automations, copywriting, integrations, and post-launch support.", accent: "from-[#00BCD4] to-[#357BD8]" },
+  { icon: AnimatedBarChart, title: "Conversion Rate Optimization", description: "Landing page audits, heat mapping, and structured A/B testing programs driven by your own customer data, not hunches.", accent: "from-[#00BCD4] to-[#E63E8B]" },
+  { icon: AnimatedMessageSquare, title: "Offer & Messaging", description: "Offer architecture, positioning, and VSL and webinar scripting. When the offer is the constraint, no amount of media spend fixes it.", accent: "from-[#E63E8B] to-[#F5841F]" },
+  { icon: AnimatedLightbulb, title: "Consulting & Advisory", description: "Available standalone when you want strategy, auditing, and oversight rather than full execution. We tell you the truth either way.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
 const benefits = [
@@ -576,9 +574,68 @@ const teamExpertise = [
 ];
 
 const founderStats = [
-  { icon: TrendingUp, value: "$200M+", label: "Personally managed in ad spend" },
+  { icon: TrendingUp, value: "$250M+", label: "Personally managed in ad spend" },
   { icon: BarChart3, value: "8 Figures", label: "Marketing orgs scaled from six figures" },
   { icon: Users, value: "200+", label: "Team members, grown from 15" },
+];
+
+// Documented client results. Every figure is from a real account; the two masked
+// Meta accounts are platform-reported and unaltered. Client names withheld where
+// the engagement is under confidentiality.
+const documentedResults = [
+  {
+    scope: "Content agency, Meta, cold traffic",
+    client: "Splash Media",
+    masked: false,
+    headline: "$150,000 in contracts on a $100/day budget",
+    detail: "High-ticket retainers, phone-closed, and they had never run paid ads. We rebuilt creative, then found the real bottleneck was the landing page.",
+    stats: [
+      { value: "34.89x", label: "Return on ad spend" },
+      { value: "$4,783", label: "Total ad spend" },
+      { value: "$97.52", label: "Cost per lead at scale" },
+    ],
+    href: "/case-study/splash-media",
+    accent: "from-[#357BD8] to-[#00BCD4]",
+  },
+  {
+    scope: "Ecommerce, Meta, 10-week window",
+    client: "Client account under NDA",
+    masked: true,
+    headline: "4.77x blended return across 1,327 purchases",
+    detail: "Prospecting held 3.59x on $24.9K while retargeting ran 9.31x on $6.5K, at $30.52 and $12.69 cost per purchase.",
+    stats: [
+      { value: "4.77x", label: "Blended purchase ROAS" },
+      { value: "$149,733", label: "Purchase value" },
+      { value: "$31,373", label: "Media spend" },
+    ],
+    accent: "from-[#00BCD4] to-[#E63E8B]",
+  },
+  {
+    scope: "Info product, Meta, single 30-day window",
+    client: "Client account under NDA",
+    masked: true,
+    headline: "10,313 leads in 30 days at $19.88 each",
+    detail: "Cost per lead held between $19.36 and $21.12 across three scaled campaigns while volume ran past 10,000 leads.",
+    stats: [
+      { value: "$19.88", label: "Blended cost per lead" },
+      { value: "$205,027", label: "Media spend, 30 days" },
+      { value: "3.05M", label: "Impressions" },
+    ],
+    accent: "from-[#E63E8B] to-[#F5841F]",
+  },
+  {
+    scope: "Supplement brand, Google Ads, full rebuild",
+    client: "$1M+ brand, name confidential",
+    masked: true,
+    headline: "6.0x account ROAS with cost per click down 16%",
+    detail: "Rank-1 dominance held on branded search and shopping while top-of-funnel spend was pushed from 50% toward 90% of budget, growing net-new customers instead of harvesting brand demand.",
+    stats: [
+      { value: "6.0x", label: "Account ROAS" },
+      { value: "-16%", label: "Cost per click, week over week" },
+      { value: "90%", label: "Budget moved top-of-funnel" },
+    ],
+    accent: "from-[#F5841F] to-[#357BD8]",
+  },
 ];
 
 const funnelSteps = [
@@ -677,6 +734,48 @@ function TestimonialCard({ testimonial, index, progress, isMobile }: { testimoni
   );
 }
 
+function ResultCard({ result, index }: { result: typeof documentedResults[0]; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="relative bg-white border border-slate-200 rounded-2xl p-7 md:p-8 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden flex flex-col"
+    >
+      <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${result.accent}`} />
+      <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-[#357BD8]/[0.03] to-transparent rounded-tl-full group-hover:from-[#357BD8]/[0.08] transition-all duration-300" />
+
+      <div className="relative z-10 flex flex-col flex-1">
+        <p className="text-[#357BD8] font-mono text-[10px] tracking-[0.2em] uppercase mb-3">{result.scope}</p>
+        <h3 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight mb-3 leading-snug">{result.headline}</h3>
+        <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">{result.detail}</p>
+
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          {result.stats.map((stat, i) => (
+            <div key={i} className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+              <div className="text-base md:text-lg font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent leading-tight">{stat.value}</div>
+              <div className="text-slate-500 text-[11px] leading-snug mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-4 border-t border-slate-100">
+          <span className="inline-flex items-center gap-1.5 text-slate-500 text-xs font-medium">
+            {result.masked && <Shield className="w-3.5 h-3.5 text-slate-400" />}
+            {result.client}
+          </span>
+          {result.href && (
+            <a href={result.href} className="inline-flex items-center gap-1.5 text-[#357BD8] hover:text-[#E63E8B] font-semibold text-sm transition-colors">
+              Read the breakdown <ArrowRight className="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function SectionHeading({ progress, isMobile, children, start = 0, end = 0.08, startY = 40 }: { progress: any; isMobile: boolean; children: React.ReactNode; start?: number; end?: number; startY?: number }) {
   const opacity = useTransform(progress ?? motionValue(0), [start, end], [0, 1]);
   const y = useTransform(progress ?? motionValue(0), [start, end], [startY, 0]);
@@ -727,7 +826,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
               <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">Every time.</span>
             </h2>
             <p className="text-slate-500 leading-relaxed mb-10">
-              With over $200 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't.
+              With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't.
             </p>
             <div className="grid grid-cols-2 gap-4">
               {teamExpertise.map((exp, i) => (
@@ -761,7 +860,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                 <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
                 <p className="text-[#357BD8] font-medium mb-4 text-sm">CEO &amp; Founder</p>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
-                  Combining deep psychology expertise with $200M+ in managed ad spend to build marketing systems that understand how people actually make decisions.
+                  Combining deep psychology expertise with $250M+ in managed ad spend to build marketing systems that understand how people actually make decisions.
                 </p>
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#357BD8] text-white font-bold px-7 py-3 rounded-full hover:bg-[#2d6bc0] transition-colors text-sm shadow-lg shadow-[#357BD8]/20">
@@ -816,8 +915,11 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                 <p className="text-slate-600 leading-relaxed mb-3">
                   He has managed the systems and marketing behind some of the most recognizable names in DTC and coaching.
                 </p>
-                <p className="text-slate-500 text-sm leading-relaxed">
+                <p className="text-slate-500 text-sm leading-relaxed mb-4">
                   Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA.
+                </p>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Founder-led and celebrity-backed DTC brands are a repeat pattern in the book of work: the kind of account where the offer, the funnel, and the paid acquisition all have to carry the founder's credibility without burning it. Those engagements are confidential and reviewed live rather than printed here.
                 </p>
               </div>
             </div>
@@ -977,12 +1079,12 @@ export default function Home() {
             <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="text-lg md:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
               We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
-              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth system built on $200M+ in ad spend.</span>
+              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth system built on $250M+ in ad spend.</span>
             </motion.p>
 
             {/* Stat pills */}
             <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
-              <HeroStat value="$200M+" label="Ad spend managed" delay={1.0} color="text-[#357BD8]" />
+              <HeroStat value="$250M+" label="Ad spend managed" delay={1.0} color="text-[#357BD8]" />
               <HeroStat value="3x" label="Avg lead increase" delay={1.15} color="text-[#00BCD4]" />
               <HeroStat value="40%" label="Lower acquisition cost" delay={1.3} color="text-[#E63E8B]" />
             </div>
@@ -1010,7 +1112,7 @@ export default function Home() {
           <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#357BD8]/[0.04] to-transparent rounded-bl-full" />
           <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#E63E8B]/[0.04] to-transparent rounded-tr-full" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <CounterCard value={200} suffix="M+" label="Managed Ad Spend" />
+            <CounterCard value={250} suffix="M+" label="Managed Ad Spend" />
             <CounterCard value={7} suffix="" label="Years Experience" />
             <CounterCard value={3} suffix="x" label="Avg Lead Increase" />
             <CounterCard value={40} suffix="%" label="Avg Cost Reduction" />
@@ -1047,6 +1149,36 @@ export default function Home() {
                   <ServiceCard key={i} service={service} index={i} progress={progress} isMobile={isMobile} />
                 ))}
               </div>
+
+              {/* Best fit / not a fit, straight from the partner brief */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5 }}
+                className="grid md:grid-cols-2 gap-5 mt-8"
+              >
+                <div className="relative bg-emerald-50/60 border border-emerald-200 rounded-2xl p-6 overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-emerald-400 to-teal-500" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <Check className="w-4 h-4 text-emerald-600" />
+                    <h3 className="text-sm font-bold text-slate-800">Where we're the right call</h3>
+                  </div>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the top.
+                  </p>
+                </div>
+                <div className="relative bg-slate-50 border border-slate-200 rounded-2xl p-6 overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-slate-300 to-slate-400" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-4 h-4 text-slate-500" />
+                    <h3 className="text-sm font-bold text-slate-800">Where we're not</h3>
+                  </div>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </div>
         )}
@@ -1084,6 +1216,53 @@ export default function Home() {
           </div>
         )}
       </StickyRevealSection>
+
+      {/* ===== DOCUMENTED RESULTS -Real account numbers ===== */}
+      <section id="proof" className="relative py-20 md:py-28 px-6 scroll-mt-24">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-32 left-1/4 w-[420px] h-[420px] bg-[#357BD8]/[0.04] rounded-full blur-[120px]" />
+          <div className="absolute -bottom-32 right-1/4 w-[360px] h-[360px] bg-[#00BCD4]/[0.04] rounded-full blur-[110px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+          <div className="hidden lg:block absolute top-0 right-0 w-[320px] h-[220px] opacity-40">
+            <CircuitBoardSVG />
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Documented Results</p>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
+              The receipts,{" "}
+              <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">not the promises.</span>
+            </h2>
+            <p className="text-slate-500 text-base max-w-2xl mx-auto">
+              Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {documentedResults.map((result, i) => (
+              <ResultCard key={i} result={result} index={i} />
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-slate-400 text-sm text-center mt-8 max-w-2xl mx-auto"
+          >
+            A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.
+          </motion.p>
+        </div>
+      </section>
 
       {/* ===== TESTIMONIALS -Sticky with staggered pop-in ===== */}
       <StickyRevealSection id="results" scrollTrackHeight="200vh">
@@ -1288,7 +1467,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto mb-16">
             <div className="grid grid-cols-3 gap-6">
               {[
-                { value: "$200M+", label: "Ad Spend Managed" },
+                { value: "$250M+", label: "Ad Spend Managed" },
                 { value: "7", label: "Years Experience" },
                 { value: "3x", label: "Avg Lead Increase" },
               ].map((stat, i) => (

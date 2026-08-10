@@ -16,6 +16,7 @@ import PaymentSuccessPage from "@/pages/payment-success";
 import LandingPageReview from "@/pages/LandingPageReview";
 import WebsiteOutreach from "@/pages/WebsiteOutreach";
 import JettsCaseStudy from "@/pages/JettsCaseStudy";
+import SplashMediaCaseStudy from "@/pages/SplashMediaCaseStudy";
 
 import { nanoid } from 'nanoid';
 import { useEffect } from "react";
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/services/websites" component={WebsiteOutreach} />
       <Route path="/case-study/jetts-windows" component={JettsCaseStudy} />
       <Route path="/cleaning-services" component={JettsCaseStudy} />
+      <Route path="/case-study/splash-media" component={SplashMediaCaseStudy} />
 
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />

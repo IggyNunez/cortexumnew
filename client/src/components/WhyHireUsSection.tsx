@@ -7,7 +7,7 @@ const WhyHireUsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <div className="inline-block bg-blue-50 border-2 border-blue-400 rounded-lg px-4 py-1 mb-4">
-            <p className="text-blue-700 font-medium text-sm">$200 MILLION+ IN MANAGED AD SPEND</p>
+            <p className="text-blue-700 font-medium text-sm">$250 MILLION+ IN MANAGED AD SPEND</p>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Digital Growth Architects</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -36,7 +36,7 @@ const WhyHireUsSection = () => {
                 <h3 className="text-xl font-bold text-gray-900 mb-1">Christian Colgate</h3>
                 <p className="text-blue-600 text-sm font-medium uppercase mb-4">FOUNDER</p>
                 <p className="text-gray-700">
-                  As a digital growth architect, Christian combines extensive marketing expertise with data-driven strategies to help businesses achieve exceptional results. With a proven track record managing over $200 million in ad spend, he's dedicated to creating marketing solutions that deliver real impact.
+                  As a digital growth architect, Christian combines extensive marketing expertise with data-driven strategies to help businesses achieve exceptional results. With a proven track record managing over $250 million in ad spend, he's dedicated to creating marketing solutions that deliver real impact.
                 </p>
               </div>
             </div>
