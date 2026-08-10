@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
             
             <h2>1. Introduction</h2>
             <p>
-              PlainTalk Developers ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our AI marketing services.
+              PlainTalk Developers ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our marketing services.
             </p>
 
             <h2>2. Information We Collect</h2>

@@ -11,10 +11,9 @@ import CortexuumLogo from '@/components/CortexuumLogo';
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
-  throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
-}
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLIC_KEY
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
+  : null;
 
 const CheckoutForm = ({ amount, description }: { amount: number, description: string }) => {
   const stripe = useStripe();
@@ -135,10 +134,11 @@ export default function CheckoutPage({ productId: propProductId = "default" }: C
       name: "Content Marketing Audit",
       description: "Comprehensive analysis of your current content marketing strategy",
     },
+    // Key kept as "ai-strategy" so existing checkout links stay valid; display copy repositioned.
     "ai-strategy": {
       amount: 999,
-      name: "AI Marketing Strategy",
-      description: "Custom AI-powered marketing strategy tailored to your business",
+      name: "Marketing Systems Strategy",
+      description: "Custom marketing systems strategy built on your performance data",
     },
     "full-package": {
       amount: 2499,

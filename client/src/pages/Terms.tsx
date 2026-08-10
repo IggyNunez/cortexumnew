@@ -32,7 +32,7 @@ const Terms = () => {
 
             <h2>1. Services</h2>
             <p>
-              PlainTalk Developers offers AI-powered marketing solutions for marketing agencies and businesses, including but not limited to AI chatbots, content creation, workflow automation, and strategic consulting.
+              PlainTalk Developers offers data-driven marketing systems for marketing agencies and businesses, including but not limited to automated chatbots, content creation, workflow automation, and strategic consulting.
             </p>
 
             <h2>2. Use of Service</h2>

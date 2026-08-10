@@ -97,8 +97,8 @@ const services = [
   },
   {
     icon: Bot,
-    title: "AI & Automation",
-    description: "We connect your tools so things just work. Automated workflows, AI voice agents, smart integrations, so you can focus on growth, not repetitive tasks.",
+    title: "Systems & Automation",
+    description: "We connect your tools so things just work. Automated workflows, voice agents, smart integrations, so you can focus on growth, not repetitive tasks.",
     color: "from-pink-500 to-rose-600",
   },
   {
@@ -257,17 +257,17 @@ export default function WebsiteOutreach() {
     if (isSubmitted) {
       document.title = "Message Received | Cortexuum";
     } else {
-      document.title = "Custom Web Development & AI Automation | Cortexuum";
+      document.title = "Custom Web Development & Workflow Automation | Cortexuum";
     }
 
     const metaTags: Record<string, string> = {
-      description: "Cortexuum builds custom websites, online stores, and AI automation for real businesses. 150+ projects shipped. Plain-English communication, honest pricing, and results that speak for themselves.",
-      "og:title": "Custom Web Development & AI Automation | Cortexuum",
-      "og:description": "Custom websites, e-commerce, AI automation, and healthcare tech. 150+ projects shipped with plain-English communication and honest pricing.",
+      description: "Cortexuum builds custom websites, online stores, and workflow automation for real businesses. 150+ projects shipped. Plain-English communication, honest pricing, and results that speak for themselves.",
+      "og:title": "Custom Web Development & Workflow Automation | Cortexuum",
+      "og:description": "Custom websites, e-commerce, workflow automation, and healthcare tech. 150+ projects shipped with plain-English communication and honest pricing.",
       "og:url": "https://cortexuum.com/services/websites",
       "og:type": "website",
-      "twitter:title": "Custom Web Development & AI Automation | Cortexuum",
-      "twitter:description": "Custom websites, e-commerce, AI automation, and healthcare tech. 150+ projects shipped with honest pricing.",
+      "twitter:title": "Custom Web Development & Workflow Automation | Cortexuum",
+      "twitter:description": "Custom websites, e-commerce, workflow automation, and healthcare tech. 150+ projects shipped with honest pricing.",
     };
 
     Object.entries(metaTags).forEach(([key, content]) => {
@@ -290,16 +290,16 @@ export default function WebsiteOutreach() {
       "@type": "ProfessionalService",
       name: "Cortexuum",
       url: "https://cortexuum.com",
-      description: "Custom web development, AI automation, and psychology-based marketing for real businesses.",
+      description: "Custom web development, workflow automation, and psychology-based marketing for real businesses.",
       areaServed: "Worldwide",
-      serviceType: ["Web Development", "AI Automation", "E-Commerce", "Healthcare Technology", "Marketing"],
+      serviceType: ["Web Development", "Workflow Automation", "E-Commerce", "Healthcare Technology", "Marketing"],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Web Development Services",
         itemListElement: [
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Custom Websites" } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Online Stores" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "AI & Automation" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Systems & Automation" } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Healthcare Tech" } },
         ],
       },
@@ -430,8 +430,8 @@ export default function WebsiteOutreach() {
       {/* Scrolling Ticker */}
       <div className="overflow-hidden border-y border-slate-800/50 bg-slate-900/30 py-4">
         <div className="flex animate-scroll-x gap-8 whitespace-nowrap">
-          {["Custom Web Apps", "AI Automation", "E-Commerce", "Healthcare Tech", "Developer Training", "Website Design", "Voice AI", "Workflow Automation", "Plain English Proposals",
-            "Custom Web Apps", "AI Automation", "E-Commerce", "Healthcare Tech", "Developer Training", "Website Design", "Voice AI", "Workflow Automation", "Plain English Proposals"].map((item, i) => (
+          {["Custom Web Apps", "Systems Integration", "E-Commerce", "Healthcare Tech", "Developer Training", "Website Design", "Voice Agents", "Workflow Automation", "Plain English Proposals",
+            "Custom Web Apps", "Systems Integration", "E-Commerce", "Healthcare Tech", "Developer Training", "Website Design", "Voice Agents", "Workflow Automation", "Plain English Proposals"].map((item, i) => (
             <span key={i} className="text-slate-500 font-medium text-sm tracking-wide flex-shrink-0">
               {item}
               <span className="mx-4 text-slate-700">|</span>
@@ -1026,7 +1026,7 @@ export default function WebsiteOutreach() {
       <footer className="py-8 px-4 border-t border-slate-800/50">
         <div className="max-w-5xl mx-auto text-center space-y-2">
           <p className="text-slate-500 text-sm">
-            &copy; {new Date().getFullYear()} Cortexuum, AI-Powered Marketing & Web Development
+            &copy; {new Date().getFullYear()} Cortexuum, Proven Marketing Systems & Web Development
           </p>
           <p className="text-slate-600 text-xs">
             Designed by Ignacio Nunez &middot;{" "}

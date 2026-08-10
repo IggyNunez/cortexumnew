@@ -547,25 +547,25 @@ function StickyRevealSection({ children, id }: { children: (progress: any, isMob
 }
 
 const services = [
-  { icon: AnimatedBot, title: "Custom AI Agents", description: "Bespoke AI agents that handle customer interactions, qualify leads, and automate workflows. Running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedMegaphone, title: "AI Content Creation", description: "Compelling copy, blog posts, social media content, and ad creative, produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
-  { icon: AnimatedTarget, title: "Intelligent Media Buying", description: "AI-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#00BCD4] to-[#E63E8B]" },
-  { icon: AnimatedTrendingUp, title: "AI-Powered Funnels", description: "Dynamic sales funnels that adapt to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
+  { icon: AnimatedBot, title: "Automated Sales Systems", description: "Always-on systems that handle customer interactions, qualify leads, and move them through your pipeline. Running 24/7 so you don't have to.", accent: "from-[#357BD8] to-[#00BCD4]" },
+  { icon: AnimatedMegaphone, title: "Content That Converts", description: "Compelling copy, blog posts, social media content, and ad creative, produced at scale with psychological precision baked in.", accent: "from-[#E63E8B] to-[#F5841F]" },
+  { icon: AnimatedTarget, title: "Performance Media Buying", description: "Data-optimized ad purchasing across Facebook, Google, and YouTube. Every dollar is placed where it drives the most conversions.", accent: "from-[#00BCD4] to-[#E63E8B]" },
+  { icon: AnimatedTrendingUp, title: "Adaptive Sales Funnels", description: "Dynamic sales funnels that respond to user behavior in real time. Pages, offers, and follow-ups that evolve with every visitor.", accent: "from-[#00BCD4] to-[#357BD8]" },
   { icon: AnimatedBarChart, title: "Predictive Analytics", description: "Forecasting market trends and campaign performance before you spend a dollar. Data-driven decisions, not gut feelings.", accent: "from-[#357BD8] to-[#00BCD4]" },
   { icon: AnimatedBrain, title: "Psychology-Based Strategy", description: "Marketing strategies built on cognitive psychology, understanding how people actually make decisions, then designing for it.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
 const benefits = [
-  { icon: AnimatedBrain, title: "Psychology-Based AI", stat: "30-50% Higher ROI", description: "Our AI models are trained on cognitive and behavioral psychology principles. They don't just target audiences. They understand why people buy." },
-  { icon: AnimatedZap, title: "24/7 Marketing Intelligence", stat: "Always On", description: "Your campaigns never sleep. AI agents monitor, adjust, and optimize around the clock, catching opportunities humans would miss." },
+  { icon: AnimatedBrain, title: "Psychology-Based Targeting", stat: "30-50% Higher ROI", description: "Our targeting models are built on cognitive and behavioral psychology principles. They don't just find audiences. They account for why people buy." },
+  { icon: AnimatedZap, title: "24/7 Campaign Monitoring", stat: "Always On", description: "Your campaigns never sleep. Automated monitoring adjusts and optimizes around the clock, catching opportunities a weekly check-in would miss." },
   { icon: AnimatedTarget, title: "Hyper-Personalization", stat: "40-60% Lower Acquisition", description: "Every touchpoint is tailored. From ad creative to landing pages to follow-ups, each prospect gets a unique journey optimized for conversion." },
   { icon: AnimatedEye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends. Anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
 ];
 
 const testimonials = [
-  { name: "Sarah J.", role: "CEO", quote: "Cortexuum increased our client retention by 40% and reduced operational costs by 25%. The AI-driven approach transformed how we think about customer engagement.", rating: 5 },
+  { name: "Sarah J.", role: "CEO", quote: "Cortexuum increased our client retention by 40% and reduced operational costs by 25%. The systems-driven approach transformed how we think about customer engagement.", rating: 5 },
   { name: "Michael R.", role: "Marketing Director", quote: "We're capturing 3x more qualified leads with half the effort. The psychology-based targeting is unlike anything we've seen from other agencies.", rating: 5 },
-  { name: "Jennifer P.", role: "Founder & CMO", quote: "Tasks that took hours now happen in minutes. The AI automation freed up our team to focus on strategy while the systems handle execution flawlessly.", rating: 5 },
+  { name: "Jennifer P.", role: "Founder & CMO", quote: "Tasks that took hours now happen in minutes. The automation freed up our team to focus on strategy while the systems handle execution flawlessly.", rating: 5 },
 ];
 
 const teamExpertise = [
@@ -761,7 +761,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                 <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
                 <p className="text-[#357BD8] font-medium mb-4 text-sm">CEO &amp; Founder</p>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
-                  Combining deep psychology expertise with cutting-edge AI to build marketing systems that understand how people actually make decisions.
+                  Combining deep psychology expertise with $200M+ in managed ad spend to build marketing systems that understand how people actually make decisions.
                 </p>
                 <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#357BD8] text-white font-bold px-7 py-3 rounded-full hover:bg-[#2d6bc0] transition-colors text-sm shadow-lg shadow-[#357BD8]/20">
@@ -976,8 +976,8 @@ export default function Home() {
             {/* Subcopy -punchy, not generic */}
             <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="text-lg md:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
-              We build AI systems that study how your customers make decisions, then engineer every ad, funnel, and follow-up to convert.
-              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth engine trained on psychology.</span>
+              We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
+              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth system built on $200M+ in ad spend.</span>
             </motion.p>
 
             {/* Stat pills */}
@@ -1040,7 +1040,7 @@ export default function Home() {
                   Intelligent solutions{" "}
                   <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">that beat generic marketing.</span>
                 </h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">Every service powered by AI models trained on psychological principles.</p>
+                <p className="text-slate-500 text-base max-w-xl mx-auto">Every service built on psychological principles and proven performance data.</p>
               </SectionHeading>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {services.map((service, i) => (
@@ -1182,7 +1182,7 @@ export default function Home() {
             </div>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-slate-800">
               Ready to see what<br />
-              <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">AI-powered marketing</span> can do?
+              <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">proven marketing systems</span> can do?
             </h2>
             <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
               Book a free 30-minute strategy call. No obligations, just real insights for your business.
@@ -1219,7 +1219,7 @@ export default function Home() {
                 {[
                   { step: "1", text: "Schedule a free 30-minute strategy call" },
                   { step: "2", text: "We deep-dive into your business goals" },
-                  { step: "3", text: "Receive a custom AI marketing proposal" },
+                  { step: "3", text: "Receive a custom marketing systems proposal" },
                   { step: "4", text: "Launch your first campaign in weeks" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">

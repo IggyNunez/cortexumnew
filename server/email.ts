@@ -94,7 +94,7 @@ function formatLeadEmail(lead: Lead) {
           <tr>
             <td align="center" style="padding-bottom:32px;">
               <span style="font-size:28px;font-weight:800;letter-spacing:-0.5px;color:#ffffff;">CORTEXUUM</span>
-              <span style="display:block;font-size:11px;letter-spacing:3px;color:#7c5cfc;text-transform:uppercase;margin-top:2px;">AI Marketing</span>
+              <span style="display:block;font-size:11px;letter-spacing:3px;color:#7c5cfc;text-transform:uppercase;margin-top:2px;">Marketing Systems</span>
             </td>
           </tr>
 
@@ -164,7 +164,7 @@ function formatLeadEmail(lead: Lead) {
             <td align="center" style="padding:28px 20px 0;">
               <span style="font-size:12px;color:#555;line-height:1.6;">
                 Submitted ${submittedAt}<br/>
-                Cortexuum AI Marketing — Lead Notification
+                Cortexuum Marketing Systems · Lead Notification
               </span>
             </td>
           </tr>

@@ -242,7 +242,7 @@ export default function LandingPageReview() {
               </div>
               <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50 md:col-span-2 lg:col-span-2">
                 <Search className="w-8 h-8 text-amber-400 mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">AI SEO + traditional SEO structure</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Modern search + traditional SEO structure</h3>
                 <p className="text-slate-400 text-sm">Ensuring your page is optimized for both human decision-making and modern search behavior.</p>
               </div>
             </div>
@@ -531,7 +531,7 @@ export default function LandingPageReview() {
         <footer className="py-8 px-4 border-t border-slate-800/50">
           <div className="max-w-5xl mx-auto text-center space-y-2">
             <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} Cortexuum — AI-Powered Marketing Intelligence
+              © {new Date().getFullYear()} Cortexuum · Proven Marketing Systems
             </p>
             <p className="text-slate-600 text-xs">
               Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-slate-400 transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-slate-400 transition-colors">plaintalk.dev</a>

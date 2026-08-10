@@ -111,7 +111,7 @@ const AuthPage = () => {
               <li>Monitor the lead lifecycle</li>
               <li>Configure marketing integrations</li>
               <li>Access analytics and performance reports</li>
-              <li>Customize AI chatbot responses</li>
+              <li>Customize chatbot responses</li>
               <li>View campaign effectiveness metrics</li>
             </ul>
             <p className="mb-2">
