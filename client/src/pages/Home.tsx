@@ -549,7 +549,7 @@ const services = [
   { icon: AnimatedTarget, title: "Paid Media", description: "Meta, Google, and TikTok. Account builds, media buying, creative direction and testing, plus the tracking and attribution to prove what worked.", accent: "from-[#357BD8] to-[#00BCD4]" },
   { icon: AnimatedTrendingUp, title: "Funnel & Website Builds", description: "Opt-ins, VSL and webinar funnels, membership checkouts, automations, copywriting, integrations, and post-launch support.", accent: "from-[#00BCD4] to-[#357BD8]" },
   { icon: AnimatedBarChart, title: "Conversion Rate Optimization", description: "Landing page audits, heat mapping, and structured A/B testing programs driven by your own customer data, not hunches.", accent: "from-[#00BCD4] to-[#E63E8B]" },
-  { icon: AnimatedMessageSquare, title: "Offer & Messaging", description: "Offer architecture, positioning, and VSL and webinar scripting. When the offer is the constraint, no amount of media spend fixes it.", accent: "from-[#E63E8B] to-[#F5841F]" },
+  { icon: AnimatedMessageSquare, title: "Offer & Messaging", description: "Offer architecture, positioning, and VSL and webinar scripting. When the offer is the constraint, no amount of media spend fixes it.", accent: "from-[#E63E8B] to-[#F5841F]" },
   { icon: AnimatedLightbulb, title: "Consulting & Advisory", description: "Available standalone when you want strategy, auditing, and oversight rather than full execution. We tell you the truth either way.", accent: "from-[#F5841F] to-[#E63E8B]" },
 ];
 
@@ -638,6 +638,68 @@ const documentedResults = [
   },
 ];
 
+// Client logos extracted from the partner brief. Served from client/public/logos.
+// doingwell is deliberately excluded: that engagement stays off the site.
+// `dark` marks logos whose artwork is baked onto a #111111 background. The tile
+// matches that colour so the image blends into the card instead of sitting in it
+// as a black rectangle. Every logo's edge pixels are a uniform #111111 or #ffffff.
+type Brand = { name: string; file: string; dark?: boolean };
+
+const infoBrands: Brand[] = [
+  { name: "5MM", file: "5mm", dark: true },
+  { name: "Data in Motion", file: "data-in-motion", dark: true },
+  { name: "Gallaher Edge", file: "gallaher-edge" },
+  { name: "Social Revelation", file: "social-revelation" },
+  { name: "GNO Partners", file: "gno-partners" },
+  { name: "Moneytize", file: "moneytize" },
+  { name: "Propvera", file: "propvera" },
+  { name: "Builders Business Funding", file: "builders-business-funding" },
+  { name: "How to Host", file: "how-to-host" },
+  { name: "YouthPlyo", file: "youthplyo" },
+  { name: "Outbound Roundtables", file: "outbound-roundtables" },
+  { name: "The Joy-Effect", file: "the-joy-effect" },
+];
+
+const commerceBrands: Brand[] = [
+  { name: "Splash", file: "splash", dark: true },
+  { name: "My Bag My Story", file: "my-bag-my-story" },
+  { name: "AlkaVida", file: "alkavida" },
+  { name: "Holistic Hustler", file: "holistic-hustler" },
+  { name: "Jennifer Baron, M.D.", file: "jennifer-baron-md" },
+  { name: "Fitness Covered", file: "fitness-covered", dark: true },
+  { name: "Juice Crafters", file: "juice-crafters" },
+  { name: "Jetts Window Cleaning", file: "jetts-window-cleaning", dark: true },
+];
+
+const agencyBrands: Brand[] = [
+  { name: "BAD Marketing", file: "bad-marketing", dark: true },
+  { name: "GigaBrands", file: "gigabrands", dark: true },
+  { name: "Social Revelation", file: "social-revelation" },
+];
+
+function LogoTile({ brand, index }: { brand: Brand; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4) }}
+      className={`flex items-center justify-center border rounded-xl p-4 h-24 overflow-hidden transition-all duration-300 ${
+        brand.dark
+          ? "bg-[#111111] border-[#111111] hover:shadow-lg hover:shadow-slate-900/20 hover:border-[#357BD8]/40"
+          : "bg-white border-slate-200 hover:shadow-lg hover:border-[#357BD8]/20"
+      }`}
+    >
+      <img
+        src={`/logos/${brand.file}.png`}
+        alt={brand.name}
+        loading="lazy"
+        className="max-h-full max-w-full object-contain"
+      />
+    </motion.div>
+  );
+}
+
 const funnelSteps = [
   { icon: AnimatedLightbulb, label: "Ideation", desc: "Strategy and concept development" },
   { icon: AnimatedMessageSquare, label: "Writing", desc: "Psychology-driven copy" },
@@ -661,7 +723,7 @@ function ServiceCard({ service, index, progress, isMobile }: { service: typeof s
         ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
         : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
       )}
-      className="relative bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden"
+      className="relative h-full bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-transparent via-transparent to-[#357BD8]/[0.03] rounded-bl-full group-hover:to-[#357BD8]/[0.08] transition-all duration-300" />
       <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${service.accent} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
@@ -895,7 +957,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                   Christian Colgate is CEO and Founder of Cortexuum, where he leads the paid media division, scaling brands across Meta, Google, and TikTok.
                 </p>
                 <p className="text-slate-600 leading-relaxed">
-                  Christian founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground up.
+                  Christian founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.
                 </p>
               </div>
 
@@ -919,7 +981,7 @@ function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean 
                   Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA.
                 </p>
                 <p className="text-slate-500 text-sm leading-relaxed">
-                  Founder-led and celebrity-backed DTC brands are a repeat pattern in the book of work: the kind of account where the offer, the funnel, and the paid acquisition all have to carry the founder's credibility without burning it. Those engagements are confidential and reviewed live rather than printed here.
+                  Founder-led and celebrity-backed DTC brands are a repeat pattern in the book of work: the kind of account where the offer, the funnel, and the paid acquisition all have to carry the founder's credibility without burning it. Those engagements are confidential and reviewed live rather than printed&nbsp;here.
                 </p>
               </div>
             </div>
@@ -1144,9 +1206,16 @@ export default function Home() {
                 </h2>
                 <p className="text-slate-500 text-base max-w-xl mx-auto">Every service built on psychological principles and proven performance data.</p>
               </SectionHeading>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* Five cards into a three-up grid leaves a hole on the last row.
+                  Centred flex-wrap keeps the trailing row balanced instead. */}
+              <div className="flex flex-wrap justify-center gap-5">
                 {services.map((service, i) => (
-                  <ServiceCard key={i} service={service} index={i} progress={progress} isMobile={isMobile} />
+                  <div
+                    key={i}
+                    className="w-full md:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+                  >
+                    <ServiceCard service={service} index={i} progress={progress} isMobile={isMobile} />
+                  </div>
                 ))}
               </div>
 
@@ -1165,7 +1234,7 @@ export default function Home() {
                     <h3 className="text-sm font-bold text-slate-800">Where we're the right call</h3>
                   </div>
                   <p className="text-slate-600 text-sm leading-relaxed">
-                    Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the top.
+                    Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.
                   </p>
                 </div>
                 <div className="relative bg-slate-50 border border-slate-200 rounded-2xl p-6 overflow-hidden">
@@ -1261,6 +1330,83 @@ export default function Home() {
           >
             A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.
           </motion.p>
+        </div>
+      </section>
+
+      {/* ===== CLIENT ROSTER ===== */}
+      <section id="clients" className="relative py-20 md:py-28 px-6 scroll-mt-24">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-1/4 w-[380px] h-[380px] bg-[#E63E8B]/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 left-1/4 w-[320px] h-[320px] bg-[#357BD8]/[0.03] rounded-full blur-[110px]" />
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <p className="text-[#E63E8B] font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Roster</p>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
+              Brands we've{" "}
+              <span className="bg-gradient-to-r from-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">built the machine for.</span>
+            </h2>
+          </motion.div>
+
+          <div className="mb-12">
+            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
+              Information &amp; education brands
+            </p>
+            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
+              Courses, coaching, communities, events, and paid newsletters. This is the core of the book.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {infoBrands.map((brand, i) => (
+                <LogoTile key={brand.file} brand={brand} index={i} />
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-12">
+            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
+              Ecommerce, DTC &amp; service brands
+            </p>
+            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
+              The same engine applied outside info products.
+            </p>
+            {/* Eight logos: 2-up and 4-up divide evenly, a 3-up row would not. */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {commerceBrands.map((brand, i) => (
+                <LogoTile key={brand.file} brand={brand} index={i} />
+              ))}
+            </div>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-slate-400 text-xs text-center uppercase tracking-widest mb-14"
+          >
+            + Additional named brands held under NDA, disclosable on request
+          </motion.p>
+
+          <div className="border-t border-slate-200 pt-12">
+            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
+              Inside the industry's leading agencies
+            </p>
+            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
+              Contracted in to build out infrastructure and lead the teams behind their largest accounts.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+              {agencyBrands.map((brand, i) => (
+                <LogoTile key={`agency-${brand.file}`} brand={brand} index={i} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1360,7 +1506,7 @@ export default function Home() {
               <span className="text-sm font-semibold text-[#357BD8]">Free Strategy Session</span>
             </div>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-slate-800">
-              Ready to see what<br />
+              Ready to see what{" "}
               <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">proven marketing systems</span> can do?
             </h2>
             <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
@@ -1496,12 +1642,6 @@ export default function Home() {
                 ))}
                 <a href="/login" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Admin</a>
               </div>
-            </div>
-
-            <div className="text-center mt-6">
-              <p className="text-slate-600 text-xs">
-                Designed by Ignacio Nunez · <a href="mailto:dev@ignacionunez.dev" className="hover:text-[#357BD8] transition-colors">dev@ignacionunez.dev</a> · <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#357BD8] transition-colors">plaintalk.dev</a>
-              </p>
             </div>
           </div>
         </div>

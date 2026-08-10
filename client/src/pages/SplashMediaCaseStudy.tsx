@@ -13,41 +13,8 @@ import {
   Check,
   Shield,
 } from "lucide-react";
-import { Link } from "wouter";
-import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
+import Header from "@/components/Header";
 import DesignerFooter from "@/components/DesignerFooter";
-
-// The shared Header's nav is homepage hash anchors, which dead-end on a
-// sub-route, so case study pages carry their own minimal header instead.
-function CaseStudyHeader() {
-  return (
-    <header className="fixed top-3 md:top-5 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
-      <div className="max-w-6xl mx-auto pointer-events-auto">
-        <div className="flex items-center justify-between gap-4 rounded-full bg-white/85 backdrop-blur-xl border border-slate-200 shadow-lg shadow-slate-200/50 py-2 pl-4 pr-2 md:pl-6 md:pr-3">
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <img src={cortexuumLogoCircle} alt="Cortexuum" className="w-9 h-9 rounded-full ring-1 ring-[#357BD8]/20" />
-            <span className="font-extrabold tracking-[0.2em] text-sm uppercase text-slate-800 hidden sm:block">
-              Cortexuum
-            </span>
-          </Link>
-          <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/#proof" className="text-slate-600 hover:text-[#357BD8] text-sm font-medium transition-colors hidden sm:block">
-              All results
-            </Link>
-            <a
-              href="https://calendly.com/cortexuummarketing/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#357BD8] text-white font-bold px-5 py-2.5 rounded-full text-sm hover:bg-[#2d6bc0] transition-colors"
-            >
-              Book a Call <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -140,7 +107,7 @@ export default function SplashMediaCaseStudy() {
 
   return (
     <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 min-h-screen">
-      <CaseStudyHeader />
+      <Header />
 
       {/* ===== HERO ===== */}
       <section className="pt-28 pb-16 md:pt-36 md:pb-20 px-6 relative overflow-hidden">

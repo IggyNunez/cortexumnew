@@ -1028,16 +1028,6 @@ export default function WebsiteOutreach() {
           <p className="text-slate-500 text-sm">
             &copy; {new Date().getFullYear()} Cortexuum, Proven Marketing Systems & Web Development
           </p>
-          <p className="text-slate-600 text-xs">
-            Designed by Ignacio Nunez &middot;{" "}
-            <a href="mailto:dev@ignacionunez.dev" className="hover:text-slate-400 transition-colors">
-              dev@ignacionunez.dev
-            </a>{" "}
-            &middot;{" "}
-            <a href="https://plaintalk.dev" target="_blank" rel="noopener noreferrer" className="hover:text-slate-400 transition-colors">
-              plaintalk.dev
-            </a>
-          </p>
         </div>
       </footer>
     </div>

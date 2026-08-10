@@ -76,8 +76,20 @@
   /* Improved heading legibility */
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight leading-tight;
+    /* Even out line lengths so headings never drop a single orphan word onto
+       the last line. Applies at every breakpoint; browsers without support
+       simply fall back to normal wrapping. */
+    text-wrap: balance;
   }
-  
+
+  /* Body copy: balance rather than pretty. Chrome's `pretty` still leaves a
+     lone trailing word on short 2-3 line marketing paragraphs, which is most
+     of this site. Browsers cap balancing at ~6 lines, so long-form prose on
+     the legal pages is untouched and keeps normal wrapping. */
+  p, li, blockquote, figcaption, dd {
+    text-wrap: balance;
+  }
+
   h1 {
     @apply text-3xl md:text-4xl lg:text-5xl;
   }
