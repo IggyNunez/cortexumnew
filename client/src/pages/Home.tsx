@@ -669,6 +669,7 @@ const commerceBrands: Brand[] = [
   { name: "Fitness Covered", file: "fitness-covered", dark: true },
   { name: "Juice Crafters", file: "juice-crafters" },
   { name: "Jetts Window Cleaning", file: "jetts-window-cleaning", dark: true },
+  { name: "Kalyxi", file: "kalyxi" },
 ];
 
 const agencyBrands: Brand[] = [
@@ -1376,8 +1377,8 @@ export default function Home() {
             <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
               The same engine applied outside info products.
             </p>
-            {/* Eight logos: 2-up and 4-up divide evenly, a 3-up row would not. */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Nine logos: 3-up divides evenly; on 2-up mobile the last tile spans the row. */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
               {commerceBrands.map((brand, i) => (
                 <LogoTile key={brand.file} brand={brand} index={i} />
               ))}
