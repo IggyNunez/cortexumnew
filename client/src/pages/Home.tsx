@@ -1,592 +1,50 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useInView, motionValue } from "framer-motion";
-import {
-  ArrowRight, TrendingUp, BarChart3, Users, Sparkles,
-  Shield, Check, Star,
-} from "lucide-react";
+import { motion, MotionConfig } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Check, Minus } from "lucide-react";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
-import {
-  AnimatedMegaphone, AnimatedTarget, AnimatedTrendingUp,
-  AnimatedBarChart, AnimatedBrain, AnimatedZap, AnimatedEye,
-  AnimatedLightbulb, AnimatedMessageSquare, AnimatedSparkles, AnimatedUsers,
-} from "@/components/AnimatedIcons";
+import portfolioKalyxi from "../assets/portfolio-kalyxi.webp";
+import portfolioJetts from "../assets/portfolio-jetts.webp";
+import portfolioLakelucien from "../assets/portfolio-lakelucien.webp";
 import Header from "@/components/Header";
 
-const thinkingWords = ["thinks.", "adapts.", "learns.", "converts.", "scales."];
-
-function ThinkingText() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const currentWord = thinkingWords[wordIndex];
-
-    if (isPaused) {
-      const pauseTimer = setTimeout(() => {
-        setIsPaused(false);
-        setIsDeleting(true);
-      }, 2000);
-      return () => clearTimeout(pauseTimer);
-    }
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      setIsPaused(true);
-      return;
-    }
-
-    if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setWordIndex((prev) => (prev + 1) % thinkingWords.length);
-      return;
-    }
-
-    const speed = isDeleting ? 50 : 120;
-    const timer = setTimeout(() => {
-      setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
-    }, speed);
-
-    return () => clearTimeout(timer);
-  }, [charIndex, isDeleting, isPaused, wordIndex]);
-
-  const currentWord = thinkingWords[wordIndex];
-  const displayText = currentWord.slice(0, charIndex);
-
-  return (
-    <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">
-      {displayText}
-      <span className="inline-block w-[3px] h-[0.85em] bg-gradient-to-b from-[#357BD8] to-[#E63E8B] ml-1 align-middle animate-[blink_0.8s_step-end_infinite] rounded-full" />
-    </span>
-  );
-}
-
-// ===== ANIMATED SVG: Neural network that draws itself =====
-function NeuralNetworkSVG() {
-  const nodes = [
-    // Input layer
-    { x: 60, y: 80, layer: 0 }, { x: 60, y: 160, layer: 0 }, { x: 60, y: 240, layer: 0 }, { x: 60, y: 320, layer: 0 },
-    // Hidden layer 1
-    { x: 200, y: 100, layer: 1 }, { x: 200, y: 180, layer: 1 }, { x: 200, y: 260, layer: 1 },
-    // Hidden layer 2
-    { x: 340, y: 120, layer: 2 }, { x: 340, y: 200, layer: 2 }, { x: 340, y: 280, layer: 2 },
-    // Output layer
-    { x: 480, y: 160, layer: 3 }, { x: 480, y: 240, layer: 3 },
-  ];
-
-  const connections: { from: number; to: number }[] = [];
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      if (nodes[j].layer === nodes[i].layer + 1) connections.push({ from: i, to: j });
-    }
-  }
-
-  return (
-    <svg viewBox="0 0 540 400" className="w-full h-full" fill="none">
-      {/* Connection lines with staggered draw animation */}
-      {connections.map((conn, i) => {
-        const from = nodes[conn.from];
-        const to = nodes[conn.to];
-        return (
-          <motion.line
-            key={`conn-${i}`}
-            x1={from.x} y1={from.y} x2={to.x} y2={to.y}
-            stroke="url(#neuralGrad)"
-            strokeWidth={1.5}
-            strokeOpacity={0.3}
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 + i * 0.03, ease: "easeOut" }}
-          />
-        );
-      })}
-
-      {/* Traveling data pulses along connections */}
-      {connections.filter((_, i) => i % 4 === 0).map((conn, i) => {
-        const from = nodes[conn.from];
-        const to = nodes[conn.to];
-        return (
-          <motion.circle
-            key={`pulse-${i}`}
-            r={3}
-            fill="#00BCD4"
-            filter="url(#glow)"
-            initial={{ cx: from.x, cy: from.y, opacity: 0 }}
-            animate={{
-              cx: [from.x, to.x],
-              cy: [from.y, to.y],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 2,
-              delay: 2.5 + i * 0.6,
-              repeat: Infinity,
-              repeatDelay: 3,
-              ease: "easeInOut",
-            }}
-          />
-        );
-      })}
-
-      {/* Nodes with staggered pop-in */}
-      {nodes.map((node, i) => (
-        <motion.g key={`node-${i}`}>
-          {/* Outer ring */}
-          <motion.circle
-            cx={node.x} cy={node.y} r={16}
-            stroke={node.layer === 0 ? "#357BD8" : node.layer === 3 ? "#E63E8B" : "#00BCD4"}
-            strokeWidth={2}
-            fill="white"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 + node.layer * 0.3 + (i % 4) * 0.08, ease: [0.34, 1.56, 0.64, 1] }}
-          />
-          {/* Inner dot */}
-          <motion.circle
-            cx={node.x} cy={node.y} r={5}
-            fill={node.layer === 0 ? "#357BD8" : node.layer === 3 ? "#E63E8B" : "#00BCD4"}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.8 }}
-            transition={{ duration: 0.4, delay: 1.0 + node.layer * 0.3 + (i % 4) * 0.08 }}
-          />
-          {/* Pulse ring on output nodes */}
-          {node.layer === 3 && (
-            <motion.circle
-              cx={node.x} cy={node.y} r={16}
-              stroke="#E63E8B"
-              strokeWidth={1}
-              fill="none"
-              initial={{ scale: 1, opacity: 0.6 }}
-              animate={{ scale: 2.5, opacity: 0 }}
-              transition={{ duration: 2, delay: 3 + i * 0.3, repeat: Infinity, repeatDelay: 2 }}
-            />
-          )}
-        </motion.g>
-      ))}
-
-      <defs>
-        <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#357BD8" />
-          <stop offset="50%" stopColor="#00BCD4" />
-          <stop offset="100%" stopColor="#E63E8B" />
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-          <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-      </defs>
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Orbiting rings around logo =====
-function OrbitRings() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <svg viewBox="0 0 300 300" className="w-full h-full">
-        {/* Ring 1 - inner */}
-        <motion.circle cx={150} cy={150} r={90} fill="none" stroke="#357BD8" strokeWidth={0.8} strokeDasharray="10 14"
-          initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "150px 150px" }} />
-        {/* Ring 2 - middle */}
-        <motion.circle cx={150} cy={150} r={115} fill="none" stroke="#00BCD4" strokeWidth={0.6} strokeDasharray="6 18"
-          initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "150px 150px" }} />
-        {/* Ring 3 - outer */}
-        <motion.circle cx={150} cy={150} r={140} fill="none" stroke="#E63E8B" strokeWidth={0.5} strokeDasharray="4 22"
-          initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "150px 150px" }} />
-        {/* Orbiting dots */}
-        <motion.circle r={4} fill="#357BD8" filter="url(#orbitGlow)"
-          initial={{ cx: 240, cy: 150 }} animate={{ cx: [240, 150, 60, 150, 240], cy: [150, 60, 150, 240, 150] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
-        <motion.circle r={3.5} fill="#E63E8B" filter="url(#orbitGlow)"
-          initial={{ cx: 60, cy: 150 }} animate={{ cx: [60, 150, 240, 150, 60], cy: [150, 240, 150, 60, 150] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }} />
-        <motion.circle r={3} fill="#00BCD4" filter="url(#orbitGlow)"
-          initial={{ cx: 150, cy: 20 }} animate={{ cx: [150, 270, 150, 30, 150], cy: [20, 150, 280, 150, 20] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }} />
-        <defs>
-          <filter id="orbitGlow"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-        </defs>
-      </svg>
-    </div>
-  );
-}
-
-// ===== Scroll indicator =====
-function ScrollIndicator() {
-  return (
-    <motion.div
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 2, duration: 1 }}
-    >
-      <span className="text-slate-400 text-xs font-medium tracking-widest uppercase">Scroll</span>
-      <motion.div
-        className="w-6 h-10 rounded-full border-2 border-slate-300 flex justify-center pt-2"
-        animate={{ borderColor: ["rgba(148,163,184,0.5)", "rgba(53,123,216,0.6)", "rgba(148,163,184,0.5)"] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      >
-        <motion.div
-          className="w-1.5 h-1.5 rounded-full bg-[#357BD8]"
-          animate={{ y: [0, 16, 0], opacity: [1, 0.3, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
-    </motion.div>
-  );
-}
-
-// ===== Animated hero stat pill =====
-function HeroStat({ value, label, delay, color }: { value: string; label: string; delay: number; color: string }) {
-  return (
-    <motion.div
-      className="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-full px-5 py-2.5 shadow-sm"
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <span className={`text-lg font-black ${color}`}>{value}</span>
-      <span className="text-slate-500 text-sm font-medium">{label}</span>
-    </motion.div>
-  );
-}
-
-// ===== ANIMATED SVG: Circuit board pattern for Services =====
-function CircuitBoardSVG() {
-  const paths = [
-    "M 20,50 L 80,50 L 80,20 L 140,20",
-    "M 20,100 L 60,100 L 60,150 L 120,150",
-    "M 160,30 L 160,80 L 220,80 L 220,40 L 280,40",
-    "M 100,120 L 180,120 L 180,170 L 240,170",
-    "M 40,170 L 100,170 L 100,200 L 160,200",
-    "M 200,100 L 260,100 L 260,140 L 300,140",
-  ];
-  const nodes = [
-    { x: 20, y: 50 }, { x: 80, y: 50 }, { x: 140, y: 20 },
-    { x: 20, y: 100 }, { x: 120, y: 150 }, { x: 160, y: 30 },
-    { x: 280, y: 40 }, { x: 100, y: 120 }, { x: 240, y: 170 },
-    { x: 40, y: 170 }, { x: 160, y: 200 }, { x: 300, y: 140 },
-  ];
-  return (
-    <svg viewBox="0 0 320 220" className="w-full h-full" fill="none">
-      {paths.map((d, i) => (
-        <motion.path key={`p-${i}`} d={d} stroke="#357BD8" strokeWidth={1.5} strokeOpacity={0.2}
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, delay: i * 0.3, ease: "easeOut" }} />
-      ))}
-      {nodes.map((n, i) => (
-        <motion.circle key={`n-${i}`} cx={n.x} cy={n.y} r={4} fill="#357BD8" fillOpacity={0.4}
-          initial={{ scale: 0 }} animate={{ scale: 1 }}
-          transition={{ duration: 0.4, delay: 1 + i * 0.1, ease: [0.34, 1.56, 0.64, 1] }} />
-      ))}
-      {paths.filter((_, i) => i % 2 === 0).map((d, i) => (
-        <motion.circle key={`dp-${i}`} r={2.5} fill="#00BCD4"
-          initial={{ offsetDistance: "0%" }} animate={{ offsetDistance: "100%" }}
-          transition={{ duration: 3, delay: 2 + i * 1.2, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
-          style={{ offsetPath: `path('${d}')` } as any} />
-      ))}
-      <defs>
-        <linearGradient id="circuitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#357BD8" /><stop offset="100%" stopColor="#00BCD4" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Synapse/brain connections for Benefits =====
-function SynapseSVG() {
-  const synapses = [
-    { x1: 30, y1: 40, x2: 120, y2: 80, cx: 75, cy: 30 },
-    { x1: 100, y1: 20, x2: 200, y2: 60, cx: 150, cy: 10 },
-    { x1: 60, y1: 120, x2: 170, y2: 140, cx: 115, cy: 100 },
-    { x1: 150, y1: 100, x2: 250, y2: 120, cx: 200, cy: 80 },
-    { x1: 20, y1: 160, x2: 130, y2: 180, cx: 75, cy: 150 },
-    { x1: 180, y1: 150, x2: 270, y2: 170, cx: 225, cy: 130 },
-  ];
-  return (
-    <svg viewBox="0 0 300 200" className="w-full h-full" fill="none">
-      {synapses.map((s, i) => (
-        <motion.g key={`syn-${i}`}>
-          <motion.path
-            d={`M ${s.x1},${s.y1} Q ${s.cx},${s.cy} ${s.x2},${s.y2}`}
-            stroke={i % 2 === 0 ? "#E63E8B" : "#F5841F"} strokeWidth={1.5} strokeOpacity={0.25}
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-            transition={{ duration: 1.2, delay: i * 0.25, ease: "easeOut" }} />
-          <motion.circle cx={s.x1} cy={s.y1} r={5} fill={i % 2 === 0 ? "#E63E8B" : "#F5841F"} fillOpacity={0.5}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.5 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
-          <motion.circle cx={s.x2} cy={s.y2} r={5} fill={i % 2 === 0 ? "#F5841F" : "#E63E8B"} fillOpacity={0.5}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.7 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
-          <motion.circle r={2} fill={i % 2 === 0 ? "#E63E8B" : "#F5841F"}
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 2, delay: 1.5 + i * 0.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
-            style={{ offsetPath: `path('M ${s.x1},${s.y1} Q ${s.cx},${s.cy} ${s.x2},${s.y2}')` } as any} />
-        </motion.g>
-      ))}
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Floating quote bubbles for Testimonials =====
-function QuoteBubblesSVG() {
-  const bubbles = [
-    { x: 40, y: 50, size: 35, delay: 0 },
-    { x: 140, y: 30, size: 28, delay: 0.3 },
-    { x: 240, y: 60, size: 32, delay: 0.6 },
-    { x: 90, y: 130, size: 25, delay: 0.9 },
-    { x: 200, y: 140, size: 30, delay: 1.2 },
-  ];
-  return (
-    <svg viewBox="0 0 300 180" className="w-full h-full" fill="none">
-      {bubbles.map((b, i) => (
-        <motion.g key={`bub-${i}`}
-          initial={{ y: 20, opacity: 0, scale: 0.5 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: b.delay, ease: [0.22, 1, 0.36, 1] }}>
-          <rect x={b.x - b.size / 2} y={b.y - b.size / 2} width={b.size} height={b.size * 0.7}
-            rx={8} fill="white" stroke="#F5841F" strokeWidth={1} strokeOpacity={0.3} />
-          <motion.text x={b.x} y={b.y + 2} textAnchor="middle" fontSize={b.size * 0.4}
-            fill="#F5841F" fillOpacity={0.4} fontWeight="bold"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 3, delay: b.delay + 1, repeat: Infinity }}>"</motion.text>
-          <motion.circle cx={b.x - 3} cy={b.y + b.size * 0.35 + 4} r={2} fill="#F5841F" fillOpacity={0.2}
-            animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, delay: b.delay + 0.5, repeat: Infinity }} />
-          <motion.circle cx={b.x - 8} cy={b.y + b.size * 0.35 + 8} r={1.5} fill="#F5841F" fillOpacity={0.15} />
-        </motion.g>
-      ))}
-      {bubbles.map((b, i) => (
-        <motion.line key={`line-${i}`}
-          x1={b.x + b.size / 2 + 5} y1={b.y}
-          x2={bubbles[(i + 1) % bubbles.length].x - bubbles[(i + 1) % bubbles.length].size / 2 - 5}
-          y2={bubbles[(i + 1) % bubbles.length].y}
-          stroke="#F5841F" strokeWidth={0.5} strokeOpacity={0.15} strokeDasharray="4 6"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, delay: 1.5 + i * 0.2 }} />
-      ))}
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Connection graph for Team =====
-function ConnectionGraphSVG() {
-  const people = [
-    { x: 60, y: 50, color: "#357BD8" },
-    { x: 160, y: 30, color: "#00BCD4" },
-    { x: 260, y: 55, color: "#E63E8B" },
-    { x: 110, y: 120, color: "#F5841F" },
-    { x: 210, y: 130, color: "#357BD8" },
-  ];
-  const links = [[0,1],[1,2],[0,3],[1,4],[2,4],[3,4]];
-  return (
-    <svg viewBox="0 0 320 170" className="w-full h-full" fill="none">
-      {links.map(([a, b], i) => (
-        <motion.line key={`link-${i}`}
-          x1={people[a].x} y1={people[a].y} x2={people[b].x} y2={people[b].y}
-          stroke="#357BD8" strokeWidth={1} strokeOpacity={0.15}
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 + i * 0.15 }} />
-      ))}
-      {people.map((p, i) => (
-        <motion.g key={`person-${i}`}>
-          <motion.circle cx={p.x} cy={p.y} r={18} fill="white" stroke={p.color} strokeWidth={2} strokeOpacity={0.4}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: i * 0.15, ease: [0.34, 1.56, 0.64, 1] }} />
-          <motion.circle cx={p.x} cy={p.y - 4} r={5} fill={p.color} fillOpacity={0.4}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.2 + i * 0.15 }} />
-          <motion.path d={`M ${p.x - 8},${p.y + 10} Q ${p.x},${p.y + 2} ${p.x + 8},${p.y + 10}`}
-            stroke={p.color} strokeWidth={1.5} strokeOpacity={0.4} fill="none"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 + i * 0.15 }} />
-          <motion.circle cx={p.x} cy={p.y} r={18} stroke={p.color} strokeWidth={1} fill="none"
-            initial={{ scale: 1, opacity: 0.4 }} animate={{ scale: 2, opacity: 0 }}
-            transition={{ duration: 2.5, delay: 2 + i * 0.5, repeat: Infinity, repeatDelay: 3 }} />
-        </motion.g>
-      ))}
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Pipeline flow for Process =====
-function PipelineSVG() {
-  const stages = [
-    { x: 30, label: "IN", color: "#10B981" },
-    { x: 100, label: "", color: "#00BCD4" },
-    { x: 170, label: "", color: "#357BD8" },
-    { x: 240, label: "", color: "#E63E8B" },
-    { x: 310, label: "OUT", color: "#F5841F" },
-  ];
-  return (
-    <svg viewBox="0 0 340 80" className="w-full h-full" fill="none">
-      <motion.path d="M 30,40 L 310,40" stroke="url(#pipelineGrad)" strokeWidth={2} strokeOpacity={0.2}
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }} />
-      {stages.map((s, i) => (
-        <motion.g key={`stage-${i}`}>
-          <motion.circle cx={s.x} cy={40} r={12} fill="white" stroke={s.color} strokeWidth={2}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.3 + i * 0.2, ease: [0.34, 1.56, 0.64, 1] }} />
-          <motion.circle cx={s.x} cy={40} r={4} fill={s.color}
-            initial={{ scale: 0 }} animate={{ scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 + i * 0.2 }} />
-        </motion.g>
-      ))}
-      {[0, 1, 2].map(i => (
-        <motion.circle key={`flow-${i}`} r={3} fill="#00BCD4"
-          animate={{ cx: [30, 310], cy: [40, 40], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 3, delay: 2 + i * 1.5, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }} />
-      ))}
-      <defs>
-        <linearGradient id="pipelineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#10B981" /><stop offset="50%" stopColor="#357BD8" /><stop offset="100%" stopColor="#F5841F" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
-// ===== ANIMATED SVG: Signal burst for CTA =====
-function SignalBurstSVG() {
-  const rings = [50, 80, 110, 140];
-  const particles = Array.from({ length: 12 }, (_, i) => ({
-    angle: (i * 30) * Math.PI / 180,
-    distance: 60 + Math.random() * 60,
-    size: 2 + Math.random() * 3,
-    delay: Math.random() * 2,
-  }));
-  return (
-    <svg viewBox="0 0 300 300" className="w-full h-full" fill="none">
-      {rings.map((r, i) => (
-        <motion.circle key={`ring-${i}`} cx={150} cy={150} r={r} stroke="#357BD8" strokeWidth={1} fill="none"
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 3 + i * 0.5, delay: i * 0.4, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "150px 150px" }} />
-      ))}
-      {particles.map((p, i) => (
-        <motion.circle key={`part-${i}`} r={p.size}
-          fill={i % 3 === 0 ? "#357BD8" : i % 3 === 1 ? "#00BCD4" : "#E63E8B"}
-          initial={{
-            cx: 150 + Math.cos(p.angle) * 20,
-            cy: 150 + Math.sin(p.angle) * 20,
-            opacity: 0,
-          }}
-          animate={{
-            cx: [150 + Math.cos(p.angle) * 20, 150 + Math.cos(p.angle) * p.distance],
-            cy: [150 + Math.sin(p.angle) * 20, 150 + Math.sin(p.angle) * p.distance],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{ duration: 2.5, delay: 1 + p.delay, repeat: Infinity, repeatDelay: 2, ease: "easeOut" }} />
-      ))}
-      <motion.circle cx={150} cy={150} r={15} fill="#357BD8" fillOpacity={0.3}
-        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity }} style={{ transformOrigin: "150px 150px" }} />
-    </svg>
-  );
-}
-
-function useCountUp(end: number, duration: number = 2000, inView: boolean) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const increment = end / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, 16);
-    return () => clearInterval(timer);
-  }, [end, duration, inView]);
-  return count;
-}
-
-function CounterCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const count = useCountUp(value, 2000, inView);
-  return (
-    <div ref={ref} className="text-center">
-      <div className="text-4xl md:text-5xl font-black bg-gradient-to-b from-slate-800 to-slate-600 bg-clip-text text-transparent mb-2">
-        {count}{suffix}
-      </div>
-      <div className="text-slate-500 text-sm uppercase tracking-widest font-medium">{label}</div>
-    </div>
-  );
-}
-
-function useMobileDetect() {
-  const [mobile, setMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  useEffect(() => {
-    const check = () => setMobile(window.innerWidth < 768);
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-  return mobile;
-}
-
-function StickyRevealSection({ children, id }: { children: (progress: any, isMobile: boolean) => React.ReactNode; id?: string; scrollTrackHeight?: string }) {
-  // Render as normal (non-sticky) section on all screens.
-  // Pass null progress + isMobile=true so child cards render static (no scroll-driven animation).
-  return (
-    <div
-      id={id}
-      className="relative scroll-mt-24 py-20 md:py-28 px-6"
-    >
-      {children(null, true)}
-    </div>
-  );
-}
+const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const services = [
-  { icon: AnimatedTarget, title: "Paid Media", description: "Meta, Google, and TikTok. Account builds, media buying, creative direction and testing, plus the tracking and attribution to prove what worked.", accent: "from-[#357BD8] to-[#00BCD4]" },
-  { icon: AnimatedTrendingUp, title: "Funnel & Website Builds", description: "Opt-ins, VSL and webinar funnels, membership checkouts, automations, copywriting, integrations, and post-launch support.", accent: "from-[#00BCD4] to-[#357BD8]" },
-  { icon: AnimatedBarChart, title: "Conversion Rate Optimization", description: "Landing page audits, heat mapping, and structured A/B testing programs driven by your own customer data, not hunches.", accent: "from-[#00BCD4] to-[#E63E8B]" },
-  { icon: AnimatedMessageSquare, title: "Offer & Messaging", description: "Offer architecture, positioning, and VSL and webinar scripting. When the offer is the constraint, no amount of media spend fixes it.", accent: "from-[#E63E8B] to-[#F5841F]" },
-  { icon: AnimatedLightbulb, title: "Consulting & Advisory", description: "Available standalone when you want strategy, auditing, and oversight rather than full execution. We tell you the truth either way.", accent: "from-[#F5841F] to-[#E63E8B]" },
+  { title: "Paid media", description: "Meta, Google, and TikTok. Account builds, media buying, creative direction and testing, plus the tracking and attribution to prove what worked." },
+  { title: "Funnel and website builds", description: "Opt-ins, VSL and webinar funnels, membership checkouts, automations, copywriting, integrations, and post-launch support." },
+  { title: "Conversion rate optimization", description: "Landing page audits, heat mapping, and structured A/B testing programs driven by your own customer data, not hunches." },
+  { title: "Offer and messaging", description: "Offer architecture, positioning, and VSL and webinar scripting. When the offer is the constraint, no amount of media spend fixes it." },
+  { title: "Consulting and advisory", description: "Available standalone when you want strategy, auditing, and oversight rather than full execution. We tell you the truth either way." },
 ];
 
 const benefits = [
-  { icon: AnimatedBrain, title: "Psychology-Based Targeting", stat: "30-50% Higher ROI", description: "Our targeting models are built on cognitive and behavioral psychology principles. They don't just find audiences. They account for why people buy." },
-  { icon: AnimatedZap, title: "24/7 Campaign Monitoring", stat: "Always On", description: "Your campaigns never sleep. Automated monitoring adjusts and optimizes around the clock, catching opportunities a weekly check-in would miss." },
-  { icon: AnimatedTarget, title: "Hyper-Personalization", stat: "40-60% Lower Acquisition", description: "Every touchpoint is tailored. From ad creative to landing pages to follow-ups, each prospect gets a unique journey optimized for conversion." },
-  { icon: AnimatedEye, title: "Predictive Insights", stat: "See What's Coming", description: "Don't react to trends. Anticipate them. Our predictive models identify market shifts and customer behavior patterns before they happen." },
-];
-
-const testimonials = [
-  { name: "Sarah J.", role: "CEO", quote: "Cortexuum increased our client retention by 40% and reduced operational costs by 25%. The systems-driven approach transformed how we think about customer engagement.", rating: 5 },
-  { name: "Michael R.", role: "Marketing Director", quote: "We're capturing 3x more qualified leads with half the effort. The psychology-based targeting is unlike anything we've seen from other agencies.", rating: 5 },
-  { name: "Jennifer P.", role: "Founder & CMO", quote: "Tasks that took hours now happen in minutes. The automation freed up our team to focus on strategy while the systems handle execution flawlessly.", rating: 5 },
+  { title: "Psychology-based targeting", stat: "30-50% higher ROI", description: "Targeting models built on cognitive and behavioral psychology. They don't just find audiences. They account for why people buy." },
+  { title: "Around-the-clock monitoring", stat: "Always on", description: "Automated monitoring adjusts and optimizes around the clock, catching opportunities a weekly check-in would miss." },
+  { title: "Hyper-personalization", stat: "40-60% lower acquisition", description: "From ad creative to landing pages to follow-ups, each prospect gets a journey built for conversion." },
+  { title: "Predictive insights", stat: "See what's coming", description: "Models that flag market shifts and customer behavior patterns early, so you act before the trend instead of after it." },
 ];
 
 const teamExpertise = [
-  { years: "20+", area: "eCommerce & Development" },
-  { years: "15+", area: "Project Management" },
-  { years: "15+", area: "Copywriting & Content" },
-  { years: "20+", area: "Sales & Growth" },
+  { years: "20+", area: "eCommerce and development" },
+  { years: "15+", area: "Project management" },
+  { years: "15+", area: "Copywriting and content" },
+  { years: "20+", area: "Sales and growth" },
 ];
 
 const founderStats = [
-  { icon: TrendingUp, value: "$250M+", label: "Personally managed in ad spend" },
-  { icon: BarChart3, value: "8 Figures", label: "Marketing orgs scaled from six figures" },
-  { icon: Users, value: "200+", label: "Team members, grown from 15" },
+  { value: "$250M+", label: "Personally managed in ad spend" },
+  { value: "8 figures", label: "Marketing orgs scaled from six figures" },
+  { value: "200+", label: "Team members, grown from 15" },
 ];
 
-// Documented client results. Every figure is from a real account; the two masked
-// Meta accounts are platform-reported and unaltered. Client names withheld where
+// Documented client results. Every figure is from a real account; the masked
+// accounts are platform-reported and unaltered. Client names withheld where
 // the engagement is under confidentiality.
 const documentedResults = [
   {
     scope: "Content agency, Meta, cold traffic",
     client: "Splash Media",
-    masked: false,
     headline: "$150,000 in contracts on a $100/day budget",
     detail: "High-ticket retainers, phone-closed, and they had never run paid ads. We rebuilt creative, then found the real bottleneck was the landing page.",
     stats: [
@@ -595,12 +53,10 @@ const documentedResults = [
       { value: "$97.52", label: "Cost per lead at scale" },
     ],
     href: "/case-study/splash-media",
-    accent: "from-[#357BD8] to-[#00BCD4]",
   },
   {
     scope: "Ecommerce, Meta, 10-week window",
     client: "Client account under NDA",
-    masked: true,
     headline: "4.77x blended return across 1,327 purchases",
     detail: "Prospecting held 3.59x on $24.9K while retargeting ran 9.31x on $6.5K, at $30.52 and $12.69 cost per purchase.",
     stats: [
@@ -608,12 +64,10 @@ const documentedResults = [
       { value: "$149,733", label: "Purchase value" },
       { value: "$31,373", label: "Media spend" },
     ],
-    accent: "from-[#00BCD4] to-[#E63E8B]",
   },
   {
     scope: "Info product, Meta, single 30-day window",
     client: "Client account under NDA",
-    masked: true,
     headline: "10,313 leads in 30 days at $19.88 each",
     detail: "Cost per lead held between $19.36 and $21.12 across three scaled campaigns while volume ran past 10,000 leads.",
     stats: [
@@ -621,12 +75,10 @@ const documentedResults = [
       { value: "$205,027", label: "Media spend, 30 days" },
       { value: "3.05M", label: "Impressions" },
     ],
-    accent: "from-[#E63E8B] to-[#F5841F]",
   },
   {
     scope: "Supplement brand, Google Ads, full rebuild",
     client: "$1M+ brand, name confidential",
-    masked: true,
     headline: "6.0x account ROAS with cost per click down 16%",
     detail: "Rank-1 dominance held on branded search and shopping while top-of-funnel spend was pushed from 50% toward 90% of budget, growing net-new customers instead of harvesting brand demand.",
     stats: [
@@ -634,14 +86,19 @@ const documentedResults = [
       { value: "-16%", label: "Cost per click, week over week" },
       { value: "90%", label: "Budget moved top-of-funnel" },
     ],
-    accent: "from-[#F5841F] to-[#357BD8]",
   },
+];
+
+const websites = [
+  { name: "Kalyxi AI", url: "kalyxi.ai", image: portfolioKalyxi, headline: "From 4-hour response times to 47 seconds." },
+  { name: "Jetts Windows", url: "jettswindows.com", image: portfolioJetts, headline: "Zero online presence to 40+ leads per month. $0 ad spend." },
+  { name: "Lake Lucien ASC", url: "lucienasc.com", image: portfolioLakelucien, headline: "Full surgery center website. HIPAA compliant. 3 weeks." },
 ];
 
 // Client logos extracted from the partner brief. Served from client/public/logos.
 // doingwell is deliberately excluded: that engagement stays off the site.
 // `dark` marks logos whose artwork is baked onto a #111111 background. The tile
-// matches that colour so the image blends into the card instead of sitting in it
+// matches that color so the image blends into the card instead of sitting in it
 // as a black rectangle. Every logo's edge pixels are a uniform #111111 or #ffffff.
 type Brand = { name: string; file: string; dark?: boolean };
 
@@ -678,975 +135,436 @@ const agencyBrands: Brand[] = [
   { name: "Social Revelation", file: "social-revelation" },
 ];
 
-function LogoTile({ brand, index }: { brand: Brand; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4) }}
-      className={`flex items-center justify-center border rounded-xl p-4 h-24 overflow-hidden transition-all duration-300 ${
-        brand.dark
-          ? "bg-[#111111] border-[#111111] hover:shadow-lg hover:shadow-slate-900/20 hover:border-[#357BD8]/40"
-          : "bg-white border-slate-200 hover:shadow-lg hover:border-[#357BD8]/20"
-      }`}
-    >
-      <img
-        src={`/logos/${brand.file}.png`}
-        alt={brand.name}
-        loading="lazy"
-        className="max-h-full max-w-full object-contain"
-      />
-    </motion.div>
-  );
-}
+// White-background logos only: multiply drops their white onto the hero field.
+const marqueeBrands = [...infoBrands, ...commerceBrands].filter(b => !b.dark);
 
 const funnelSteps = [
-  { icon: AnimatedLightbulb, label: "Ideation", desc: "Strategy and concept development" },
-  { icon: AnimatedMessageSquare, label: "Writing", desc: "Psychology-driven copy" },
-  { icon: AnimatedEye, label: "Filming", desc: "Authentic video content" },
-  { icon: AnimatedSparkles, label: "Editing", desc: "Polished creative assets" },
-  { icon: AnimatedMegaphone, label: "Publishing", desc: "Multi-channel distribution" },
-  { icon: AnimatedUsers, label: "Capture", desc: "Lead generation systems" },
-  { icon: AnimatedTarget, label: "Nurture", desc: "Automated follow-up sequences" },
-  { icon: AnimatedTrendingUp, label: "Convert", desc: "Sales optimization" },
+  { label: "Ideation", desc: "Strategy and concept development" },
+  { label: "Writing", desc: "Psychology-driven copy" },
+  { label: "Filming", desc: "Authentic video content" },
+  { label: "Editing", desc: "Polished creative assets" },
+  { label: "Publishing", desc: "Multi-channel distribution" },
+  { label: "Capture", desc: "Lead generation systems" },
+  { label: "Nurture", desc: "Automated follow-up sequences" },
+  { label: "Convert", desc: "Sales optimization" },
 ];
 
-function ServiceCard({ service, index, progress, isMobile }: { service: typeof services[0]; index: number; progress: any; isMobile: boolean }) {
-  const delay = index * 0.15;
-  const cardOpacity = useTransform(progress ?? motionValue(0), [delay, delay + 0.15], [0, 1]);
-  const cardY = useTransform(progress ?? motionValue(0), [delay, delay + 0.15], [60, 0]);
-  const cardScale = useTransform(progress ?? motionValue(0), [delay, delay + 0.15], [0.9, 1]);
+const nextSteps = [
+  "Schedule a free 30-minute strategy call",
+  "We deep-dive into your business goals",
+  "Receive a custom marketing systems proposal",
+  "Launch your first campaign in weeks",
+];
 
+function SilkField() {
   return (
-    <motion.div
-      {...(isMobile
-        ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
-        : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
-      )}
-      className="relative h-full bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-transparent via-transparent to-[#357BD8]/[0.03] rounded-bl-full group-hover:to-[#357BD8]/[0.08] transition-all duration-300" />
-      <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${service.accent} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
-        <service.icon className="w-6 h-6 text-white" />
-      </div>
-      <h3 className="text-lg font-bold text-slate-800 mb-2">{service.title}</h3>
-      <p className="text-slate-500 leading-relaxed text-sm">{service.description}</p>
-    </motion.div>
-  );
-}
-
-function BenefitCard({ benefit, index, progress, isMobile }: { benefit: typeof benefits[0]; index: number; progress: any; isMobile: boolean }) {
-  const start = 0.1 + index * 0.2;
-  const opacity = useTransform(progress ?? motionValue(0), [start, start + 0.15], [0, 1]);
-  const x = useTransform(progress ?? motionValue(0), [start, start + 0.15], [index % 2 === 0 ? -80 : 80, 0]);
-
-  return (
-    <motion.div
-      {...(isMobile
-        ? { initial: { opacity: 0, x: index % 2 === 0 ? -30 : 30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
-        : { style: { opacity, x } }
-      )}
-      className="relative bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-xl hover:shadow-[#E63E8B]/8 hover:border-[#E63E8B]/20 transition-all duration-300 group overflow-hidden"
-    >
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#E63E8B]/[0.04] via-transparent to-transparent rounded-tr-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
-      <div className="absolute top-0 right-0 h-[2px] w-0 group-hover:w-1/3 bg-gradient-to-r from-[#E63E8B]/40 to-transparent transition-all duration-500" />
-      <div className="flex items-start gap-5 relative z-10">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E63E8B]/10 to-[#F5841F]/5 border border-[#E63E8B]/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#E63E8B]/10 transition-all duration-300">
-          <benefit.icon className="w-6 h-6 text-[#E63E8B]" />
-        </div>
-        <div>
-          <div className="flex flex-wrap items-center gap-3 mb-2">
-            <h3 className="text-lg font-bold text-slate-800 group-hover:text-slate-900 transition-colors">{benefit.title}</h3>
-            <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-semibold group-hover:bg-emerald-100 transition-colors">
-              {benefit.stat}
-            </span>
-          </div>
-          <p className="text-slate-500 leading-relaxed text-sm">{benefit.description}</p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function TestimonialCard({ testimonial, index, progress, isMobile }: { testimonial: typeof testimonials[0]; index: number; progress: any; isMobile: boolean }) {
-  const start = 0.15 + index * 0.2;
-  const cardOpacity = useTransform(progress ?? motionValue(0), [start, start + 0.15], [0, 1]);
-  const cardY = useTransform(progress ?? motionValue(0), [start, start + 0.15], [80, 0]);
-  const cardScale = useTransform(progress ?? motionValue(0), [start, start + 0.15], [0.85, 1]);
-
-  return (
-    <motion.div
-      {...(isMobile
-        ? { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-50px" }, transition: { duration: 0.5, delay: index * 0.1 } }
-        : { style: { opacity: cardOpacity, y: cardY, scale: cardScale } }
-      )}
-      className="relative bg-white border border-slate-200 rounded-2xl p-8 flex flex-col hover:shadow-xl hover:shadow-amber-500/6 hover:border-amber-400/20 transition-all duration-300 group overflow-hidden"
-    >
-      <div className="absolute top-4 right-5 text-5xl font-serif text-amber-400/10 group-hover:text-amber-400/20 transition-colors duration-300 leading-none select-none">"</div>
-      <div className="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-tl from-amber-500/[0.04] via-transparent to-transparent rounded-tl-full group-hover:from-amber-500/[0.10] transition-all duration-300" />
-      <div className="flex gap-1 mb-4 relative z-10">
-        {[...Array(testimonial.rating)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400 group-hover:scale-110 transition-transform duration-300" style={{ transitionDelay: `${j * 30}ms` }} />)}
-      </div>
-      <p className="text-slate-600 leading-relaxed mb-6 flex-1 relative z-10">"{testimonial.quote}"</p>
-      <div className="pt-4 border-t border-slate-100 group-hover:border-amber-200/50 transition-colors duration-300 relative z-10">
-        <p className="text-slate-800 font-bold">{testimonial.name}</p>
-        <p className="text-slate-500 text-sm">{testimonial.role}</p>
-      </div>
-    </motion.div>
-  );
-}
-
-function ResultCard({ result, index }: { result: typeof documentedResults[0]; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="relative bg-white border border-slate-200 rounded-2xl p-7 md:p-8 hover:shadow-xl hover:shadow-[#357BD8]/8 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden flex flex-col"
-    >
-      <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${result.accent}`} />
-      <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-[#357BD8]/[0.03] to-transparent rounded-tl-full group-hover:from-[#357BD8]/[0.08] transition-all duration-300" />
-
-      <div className="relative z-10 flex flex-col flex-1">
-        <p className="text-[#357BD8] font-mono text-[10px] tracking-[0.2em] uppercase mb-3">{result.scope}</p>
-        <h3 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight mb-3 leading-snug">{result.headline}</h3>
-        <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">{result.detail}</p>
-
-        <div className="grid grid-cols-3 gap-3 mb-5">
-          {result.stats.map((stat, i) => (
-            <div key={i} className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-              <div className="text-base md:text-lg font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent leading-tight">{stat.value}</div>
-              <div className="text-slate-500 text-[11px] leading-snug mt-1">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex items-center justify-between gap-3 pt-4 border-t border-slate-100">
-          <span className="inline-flex items-center gap-1.5 text-slate-500 text-xs font-medium">
-            {result.masked && <Shield className="w-3.5 h-3.5 text-slate-400" />}
-            {result.client}
-          </span>
-          {result.href && (
-            <a href={result.href} className="inline-flex items-center gap-1.5 text-[#357BD8] hover:text-[#E63E8B] font-semibold text-sm transition-colors">
-              Read the breakdown <ArrowRight className="w-4 h-4" />
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function SectionHeading({ progress, isMobile, children, start = 0, end = 0.08, startY = 40 }: { progress: any; isMobile: boolean; children: React.ReactNode; start?: number; end?: number; startY?: number }) {
-  const opacity = useTransform(progress ?? motionValue(0), [start, end], [0, 1]);
-  const y = useTransform(progress ?? motionValue(0), [start, end], [startY, 0]);
-
-  return (
-    <motion.div
-      {...(isMobile
-        ? { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } }
-        : { style: { opacity, y } }
-      )}
-      className="text-center mb-12"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function TeamSection({ progress, isMobile }: { progress: any; isMobile: boolean }) {
-  const leftOpacity = useTransform(progress ?? motionValue(0), [0, 0.15], [0, 1]);
-  const leftX = useTransform(progress ?? motionValue(0), [0, 0.15], [-60, 0]);
-  const rightOpacity = useTransform(progress ?? motionValue(0), [0.1, 0.25], [0, 1]);
-  const rightX = useTransform(progress ?? motionValue(0), [0.1, 0.25], [60, 0]);
-
-  return (
-    <div className="w-full px-6 relative">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_20%_50%,rgba(53,123,216,0.02),transparent)]" />
-        <div className="hidden lg:block absolute top-0 left-0 w-[320px] h-[170px] opacity-40">
-          <ConnectionGraphSVG />
-        </div>
-        <div className="hidden lg:block absolute bottom-0 right-0 w-[320px] h-[170px] opacity-30 scale-x-[-1]">
-          <ConnectionGraphSVG />
-        </div>
-      </div>
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            {...(isMobile
-              ? { initial: { opacity: 0, x: -30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.6 } }
-              : { style: { opacity: leftOpacity, x: leftX } }
-            )}
-          >
-            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Why CORTEXUUM</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6 tracking-tight leading-tight">
-              Data-driven solutions that beat opinions.{" "}
-              <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">Every time.</span>
-            </h2>
-            <p className="text-slate-500 leading-relaxed mb-10">
-              With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't.
-            </p>
-            <div className="grid grid-cols-2 gap-4">
-              {teamExpertise.map((exp, i) => (
-                <div key={i} className="relative bg-slate-50 border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:shadow-[#357BD8]/6 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden">
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#357BD8]/[0.05] to-transparent rounded-bl-full group-hover:from-[#357BD8]/[0.12] transition-all duration-300" />
-                  <div className="text-2xl font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent mb-1">{exp.years} <span className="text-slate-400 text-base bg-none [-webkit-text-fill-color:unset]">yrs</span></div>
-                  <div className="text-slate-500 text-sm">{exp.area}</div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            {...(isMobile
-              ? { initial: { opacity: 0, x: 30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.6, delay: 0.2 } }
-              : { style: { opacity: rightOpacity, x: rightX } }
-            )}
-            className="flex justify-center"
-          >
-            <div className="relative">
-              <div className="relative bg-white border border-slate-200 rounded-2xl p-8 text-center max-w-sm shadow-xl shadow-slate-200/60 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#357BD8]/[0.03] via-transparent to-[#E63E8B]/[0.03]" />
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
-                <div className="relative inline-block mb-6 z-10">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#357BD8] to-[#E63E8B] blur-md opacity-20 scale-110" />
-                  <img src={christianColgate} alt="Christian Colgate" className="relative w-32 h-32 rounded-full object-cover object-center border-4 border-white shadow-lg" />
-                  <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center">
-                    <Check className="w-3.5 h-3.5 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-black text-slate-800 mb-1">Christian Colgate</h3>
-                <p className="text-[#357BD8] font-medium mb-4 text-sm">CEO &amp; Founder</p>
-                <p className="text-slate-500 text-sm leading-relaxed mb-6">
-                  Combining deep psychology expertise with $250M+ in managed ad spend to build marketing systems that understand how people actually make decisions.
-                </p>
-                <a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#357BD8] text-white font-bold px-7 py-3 rounded-full hover:bg-[#2d6bc0] transition-colors text-sm shadow-lg shadow-[#357BD8]/20">
-                  Book a Call <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6 }}
-          className="mt-16 md:mt-20"
-        >
-          <div className="relative bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/60 overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#357BD8]/[0.02] via-transparent to-[#E63E8B]/[0.03] pointer-events-none" />
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#357BD8]/[0.04] rounded-full blur-[80px] pointer-events-none" />
-
-            <div className="relative z-10 p-8 md:p-12">
-              <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Founder Bio</p>
-              <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight mb-8">
-                Christian Colgate,{" "}
-                <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">CEO &amp; Founder</span>
-              </h3>
-
-              <div className="space-y-5 max-w-3xl mb-10">
-                <p className="text-slate-600 leading-relaxed">
-                  Christian Colgate is CEO and Founder of Cortexuum, where he leads the paid media division, scaling brands across Meta, Google, and TikTok.
-                </p>
-                <p className="text-slate-600 leading-relaxed">
-                  Christian founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.
-                </p>
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-4 mb-10">
-                {founderStats.map((stat, i) => (
-                  <div key={i} className="relative bg-slate-50 border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:shadow-[#357BD8]/6 hover:border-[#357BD8]/20 transition-all duration-300 group overflow-hidden">
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#357BD8]/[0.05] to-transparent rounded-bl-full group-hover:from-[#357BD8]/[0.12] transition-all duration-300" />
-                    <stat.icon className="w-5 h-5 text-[#357BD8] mb-3" />
-                    <div className="text-2xl font-black bg-gradient-to-r from-slate-800 to-[#357BD8] bg-clip-text text-transparent mb-1">{stat.value}</div>
-                    <div className="text-slate-500 text-sm leading-snug">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="relative bg-slate-50 border border-slate-200 rounded-xl p-6 md:p-7 overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
-                <p className="text-slate-600 leading-relaxed mb-3">
-                  He has managed the systems and marketing behind some of the most recognizable names in DTC and coaching.
-                </p>
-                <p className="text-slate-500 text-sm leading-relaxed mb-4">
-                  Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA.
-                </p>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  Founder-led and celebrity-backed DTC brands are a repeat pattern in the book of work: the kind of account where the offer, the funnel, and the paid acquisition all have to carry the founder's credibility without burning it. Those engagements are confidential and reviewed live rather than printed&nbsp;here.
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+    <div aria-hidden className="absolute inset-0 overflow-hidden">
+      <div className="silk-field" />
+      <div className="silk-grain" />
     </div>
   );
 }
 
-function ProcessStep({ step, index, progress, isMobile }: { step: typeof funnelSteps[0]; index: number; progress: any; isMobile: boolean }) {
-  const start = index * 0.1;
-  const opacity = useTransform(progress ?? motionValue(0), [start, start + 0.1], [0, 1]);
-  const scale = useTransform(progress ?? motionValue(0), [start, start + 0.1], [0.7, 1]);
-  const y = useTransform(progress ?? motionValue(0), [start, start + 0.1], [40, 0]);
-
+function CtaButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <motion.div
-      {...(isMobile
-        ? { initial: { opacity: 0, y: 20, scale: 0.9 }, whileInView: { opacity: 1, y: 0, scale: 1 }, viewport: { once: true, margin: "-30px" }, transition: { duration: 0.4, delay: index * 0.08 } }
-        : { style: { opacity, scale, y } }
-      )}
-      className="relative bg-white border border-slate-200 rounded-xl p-5 text-center hover:shadow-xl hover:shadow-emerald-500/8 hover:border-emerald-400/25 transition-all duration-300 group overflow-hidden"
+    <a
+      href={CTA_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group inline-flex items-center gap-2 rounded-full bg-[#0E1B33] text-white font-semibold px-7 py-4 text-[15px] hover:bg-[#357BD8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${className}`}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-2/3 bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent transition-all duration-500" />
-      <div className="relative z-10">
-        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-emerald-500/10 transition-all duration-300">
-          <step.icon className="w-5 h-5 text-emerald-600" />
-        </div>
-        <div className="text-[10px] text-emerald-600/60 font-mono mb-1 tracking-widest">{String(index + 1).padStart(2, "0")}</div>
-        <h4 className="text-sm font-bold text-slate-800 mb-1 group-hover:text-slate-900 transition-colors">{step.label}</h4>
-        <p className="text-xs text-slate-500">{step.desc}</p>
+      {children}
+      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+    </a>
+  );
+}
+
+function SectionHead({ title, intro }: { title: string; intro?: string }) {
+  return (
+    <div className="max-w-3xl mb-12 md:mb-16">
+      <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] text-[#0E1B33]">{title}</h2>
+      {intro && <p className="mt-5 text-lg text-slate-600 leading-relaxed max-w-2xl">{intro}</p>}
+    </div>
+  );
+}
+
+function LogoTile({ brand }: { brand: Brand }) {
+  return (
+    <div
+      className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border ${
+        brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"
+      }`}
+    >
+      <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
+    </div>
+  );
+}
+
+function RosterGroup({ title, note, brands, gridClass }: { title: string; note: string; brands: Brand[]; gridClass: string }) {
+  return (
+    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-300/70">
+      <div>
+        <h3 className="font-display text-xl font-semibold text-[#0E1B33]">{title}</h3>
+        <p className="mt-2 text-sm text-slate-500 leading-relaxed">{note}</p>
       </div>
-    </motion.div>
+      <div className={`grid gap-3 ${gridClass}`}>
+        {brands.map(b => <LogoTile key={b.file} brand={b} />)}
+      </div>
+    </div>
   );
 }
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(heroProgress, [0, 1], [0, 300]);
-  const heroOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
-  const heroScale = useTransform(heroProgress, [0, 1], [1, 0.85]);
+  const [featured, ...moreResults] = documentedResults;
 
   return (
-    <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 relative">
-      <Header />
+    <MotionConfig reducedMotion="user">
+      <div className="bg-white text-[#0E1B33] font-sans antialiased overflow-x-hidden">
+        <Header />
 
-      {/* ===== FLOATING AMBIENT DECORATIONS ===== */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden lg:block">
-        {/* Floating nodes that drift across the viewport */}
-        <motion.div className="absolute w-3 h-3 rounded-full bg-[#357BD8]/15"
-          animate={{ x: [0, 200, -100, 150, 0], y: [0, 300, 600, 200, 0] }}
-          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-          style={{ top: "10%", left: "5%" }} />
-        <motion.div className="absolute w-2 h-2 rounded-full bg-[#E63E8B]/12"
-          animate={{ x: [0, -150, 100, -200, 0], y: [0, 400, 200, 500, 0] }}
-          transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
-          style={{ top: "20%", right: "8%" }} />
-        <motion.div className="absolute w-4 h-4 rounded-full bg-[#00BCD4]/10"
-          animate={{ x: [0, 120, -80, 60, 0], y: [0, 250, 500, 150, 0] }}
-          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-          style={{ top: "35%", left: "3%" }} />
-        <motion.div className="absolute w-2.5 h-2.5 rounded-full bg-[#F5841F]/12"
-          animate={{ x: [0, -100, 200, -50, 0], y: [0, 350, 100, 450, 0] }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          style={{ top: "50%", right: "4%" }} />
-        <motion.div className="absolute w-2 h-2 rounded-full bg-[#357BD8]/10"
-          animate={{ x: [0, 80, -120, 180, 0], y: [0, 200, 400, 100, 0] }}
-          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ top: "65%", left: "7%" }} />
-        <motion.div className="absolute w-3 h-3 rounded-full bg-[#E63E8B]/10"
-          animate={{ x: [0, -180, 60, -120, 0], y: [0, 150, 350, 500, 0] }}
-          transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
-          style={{ top: "80%", right: "6%" }} />
+        {/* ===== HERO ===== */}
+        <section className="relative p-2 md:p-3">
+          <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px] min-h-[100svh] md:min-h-[calc(100svh-24px)] flex flex-col">
+            <SilkField />
 
-        {/* Floating thin connecting lines - use div-based approach to avoid SVG percentage issues */}
-        {[
-          { top: "15%", left: "2%", height: "30%", rotate: 15, color: "#357BD8", dur: 20 },
-          { top: "25%", right: "4%", height: "30%", rotate: -12, color: "#E63E8B", dur: 25 },
-          { top: "60%", left: "4%", height: "25%", rotate: 10, color: "#00BCD4", dur: 22 },
-          { top: "50%", right: "3%", height: "25%", rotate: -8, color: "#F5841F", dur: 28 },
-        ].map((line, i) => (
-          <motion.div key={`line-${i}`}
-            className="absolute w-[1px]"
-            style={{ top: line.top, left: line.left, right: (line as any).right, height: line.height, backgroundColor: line.color, opacity: 0.06 }}
-            animate={{ rotate: [line.rotate, -line.rotate, line.rotate], scaleY: [1, 1.2, 1] }}
-            transition={{ duration: line.dur, repeat: Infinity, ease: "easeInOut" }}
-          />
-        ))}
-
-        {/* Small orbiting ring clusters in the margins */}
-        <motion.div className="absolute top-[30%] left-[2%] w-16 h-16"
-          animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}>
-          <div className="w-full h-full rounded-full border border-[#357BD8]/8 border-dashed" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#357BD8]/20" />
-        </motion.div>
-        <motion.div className="absolute top-[55%] right-[2%] w-14 h-14"
-          animate={{ rotate: -360 }} transition={{ duration: 35, repeat: Infinity, ease: "linear" }}>
-          <div className="w-full h-full rounded-full border border-[#E63E8B]/8 border-dashed" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#E63E8B]/20" />
-        </motion.div>
-        <motion.div className="absolute top-[75%] left-[3%] w-12 h-12"
-          animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}>
-          <div className="w-full h-full rounded-full border border-[#00BCD4]/8 border-dashed" />
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#00BCD4]/20" />
-        </motion.div>
-      </div>
-
-      {/* ===== HERO - Static (no sticky / no parallax fade) ===== */}
-      <div ref={heroRef} className="relative">
-        <div className="relative min-h-screen flex items-center justify-center px-6 py-24 md:py-32 overflow-hidden">
-          {/* Background layers */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
-            <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#E63E8B]/8 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00BCD4]/6 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }} />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.08)_1px,transparent_1px)] bg-[size:48px_48px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(248,250,252,0.7)_70%)]" />
-          </div>
-
-          {/* Neural network -left side on desktop, hidden on mobile */}
-          <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-60">
-            <NeuralNetworkSVG />
-          </div>
-
-          {/* Neural network -right side mirrored on desktop */}
-          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] opacity-40 scale-x-[-1]">
-            <NeuralNetworkSVG />
-          </div>
-
-          {/* Main content */}
-          <div className="max-w-5xl mx-auto text-center relative z-10">
-            {/* Logo with orbit rings */}
-            <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="relative inline-flex items-center justify-center w-48 h-48 mb-6">
-                <OrbitRings />
-                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="rounded-full ring-2 ring-[#357BD8]/20 shadow-lg relative z-10" />
-              </div>
-            </motion.div>
-
-            {/* Brand name */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}>
-              <span className="text-sm font-extrabold tracking-[0.3em] uppercase text-[#357BD8] block mb-6">CORTEXUUM</span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-6 tracking-tight text-slate-800">
-              Marketing that
-              <br />
-              <ThinkingText />
-            </motion.h1>
-
-            {/* Subcopy -punchy, not generic */}
-            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg md:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
-              We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
-              <span className="block mt-2 text-slate-400 text-base">Not another agency. A growth system built on $250M+ in ad spend.</span>
-            </motion.p>
-
-            {/* Stat pills */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
-              <HeroStat value="$250M+" label="Ad spend managed" delay={1.0} color="text-[#357BD8]" />
-              <HeroStat value="3x" label="Avg lead increase" delay={1.15} color="text-[#00BCD4]" />
-              <HeroStat value="40%" label="Lower acquisition cost" delay={1.3} color="text-[#E63E8B]" />
-            </div>
-
-            {/* CTA */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-10 py-5 rounded-full text-lg shadow-xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
-                whileHover={{ scale: 1.03, boxShadow: "0 20px 40px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
-                Book a Strategy Call <ArrowRight className="w-5 h-5" />
-              </motion.a>
-            </motion.div>
-          </div>
-
-          {/* Scroll indicator */}
-          <ScrollIndicator />
-        </div>
-      </div>
-
-      {/* ===== STATS -Animated counters ===== */}
-      <section className="relative py-16 md:py-24 px-6" style={{ position: 'relative', zIndex: 2 }}>
-        <div className="max-w-5xl mx-auto relative bg-white border border-slate-200 rounded-3xl p-10 md:p-14 shadow-2xl shadow-slate-200/60 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B]" />
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#357BD8]/[0.04] to-transparent rounded-bl-full" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#E63E8B]/[0.04] to-transparent rounded-tr-full" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <CounterCard value={250} suffix="M+" label="Managed Ad Spend" />
-            <CounterCard value={7} suffix="" label="Years Experience" />
-            <CounterCard value={3} suffix="x" label="Avg Lead Increase" />
-            <CounterCard value={40} suffix="%" label="Avg Cost Reduction" />
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SERVICES -Sticky with scroll-linked card reveals ===== */}
-      <StickyRevealSection id="services" scrollTrackHeight="250vh">
-        {(progress, isMobile) => (
-          <div className="w-full px-6 relative">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -top-32 -right-32 w-[400px] h-[400px] bg-[#357BD8]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute -bottom-32 -left-32 w-[350px] h-[350px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
-              <div className="hidden lg:block absolute -top-10 -right-10 w-[320px] h-[220px] opacity-50">
-                <CircuitBoardSVG />
-              </div>
-              <div className="hidden lg:block absolute -bottom-10 -left-10 w-[320px] h-[220px] opacity-30 scale-x-[-1]">
-                <CircuitBoardSVG />
-              </div>
-            </div>
-            <div className="max-w-6xl mx-auto relative z-10">
-              <SectionHeading progress={progress} isMobile={isMobile}>
-                <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">What We Do</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
-                  Intelligent solutions{" "}
-                  <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">that beat generic marketing.</span>
-                </h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">Every service built on psychological principles and proven performance data.</p>
-              </SectionHeading>
-              {/* Five cards into a three-up grid leaves a hole on the last row.
-                  Centred flex-wrap keeps the trailing row balanced instead. */}
-              <div className="flex flex-wrap justify-center gap-5">
-                {services.map((service, i) => (
-                  <div
-                    key={i}
-                    className="w-full md:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
-                  >
-                    <ServiceCard service={service} index={i} progress={progress} isMobile={isMobile} />
-                  </div>
-                ))}
+            <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 md:px-10 pt-32 md:pt-40 pb-10 grid lg:grid-cols-[1.25fr_1fr] gap-12 lg:gap-10 items-center">
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, ease: EASE }}
+                  className="font-display text-[3.1rem] leading-[0.95] sm:text-7xl lg:text-[6.2rem] font-bold tracking-[-0.045em]"
+                >
+                  Marketing systems proven on $250M+ of ad spend.
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
+                  className="mt-7 text-lg md:text-xl text-slate-700 leading-relaxed max-w-xl"
+                >
+                  We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.25, ease: EASE }}
+                  className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4"
+                >
+                  <CtaButton>Book a strategy call</CtaButton>
+                  <a href="#proof" className="text-[15px] font-semibold text-[#0E1B33] underline decoration-[#357BD8]/40 underline-offset-[6px] hover:decoration-[#357BD8] transition-colors">
+                    See the results
+                  </a>
+                </motion.div>
               </div>
 
-              {/* Best fit / not a fit, straight from the partner brief */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5 }}
-                className="grid md:grid-cols-2 gap-5 mt-8"
+              {/* Receipt: the Splash Media account, straight from the platform */}
+              <motion.a
+                href={featured.href}
+                initial={{ opacity: 0, y: 40, rotate: 0 }}
+                animate={{ opacity: 1, y: 0, rotate: -2 }}
+                transition={{ duration: 1.1, delay: 0.35, ease: EASE }}
+                whileHover={{ rotate: 0, y: -4 }}
+                className="block justify-self-center lg:justify-self-end w-full max-w-[400px] rounded-[28px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_30px_80px_-20px_rgba(14,27,51,0.35)] p-7"
               >
-                <div className="relative bg-emerald-50/60 border border-emerald-200 rounded-2xl p-6 overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-emerald-400 to-teal-500" />
-                  <div className="flex items-center gap-2 mb-2">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-sm font-bold text-slate-800">Where we're the right call</h3>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-semibold">{featured.client}</span>
+                  <span className="text-slate-500">{featured.scope}</span>
+                </div>
+                <p className="mt-8 font-display text-[4.2rem] leading-none font-bold tracking-[-0.04em] text-[#357BD8]">{featured.stats[0].value}</p>
+                <p className="mt-2 text-slate-600">{featured.stats[0].label}</p>
+                <div className="mt-8 border-t border-dashed border-slate-300 pt-5 space-y-3 text-[15px]">
+                  {featured.stats.slice(1).map(s => (
+                    <div key={s.label} className="flex justify-between gap-4">
+                      <span className="text-slate-500">{s.label}</span>
+                      <span className="font-semibold tabular-nums">{s.value}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-500">Contracts closed</span>
+                    <span className="font-semibold tabular-nums">$150,000</span>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
+                </div>
+                <p className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#357BD8]">
+                  Read the case study <ArrowUpRight className="w-4 h-4" />
+                </p>
+              </motion.a>
+            </div>
+
+            {/* Logo marquee */}
+            {/* Multiply sits on this layer root: the logos' white drops into the field.
+                Set on the imgs it would only blend inside the transformed marquee layer. */}
+            <div className="relative z-10 pb-8 md:pb-10 mix-blend-multiply">
+              <p className="max-w-7xl mx-auto px-6 md:px-10 mb-4 text-sm text-slate-600">Brands we've built the machine for</p>
+              <div className="overflow-hidden">
+                <div className="flex w-max animate-scroll-x [animation-duration:45s]">
+                  {[...marqueeBrands, ...marqueeBrands].map((b, i) => (
+                    <img
+                      key={i}
+                      src={`/logos/${b.file}.png`}
+                      alt={i < marqueeBrands.length ? b.name : ""}
+                      aria-hidden={i >= marqueeBrands.length}
+                      className="h-14 md:h-16 w-auto mx-5 md:mx-8 grayscale opacity-80"
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== SERVICES ===== */}
+        <section id="services" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
+            <div className="lg:sticky lg:top-32 self-start">
+              <SectionHead
+                title="What we run for you"
+                intro="Every service built on psychological principles and proven performance data."
+              />
+            </div>
+            <div>
+              {services.map(s => (
+                <div key={s.title} className="grid md:grid-cols-[220px_1fr] gap-3 md:gap-10 py-8 border-t border-slate-200 first:border-t-0 first:pt-0">
+                  <h3 className="font-display text-2xl font-semibold tracking-[-0.02em]">{s.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{s.description}</p>
+                </div>
+              ))}
+
+              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+                <div className="rounded-3xl bg-[#EAF6F1] p-7">
+                  <h3 className="flex items-center gap-2 font-semibold"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
+                  <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
                     Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.
                   </p>
                 </div>
-                <div className="relative bg-slate-50 border border-slate-200 rounded-2xl p-6 overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-slate-300 to-slate-400" />
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-slate-500" />
-                    <h3 className="text-sm font-bold text-slate-800">Where we're not</h3>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
+                <div className="rounded-3xl bg-[#F3F6FB] p-7">
+                  <h3 className="flex items-center gap-2 font-semibold"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
+                  <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
                     Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.
                   </p>
                 </div>
-              </motion.div>
-            </div>
-          </div>
-        )}
-      </StickyRevealSection>
-
-      {/* ===== BENEFITS -Sticky with slide-in cards ===== */}
-      <StickyRevealSection id="benefits" scrollTrackHeight="250vh">
-        {(progress, isMobile) => (
-          <div className="w-full px-6 relative">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-1/4 -left-20 w-[300px] h-[300px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#E63E8B]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_70%_30%,rgba(230,62,139,0.03),transparent)]" />
-              <div className="hidden lg:block absolute top-0 right-0 w-[300px] h-[200px] opacity-50">
-                <SynapseSVG />
-              </div>
-              <div className="hidden lg:block absolute bottom-0 left-0 w-[300px] h-[200px] opacity-30 scale-y-[-1]">
-                <SynapseSVG />
-              </div>
-            </div>
-            <div className="max-w-6xl mx-auto relative z-10">
-              <SectionHeading progress={progress} isMobile={isMobile}>
-                <p className="text-[#E63E8B] font-mono text-xs tracking-[0.3em] uppercase mb-4">Why It Works</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800">
-                  Marketing that understands{" "}
-                  <span className="bg-gradient-to-r from-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">how people think.</span>
-                </h2>
-              </SectionHeading>
-              <div className="grid md:grid-cols-2 gap-6">
-                {benefits.map((benefit, i) => (
-                  <BenefitCard key={i} benefit={benefit} index={i} progress={progress} isMobile={isMobile} />
-                ))}
               </div>
             </div>
           </div>
-        )}
-      </StickyRevealSection>
+        </section>
 
-      {/* ===== DOCUMENTED RESULTS -Real account numbers ===== */}
-      <section id="proof" className="relative py-20 md:py-28 px-6 scroll-mt-24">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-32 left-1/4 w-[420px] h-[420px] bg-[#357BD8]/[0.04] rounded-full blur-[120px]" />
-          <div className="absolute -bottom-32 right-1/4 w-[360px] h-[360px] bg-[#00BCD4]/[0.04] rounded-full blur-[110px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
-          <div className="hidden lg:block absolute top-0 right-0 w-[320px] h-[220px] opacity-40">
-            <CircuitBoardSVG />
-          </div>
-        </div>
+        {/* ===== RESULTS ===== */}
+        <section id="proof" className="scroll-mt-24 px-6 md:px-10 pb-24 md:pb-36">
+          <div className="max-w-7xl mx-auto">
+            <SectionHead
+              title="The receipts, not the promises"
+              intro="Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality."
+            />
 
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Documented Results</p>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
-              The receipts,{" "}
-              <span className="bg-gradient-to-r from-[#357BD8] to-[#E63E8B] bg-clip-text text-transparent">not the promises.</span>
-            </h2>
-            <p className="text-slate-500 text-base max-w-2xl mx-auto">
-              Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {documentedResults.map((result, i) => (
-              <ResultCard key={i} result={result} index={i} />
-            ))}
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-slate-400 text-sm text-center mt-8 max-w-2xl mx-auto"
-          >
-            A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* ===== CLIENT ROSTER ===== */}
-      <section id="clients" className="relative py-20 md:py-28 px-6 scroll-mt-24">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-1/4 w-[380px] h-[380px] bg-[#E63E8B]/[0.03] rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-1/4 w-[320px] h-[320px] bg-[#357BD8]/[0.03] rounded-full blur-[110px]" />
-        </div>
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <p className="text-[#E63E8B] font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Roster</p>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
-              Brands we've{" "}
-              <span className="bg-gradient-to-r from-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">built the machine for.</span>
-            </h2>
-          </motion.div>
-
-          <div className="mb-12">
-            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
-              Information &amp; education brands
-            </p>
-            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
-              Courses, coaching, communities, events, and paid newsletters. This is the core of the book.
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {infoBrands.map((brand, i) => (
-                <LogoTile key={brand.file} brand={brand} index={i} />
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-12">
-            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
-              Ecommerce, DTC &amp; service brands
-            </p>
-            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
-              The same engine applied outside info products.
-            </p>
-            {/* Nine logos: 3-up divides evenly; on 2-up mobile the last tile spans the row. */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
-              {commerceBrands.map((brand, i) => (
-                <LogoTile key={brand.file} brand={brand} index={i} />
-              ))}
-            </div>
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-slate-400 text-xs text-center uppercase tracking-widest mb-14"
-          >
-            + Additional named brands held under NDA, disclosable on request
-          </motion.p>
-
-          <div className="border-t border-slate-200 pt-12">
-            <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest mb-2 text-center">
-              Inside the industry's leading agencies
-            </p>
-            <p className="text-slate-400 text-sm text-center mb-6 max-w-2xl mx-auto">
-              Contracted in to build out infrastructure and lead the teams behind their largest accounts.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-              {agencyBrands.map((brand, i) => (
-                <LogoTile key={`agency-${brand.file}`} brand={brand} index={i} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== TESTIMONIALS -Sticky with staggered pop-in ===== */}
-      <StickyRevealSection id="results" scrollTrackHeight="200vh">
-        {(progress, isMobile) => (
-          <div className="w-full px-6 relative">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -top-20 left-1/3 w-[400px] h-[400px] bg-[#F5841F]/[0.03] rounded-full blur-[120px]" />
-              <div className="absolute -bottom-20 right-1/4 w-[300px] h-[300px] bg-[#357BD8]/[0.03] rounded-full blur-[100px]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_30%_60%,rgba(245,132,31,0.02),transparent)]" />
-              <div className="hidden lg:block absolute top-5 -left-5 w-[300px] h-[180px] opacity-50">
-                <QuoteBubblesSVG />
+            <a href={featured.href} className="group block rounded-[32px] bg-[#0E1B33] text-white p-8 md:p-12 grid lg:grid-cols-[1.2fr_1fr] gap-10 items-end">
+              <div>
+                <p className="text-sm text-white/60">{featured.client}, {featured.scope.toLowerCase()}</p>
+                <h3 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.02]">{featured.headline}</h3>
+                <p className="mt-5 text-white/70 leading-relaxed max-w-xl">{featured.detail}</p>
+                <p className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#7FD3E6] group-hover:gap-2.5 transition-all">
+                  Read the full case study <ArrowUpRight className="w-4 h-4" />
+                </p>
               </div>
-              <div className="hidden lg:block absolute bottom-5 -right-5 w-[300px] h-[180px] opacity-30 scale-x-[-1]">
-                <QuoteBubblesSVG />
-              </div>
-            </div>
-            <div className="max-w-6xl mx-auto relative z-10">
-              <SectionHeading progress={progress} isMobile={isMobile} end={0.1}>
-                <p className="text-amber-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">Client Results</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800">Don't take our word for it.</h2>
-              </SectionHeading>
-              <div className="grid md:grid-cols-3 gap-6">
-                {testimonials.map((t, i) => (
-                  <TestimonialCard key={i} testimonial={t} index={i} progress={progress} isMobile={isMobile} />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </StickyRevealSection>
-
-      {/* ===== TEAM -Sticky split reveal ===== */}
-      <StickyRevealSection scrollTrackHeight="200vh">
-        {(progress, isMobile) => (
-          <TeamSection progress={progress} isMobile={isMobile} />
-        )}
-      </StickyRevealSection>
-
-      {/* ===== PROCESS -Sticky with step-by-step reveal ===== */}
-      <StickyRevealSection id="process" scrollTrackHeight="250vh">
-        {(progress, isMobile) => (
-          <div className="w-full px-6 relative">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -top-24 right-1/4 w-[350px] h-[350px] bg-emerald-500/[0.03] rounded-full blur-[100px]" />
-              <div className="absolute -bottom-24 left-1/3 w-[300px] h-[300px] bg-[#00BCD4]/[0.04] rounded-full blur-[100px]" />
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
-              <div className="hidden lg:block absolute bottom-12 left-1/2 -translate-x-1/2 w-[500px] h-[80px] opacity-30">
-                <PipelineSVG />
-              </div>
-              <div className="hidden lg:block absolute top-10 -right-10 w-[300px] h-[200px] opacity-40">
-                <CircuitBoardSVG />
-              </div>
-            </div>
-            <div className="max-w-6xl mx-auto relative z-10">
-              <SectionHeading progress={progress} isMobile={isMobile} end={0.06}>
-                <p className="text-emerald-600 font-mono text-xs tracking-[0.3em] uppercase mb-4">The 90-Day Approach</p>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">
-                  From strategy to{" "}
-                  <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">consistent conversions.</span>
-                </h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">A systematic buildout engineered to create a predictable pipeline.</p>
-              </SectionHeading>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {funnelSteps.map((step, i) => (
-                  <ProcessStep key={i} step={step} index={i} progress={progress} isMobile={isMobile} />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </StickyRevealSection>
-
-      {/* ===== CTA BANNER ===== */}
-      <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#357BD8]/8 via-[#E63E8B]/5 to-[#00BCD4]/8" />
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#357BD8]/[0.08] rounded-full blur-[150px]" />
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E63E8B]/[0.05] rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-[#00BCD4]/[0.05] rounded-full blur-[100px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.05)_1px,transparent_1px)] bg-[size:48px_48px]" />
-          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-25">
-            <SignalBurstSVG />
-          </div>
-          <div className="hidden lg:block absolute top-10 -left-10 w-[250px] h-[180px] opacity-15">
-            <NeuralNetworkSVG />
-          </div>
-          <div className="hidden lg:block absolute bottom-10 -right-10 w-[250px] h-[180px] opacity-15 scale-x-[-1]">
-            <NeuralNetworkSVG />
-          </div>
-        </div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-[#357BD8]/15 rounded-full px-5 py-2 mb-8">
-              <Sparkles className="w-4 h-4 text-[#357BD8]" />
-              <span className="text-sm font-semibold text-[#357BD8]">Free Strategy Session</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-slate-800">
-              Ready to see what{" "}
-              <span className="bg-gradient-to-r from-[#357BD8] via-[#E63E8B] to-[#F5841F] bg-clip-text text-transparent">proven marketing systems</span> can do?
-            </h2>
-            <p className="text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Book a free 30-minute strategy call. No obligations, just real insights for your business.
-            </p>
-            <div className="flex items-center justify-center">
-              <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-12 py-5 rounded-full text-lg shadow-2xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
-                whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
-                BOOK A CALL NOW <ArrowRight className="w-5 h-5" />
-              </motion.a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ===== CONTACT / BOOK A CALL ===== */}
-      <section id="contact" className="relative py-24 px-6 scroll-mt-20">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 right-0 w-[400px] h-[400px] bg-[#357BD8]/[0.03] rounded-full blur-[120px]" />
-          <div className="absolute -bottom-40 left-0 w-[350px] h-[350px] bg-[#E63E8B]/[0.03] rounded-full blur-[100px]" />
-        </div>
-        <div className="max-w-3xl mx-auto relative z-10">
-          <div className="text-center mb-14">
-            <p className="text-[#357BD8] font-mono text-xs tracking-[0.3em] uppercase mb-4">Get Started</p>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-slate-800">Ready to see results?</h2>
-            <p className="text-slate-500 text-base max-w-2xl mx-auto">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-10">
-            <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#357BD8]/15 transition-all duration-300">
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-transparent" />
-              <h3 className="text-base font-bold text-slate-800 mb-5">What happens next?</h3>
-              <div className="space-y-4">
-                {[
-                  { step: "1", text: "Schedule a free 30-minute strategy call" },
-                  { step: "2", text: "We deep-dive into your business goals" },
-                  { step: "3", text: "Receive a custom marketing systems proposal" },
-                  { step: "4", text: "Launch your first campaign in weeks" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#357BD8]/10 to-[#00BCD4]/10 border border-[#357BD8]/20 flex items-center justify-center flex-shrink-0 text-[#357BD8] text-xs font-bold">{item.step}</div>
-                    <p className="text-slate-500 text-sm pt-0.5">{item.text}</p>
+              <div className="grid grid-cols-3 lg:grid-cols-1 gap-4 lg:gap-6">
+                {featured.stats.map(s => (
+                  <div key={s.label} className="lg:flex lg:items-baseline lg:justify-between lg:border-b lg:border-white/15 lg:pb-4">
+                    <p className="font-display text-2xl md:text-4xl font-bold tabular-nums">{s.value}</p>
+                    <p className="mt-1 text-xs md:text-sm text-white/60">{s.label}</p>
                   </div>
                 ))}
               </div>
+            </a>
+
+            <div className="mt-4 grid md:grid-cols-3 gap-4">
+              {moreResults.map(r => (
+                <article key={r.headline} className="rounded-[32px] bg-[#F3F6FB] p-8 flex flex-col">
+                  <p className="text-sm text-slate-500">{r.scope}</p>
+                  <h3 className="mt-4 font-display text-2xl font-bold tracking-[-0.02em] leading-[1.1]">{r.headline}</h3>
+                  <p className="mt-4 text-[15px] text-slate-600 leading-relaxed flex-1">{r.detail}</p>
+                  <dl className="mt-8 space-y-2.5 border-t border-dashed border-slate-300 pt-5 text-[15px]">
+                    {r.stats.map(s => (
+                      <div key={s.label} className="flex justify-between gap-4">
+                        <dt className="text-slate-500">{s.label}</dt>
+                        <dd className="font-semibold tabular-nums">{s.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-5 text-xs text-slate-400">{r.client}</p>
+                </article>
+              ))}
             </div>
 
-            <div className="relative bg-white border border-slate-200 rounded-2xl p-7 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#E63E8B]/15 transition-all duration-300">
-              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-[#E63E8B]/[0.04] to-transparent rounded-tl-full group-hover:from-[#E63E8B]/[0.10] transition-all duration-300" />
-              <h3 className="text-base font-bold text-slate-800 mb-3">See our work</h3>
-              <p className="text-slate-500 text-sm mb-4">Check out real projects we've shipped for real businesses.</p>
-              <a href="/services/websites" className="inline-flex items-center gap-2 text-[#357BD8] hover:text-[#E63E8B] font-medium text-sm transition-colors group-hover:gap-3">
-                View Portfolio <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+            <p className="mt-8 text-sm text-slate-500 max-w-2xl">
+              A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.
+            </p>
           </div>
+        </section>
 
-          <div className="text-center">
-            <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-12 py-5 rounded-full text-lg shadow-2xl shadow-[#357BD8]/25 hover:shadow-[#357BD8]/40 transition-all"
-              whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(53,123,216,0.35)" }} whileTap={{ scale: 0.98 }}>
-              BOOK A CALL <ArrowRight className="w-5 h-5" />
-            </motion.a>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FOOTER ===== */}
-      <footer className="relative overflow-hidden bg-slate-900 text-white">
-        {/* Background decorations */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#357BD8]/10 rounded-full blur-[150px]" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#E63E8B]/8 rounded-full blur-[120px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(53,123,216,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(53,123,216,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
-          <div className="hidden lg:block absolute top-10 right-10 w-[250px] h-[180px] opacity-20">
-            <NeuralNetworkSVG />
-          </div>
-        </div>
-
-        {/* Main footer CTA area */}
-        <div className="relative z-10 pt-20 pb-16 px-6">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 relative">
-                <img src={cortexuumLogoCircle} alt="CORTEXUUM" className="w-16 h-16 rounded-full ring-2 ring-white/10" />
-              </div>
-              <h3 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
-                Let's build something{" "}
-                <span className="bg-gradient-to-r from-[#357BD8] via-[#00BCD4] to-[#E63E8B] bg-clip-text text-transparent">intelligent.</span>
-              </h3>
-              <p className="text-slate-400 text-base max-w-lg mx-auto mb-8">
-                Your competitors are still guessing. You don't have to.
-              </p>
-              <motion.a href="https://calendly.com/cortexuummarketing/30min" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-bold px-10 py-4 rounded-full text-base shadow-xl shadow-[#357BD8]/30 hover:shadow-[#357BD8]/50 transition-all"
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                Book a Strategy Call <ArrowRight className="w-4 h-4" />
-              </motion.a>
-            </motion.div>
-          </div>
-
-          {/* Stats strip */}
-          <div className="max-w-3xl mx-auto mb-16">
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                { value: "$250M+", label: "Ad Spend Managed" },
-                { value: "7", label: "Years Experience" },
-                { value: "3x", label: "Avg Lead Increase" },
-              ].map((stat, i) => (
-                <motion.div key={i} className="text-center"
-                  initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-                  <div className="text-2xl md:text-3xl font-black bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">{stat.value}</div>
-                  <div className="text-slate-500 text-xs uppercase tracking-widest mt-1">{stat.label}</div>
-                </motion.div>
+        {/* ===== WHY IT WORKS ===== */}
+        <section id="benefits" className="scroll-mt-24 px-6 md:px-10 pb-24 md:pb-36">
+          <div className="max-w-7xl mx-auto">
+            <SectionHead title="Marketing that understands how people think" />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+              {benefits.map(b => (
+                <div key={b.title} className="border-t-2 border-[#0E1B33] pt-6">
+                  <p className="font-display text-2xl font-bold tracking-[-0.02em] text-[#357BD8]">{b.stat}</p>
+                  <h3 className="mt-3 font-semibold">{b.title}</h3>
+                  <p className="mt-2 text-[15px] text-slate-600 leading-relaxed">{b.description}</p>
+                </div>
               ))}
             </div>
           </div>
+        </section>
 
-          {/* Bottom bar */}
-          <div className="max-w-6xl mx-auto border-t border-white/10 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex items-center gap-3">
-                <span className="font-bold text-sm tracking-[0.2em] uppercase text-white/60">CORTEXUUM</span>
-                <span className="text-white/20">|</span>
-                <span className="text-slate-500 text-xs">&copy; {new Date().getFullYear()}</span>
+        {/* ===== CLIENT ROSTER ===== */}
+        <section id="clients" className="scroll-mt-24 bg-[#F3F6FB] px-6 md:px-10 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto">
+            <SectionHead title="Brands we've built the machine for" />
+            <RosterGroup
+              title="Information and education brands"
+              note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book."
+              brands={infoBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+            />
+            <RosterGroup
+              title="Ecommerce, DTC and service brands"
+              note="The same engine applied outside info products. Additional named brands are held under NDA, disclosable on request."
+              brands={commerceBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
+            />
+            <RosterGroup
+              title="Inside the industry's leading agencies"
+              note="Contracted in to build out infrastructure and lead the teams behind their largest accounts."
+              brands={agencyBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
+            />
+          </div>
+        </section>
+
+        {/* ===== FOUNDER ===== */}
+        <section id="founder" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-20 items-start">
+            <div className="relative rounded-[32px] overflow-hidden aspect-[4/5] max-w-md bg-[#F3F6FB]">
+              <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full h-full object-cover object-top" />
+            </div>
+            <div>
+              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">Christian Colgate</h2>
+              <p className="mt-3 text-lg text-slate-500">CEO and founder</p>
+              <div className="mt-8 space-y-5 text-lg text-slate-700 leading-relaxed max-w-2xl">
+                <p>Christian leads the paid media division at Cortexuum, scaling brands across Meta, Google, and TikTok.</p>
+                <p>He founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.</p>
+                <p>He has managed the systems and marketing behind Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA. Those engagements are reviewed live rather than printed&nbsp;here.</p>
               </div>
-
-              <div className="flex items-center gap-6">
-                {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
-                  <a key={l.label} href={l.href} className="text-slate-500 hover:text-white/80 text-xs transition-colors">{l.label}</a>
+              <dl className="mt-12 grid sm:grid-cols-3 gap-8">
+                {founderStats.map(s => (
+                  <div key={s.label}>
+                    <dt className="font-display text-4xl font-bold tracking-[-0.03em]">{s.value}</dt>
+                    <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
+                  </div>
                 ))}
-                <a href="/login" className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Admin</a>
+              </dl>
+              <div className="mt-12 pt-8 border-t border-slate-200">
+                <p className="text-sm text-slate-500 mb-4">The team behind the work, in years</p>
+                <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {teamExpertise.map(t => (
+                    <div key={t.area}>
+                      <dt className="font-display text-2xl font-bold">{t.years}</dt>
+                      <dd className="text-sm text-slate-600">{t.area}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </section>
+
+        {/* ===== PROCESS ===== */}
+        <section id="process" className="scroll-mt-24 bg-[#0E1B33] text-white px-6 md:px-10 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto">
+            <div className="max-w-3xl mb-14">
+              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">From strategy to consistent conversions in 90 days</h2>
+              <p className="mt-5 text-lg text-white/65">A systematic buildout engineered to create a predictable pipeline.</p>
+            </div>
+            <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-[28px] overflow-hidden">
+              {funnelSteps.map((s, i) => (
+                <li key={s.label} className="bg-[#0E1B33] p-7 md:p-8">
+                  <span className="font-display text-sm text-[#7FD3E6] tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-6 font-display text-2xl font-semibold">{s.label}</h3>
+                  <p className="mt-2 text-[15px] text-white/60">{s.desc}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ===== WEBSITES ===== */}
+        <section id="work" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] max-w-2xl">Websites we've shipped</h2>
+              <a href="/services/websites" className="inline-flex items-center gap-1.5 font-semibold text-[#357BD8] hover:text-[#0E1B33] transition-colors">
+                View the portfolio <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {websites.map(w => (
+                <a key={w.name} href="/services/websites" className="group block">
+                  <div className="rounded-[28px] overflow-hidden bg-[#F3F6FB] aspect-[16/10]">
+                    <img src={w.image} alt={`${w.name} website`} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]" />
+                  </div>
+                  <h3 className="mt-5 font-display text-xl font-semibold">{w.name}</h3>
+                  <p className="mt-1 text-slate-600">{w.headline}</p>
+                  <p className="mt-2 text-sm text-slate-400">{w.url}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== BOOK A CALL ===== */}
+        <section id="contact" className="scroll-mt-24 p-2 md:p-3">
+          <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px]">
+            <SilkField />
+            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+              <div>
+                <h2 className="font-display text-5xl md:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
+                  Ready to see what proven marketing systems can do?
+                </h2>
+                <p className="mt-6 text-lg text-slate-700 max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
+                <CtaButton className="mt-9">Book a strategy call</CtaButton>
+              </div>
+              <div className="rounded-[28px] bg-white/75 backdrop-blur-xl border border-white p-7 md:p-8">
+                <h3 className="font-semibold">What happens next</h3>
+                <ol className="mt-5 space-y-4">
+                  {nextSteps.map((t, i) => (
+                    <li key={t} className="flex gap-4">
+                      <span className="flex-none w-7 h-7 rounded-full bg-[#0E1B33] text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
+                      <span className="pt-0.5 text-slate-700">{t}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== FOOTER ===== */}
+        <footer className="px-6 md:px-10 py-12">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
+            <div className="flex items-center gap-3">
+              <img src={cortexuumLogoCircle} alt="" className="w-8 h-8 rounded-full ring-1 ring-slate-200" />
+              <span className="font-semibold text-[#0E1B33]">Cortexuum</span>
+              <span>&copy; {new Date().getFullYear()}</span>
+            </div>
+            <nav className="flex flex-wrap gap-x-6 gap-y-2">
+              {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
+                <a key={l.label} href={l.href} className="hover:text-[#0E1B33] transition-colors">{l.label}</a>
+              ))}
+              <a href="/login" className="text-slate-400 hover:text-slate-600 transition-colors">Admin</a>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </MotionConfig>
   );
 }

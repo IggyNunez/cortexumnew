@@ -5,8 +5,9 @@ import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
-  { label: "Benefits", href: "#benefits" },
   { label: "Results", href: "#proof" },
+  { label: "Clients", href: "#clients" },
+  { label: "Founder", href: "#founder" },
   { label: "Process", href: "#process" },
 ];
 
@@ -79,7 +80,7 @@ const Header = () => {
                 href={CTA_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center gap-1.5 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:shadow-md hover:shadow-[#357BD8]/25 transition-all"
+                className="hidden md:inline-flex items-center gap-1.5 bg-[#0E1B33] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:bg-[#357BD8] transition-colors"
               >
                 Book a Call
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -88,7 +89,7 @@ const Header = () => {
                 type="button"
                 onClick={() => setMobileMenuOpen(v => !v)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white shadow-sm"
+                className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#0E1B33] text-white shadow-sm"
               >
                 {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
               </button>
@@ -124,7 +125,7 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeMenu}
-              className="mt-10 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#357BD8] to-[#00BCD4] text-white font-semibold py-4 rounded-full shadow-lg shadow-[#357BD8]/25"
+              className="mt-10 inline-flex items-center justify-center gap-2 bg-[#0E1B33] text-white font-semibold py-4 rounded-full"
             >
               Book a Strategy Call
               <ArrowRight className="w-4 h-4" />
