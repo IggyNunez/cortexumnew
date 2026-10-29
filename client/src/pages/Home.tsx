@@ -2,9 +2,6 @@ import { motion, MotionConfig } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Minus } from "lucide-react";
 import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
-import portfolioKalyxi from "../assets/portfolio-kalyxi.webp";
-import portfolioJetts from "../assets/portfolio-jetts.webp";
-import portfolioLakelucien from "../assets/portfolio-lakelucien.webp";
 import Header from "@/components/Header";
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
@@ -87,12 +84,6 @@ const documentedResults = [
       { value: "90%", label: "Budget moved top-of-funnel" },
     ],
   },
-];
-
-const websites = [
-  { name: "Kalyxi AI", url: "kalyxi.ai", image: portfolioKalyxi, headline: "From 4-hour response times to 47 seconds." },
-  { name: "Jetts Windows", url: "jettswindows.com", image: portfolioJetts, headline: "Zero online presence to 40+ leads per month. $0 ad spend." },
-  { name: "Lake Lucien ASC", url: "lucienasc.com", image: portfolioLakelucien, headline: "Full surgery center website. HIPAA compliant. 3 weeks." },
 ];
 
 // Client logos extracted from the partner brief. Served from client/public/logos.
@@ -494,30 +485,6 @@ export default function Home() {
                 </li>
               ))}
             </ol>
-          </div>
-        </section>
-
-        {/* ===== WEBSITES ===== */}
-        <section id="work" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
-              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] max-w-2xl">Websites we've shipped</h2>
-              <a href="/services/websites" className="inline-flex items-center gap-1.5 font-semibold text-[#357BD8] hover:text-[#0E1B33] transition-colors">
-                View the portfolio <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {websites.map(w => (
-                <a key={w.name} href="/services/websites" className="group block">
-                  <div className="rounded-[28px] overflow-hidden bg-[#F3F6FB] aspect-[16/10]">
-                    <img src={w.image} alt={`${w.name} website`} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]" />
-                  </div>
-                  <h3 className="mt-5 font-display text-xl font-semibold">{w.name}</h3>
-                  <p className="mt-1 text-slate-600">{w.headline}</p>
-                  <p className="mt-2 text-sm text-slate-400">{w.url}</p>
-                </a>
-              ))}
-            </div>
           </div>
         </section>
 
