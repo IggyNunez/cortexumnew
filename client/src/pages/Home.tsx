@@ -266,7 +266,7 @@ function Hero() {
   });
 
   return (
-    <section ref={ref} className="relative p-2 md:p-3">
+    <section ref={ref} id="top" className="relative p-2 md:p-3">
       <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px] min-h-[100svh] md:min-h-[calc(100svh-24px)] flex flex-col">
         <motion.div className="absolute inset-0" style={reduce ? undefined : { scale: fieldScale }}>
           <SilkField />
