@@ -376,3 +376,35 @@
   .nimbus-nav.cx-logo .nimbus-item { font-size: 15px; }
 }
 
+
+/* Arcline-style pieces: pearl sphere, brand light on navy, light silk tile. */
+.arc-sphere {
+  background: radial-gradient(circle at 32% 28%, #ffffff 0%, #f3f6fa 22%, #d4dce7 55%, #9fadc0 84%, #7f8da3 100%);
+  box-shadow: inset -14px -20px 40px rgba(14, 27, 51, 0.18), 0 40px 80px -30px rgba(14, 27, 51, 0.5);
+}
+.arc-glow {
+  background:
+    radial-gradient(60% 55% at 30% 70%, rgba(0, 188, 212, 0.45), transparent 70%),
+    radial-gradient(50% 50% at 70% 30%, rgba(53, 123, 216, 0.55), transparent 70%),
+    radial-gradient(45% 40% at 85% 85%, rgba(230, 62, 139, 0.35), transparent 70%),
+    radial-gradient(35% 30% at 15% 15%, rgba(245, 132, 31, 0.25), transparent 70%),
+    #0e1b33;
+  filter: blur(10px);
+  transform-origin: 30% 60%;
+}
+.arc-glow-tile::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(50% 50% at 80% 90%, rgba(0, 188, 212, 0.35), transparent 70%),
+    radial-gradient(45% 45% at 100% 20%, rgba(53, 123, 216, 0.45), transparent 70%);
+  filter: blur(14px);
+}
+.silk-tile {
+  background:
+    radial-gradient(70% 70% at 80% 20%, rgba(53, 123, 216, 0.35), transparent 70%),
+    radial-gradient(60% 60% at 10% 90%, rgba(0, 188, 212, 0.35), transparent 70%),
+    radial-gradient(50% 50% at 90% 90%, rgba(230, 62, 139, 0.25), transparent 70%),
+    #eaf1fb;
+}

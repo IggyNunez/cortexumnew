@@ -1,14 +1,11 @@
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, MotionConfig, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, Minus } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Minus, Plus } from "lucide-react";
 import christianColgate from "../assets/christian-colgate.webp";
 import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  CountUp, EASE, HorizontalScroll, Magnetic, MaskLines, Reveal, ScaleBars,
-  ScrollProgress, ScrollWords, Spotlight, StackCards, ZoomImage,
-} from "@/components/motion";
+import { CountUp, EASE, HorizontalScroll, Magnetic, MaskLines, Reveal, ScaleBars, ScrollProgress } from "@/components/motion";
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
 
@@ -177,16 +174,61 @@ const faqs = [
   { q: "What happens on the strategy call?", a: "It's a free 30 minutes. We dig into your business goals, and if there's a fit you get a custom marketing systems proposal. From there, the first campaign launches in weeks." },
 ];
 
-function SilkField() {
+
+// ---------- Arcline-style building blocks ----------
+
+// Big thin arcs fixed behind every panel.
+function Arcs() {
   return (
-    <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="silk-field" />
-      <div className="silk-grain" />
+    <svg aria-hidden className="pointer-events-none fixed inset-0 -z-10 w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke="#fff" strokeWidth="1.2">
+        <circle cx="1220" cy="1010" r="640" strokeOpacity=".8" />
+        <circle cx="160" cy="-220" r="600" strokeOpacity=".8" />
+        <circle cx="760" cy="560" r="980" strokeOpacity=".4" />
+      </g>
+    </svg>
+  );
+}
+
+function Panel({ children, className = "", dark = false }: { children: ReactNode; className?: string; dark?: boolean }) {
+  const mark = dark ? "text-white/40" : "text-slate-400";
+  return (
+    <div className={`relative rounded-[22px] md:rounded-[28px] shadow-[0_30px_80px_-40px_rgba(14,27,51,0.35)] ${dark ? "bg-[#0E1B33] text-white" : "bg-white/90 backdrop-blur"} ${className}`}>
+      <Plus aria-hidden className={`absolute top-4 right-4 w-3.5 h-3.5 ${mark}`} strokeWidth={1.5} />
+      <Plus aria-hidden className={`absolute bottom-4 left-4 w-3.5 h-3.5 ${mark}`} strokeWidth={1.5} />
+      {children}
     </div>
   );
 }
 
-function CtaButton({ children, className = "", tone = "navy" }: { children: React.ReactNode; className?: string; tone?: "navy" | "white" }) {
+// Pearl sphere, optionally holding the brain mark.
+function Sphere({ className = "", brain = false }: { className?: string; brain?: boolean }) {
+  return (
+    <div aria-hidden className={`arc-sphere rounded-full flex items-center justify-center ${className}`}>
+      {brain && <img src={cortexuumBrain} alt="" className="w-[46%] opacity-90" />}
+    </div>
+  );
+}
+
+function Floating({ children, className = "", distance = 120 }: { children: ReactNode; className?: string; distance?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [distance, -distance]);
+  return <motion.div ref={ref} style={reduce ? undefined : { y }} className={className}>{children}</motion.div>;
+}
+
+function Section({ id, children, className = "" }: { id?: string; children: ReactNode; className?: string }) {
+  return (
+    <section id={id} className={`relative scroll-mt-24 px-3 md:px-6 mt-20 md:mt-32 ${className}`}>
+      <div className="max-w-[1400px] mx-auto">{children}</div>
+    </section>
+  );
+}
+
+const H2 = "font-geist font-medium tracking-[-0.055em] leading-[0.95] text-[2.8rem] sm:text-6xl lg:text-[6.2rem]";
+
+function CtaButton({ children, className = "", tone = "navy" }: { children: ReactNode; className?: string; tone?: "navy" | "white" }) {
   const colors = tone === "white" ? "bg-white text-[#0E1B33] hover:bg-[#7FD3E6]" : "bg-[#0E1B33] text-white hover:bg-[#357BD8]";
   return (
     <Magnetic className={className}>
@@ -194,34 +236,35 @@ function CtaButton({ children, className = "", tone = "navy" }: { children: Reac
         href={CTA_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group inline-flex items-center gap-2 rounded-full font-semibold px-7 py-4 text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${colors}`}
+        className={`group inline-flex items-center gap-2 rounded-full font-medium px-6 py-3.5 text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${colors}`}
       >
         {children}
-        <span className="relative w-4 h-4 overflow-hidden">
-          <ArrowRight className="absolute inset-0 w-4 h-4 transition-transform duration-300 group-hover:translate-x-5" />
-          <ArrowRight className="absolute inset-0 w-4 h-4 -translate-x-5 transition-transform duration-300 group-hover:translate-x-0" />
-        </span>
+        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
       </a>
     </Magnetic>
   );
 }
 
-function SectionHead({ title, intro, light = false }: { title: string; intro?: string; light?: boolean }) {
+function TextLink({ href, children, light = false }: { href: string; children: ReactNode; light?: boolean }) {
   return (
-    <Reveal className="max-w-3xl mb-12 md:mb-16">
-      <h2 className={`font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] ${light ? "text-white" : "text-[#0E1B33]"}`}>{title}</h2>
-      {intro && <p className={`mt-5 text-lg leading-relaxed max-w-2xl ${light ? "text-white/65" : "text-slate-600"}`}>{intro}</p>}
-    </Reveal>
+    <a href={href} className={`text-sm font-medium underline underline-offset-[6px] transition-colors ${light ? "text-white decoration-white/40 hover:decoration-white" : "text-[#0E1B33] decoration-[#0E1B33]/30 hover:decoration-[#0E1B33]"}`}>
+      {children}
+    </a>
+  );
+}
+
+// Client logo set inline in a headline, the way Arcline sets round photos into its type.
+function InlineMark({ src, dark = false }: { src: string; dark?: boolean }) {
+  return (
+    <span className={`inline-flex align-middle items-center justify-center w-[0.95em] h-[0.95em] mx-[0.08em] rounded-full overflow-hidden ring-1 ring-slate-200 -translate-y-[0.04em] ${dark ? "bg-[#111111]" : "bg-white"}`}>
+      <img src={src} alt="" className="w-[78%] h-[78%] object-contain" />
+    </span>
   );
 }
 
 function LogoTile({ brand }: { brand: Brand }) {
   return (
-    <div
-      className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${
-        brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"
-      }`}
-    >
+    <div className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"}`}>
       <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
     </div>
   );
@@ -229,9 +272,9 @@ function LogoTile({ brand }: { brand: Brand }) {
 
 function RosterGroup({ title, note, brands, gridClass }: { title: string; note: string; brands: Brand[]; gridClass: string }) {
   return (
-    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-300/70">
+    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-200">
       <Reveal>
-        <h3 className="font-display text-xl font-semibold text-[#0E1B33]">{title}</h3>
+        <h3 className="font-geist text-xl font-medium tracking-[-0.02em]">{title}</h3>
         <p className="mt-2 text-sm text-slate-500 leading-relaxed">{note}</p>
       </Reveal>
       <motion.div
@@ -251,190 +294,305 @@ function RosterGroup({ title, note, brands, gridClass }: { title: string; note: 
   );
 }
 
-// Hero stat pills: each figure is documented further down the page.
-const heroStats = [
-  { value: "$250M+", label: "ad spend managed" },
-  { value: "34.89x", label: "ROAS for Splash Media" },
-  { value: "10,313", label: "leads in 30 days" },
-];
+// ---------- Sections ----------
 
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const fieldScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const after = (delay: number) => ({
-    initial: { opacity: 0, y: 18 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay, ease: EASE },
-  });
+  const sphereY = useTransform(scrollYProgress, [0, 1], [0, 220]);
+  const glow = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
+  const after = (delay: number) => ({ initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay, ease: EASE } });
 
   return (
-    <section ref={ref} id="top" className="relative p-2 md:p-3">
-      <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px] min-h-[100svh] md:min-h-[calc(100svh-24px)] flex flex-col">
-        <motion.div className="absolute inset-0" style={reduce ? undefined : { scale: fieldScale }}>
-          <SilkField />
-        </motion.div>
+    <section ref={ref} id="top" className="relative px-3 md:px-6 pt-24 md:pt-28">
+      <div className="relative max-w-[1400px] mx-auto overflow-hidden rounded-[22px] md:rounded-[28px] bg-[#0E1B33] text-white min-h-[calc(100svh-7.5rem)] flex flex-col justify-between shadow-[0_40px_100px_-40px_rgba(14,27,51,0.6)]">
+        {/* Left half: the brand colors as light on navy, where Arcline uses a photo */}
+        <motion.div aria-hidden className="arc-glow absolute inset-0 lg:right-1/2" style={reduce ? undefined : { scale: glow }} />
+        <div aria-hidden className="hidden lg:block absolute inset-y-0 left-1/2 w-px bg-white/10" />
+        <svg aria-hidden className="absolute inset-0 w-full h-full" viewBox="0 0 1400 800" preserveAspectRatio="none">
+          <circle cx="700" cy="420" r="430" fill="none" stroke="#fff" strokeOpacity=".14" />
+        </svg>
+        <Plus aria-hidden className="absolute top-4 right-4 w-3.5 h-3.5 text-white/40" strokeWidth={1.5} />
+        <Plus aria-hidden className="absolute bottom-4 left-4 w-3.5 h-3.5 text-white/40" strokeWidth={1.5} />
 
         <motion.div
-          style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
-          className="relative z-10 flex-1 w-full max-w-6xl mx-auto px-6 md:px-10 pt-28 md:pt-32 pb-8 flex flex-col items-center justify-center text-center"
+          className="absolute right-[6%] top-[10%] md:right-[8%] md:top-auto md:bottom-[38%]"
+          style={reduce ? undefined : { y: sphereY }}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
         >
-          {/* The logo brain with slow orbit rings, carried over from the previous hero */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: EASE }}
-            className="relative w-16 h-16 md:w-20 md:h-20 mb-8 md:mb-10"
-          >
-            <span aria-hidden className="absolute -inset-3 rounded-full bg-white/70 blur-xl" />
-            <span aria-hidden className="absolute -inset-4 rounded-full border border-dashed border-[#357BD8]/30 animate-[spin_40s_linear_infinite] motion-reduce:animate-none" />
-            <span aria-hidden className="absolute -inset-9 rounded-full border border-[#00BCD4]/20 animate-[spin_60s_linear_infinite_reverse] motion-reduce:animate-none">
-              <span className="absolute top-1/2 -left-1 w-2 h-2 rounded-full bg-[#E63E8B]/70" />
-            </span>
-            <img src={cortexuumBrain} alt="Cortexuum" className="relative w-full h-full object-contain drop-shadow-[0_10px_18px_rgba(14,27,51,0.25)]" />
-          </motion.div>
+          <Sphere brain className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40" />
+        </motion.div>
 
-          <h1 className="font-display text-[3.1rem] leading-[0.95] sm:text-7xl lg:text-[6.2rem] xl:text-[6.8rem] font-bold tracking-[-0.045em] lg:whitespace-nowrap">
-            <MaskLines lines={["Marketing systems", "proven on $250M+", "of ad spend."]} delay={0.2} />
-          </h1>
-          <motion.p {...after(0.6)} className="mt-7 text-lg md:text-xl text-slate-700 leading-relaxed max-w-2xl">
+        <h1 className="relative z-10 px-6 md:px-12 pt-24 md:pt-24 font-geist font-medium tracking-[-0.06em] leading-[0.92] text-[3.2rem] sm:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] lg:whitespace-nowrap">
+          <MaskLines
+            lines={["Marketing systems", "proven on $250M+", "of ad spend."]}
+            className="block lg:[&>span:nth-child(2)]:pl-[18%] lg:[&>span:nth-child(3)]:pl-[8%]"
+          />
+        </h1>
+
+        <div className="relative z-10 px-6 md:px-12 pb-10 md:pb-12 pt-12 lg:ml-[50%] max-w-xl">
+          <motion.p {...after(0.6)} className="text-lg md:text-xl leading-snug text-white/90">
             We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
           </motion.p>
-
-          <motion.div {...after(0.7)} className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <CtaButton>Book a strategy call</CtaButton>
-            <a href="#proof" className="text-[15px] font-semibold text-[#0E1B33] underline decoration-[#357BD8]/40 underline-offset-[6px] hover:decoration-[#357BD8] transition-colors">
-              See the results
-            </a>
+          <motion.div {...after(0.75)} className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <CtaButton tone="white">Book a strategy call</CtaButton>
+            <TextLink href="#proof" light>See the results</TextLink>
           </motion.div>
-
-          {/* Proof as one quiet line under the CTA, not badges above it */}
-          <motion.ul {...after(0.85)} className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-sm text-slate-600">
-            {heroStats.map((s, i) => (
-              <li key={s.label} className="flex items-center gap-1.5">
-                {i > 0 && <span aria-hidden className="hidden sm:inline mr-3.5 text-slate-400">·</span>}
-                <CountUp value={s.value} className="font-semibold text-[#0E1B33]" />
-                {s.label}
-              </li>
-            ))}
-          </motion.ul>
-        </motion.div>
-
-        {/* Logo marquee */}
-        {/* Multiply sits on this layer root: the logos' white drops into the field.
-            Set on the imgs it would only blend inside the transformed marquee layer. */}
-        <motion.div {...after(0.9)} className="relative z-10 pb-8 md:pb-10 mix-blend-multiply">
-          <p className="max-w-7xl mx-auto px-6 md:px-10 mb-4 text-sm text-slate-600">Brands we've built the machine for</p>
-          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-            <div className="flex w-max animate-scroll-x [animation-duration:45s] hover:[animation-play-state:paused]">
-              {[...marqueeBrands, ...marqueeBrands].map((b, i) => (
-                <img
-                  key={i}
-                  src={`/logos/${b.file}.png`}
-                  alt={i < marqueeBrands.length ? b.name : ""}
-                  aria-hidden={i >= marqueeBrands.length}
-                  className="h-14 md:h-16 w-auto mx-5 md:mx-8 grayscale opacity-80"
-                />
-              ))}
-            </div>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
 
+function GiantWords({ text }: { text: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], ["6%", "-30%"]);
+  return (
+    <div ref={ref}>
+      <Panel className="overflow-hidden py-8 md:py-12">
+        <motion.p aria-label={text} style={reduce ? undefined : { x }} className="whitespace-nowrap font-geist font-medium tracking-[-0.06em] leading-[0.9] text-[24vw] md:text-[15vw]">
+          {text}
+        </motion.p>
+      </Panel>
+    </div>
+  );
+}
+
+// ---------- Page ----------
+
 export default function Home() {
   const [featured, ...moreResults] = documentedResults;
+  const orbit = ["lg:left-0 lg:top-[6%]", "lg:right-0 lg:top-[12%]", "lg:left-[2%] lg:bottom-[8%]", "lg:right-0 lg:bottom-[4%]"];
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="bg-white text-[#0E1B33] font-sans antialiased overflow-x-clip">
+      <div className="relative isolate min-h-screen bg-[#DFE6EE] text-[#0E1B33] font-sans antialiased overflow-x-clip pb-6">
+        <Arcs />
         <ScrollProgress />
         <Header />
         <Hero />
 
-        {/* ===== STATEMENT ===== */}
-        <section className="px-6 md:px-10 pt-28 md:pt-44 pb-20 md:pb-28">
-          <div className="max-w-6xl mx-auto">
-            <ScrollWords
-              className="font-display text-[2.1rem] sm:text-5xl lg:text-[4.3rem] font-semibold tracking-[-0.035em] leading-[1.06]"
-              text="Most marketing gets judged on activity. Ours gets judged on the receipt: every ad, funnel, and follow-up built around what the data proves converts."
-            />
-            <dl className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-              {proofStrip.map((s, i) => (
-                <Reveal key={s.label} delay={i * 0.08} className="border-t border-slate-200 pt-6">
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-display text-4xl md:text-6xl font-bold tracking-[-0.04em]"><CountUp value={s.value} /></dd>
-                  <dd className="mt-2 text-sm md:text-[15px] text-slate-500">{s.label}</dd>
-                </Reveal>
-              ))}
-            </dl>
-          </div>
-        </section>
-
-        {/* ===== SERVICES ===== */}
-        <section id="services" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
-            <div className="lg:sticky lg:top-32 self-start">
-              <SectionHead
-                title="What we run for you"
-                intro="Every service built on psychological principles and proven performance data."
-              />
-            </div>
-            <div>
-              {services.map((s, i) => (
-                <Reveal key={s.title} delay={i * 0.05}>
-                  <div className="group relative grid md:grid-cols-[220px_1fr] gap-3 md:gap-10 py-8 border-t border-slate-200">
-                    <span aria-hidden className="absolute left-0 top-[-1px] h-px w-0 bg-[#357BD8] transition-all duration-700 ease-out group-hover:w-full" />
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#357BD8]">{s.title}</h3>
-                    <p className="text-slate-600 leading-relaxed">{s.description}</p>
-                  </div>
-                </Reveal>
-              ))}
-
-              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+        {/* ===== RECEIPTS STATEMENT (Arcline's "Only forward") ===== */}
+        <Section>
+          <div className="relative">
+            <div aria-hidden className="hidden lg:block absolute right-0 top-20 bottom-24 w-[24%] rounded-[28px] bg-[#0E1B33]" />
+            <Floating className="hidden lg:block absolute right-[14%] top-[34%] z-10" distance={90}>
+              <Sphere className="w-64 h-64 xl:w-80 xl:h-80" />
+            </Floating>
+            <Panel className="lg:mr-[20%] p-6 md:p-12 min-h-[560px] flex flex-col">
+              <Reveal>
+                <h2 className={H2}>Receipts, not promises</h2>
+              </Reveal>
+              <Reveal delay={0.1} className="my-10 md:my-12 self-center">
+                <img src={christianColgate} alt="Christian Colgate" className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover object-top grayscale" />
+              </Reveal>
+              <div className="mt-auto grid md:grid-cols-2 gap-8 md:gap-12 max-w-3xl text-[15px] leading-relaxed text-slate-700">
                 <Reveal>
-                  <Spotlight className="h-full rounded-3xl bg-[#EAF6F1] p-7">
-                    <h3 className="flex items-center gap-2 font-semibold"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
-                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
-                      Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.
-                    </p>
-                  </Spotlight>
+                  <p>Most marketing gets judged on activity. Ours gets judged on the receipt: every ad, funnel, and follow-up built around what the data proves converts.</p>
+                  <div className="mt-5"><TextLink href="#proof">See the results</TextLink></div>
                 </Reveal>
                 <Reveal delay={0.08}>
-                  <Spotlight className="h-full rounded-3xl bg-[#F3F6FB] p-7">
-                    <h3 className="flex items-center gap-2 font-semibold"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
-                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
-                      Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.
-                    </p>
-                  </Spotlight>
+                  <p>Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality.</p>
                 </Reveal>
               </div>
-            </div>
+              <dl className="mt-12 pt-8 border-t border-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+                {proofStrip.map((s, i) => (
+                  <Reveal key={s.label} delay={i * 0.06}>
+                    <dt className="sr-only">{s.label}</dt>
+                    <dd className="font-geist font-medium text-4xl md:text-5xl tracking-[-0.05em]"><CountUp value={s.value} /></dd>
+                    <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
+                  </Reveal>
+                ))}
+              </dl>
+            </Panel>
           </div>
-        </section>
+        </Section>
 
-        {/* ===== RESULTS: pinned, scrolls sideways on desktop ===== */}
-        <section id="proof" className="scroll-mt-24 bg-[#F3F6FB] py-24 lg:py-0">
+        {/* ===== METHOD / PROCESS ===== */}
+        <Section id="process">
+          <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-3">
+            <Panel className="bg-[#EEF2F7]/90 p-6 md:p-10">
+              <Floating distance={40} className="mb-10">
+                <Sphere className="w-24 h-24 md:w-32 md:h-32" />
+              </Floating>
+              <ol className="space-y-7">
+                {phases.map((p, i) => (
+                  <Reveal key={p.title} delay={i * 0.06}>
+                    <li className="grid grid-cols-[2.5rem_1fr] gap-2">
+                      <span className="text-sm text-slate-400 tabular-nums pt-1.5">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <h3 className="font-geist font-medium text-2xl tracking-[-0.03em]">{p.title}</h3>
+                        <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
+                          {p.steps.map(s => `${s.label}: ${s.desc.toLowerCase()}.`).join(" ")}
+                        </p>
+                      </div>
+                    </li>
+                  </Reveal>
+                ))}
+              </ol>
+            </Panel>
+            <Panel className="p-6 md:p-12 flex flex-col justify-between gap-12">
+              <Reveal>
+                <h2 className="font-geist font-medium tracking-[-0.055em] leading-[1] text-[2.6rem] sm:text-6xl lg:text-[5.2rem]">
+                  Strategy <InlineMark src="/logos/splash.png" dark /> to steady <InlineMark src="/logos/kalyxi.png" /> conversions <InlineMark src={cortexuumBrain} /> in 90 days
+                </h2>
+              </Reveal>
+              <Reveal delay={0.1} className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <p className="max-w-md text-[15px] leading-relaxed text-slate-700">A systematic buildout engineered to create a predictable pipeline. Eight steps, from the first idea to the closed sale, each one measured.</p>
+                <CtaButton>Book a strategy call</CtaButton>
+              </Reveal>
+            </Panel>
+          </div>
+        </Section>
+
+        <Section>
+          <GiantWords text="Capture. Nurture. Convert." />
+        </Section>
+
+        {/* ===== SERVICES BENTO ===== */}
+        <Section id="services">
+          <Panel className="p-4 md:p-6">
+            <div className="grid lg:grid-cols-2 gap-6 p-2 md:p-6 pb-10 md:pb-14">
+              <Reveal><h2 className={H2}>What we run for you</h2></Reveal>
+              <Reveal delay={0.1} className="lg:self-end lg:justify-self-end max-w-md text-[15px] leading-relaxed text-slate-700">
+                <p>Every service built on psychological principles and proven performance data. Take one, or let us run the whole system.</p>
+              </Reveal>
+            </div>
+            <div className="grid md:grid-cols-4 md:auto-rows-[230px] gap-3">
+              {services.map((s, i) => {
+                const look = [
+                  "md:col-span-2 md:row-span-2 bg-[#0E1B33] text-white arc-glow-tile",
+                  "silk-tile",
+                  "bg-[#F3F6FA]",
+                  "md:col-span-2 bg-[#F3F6FA]",
+                  "bg-white border border-slate-200",
+                ][i];
+                const big = i === 0;
+                return (
+                  <Reveal key={s.title} delay={i * 0.05} className={`relative overflow-hidden rounded-[20px] p-6 flex flex-col justify-between ${look}`}>
+                    <h3 className={`relative font-geist font-medium tracking-[-0.04em] ${big ? "text-4xl md:text-6xl" : "text-2xl"}`}>{s.title}</h3>
+                    <p className={`relative text-sm leading-relaxed ${big ? "text-white/75 max-w-sm md:text-base" : "text-slate-600"}`}>{s.description}</p>
+                  </Reveal>
+                );
+              })}
+              <Reveal delay={0.25} className="md:col-span-2 rounded-[20px] bg-[#EAF6F1] p-6 flex flex-col justify-between">
+                <h3 className="flex items-center gap-2 font-geist font-medium text-xl tracking-[-0.02em]"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
+                <p className="text-sm text-slate-700 leading-relaxed">Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.</p>
+              </Reveal>
+              <Reveal delay={0.3} className="rounded-[20px] bg-[#F3F6FA] p-6 flex flex-col justify-between">
+                <h3 className="flex items-center gap-2 font-geist font-medium text-xl tracking-[-0.02em]"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
+                <p className="text-sm text-slate-700 leading-relaxed">Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.</p>
+              </Reveal>
+            </div>
+          </Panel>
+        </Section>
+
+        {/* ===== FOUNDER (Arcline's coaches) ===== */}
+        <Section id="founder">
+          <Panel className="p-6 md:p-12">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+              <Reveal>
+                <h2 className={H2}>Christian Colgate</h2>
+                <p className="mt-4 text-lg text-slate-500">CEO and founder</p>
+              </Reveal>
+              <Reveal delay={0.1} className="space-y-4 text-[15px] leading-relaxed text-slate-700 max-w-xl lg:pt-4">
+                <p>Christian leads the paid media division at Cortexuum, scaling brands across Meta, Google, and TikTok.</p>
+                <p>He founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.</p>
+                <p>He has managed the systems and marketing behind Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA. Those engagements are reviewed live rather than printed&nbsp;here.</p>
+              </Reveal>
+            </div>
+
+            <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 items-start">
+              <Reveal className="col-span-2 lg:col-span-1">
+                <div className="aspect-[4/5] rounded-[18px] overflow-hidden bg-[#EEF2F7]">
+                  <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full h-full object-cover object-top grayscale" />
+                </div>
+                <p className="mt-3 font-geist font-medium text-lg tracking-[-0.02em]">Christian Colgate</p>
+                <p className="text-xs text-slate-500">CEO and founder · paid media</p>
+              </Reveal>
+              {founderStats.map((s, i) => (
+                <Reveal key={s.label} delay={0.08 * (i + 1)} className={["lg:mt-24", "lg:mt-8", "lg:mt-36"][i]}>
+                  <div className="aspect-[4/5] rounded-[18px] bg-[#0E1B33] text-white p-5 flex flex-col justify-end arc-glow-tile relative overflow-hidden">
+                    <p className="relative font-geist font-medium text-4xl md:text-5xl tracking-[-0.05em]"><CountUp value={s.value} /></p>
+                  </div>
+                  <p className="mt-3 text-sm text-slate-600">{s.label}</p>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="mt-14 pt-8 border-t border-slate-200">
+              <p className="text-sm text-slate-500 mb-4">The team behind the work, in years</p>
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {teamExpertise.map(t => (
+                  <div key={t.area}>
+                    <dt className="font-geist font-medium text-3xl tracking-[-0.04em]"><CountUp value={t.years} /></dt>
+                    <dd className="text-sm text-slate-600">{t.area}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </Panel>
+        </Section>
+
+        {/* ===== HOW PEOPLE THINK (Arcline's "What the lab sees") ===== */}
+        <Section id="benefits">
+          <Panel dark className="overflow-hidden p-6 md:p-12">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <Reveal>
+                  <h2 className="font-geist font-medium tracking-[-0.055em] leading-[0.95] text-[2.6rem] sm:text-6xl lg:text-[5rem]">Marketing that understands how people think</h2>
+                </Reveal>
+                <Reveal delay={0.1}>
+                  <p className="mt-6 text-lg text-white/80 max-w-lg">With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't.</p>
+                </Reveal>
+                <dl className="mt-10 space-y-5 max-w-lg">
+                  {benefits.map((b, i) => (
+                    <Reveal key={b.title} delay={0.05 * i}>
+                      <dt className="font-medium">{b.title}</dt>
+                      <dd className="mt-1 text-sm text-white/60 leading-relaxed">{b.description}</dd>
+                    </Reveal>
+                  ))}
+                </dl>
+                <div className="mt-8"><TextLink href={CTA_URL} light>Book a strategy call</TextLink></div>
+              </div>
+
+              <div className="relative mx-auto w-full max-w-[540px] lg:aspect-square">
+                <div aria-hidden className="hidden lg:block absolute inset-[14%] rounded-full border border-white/15" />
+                <Floating distance={30} className="relative mx-auto w-[46%] min-w-[160px] lg:absolute lg:inset-0 lg:m-auto lg:h-[46%] aspect-square">
+                  <Sphere brain className="w-full h-full" />
+                </Floating>
+                <ul className="mt-10 lg:mt-0 grid grid-cols-2 gap-6 lg:block">
+                  {benefits.map((b, i) => (
+                    <li key={b.title} className={`lg:absolute lg:w-[34%] ${orbit[i]}`}>
+                      <p className="font-geist font-medium text-xl text-[#7FD3E6] tracking-[-0.02em]">{b.stat}</p>
+                      <p className="text-xs text-white/60">{b.title}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Panel>
+        </Section>
+
+        {/* ===== RESULTS: sideways row (Arcline's week cards) ===== */}
+        <section id="proof" className="relative scroll-mt-24 mt-20 md:mt-32">
           <HorizontalScroll
             header={
-              <div className="w-full max-w-7xl mx-auto px-6 md:px-10 mb-10 lg:mb-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                <div className="max-w-2xl">
-                  <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">The receipts, not the promises</h2>
-                  <p className="mt-5 text-lg text-slate-600 leading-relaxed">Real accounts, real spend, real return. Platform-reported figures, unaltered.</p>
-                </div>
-                <p className="hidden lg:block text-sm text-slate-500">Keep scrolling</p>
+              <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 mb-10 grid lg:grid-cols-2 gap-6 lg:items-end">
+                <h2 className={H2}>The receipts</h2>
+                <p className="lg:justify-self-end max-w-md text-[15px] leading-relaxed text-slate-700">Real accounts, real spend, real return. A large share of the work sits under confidentiality, and those accounts are walked through live, one to one.</p>
               </div>
             }
           >
-            <Spotlight tone="dark" className="md:col-span-2 lg:w-[720px] lg:flex-none rounded-[32px] bg-[#0E1B33] text-white p-8 md:p-10 flex flex-col">
+            <Panel dark className="md:col-span-2 lg:w-[680px] lg:flex-none p-8 md:p-10">
               <a href={featured.href} className="group flex flex-col h-full">
                 <p className="text-sm text-white/60">{featured.client} · {featured.scope}</p>
-                <h3 className="mt-4 font-display text-3xl md:text-[2.6rem] font-bold tracking-[-0.03em] leading-[1.04]">{featured.headline}</h3>
+                <h3 className="mt-4 font-geist font-medium text-3xl md:text-[2.5rem] tracking-[-0.04em] leading-[1.05]">{featured.headline}</h3>
                 <p className="mt-4 text-white/70 leading-relaxed max-w-xl">{featured.detail}</p>
                 <div className="mt-8">
                   <ScaleBars
@@ -445,93 +603,43 @@ export default function Home() {
                     ]}
                   />
                 </div>
-                <p className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-[#7FD3E6] group-hover:gap-2.5 transition-all">
+                <p className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-[#7FD3E6] group-hover:gap-2.5 transition-all">
                   Read the full case study <ArrowUpRight className="w-4 h-4" />
                 </p>
               </a>
-            </Spotlight>
-
+            </Panel>
             {moreResults.map(r => (
-              <Spotlight key={r.headline} className="lg:w-[420px] lg:flex-none rounded-[32px] bg-white p-8 flex flex-col">
-                <p className="text-sm text-slate-500">{r.scope}</p>
-                <p className="mt-6 font-display text-6xl font-bold tracking-[-0.04em] text-[#357BD8]"><CountUp value={r.stats[0].value} /></p>
+              <Panel key={r.headline} className="lg:w-[400px] lg:flex-none p-8 flex flex-col">
+                <p className="text-sm text-slate-500 pr-6">{r.scope}</p>
+                <p className="mt-6 font-geist font-medium text-6xl tracking-[-0.05em] text-[#357BD8]"><CountUp value={r.stats[0].value} /></p>
                 <p className="mt-1 text-sm text-slate-500">{r.stats[0].label}</p>
-                <h3 className="mt-6 font-display text-2xl font-bold tracking-[-0.02em] leading-[1.15]">{r.headline}</h3>
+                <h3 className="mt-6 font-geist font-medium text-2xl tracking-[-0.03em] leading-[1.15]">{r.headline}</h3>
                 <p className="mt-3 text-[15px] text-slate-600 leading-relaxed flex-1">{r.detail}</p>
                 <dl className="mt-6 space-y-2.5 border-t border-dashed border-slate-300 pt-5 text-[15px]">
                   {r.stats.slice(1).map(s => (
                     <div key={s.label} className="flex justify-between gap-4">
                       <dt className="text-slate-500">{s.label}</dt>
-                      <dd className="font-semibold"><CountUp value={s.value} /></dd>
+                      <dd className="font-medium"><CountUp value={s.value} /></dd>
                     </div>
                   ))}
                 </dl>
-                <p className="mt-5 text-xs text-slate-400">{r.client}</p>
-              </Spotlight>
+                <p className="mt-5 pl-6 text-xs text-slate-400">{r.client}</p>
+              </Panel>
             ))}
-
-            <div className="md:col-span-2 lg:w-[380px] lg:flex-none rounded-[32px] border-2 border-dashed border-slate-300 p-8 flex flex-col justify-between gap-8">
-              <p className="font-display text-3xl font-bold tracking-[-0.03em] leading-[1.1]">More accounts sit under NDA.</p>
+            <Panel className="md:col-span-2 lg:w-[360px] lg:flex-none p-8 flex flex-col justify-between gap-8 bg-white/60">
+              <p className="font-geist font-medium text-3xl tracking-[-0.04em] leading-[1.1]">More accounts sit under NDA.</p>
               <div>
                 <p className="text-slate-600 leading-relaxed">Those screenshots and numbers get walked through live, one to one.</p>
                 <CtaButton className="mt-6">See them on a call</CtaButton>
               </div>
-            </div>
+            </Panel>
           </HorizontalScroll>
         </section>
 
-        {/* ===== WHY IT WORKS ===== */}
-        <section id="benefits" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto">
-            <SectionHead
-              title="Marketing that understands how people think"
-              intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't."
-            />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {benefits.map((b, i) => (
-                <Reveal key={b.title} delay={i * 0.08} className="h-full">
-                  <Spotlight className="h-full rounded-[28px] border border-slate-200 bg-white p-7">
-                    <p className="font-display text-2xl font-bold tracking-[-0.02em] text-[#357BD8]">{b.stat}</p>
-                    <h3 className="mt-8 font-semibold">{b.title}</h3>
-                    <p className="mt-2 text-[15px] text-slate-600 leading-relaxed">{b.description}</p>
-                  </Spotlight>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== PROCESS: stacking cards ===== */}
-        <section id="process" className="scroll-mt-24 p-2 md:p-3">
-          <div className="rounded-[28px] md:rounded-[40px] bg-[#0E1B33] text-white px-6 md:px-10 py-24 md:py-32">
-            <div className="max-w-5xl mx-auto">
-              <SectionHead light title="From strategy to consistent conversions in 90 days" intro="A systematic buildout engineered to create a predictable pipeline." />
-              <StackCards>
-                {phases.map((p, i) => (
-                  <div key={p.title} className="rounded-[28px] bg-[#16284A] border border-white/10 p-8 md:p-12 grid md:grid-cols-[1fr_1.3fr] gap-8 md:gap-12 min-h-[340px] shadow-[0_-20px_60px_-30px_rgba(0,0,0,0.6)]">
-                    <div className="flex flex-col justify-between gap-8">
-                      <span className="font-display text-7xl md:text-8xl font-bold tracking-[-0.05em] text-[#7FD3E6]/90 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                      <h3 className="font-display text-3xl md:text-4xl font-semibold tracking-[-0.02em]">{p.title}</h3>
-                    </div>
-                    <ul className="self-end divide-y divide-white/10">
-                      {p.steps.map(s => (
-                        <li key={s.label} className="py-5 flex items-baseline justify-between gap-6">
-                          <span className="font-display text-xl font-semibold">{s.label}</span>
-                          <span className="text-right text-white/60">{s.desc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </StackCards>
-            </div>
-          </div>
-        </section>
-
         {/* ===== CLIENT ROSTER ===== */}
-        <section id="clients" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
-          <div className="max-w-7xl mx-auto">
-            <SectionHead title="Brands we've built the machine for" />
+        <Section id="clients">
+          <Panel className="p-6 md:p-12">
+            <Reveal className="pb-10"><h2 className={H2}>Brands we've built the machine for</h2></Reveal>
             <RosterGroup
               title="Information and education brands"
               note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book."
@@ -550,127 +658,91 @@ export default function Home() {
               brands={agencyBrands}
               gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
             />
-          </div>
-        </section>
-
-        {/* ===== FOUNDER ===== */}
-        <section id="founder" className="scroll-mt-24 bg-[#F3F6FB] px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-20 items-start">
-            <Reveal className="lg:sticky lg:top-28">
-              <ZoomImage src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="rounded-[32px] aspect-[4/5] max-w-md bg-white" />
-            </Reveal>
-            <div>
-              <Reveal>
-                <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">Christian Colgate</h2>
-                <p className="mt-3 text-lg text-slate-500">CEO and founder</p>
-              </Reveal>
-              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg text-slate-700 leading-relaxed max-w-2xl">
-                <p>Christian leads the paid media division at Cortexuum, scaling brands across Meta, Google, and TikTok.</p>
-                <p>He founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.</p>
-                <p>He has managed the systems and marketing behind Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA. Those engagements are reviewed live rather than printed&nbsp;here.</p>
-              </Reveal>
-              <dl className="mt-12 grid sm:grid-cols-3 gap-8">
-                {founderStats.map((s, i) => (
-                  <Reveal key={s.label} delay={i * 0.08}>
-                    <dt className="font-display text-4xl font-bold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
-                    <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
-                  </Reveal>
-                ))}
-              </dl>
-              <Reveal className="mt-12 pt-8 border-t border-slate-300/70">
-                <p className="text-sm text-slate-500 mb-4">The team behind the work, in years</p>
-                <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {teamExpertise.map(t => (
-                    <div key={t.area}>
-                      <dt className="font-display text-2xl font-bold"><CountUp value={t.years} /></dt>
-                      <dd className="text-sm text-slate-600">{t.area}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </Reveal>
-            </div>
-          </div>
-        </section>
+          </Panel>
+        </Section>
 
         {/* ===== FAQ ===== */}
-        <section id="faq" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
-            <div className="lg:sticky lg:top-32 self-start">
-              <SectionHead title="Questions before the call" intro="The short answers. The long ones happen on the call." />
+        <Section id="faq">
+          <Panel className="p-6 md:p-12 grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 overflow-hidden">
+            <div className="flex flex-col justify-between gap-10">
+              <Reveal>
+                <h2 className="font-geist font-medium tracking-[-0.055em] leading-[0.95] text-[2.6rem] sm:text-6xl">Questions before the call</h2>
+                <p className="mt-5 text-[15px] text-slate-600 max-w-sm">The short answers. The long ones happen on the call.</p>
+              </Reveal>
+              <Floating distance={40} className="hidden lg:block">
+                <Sphere className="w-28 h-28" />
+              </Floating>
             </div>
             <Reveal>
               <Accordion type="single" collapsible className="border-t border-slate-200">
                 {faqs.map(f => (
                   <AccordionItem key={f.q} value={f.q} className="border-slate-200">
-                    <AccordionTrigger className="py-6 text-left font-display text-xl md:text-2xl font-semibold tracking-[-0.02em] hover:no-underline hover:text-[#357BD8] transition-colors">
-                      {f.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-6 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">{f.a}</AccordionContent>
+                    <AccordionTrigger className="py-5 text-left font-geist text-lg md:text-xl font-medium tracking-[-0.02em] hover:no-underline">{f.q}</AccordionTrigger>
+                    <AccordionContent className="pb-5 text-[15px] text-slate-600 leading-relaxed max-w-2xl">{f.a}</AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
             </Reveal>
-          </div>
-        </section>
+          </Panel>
+        </Section>
 
         {/* ===== BOOK A CALL ===== */}
-        <section id="contact" className="scroll-mt-24 p-2 md:p-3">
-          <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px]">
-            <SilkField />
-            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-36 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+        <Section id="contact">
+          <Panel className="p-6 md:p-12">
+            <Reveal>
+              <h2 className={`${H2} text-right pb-6 border-b border-slate-200`}>Book a strategy call</h2>
+            </Reveal>
+            <div className="mt-10 grid md:grid-cols-[1fr_1.2fr_1fr] gap-10 items-start">
               <div>
-                <Reveal>
-                  <h2 className="font-display text-5xl md:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
-                    Ready to see what proven marketing systems can do?
-                  </h2>
-                </Reveal>
-                <Reveal delay={0.1}>
-                  <p className="mt-6 text-lg text-slate-700 max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
-                  <CtaButton className="mt-9">Book a strategy call</CtaButton>
-                </Reveal>
+                <p className="text-xs text-slate-500">The call</p>
+                <p className="mt-2 font-geist font-medium text-2xl tracking-[-0.03em] leading-tight">Free, 30 minutes, booked straight on Calendly</p>
+                <p className="mt-3 text-[15px] text-slate-600">No obligations, just real insights for your business.</p>
               </div>
-              <Reveal delay={0.15}>
-                <div className="rounded-[28px] bg-white/75 backdrop-blur-xl border border-white p-7 md:p-8">
-                  <h3 className="font-semibold">What happens next</h3>
-                  <ol className="mt-5 space-y-4">
-                    {nextSteps.map((t, i) => (
-                      <li key={t} className="flex gap-4">
-                        <span className="flex-none w-7 h-7 rounded-full bg-[#0E1B33] text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
-                        <span className="pt-0.5 text-slate-700">{t}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </Reveal>
+              <div>
+                <p className="text-xs text-slate-500">What happens next</p>
+                <ol className="mt-3 space-y-3">
+                  {nextSteps.map((t, i) => (
+                    <li key={t} className="flex gap-3 text-[15px] text-slate-700">
+                      <span className="text-slate-400 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                      {t}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="md:justify-self-end">
+                <CtaButton>Book a strategy call</CtaButton>
+              </div>
             </div>
-          </div>
-        </section>
+          </Panel>
+        </Section>
 
         {/* ===== FOOTER ===== */}
-        <footer className="px-6 md:px-10 pt-16 pb-10 overflow-hidden">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
-            <div className="flex items-center gap-3">
-              <img src={cortexuumBrain} alt="" className="w-7 h-7 object-contain" />
-              <span className="font-semibold text-[#0E1B33]">Cortexuum</span>
-              <span>&copy; {new Date().getFullYear()}</span>
+        <footer className="relative px-3 md:px-6 mt-20 md:mt-28">
+          <div className="max-w-[1400px] mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-600 px-3">
+              <div className="flex items-center gap-3">
+                <img src={cortexuumBrain} alt="" className="w-7 h-7 object-contain" />
+                <span className="font-medium text-[#0E1B33]">Cortexuum</span>
+                <span>&copy; {new Date().getFullYear()}</span>
+              </div>
+              <nav className="flex flex-wrap gap-x-6 gap-y-2">
+                {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
+                  <a key={l.label} href={l.href} className="hover:text-[#0E1B33] transition-colors">{l.label}</a>
+                ))}
+                <a href="/login" className="text-slate-400 hover:text-slate-600 transition-colors">Admin</a>
+              </nav>
             </div>
-            <nav className="flex flex-wrap gap-x-6 gap-y-2">
-              {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
-                <a key={l.label} href={l.href} className="hover:text-[#0E1B33] transition-colors">{l.label}</a>
-              ))}
-              <a href="/login" className="text-slate-400 hover:text-slate-600 transition-colors">Admin</a>
-            </nav>
+            <motion.p
+              aria-hidden
+              initial={{ y: "40%", opacity: 0 }}
+              whileInView={{ y: "0%", opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: EASE }}
+              className="mt-10 font-geist font-medium text-[#0E1B33] text-[19vw] leading-[0.8] tracking-[-0.07em] text-center select-none"
+            >
+              Cortexuum
+            </motion.p>
           </div>
-          <motion.p
-            aria-hidden
-            initial={{ y: "40%", opacity: 0 }}
-            whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: EASE }}
-            className="mt-14 font-display font-bold text-[#0E1B33] text-[19vw] leading-[0.8] tracking-[-0.06em] text-center select-none"
-          >
-            Cortexuum
-          </motion.p>
         </footer>
       </div>
     </MotionConfig>

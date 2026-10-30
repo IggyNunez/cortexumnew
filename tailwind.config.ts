@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["'Bricolage Grotesque'", "Inter", "sans-serif"],
+        geist: ["Geist", "Inter", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
