@@ -201,11 +201,11 @@ function Panel({ children, className = "", dark = false }: { children: ReactNode
   );
 }
 
-// Pearl sphere, optionally holding the brain mark.
-function Sphere({ className = "", brain = false }: { className?: string; brain?: boolean }) {
+// Pearl sphere holding the brain mark.
+function Sphere({ className = "" }: { className?: string }) {
   return (
     <div aria-hidden className={`arc-sphere rounded-full flex items-center justify-center ${className}`}>
-      {brain && <img src={cortexuumBrain} alt="" className="w-[46%] opacity-90" />}
+      <img src={cortexuumBrain} alt="" className="w-[64%] translate-y-[2%]" />
     </div>
   );
 }
@@ -253,11 +253,11 @@ function TextLink({ href, children, light = false }: { href: string; children: R
   );
 }
 
-// Client logo set inline in a headline, the way Arcline sets round photos into its type.
-function InlineMark({ src, dark = false }: { src: string; dark?: boolean }) {
+// Round marks set inline in a headline, the way Arcline sets round photos into its type.
+function InlineMark({ children }: { children: ReactNode }) {
   return (
-    <span className={`inline-flex align-middle items-center justify-center w-[0.95em] h-[0.95em] mx-[0.08em] rounded-full overflow-hidden ring-1 ring-slate-200 -translate-y-[0.04em] ${dark ? "bg-[#111111]" : "bg-white"}`}>
-      <img src={src} alt="" className="w-[78%] h-[78%] object-contain" />
+    <span className="inline-flex align-middle w-[0.95em] h-[0.95em] mx-[0.08em] rounded-full overflow-hidden -translate-y-[0.04em] shadow-[0_8px_20px_-8px_rgba(14,27,51,0.45)]">
+      {children}
     </span>
   );
 }
@@ -323,7 +323,7 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
         >
-          <Sphere brain className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40" />
+          <Sphere className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40" />
         </motion.div>
 
         <h1 className="relative z-10 px-6 md:px-12 pt-24 md:pt-24 font-geist font-medium tracking-[-0.06em] leading-[0.92] text-[3.2rem] sm:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] lg:whitespace-nowrap">
@@ -347,19 +347,25 @@ function Hero() {
   );
 }
 
-function GiantWords({ text }: { text: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["6%", "-30%"]);
+function GiantWords({ words }: { words: string[] }) {
   return (
-    <div ref={ref}>
-      <Panel className="overflow-hidden py-8 md:py-12">
-        <motion.p aria-label={text} style={reduce ? undefined : { x }} className="whitespace-nowrap font-geist font-medium tracking-[-0.06em] leading-[0.9] text-[24vw] md:text-[15vw]">
-          {text}
-        </motion.p>
-      </Panel>
-    </div>
+    <Panel className="overflow-hidden px-6 md:px-10 py-10 md:py-14">
+      <p aria-label={words.join(" ")} className="flex flex-col lg:flex-row lg:justify-between font-geist font-medium tracking-[-0.06em] leading-[0.95] text-[19vw] sm:text-[15vw] lg:text-[7.8vw] 2xl:text-[7rem]">
+        {words.map((w, i) => (
+          <span key={w} aria-hidden className="block overflow-hidden pb-[0.06em]">
+            <motion.span
+              className="block"
+              initial={{ y: "105%" }}
+              whileInView={{ y: "0%" }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 1, delay: i * 0.15, ease: EASE }}
+            >
+              {w}
+            </motion.span>
+          </span>
+        ))}
+      </p>
+    </Panel>
   );
 }
 
@@ -371,7 +377,8 @@ export default function Home() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative isolate min-h-screen bg-[#DFE6EE] text-[#0E1B33] font-sans antialiased overflow-x-clip pb-6">
+      <div className="relative isolate min-h-screen bg-[#eaf1fb] text-[#0E1B33] font-sans antialiased overflow-x-clip pb-6">
+        <div aria-hidden className="fixed inset-0 -z-20 overflow-hidden"><div className="silk-field" /></div>
         <Arcs />
         <ScrollProgress />
         <Header />
@@ -389,7 +396,7 @@ export default function Home() {
                 <h2 className={H2}>Receipts, not promises</h2>
               </Reveal>
               <Reveal delay={0.1} className="my-10 md:my-12 self-center">
-                <img src={christianColgate} alt="Christian Colgate" className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover object-top grayscale" />
+                <img src={christianColgate} alt="Christian Colgate" className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover object-top" />
               </Reveal>
               <div className="mt-auto grid md:grid-cols-2 gap-8 md:gap-12 max-w-3xl text-[15px] leading-relaxed text-slate-700">
                 <Reveal>
@@ -416,7 +423,7 @@ export default function Home() {
         {/* ===== METHOD / PROCESS ===== */}
         <Section id="process">
           <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-3">
-            <Panel className="bg-[#EEF2F7]/90 p-6 md:p-10">
+            <Panel className="silk-tile p-6 md:p-10">
               <Floating distance={40} className="mb-10">
                 <Sphere className="w-24 h-24 md:w-32 md:h-32" />
               </Floating>
@@ -439,7 +446,7 @@ export default function Home() {
             <Panel className="p-6 md:p-12 flex flex-col justify-between gap-12">
               <Reveal>
                 <h2 className="font-geist font-medium tracking-[-0.055em] leading-[1] text-[2.6rem] sm:text-6xl lg:text-[5.2rem]">
-                  Strategy <InlineMark src="/logos/splash.png" dark /> to steady <InlineMark src="/logos/kalyxi.png" /> conversions <InlineMark src={cortexuumBrain} /> in 90 days
+                  Strategy <InlineMark><Sphere className="w-full h-full" /></InlineMark> to steady conversions <InlineMark><img src={christianColgate} alt="" className="w-full h-full object-cover object-top" /></InlineMark> in 90 days
                 </h2>
               </Reveal>
               <Reveal delay={0.1} className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -451,7 +458,7 @@ export default function Home() {
         </Section>
 
         <Section>
-          <GiantWords text="Capture. Nurture. Convert." />
+          <GiantWords words={["Capture.", "Nurture.", "Convert."]} />
         </Section>
 
         {/* ===== SERVICES BENTO ===== */}
@@ -468,8 +475,8 @@ export default function Home() {
                 const look = [
                   "md:col-span-2 md:row-span-2 bg-[#0E1B33] text-white arc-glow-tile",
                   "silk-tile",
-                  "bg-[#F3F6FA]",
-                  "md:col-span-2 bg-[#F3F6FA]",
+                  "silk-tile-2",
+                  "md:col-span-2 silk-tile",
                   "bg-white border border-slate-200",
                 ][i];
                 const big = i === 0;
@@ -484,7 +491,7 @@ export default function Home() {
                 <h3 className="flex items-center gap-2 font-geist font-medium text-xl tracking-[-0.02em]"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
                 <p className="text-sm text-slate-700 leading-relaxed">Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.</p>
               </Reveal>
-              <Reveal delay={0.3} className="rounded-[20px] bg-[#F3F6FA] p-6 flex flex-col justify-between">
+              <Reveal delay={0.3} className="rounded-[20px] silk-tile-2 p-6 flex flex-col justify-between">
                 <h3 className="flex items-center gap-2 font-geist font-medium text-xl tracking-[-0.02em]"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
                 <p className="text-sm text-slate-700 leading-relaxed">Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.</p>
               </Reveal>
@@ -509,8 +516,8 @@ export default function Home() {
 
             <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 items-start">
               <Reveal className="col-span-2 lg:col-span-1">
-                <div className="aspect-[4/5] rounded-[18px] overflow-hidden bg-[#EEF2F7]">
-                  <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full h-full object-cover object-top grayscale" />
+                <div className="aspect-[4/5] rounded-[18px] overflow-hidden silk-tile">
+                  <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full h-full object-cover object-top" />
                 </div>
                 <p className="mt-3 font-geist font-medium text-lg tracking-[-0.02em]">Christian Colgate</p>
                 <p className="text-xs text-slate-500">CEO and founder · paid media</p>
@@ -564,7 +571,7 @@ export default function Home() {
               <div className="relative mx-auto w-full max-w-[540px] lg:aspect-square">
                 <div aria-hidden className="hidden lg:block absolute inset-[14%] rounded-full border border-white/15" />
                 <Floating distance={30} className="relative mx-auto w-[46%] min-w-[160px] lg:absolute lg:inset-0 lg:m-auto lg:h-[46%] aspect-square">
-                  <Sphere brain className="w-full h-full" />
+                  <Sphere className="w-full h-full" />
                 </Floating>
                 <ul className="mt-10 lg:mt-0 grid grid-cols-2 gap-6 lg:block">
                   {benefits.map((b, i) => (
