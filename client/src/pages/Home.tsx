@@ -483,7 +483,10 @@ export default function Home() {
         {/* ===== WHY IT WORKS ===== */}
         <section id="benefits" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
           <div className="max-w-7xl mx-auto">
-            <SectionHead title="Marketing that understands how people think" />
+            <SectionHead
+              title="Marketing that understands how people think"
+              intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't."
+            />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {benefits.map((b, i) => (
                 <Reveal key={b.title} delay={i * 0.08} className="h-full">
