@@ -1,24 +1,21 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "wouter";
-import { Menu, X, ArrowRight, Home, Layers, TrendingUp, Workflow, Users, UserRound, MessageCircleQuestion } from "lucide-react";
-import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
-import { LiquidNavbar, type NimbusFx } from "@/components/ui/liquid-glass-navbar";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useLocation } from "wouter";
+import { Menu, X, ArrowRight } from "lucide-react";
+import cortexuumBrain from "@/assets/cortexuum-brain.png";
+import { LiquidNavbar } from "@/components/ui/liquid-glass-navbar";
 
-// Homepage sections in page order. The liquid nav highlights whichever one is
-// on screen; sections without an entry (benefits, contact) keep the one above.
-const SECTIONS: { label: string; id: string; icon: typeof Home; fx: NimbusFx }[] = [
-  { label: "Home", id: "top", icon: Home, fx: "pop" },
-  { label: "Services", id: "services", icon: Layers, fx: "drop" },
-  { label: "Results", id: "proof", icon: TrendingUp, fx: "plane" },
-  { label: "Process", id: "process", icon: Workflow, fx: "spin" },
-  { label: "Clients", id: "clients", icon: Users, fx: "pop" },
-  { label: "Founder", id: "founder", icon: UserRound, fx: "wave" },
-  { label: "FAQ", id: "faq", icon: MessageCircleQuestion, fx: "drop" },
+// Homepage sections in page order. The water drop sits under whichever one is
+// on screen; sections without a link (benefits, contact) keep the one above,
+// and the hero has none lit.
+const NAV_LINKS = [
+  { label: "Services", href: "#services" },
+  { label: "Results", href: "#proof" },
+  { label: "Process", href: "#process" },
+  { label: "Clients", href: "#clients" },
+  { label: "Founder", href: "#founder" },
+  { label: "FAQ", href: "#faq" },
 ];
-
-const NAV_LINKS = SECTIONS.slice(1).map(s => ({ label: s.label, href: `#${s.id}` }));
-const RESULTS = SECTIONS.findIndex(s => s.id === "proof");
+const RESULTS = NAV_LINKS.findIndex(l => l.href === "#proof");
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
 
@@ -32,18 +29,17 @@ const Header = () => {
   const navHref = (href: string) => (location === "/" ? href : `/${href}`);
 
   // Off the homepage the only page using this header is a case study, so Results stays lit.
-  const [active, setActive] = useState(location === "/" ? 0 : RESULTS);
+  const [active, setActive] = useState(location === "/" ? -1 : RESULTS);
   const clickLock = useRef(0);
-  const wide = useMediaQuery("(min-width: 1200px)");
 
   useEffect(() => {
     if (location !== "/") return setActive(RESULTS);
     const spy = () => {
       if (Date.now() < clickLock.current) return;
       const line = window.innerHeight * 0.4;
-      let i = 0;
-      SECTIONS.forEach((s, j) => {
-        const el = document.getElementById(s.id);
+      let i = -1;
+      NAV_LINKS.forEach((l, j) => {
+        const el = document.getElementById(l.href.slice(1));
         if (el && el.getBoundingClientRect().top <= line) i = j;
       });
       setActive(i);
@@ -76,40 +72,38 @@ const Header = () => {
           <div
             className={`flex items-center justify-between gap-4 rounded-full transition-all duration-300 border ${
               scrolled
-                ? "bg-white/85 backdrop-blur-xl border-slate-200 shadow-lg shadow-slate-200/50 py-2 md:py-1.5 pl-4 pr-2 md:pl-5 md:pr-2"
-                : "bg-white/60 backdrop-blur-md border-white/60 shadow-md shadow-slate-200/30 py-2 md:py-1.5 pl-4 pr-2 md:pl-5 md:pr-2"
+                ? "bg-white/85 backdrop-blur-xl border-slate-200 shadow-lg shadow-slate-200/50 py-2 pl-4 pr-2 md:pl-6 md:pr-3"
+                : "bg-white/60 backdrop-blur-md border-white/60 shadow-md shadow-slate-200/30 py-2 pl-4 pr-2 md:pl-6 md:pr-3"
             }`}
           >
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <img
-                src={cortexuumLogoCircle}
-                alt="Cortexuum"
-                className="h-8 w-8 rounded-full ring-1 ring-slate-200"
-              />
-              <span className="text-sm md:text-[15px] font-bold tracking-[0.18em] uppercase text-slate-800">
-                Cortexuum
-              </span>
-            </Link>
+            {/* Logo, sitting in its own water drop */}
+            <LiquidNavbar
+              bare
+              active={0}
+              compact={false}
+              ariaLabel="Cortexuum home"
+              className="cx-liquid cx-logo shrink-0 -ml-2"
+              items={[{
+                label: "Cortexuum",
+                href: "/",
+                fx: "none",
+                icon: <img src={cortexuumBrain} alt="" className="h-7 w-7 object-contain" />,
+              }]}
+            />
 
-            {/* Desktop nav */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <LiquidNavbar
+                bare
                 tone="light"
-                compact={!wide}
+                compact={false}
                 active={active}
                 onChange={i => {
-                  // Hold the drop on the clicked item while the page smooth-scrolls past others.
+                  // Hold the drop on the clicked link while the page smooth-scrolls past others.
                   clickLock.current = Date.now() + 1200;
                   setActive(i);
                 }}
-                style={{ fontFamily: "inherit" }}
-                items={SECTIONS.map(s => ({
-                  label: s.label,
-                  href: navHref(`#${s.id}`),
-                  icon: <s.icon className="w-[18px] h-[18px]" strokeWidth={1.8} />,
-                  fx: s.fx,
-                }))}
+                className="cx-liquid"
+                items={NAV_LINKS.map(l => ({ label: l.label, href: navHref(l.href) }))}
               />
             </div>
 
@@ -119,7 +113,7 @@ const Header = () => {
                 href={CTA_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center gap-1.5 bg-[#0E1B33] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:bg-[#357BD8] transition-colors"
+                className="hidden lg:inline-flex items-center gap-1.5 bg-[#0E1B33] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:bg-[#357BD8] transition-colors"
               >
                 Book a Call
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -128,7 +122,7 @@ const Header = () => {
                 type="button"
                 onClick={() => setMobileMenuOpen(v => !v)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#0E1B33] text-white shadow-sm"
+                className="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#0E1B33] text-white shadow-sm"
               >
                 {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
               </button>
@@ -139,7 +133,7 @@ const Header = () => {
 
       {/* Mobile full-screen menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden bg-white/95 backdrop-blur-xl animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-40 lg:hidden bg-white/95 backdrop-blur-xl animate-in fade-in duration-200">
           <div className="pt-24 px-6 flex flex-col h-full">
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link, i) => (

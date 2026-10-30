@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { motion, MotionConfig, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Minus } from "lucide-react";
-import cortexuumLogoCircle from "@assets/cortexumlogo-circle_1772028571475.png";
 import christianColgate from "../assets/christian-colgate.webp";
+import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -251,8 +251,14 @@ function RosterGroup({ title, note, brands, gridClass }: { title: string; note: 
   );
 }
 
+// Hero stat pills: each figure is documented further down the page.
+const heroStats = [
+  { value: "$250M+", label: "ad spend managed" },
+  { value: "34.89x", label: "ROAS for Splash Media" },
+  { value: "10,313", label: "leads in 30 days" },
+];
+
 function Hero() {
-  const [featured] = documentedResults;
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -274,62 +280,47 @@ function Hero() {
 
         <motion.div
           style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
-          className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 md:px-10 pt-32 md:pt-40 pb-10 grid lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-10 items-center"
+          className="relative z-10 flex-1 w-full max-w-6xl mx-auto px-6 md:px-10 pt-28 md:pt-32 pb-8 flex flex-col items-center justify-center text-center"
         >
-          <div>
-            <h1 className="font-display text-[3.1rem] leading-[0.95] sm:text-7xl lg:text-[4.9rem] xl:text-[5.6rem] font-bold tracking-[-0.045em] lg:whitespace-nowrap">
-              <MaskLines lines={["Marketing systems", "proven on $250M+", "of ad spend."]} />
-            </h1>
-            <motion.p {...after(0.45)} className="mt-7 text-lg md:text-xl text-slate-700 leading-relaxed max-w-xl">
-              We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
-            </motion.p>
-            <motion.div {...after(0.55)} className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <CtaButton>Book a strategy call</CtaButton>
-              <a href="#proof" className="text-[15px] font-semibold text-[#0E1B33] underline decoration-[#357BD8]/40 underline-offset-[6px] hover:decoration-[#357BD8] transition-colors">
-                See the results
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Receipt: the Splash Media account, straight from the platform */}
-          <motion.a
-            href={featured.href}
-            initial={{ opacity: 0, y: 60, rotate: 4 }}
-            animate={{ opacity: 1, y: 0, rotate: -2 }}
-            transition={{ duration: 1.2, delay: 0.5, ease: EASE }}
-            whileHover={{ rotate: 0, y: -6 }}
-            className="block justify-self-center lg:justify-self-end w-full max-w-[400px] rounded-[28px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_30px_80px_-20px_rgba(14,27,51,0.35)] p-7"
+          {/* The logo brain with slow orbit rings, carried over from the previous hero */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: EASE }}
+            className="relative w-16 h-16 md:w-20 md:h-20 mb-8 md:mb-10"
           >
-            <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 font-semibold">
-                <span className="relative flex w-2 h-2">
-                  <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
-                  <span className="relative w-2 h-2 rounded-full bg-emerald-500" />
-                </span>
-                {featured.client}
-              </span>
-              <span className="text-slate-500">Meta, cold traffic</span>
-            </div>
-            <p className="mt-8 font-display text-[4.2rem] leading-none font-bold tracking-[-0.04em] text-[#357BD8]">
-              <CountUp value={featured.stats[0].value} />
-            </p>
-            <p className="mt-2 text-slate-600">{featured.stats[0].label}</p>
-            <div className="mt-8 border-t border-dashed border-slate-300 pt-5 space-y-3 text-[15px]">
-              {featured.stats.slice(1).map(s => (
-                <div key={s.label} className="flex justify-between gap-4">
-                  <span className="text-slate-500">{s.label}</span>
-                  <CountUp value={s.value} className="font-semibold" />
-                </div>
-              ))}
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-500">Contracts closed</span>
-                <CountUp value="$150,000" className="font-semibold" />
-              </div>
-            </div>
-            <p className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#357BD8]">
-              Read the case study <ArrowUpRight className="w-4 h-4" />
-            </p>
-          </motion.a>
+            <span aria-hidden className="absolute -inset-3 rounded-full bg-white/70 blur-xl" />
+            <span aria-hidden className="absolute -inset-4 rounded-full border border-dashed border-[#357BD8]/30 animate-[spin_40s_linear_infinite] motion-reduce:animate-none" />
+            <span aria-hidden className="absolute -inset-9 rounded-full border border-[#00BCD4]/20 animate-[spin_60s_linear_infinite_reverse] motion-reduce:animate-none">
+              <span className="absolute top-1/2 -left-1 w-2 h-2 rounded-full bg-[#E63E8B]/70" />
+            </span>
+            <img src={cortexuumBrain} alt="Cortexuum" className="relative w-full h-full object-contain drop-shadow-[0_10px_18px_rgba(14,27,51,0.25)]" />
+          </motion.div>
+
+          <h1 className="font-display text-[3.1rem] leading-[0.95] sm:text-7xl lg:text-[6.2rem] xl:text-[6.8rem] font-bold tracking-[-0.045em] lg:whitespace-nowrap">
+            <MaskLines lines={["Marketing systems", "proven on $250M+", "of ad spend."]} delay={0.2} />
+          </h1>
+          <motion.p {...after(0.6)} className="mt-7 text-lg md:text-xl text-slate-700 leading-relaxed max-w-2xl">
+            We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
+          </motion.p>
+
+          <motion.div {...after(0.7)} className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+            <CtaButton>Book a strategy call</CtaButton>
+            <a href="#proof" className="text-[15px] font-semibold text-[#0E1B33] underline decoration-[#357BD8]/40 underline-offset-[6px] hover:decoration-[#357BD8] transition-colors">
+              See the results
+            </a>
+          </motion.div>
+
+          {/* Proof as one quiet line under the CTA, not badges above it */}
+          <motion.ul {...after(0.85)} className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-sm text-slate-600">
+            {heroStats.map((s, i) => (
+              <li key={s.label} className="flex items-center gap-1.5">
+                {i > 0 && <span aria-hidden className="hidden sm:inline mr-3.5 text-slate-400">·</span>}
+                <CountUp value={s.value} className="font-semibold text-[#0E1B33]" />
+                {s.label}
+              </li>
+            ))}
+          </motion.ul>
         </motion.div>
 
         {/* Logo marquee */}
@@ -656,7 +647,7 @@ export default function Home() {
         <footer className="px-6 md:px-10 pt-16 pb-10 overflow-hidden">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
             <div className="flex items-center gap-3">
-              <img src={cortexuumLogoCircle} alt="" className="w-8 h-8 rounded-full ring-1 ring-slate-200" />
+              <img src={cortexuumBrain} alt="" className="w-7 h-7 object-contain" />
               <span className="font-semibold text-[#0E1B33]">Cortexuum</span>
               <span>&copy; {new Date().getFullYear()}</span>
             </div>

@@ -349,3 +349,30 @@
 @media (hover: none) {
   .spotlight::before, .spotlight::after { display: none; }
 }
+
+/* Header links on the liquid navbar: same size and color as the plain links they replace. */
+.nimbus-nav.cx-liquid {
+  --n-fg: #0f172a;
+  --n-fg-soft: #475569;
+  padding: 3px;
+  font-family: inherit;
+}
+.nimbus-nav.cx-liquid .nimbus-item {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+.nimbus-nav.cx-logo .nimbus-item {
+  height: 40px;
+  padding: 0 14px 0 4px;
+  gap: 10px;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .nimbus-nav.cx-logo .nimbus-item { font-size: 15px; }
+}
+

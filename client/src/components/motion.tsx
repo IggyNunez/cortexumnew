@@ -152,12 +152,18 @@ export function HorizontalScroll({ children, header }: { children: ReactNode; he
   const wide = useMediaQuery("(min-width: 1024px)");
   const pinned = wide && !reduce;
   const [distance, setDistance] = useState(0);
+  // Scroll spent pinned and still before the cards start moving, so the first one can be read.
+  const [hold, setHold] = useState(0);
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
+  const x = useTransform(scrollYProgress, [hold / (hold + distance || 1), 1], [0, -distance]);
 
   useLayoutEffect(() => {
     if (!pinned || !track.current) return;
-    const measure = () => track.current && setDistance(Math.max(0, track.current.scrollWidth - window.innerWidth));
+    const measure = () => {
+      if (!track.current) return;
+      setDistance(Math.max(0, track.current.scrollWidth - window.innerWidth));
+      setHold(window.innerHeight * 0.4);
+    };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(track.current);
@@ -175,10 +181,10 @@ export function HorizontalScroll({ children, header }: { children: ReactNode; he
   }
 
   return (
-    <div ref={section} style={{ height: `calc(100svh + ${distance}px)` }}>
+    <div ref={section} style={{ height: `calc(100svh + ${distance + hold}px)` }}>
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col justify-center">
         {header}
-        <motion.div ref={track} style={{ x }} className="flex gap-5 w-max px-10 will-change-transform">
+        <motion.div ref={track} style={{ x }} className="flex gap-5 w-max pr-10 pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] will-change-transform">
           {children}
         </motion.div>
       </div>
@@ -265,7 +271,7 @@ export function ScaleBars({ bars, tone = "light" }: { bars: { label: string; val
               style={{ background: b.color, width: `${Math.max(1.5, (b.amount / max) * 100)}%` }}
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.8 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 1.4, delay: 0.2 + i * 0.25, ease: EASE }}
             />
           </div>

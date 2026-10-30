@@ -33,6 +33,10 @@ export type LiquidNavbarProps = {
   compact?: boolean
   /** soft synthesized "plip" on tap (no audio files) */
   sound?: boolean
+  /** no glass pill or rim of its own: only the water drop, for sitting inside another bar */
+  bare?: boolean
+  /** accessible name of the nav landmark */
+  ariaLabel?: string
   className?: string
   style?: React.CSSProperties
 }
@@ -77,6 +81,7 @@ const NIMBUS_CSS = `
   background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),rgba(255,255,255,.38);
   box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -2px 6px rgba(0,162,255,.22),inset 0 0 0 1px rgba(255,255,255,.55),0 6px 16px -6px rgba(0,70,140,.45)}
 .nimbus-nav[data-gl="off"] .nimbus-drop{display:block}
+.nimbus-nav[data-bare="true"] .nimbus-glass{display:none}
 .nimbus-item{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border:0;border-radius:999px;background:none;color:var(--n-fg-soft);
   font-family:inherit;font-weight:500;font-size:14px;line-height:1;letter-spacing:-.01em;text-decoration:none;cursor:pointer;transition:color .25s}
 .nimbus-item:hover,.nimbus-item[aria-current="page"]{color:var(--n-fg)}
@@ -117,7 +122,7 @@ const NIMBUS_CSS = `
 const VERT = `attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}`
 const FRAG = `precision highp float;
 uniform vec2 uRes;uniform float uDpr;uniform float uTime;uniform vec4 uPill;
-uniform vec4 uBlob[6];uniform float uSy[6];uniform vec4 uRip[6];uniform vec3 uMouse;uniform float uDark;uniform float uAmb;
+uniform vec4 uBlob[6];uniform float uSy[6];uniform vec4 uRip[6];uniform vec3 uMouse;uniform float uDark;uniform float uAmb;uniform float uRim;
 float sdRB(vec2 p,vec2 b,float r){vec2 q=abs(p)-b+r;return length(max(q,0.))+min(max(q.x,q.y),0.)-r;}
 float sdCap(vec2 p,vec4 B,float sy){p-=B.xy;p.y/=sy;p.x=max(abs(p.x)-B.z,0.);return(length(p)-B.w)*min(1.,sy);}
 float smin(float a,float b,float k){float h=clamp(.5+.5*(b-a)/k,0.,1.);return mix(b,a,h)-k*h*(1.-h);}
@@ -142,7 +147,7 @@ void main(){
  float pm=smoothstep(1.,-1.,dp);float dm=smoothstep(1.,-1.,dd)*smoothstep(1.,-2.,dp);
  float sh=smoothstep(9.,-9.,dropD(p-vec2(0.,5.)))*(1.-dm)*pm*(.11+.07*uDark);
  vec3 c=vec3(0.,.14,.36)*sh;float a=sh;
- float pa=clamp(pm*(fres*.5+spec*.9+spec2),0.,1.);
+ float pa=clamp(pm*(fres*.5+spec*.9+spec2),0.,1.)*uRim;
  c=mix(vec3(1.),irid,.5*fres)*pa+c*(1.-pa);a=pa+a*(1.-pa);
  float th=lens(dd,11.);
  float cs=caus((p+n.xy*th*18.)*.085,uTime*.9);
@@ -178,6 +183,7 @@ function makeState() {
     moving: false,
     split: false,
     ready: false,
+    hidden: false,
     w: 0,
     h: 0,
     visible: true,
@@ -214,7 +220,7 @@ function initGL(canvas: HTMLCanvasElement) {
   gl.enableVertexAttribArray(loc)
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
   const u: Record<string, WebGLUniformLocation | null> = {}
-  for (const n of ["uRes", "uDpr", "uTime", "uPill", "uBlob", "uSy", "uRip", "uMouse", "uDark", "uAmb"]) u[n] = gl.getUniformLocation(p, n)
+  for (const n of ["uRes", "uDpr", "uTime", "uPill", "uBlob", "uSy", "uRip", "uMouse", "uDark", "uAmb", "uRim"]) u[n] = gl.getUniformLocation(p, n)
   return { gl, u }
 }
 
@@ -232,6 +238,8 @@ export function LiquidNavbar({
   tone = "light",
   compact,
   sound = false,
+  bare = false,
+  ariaLabel = "Main",
   className,
   style,
 }: LiquidNavbarProps) {
@@ -250,6 +258,8 @@ export function LiquidNavbar({
   const dark = tone === "dark" ? 1 : 0
   const darkRef = React.useRef(dark)
   darkRef.current = dark
+  const bareRef = React.useRef(bare)
+  bareRef.current = bare
 
   /* ---- drawing ---- */
   const draw = React.useCallback(() => {
@@ -269,7 +279,7 @@ export function LiquidNavbar({
       const blobs = new Float32Array(24)
       const sy = new Float32Array(6).fill(1)
       const head = s.lead === 0 ? s.a : s.b, tail = s.lead === 0 ? s.b : s.a
-      blobs.set([head.x, T.cy, s.q * (1 - 0.25 * thin), T.r * (1 - 0.12 * thin), tail.x, T.cy, s.q * (1 - 0.8 * thin), T.r * (1 - 0.5 * thin)], 0)
+      if (!s.hidden) blobs.set([head.x, T.cy, s.q * (1 - 0.25 * thin), T.r * (1 - 0.12 * thin), tail.x, T.cy, s.q * (1 - 0.8 * thin), T.r * (1 - 0.5 * thin)], 0)
       sy[0] = sy[1] = s.sy.s
       s.sats.slice(0, 4).forEach((d, i) => blobs.set([d.x, d.y, 0, d.r], 8 + i * 4))
       g.uniform4fv(u.uBlob, blobs)
@@ -280,13 +290,14 @@ export function LiquidNavbar({
       g.uniform3f(u.uMouse, s.mouse.x, s.mouse.y, s.mouse.s)
       g.uniform1f(u.uDark, darkRef.current)
       g.uniform1f(u.uAmb, s.reduce ? 0 : 1)
+      g.uniform1f(u.uRim, bareRef.current ? 0 : 1)
       g.clearColor(0, 0, 0, 0)
       g.clear(g.COLOR_BUFFER_BIT)
       g.drawArrays(g.TRIANGLES, 0, 3)
     } else if (dropRef.current) {
       const left = Math.min(s.a.x, s.b.x) - s.q - r - PAD
       const width = sep + 2 * (s.q + r)
-      dropRef.current.style.width = `${width}px`
+      dropRef.current.style.width = s.hidden ? "0px" : `${width}px`
       dropRef.current.style.transform = `translateX(${left}px) scaleY(${s.sy.s})`
     }
   }, [])
@@ -382,8 +393,11 @@ export function LiquidNavbar({
   const measure = React.useCallback(() => {
     const nav = navRef.current
     const el = itemRefs.current[current]
-    if (!nav || !el) return
     const s = st.current
+    // no active item: hide the drop, and let it appear in place on the next pick
+    if (nav && !el) { s.hidden = true; s.ready = false; s.sats = []; loop(); return }
+    if (!nav || !el) return
+    s.hidden = false
     s.w = nav.offsetWidth
     s.h = nav.offsetHeight
     const T = s.t
@@ -528,7 +542,8 @@ export function LiquidNavbar({
       data-gl={gl}
       data-compact={compact === undefined ? undefined : String(compact)}
       data-refract={refract ? "on" : "off"}
-      aria-label="Main"
+      data-bare={bare ? "true" : undefined}
+      aria-label={ariaLabel}
       onKeyDown={onKeyDown}
       onPointerMove={onMove}
       onPointerLeave={() => { st.current.mouse.on = false; loop() }}
