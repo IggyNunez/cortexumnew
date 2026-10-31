@@ -2,12 +2,12 @@
 // https://hirael.com/templates/nexacore), rebuilt with Cortexuum's content and colors.
 import type { ReactNode } from "react";
 import { motion, MotionConfig } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Minus, X } from "lucide-react";
 import christianColgate from "../assets/christian-colgate.webp";
 import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CountUp, EASE, Magnetic, Reveal, ScrollProgress } from "@/components/motion";
+import { CountUp, EASE, Magnetic, Reveal, ScrollProgress, ScrollWords, Spotlight, ZoomImage } from "@/components/motion";
 import { cn } from "@/lib/utils";
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
@@ -243,38 +243,6 @@ function SectionHead({ chip, title, grad, intro, light = false }: { chip?: strin
   );
 }
 
-function LogoTile({ brand }: { brand: Brand }) {
-  return (
-    <div className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(14,27,51,0.35)] ${brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"}`}>
-      <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
-    </div>
-  );
-}
-
-function RosterGroup({ title, note, brands, gridClass }: { title: string; note: string; brands: Brand[]; gridClass: string }) {
-  return (
-    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-200">
-      <Reveal>
-        <h3 className="text-xl font-semibold">{title}</h3>
-        <p className="mt-2 text-sm text-slate-500 leading-relaxed">{note}</p>
-      </Reveal>
-      <motion.div
-        className={`grid gap-3 ${gridClass}`}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        variants={{ show: { transition: { staggerChildren: 0.05 } } }}
-      >
-        {brands.map(b => (
-          <motion.div key={b.file} variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}>
-            <LogoTile brand={b} />
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
 // Dark card that unfolds on hover without changing size: a soft glow drops in
 // from the top and the detail and link rise into the empty space. Touch screens
 // get the unfolded state and grow to fit it.
@@ -352,6 +320,90 @@ function Stair({ s, i, small = false }: { s: (typeof stairs)[number]; i: number;
     </>
   );
 }
+
+// ---------- Live-site pieces, used by the lower half ----------
+
+function SilkField() {
+  return (
+    <div aria-hidden className="absolute inset-0 overflow-hidden">
+      <div className="silk-field" />
+      <div className="silk-grain" />
+    </div>
+  );
+}
+
+function CtaButton({ children, className = "", tone = "navy" }: { children: React.ReactNode; className?: string; tone?: "navy" | "white" }) {
+  const colors = tone === "white" ? "bg-white text-[#0E1B33] hover:bg-[#7FD3E6]" : "bg-[#0E1B33] text-white hover:bg-[#357BD8]";
+  return (
+    <Magnetic className={className}>
+      <a
+        href={CTA_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group inline-flex items-center gap-2 rounded-full font-semibold px-7 py-4 text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${colors}`}
+      >
+        {children}
+        <span className="relative w-4 h-4 overflow-hidden">
+          <ArrowRight className="absolute inset-0 w-4 h-4 transition-transform duration-300 group-hover:translate-x-5" />
+          <ArrowRight className="absolute inset-0 w-4 h-4 -translate-x-5 transition-transform duration-300 group-hover:translate-x-0" />
+        </span>
+      </a>
+    </Magnetic>
+  );
+}
+
+function LiveHead({ title, intro, light = false }: { title: string; intro?: string; light?: boolean }) {
+  return (
+    <Reveal className="max-w-3xl mb-12 md:mb-16">
+      <h2 className={`font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] ${light ? "text-white" : "text-[#0E1B33]"}`}>{title}</h2>
+      {intro && <p className={`mt-5 text-lg leading-relaxed max-w-2xl ${light ? "text-white/65" : "text-slate-600"}`}>{intro}</p>}
+    </Reveal>
+  );
+}
+
+function LogoTile({ brand }: { brand: Brand }) {
+  return (
+    <div
+      className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${
+        brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"
+      }`}
+    >
+      <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
+    </div>
+  );
+}
+
+function RosterGroup({ title, note, brands, gridClass }: { title: string; note: string; brands: Brand[]; gridClass: string }) {
+  return (
+    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-300/70">
+      <Reveal>
+        <h3 className="font-display text-xl font-semibold text-[#0E1B33]">{title}</h3>
+        <p className="mt-2 text-sm text-slate-500 leading-relaxed">{note}</p>
+      </Reveal>
+      <motion.div
+        className={`grid gap-3 ${gridClass}`}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        variants={{ show: { transition: { staggerChildren: 0.05 } } }}
+      >
+        {brands.map(b => (
+          <motion.div key={b.file} variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}>
+            <LogoTile brand={b} />
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+// Hero stat pills: each figure is documented further down the page.
+const heroStats = [
+  { value: "$250M+", label: "ad spend managed" },
+  { value: "34.89x", label: "ROAS for Splash Media" },
+  { value: "10,313", label: "leads in 30 days" },
+];
+
 
 // ---------- Page ----------
 
@@ -434,51 +486,84 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ===== From here down: the live site's sections, in its own type ===== */}
+        <div className="font-sans">
+        {/* ===== STATEMENT ===== */}
+        <section className="px-6 md:px-10 pt-28 md:pt-44 pb-20 md:pb-28">
+          <div className="max-w-6xl mx-auto">
+            <ScrollWords
+              className="font-display text-[2.1rem] sm:text-5xl lg:text-[4.3rem] font-semibold tracking-[-0.035em] leading-[1.06]"
+              text="Most marketing gets judged on activity. Ours gets judged on the receipt: every ad, funnel, and follow-up built around what the data proves converts."
+            />
+            <dl className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+              {proofStrip.map((s, i) => (
+                <Reveal key={s.label} delay={i * 0.08} className="border-t border-slate-200 pt-6">
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="font-display text-4xl md:text-6xl font-bold tracking-[-0.04em]"><CountUp value={s.value} /></dd>
+                  <dd className="mt-2 text-sm md:text-[15px] text-slate-500">{s.label}</dd>
+                </Reveal>
+              ))}
+            </dl>
+          </div>
+        </section>
+
         {/* ===== SERVICES ===== */}
-        <section id="services" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
-          <div className="max-w-[1200px] mx-auto">
-            <SectionHead chip="Services" title="What we run for you." grad="Built on proven performance data." intro="Every service built on psychological principles and proven performance data." />
-            <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <section id="services" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
+            <div className="lg:sticky lg:top-32 self-start">
+              <LiveHead
+                title="What we run for you"
+                intro="Every service built on psychological principles and proven performance data."
+              />
+            </div>
+            <div>
               {services.map((s, i) => (
-                <Reveal key={s.title} delay={i * 0.06} className="h-full">
-                  <div className="cx-soft-shadow cx-hover-card group relative h-full rounded-[24px] bg-white p-7">
-                    <span aria-hidden className="cx-grad-bg absolute inset-x-7 top-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
-                    <h3 className="text-xl font-semibold tracking-[-0.01em]">{s.title}</h3>
-                    <p className="mt-3 text-[15px] leading-relaxed text-slate-500">{s.description}</p>
+                <Reveal key={s.title} delay={i * 0.05}>
+                  <div className="group relative grid md:grid-cols-[220px_1fr] gap-3 md:gap-10 py-8 border-t border-slate-200">
+                    <span aria-hidden className="absolute left-0 top-[-1px] h-px w-0 bg-[#357BD8] transition-all duration-700 ease-out group-hover:w-full" />
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#357BD8]">{s.title}</h3>
+                    <p className="text-slate-600 leading-relaxed">{s.description}</p>
                   </div>
                 </Reveal>
               ))}
-              <Reveal delay={0.3} className="h-full">
-                <div className="h-full rounded-[24px] bg-[#0E1B33] p-7 flex flex-col justify-between gap-6 text-white">
-                  <p className="text-xl font-semibold">Take one service, or let us run the whole system.</p>
-                  <GradButton>Book a strategy call</GradButton>
-                </div>
-              </Reveal>
+
+              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+                <Reveal>
+                  <Spotlight className="h-full rounded-3xl bg-[#EAF6F1] p-7">
+                    <h3 className="flex items-center gap-2 font-semibold"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
+                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
+                      Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.
+                    </p>
+                  </Spotlight>
+                </Reveal>
+                <Reveal delay={0.08}>
+                  <Spotlight className="h-full rounded-3xl bg-[#F3F6FB] p-7">
+                    <h3 className="flex items-center gap-2 font-semibold"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
+                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
+                      Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.
+                    </p>
+                  </Spotlight>
+                </Reveal>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ===== HOW PEOPLE THINK ===== */}
-        <section id="benefits" className="scroll-mt-24 bg-[#F7F8FC] px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
-          <div className="max-w-[1200px] mx-auto">
-            <SectionHead chip="Why it works" title="Marketing that understands" grad="how people think." intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't." />
-            <dl className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-              {proofStrip.map((s, i) => (
-                <Reveal key={s.label} delay={i * 0.06}>
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="text-4xl md:text-5xl font-semibold tracking-[-0.03em]"><GradText><CountUp value={s.value} /></GradText></dd>
-                  <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
-                </Reveal>
-              ))}
-            </dl>
-            <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* ===== WHY IT WORKS ===== */}
+        <section id="benefits" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto">
+            <LiveHead
+              title="Marketing that understands how people think"
+              intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't."
+            />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {benefits.map((b, i) => (
-                <Reveal key={b.title} delay={i * 0.06} className="h-full">
-                  <div className="cx-soft-shadow cx-hover-card h-full rounded-[24px] bg-white p-7">
-                    <p className="text-lg font-semibold"><GradText>{b.stat}</GradText></p>
-                    <h3 className="mt-6 font-semibold">{b.title}</h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-slate-500">{b.description}</p>
-                  </div>
+                <Reveal key={b.title} delay={i * 0.08} className="h-full">
+                  <Spotlight className="h-full rounded-[28px] border border-slate-200 bg-white p-7">
+                    <p className="font-display text-2xl font-bold tracking-[-0.02em] text-[#357BD8]">{b.stat}</p>
+                    <h3 className="mt-8 font-semibold">{b.title}</h3>
+                    <p className="mt-2 text-[15px] text-slate-600 leading-relaxed">{b.description}</p>
+                  </Spotlight>
                 </Reveal>
               ))}
             </div>
@@ -486,71 +571,83 @@ export default function Home() {
         </section>
 
         {/* ===== CLIENT ROSTER ===== */}
-        <section id="clients" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
-          <div className="max-w-[1200px] mx-auto">
-            <SectionHead chip="Clients" title="Brands we've" grad="built the machine for." />
-            <div className="mt-12">
-              <RosterGroup title="Information and education brands" note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book." brands={infoBrands} gridClass="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" />
-              <RosterGroup title="Ecommerce, DTC and service brands" note="The same engine applied outside info products. Additional named brands are held under NDA, disclosable on request." brands={commerceBrands} gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1" />
-              <RosterGroup title="Inside the industry's leading agencies" note="Contracted in to build out infrastructure and lead the teams behind their largest accounts." brands={agencyBrands} gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1" />
-            </div>
+        <section id="clients" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto">
+            <LiveHead title="Brands we've built the machine for" />
+            <RosterGroup
+              title="Information and education brands"
+              note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book."
+              brands={infoBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+            />
+            <RosterGroup
+              title="Ecommerce, DTC and service brands"
+              note="The same engine applied outside info products. Additional named brands are held under NDA, disclosable on request."
+              brands={commerceBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
+            />
+            <RosterGroup
+              title="Inside the industry's leading agencies"
+              note="Contracted in to build out infrastructure and lead the teams behind their largest accounts."
+              brands={agencyBrands}
+              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
+            />
           </div>
         </section>
 
         {/* ===== FOUNDER ===== */}
-        <section id="founder" className="scroll-mt-24 bg-[#F7F8FC] px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
-          <div className="max-w-[1200px] mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16 items-start">
-            <Reveal className="relative">
-              <div className="cx-glass-light rounded-[32px] p-2">
-                <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full aspect-[4/5] object-cover object-top rounded-[26px]" />
-              </div>
+        <section id="founder" className="scroll-mt-24 bg-[#F3F6FB] px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-20 items-start">
+            <Reveal className="lg:sticky lg:top-28">
+              <ZoomImage src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="rounded-[32px] aspect-[4/5] max-w-md bg-white" />
             </Reveal>
             <div>
               <Reveal>
-                <Chip>Founder</Chip>
-                <h2 className="mt-6 text-[length:clamp(32px,4vw,56px)] leading-[1.1] font-semibold tracking-[-0.02em]">Christian Colgate</h2>
-                <p className="mt-2 text-lg"><GradText>CEO and founder</GradText></p>
+                <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">Christian Colgate</h2>
+                <p className="mt-3 text-lg text-slate-500">CEO and founder</p>
               </Reveal>
-              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg text-slate-600 leading-relaxed max-w-2xl">
+              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg text-slate-700 leading-relaxed max-w-2xl">
                 <p>Christian leads the paid media division at Cortexuum, scaling brands across Meta, Google, and TikTok.</p>
                 <p>He founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.</p>
                 <p>He has managed the systems and marketing behind Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA. Those engagements are reviewed live rather than printed&nbsp;here.</p>
               </Reveal>
-              <dl className="mt-10 grid sm:grid-cols-3 gap-4">
+              <dl className="mt-12 grid sm:grid-cols-3 gap-8">
                 {founderStats.map((s, i) => (
-                  <Reveal key={s.label} delay={i * 0.06}>
-                    <div className="cx-soft-shadow cx-hover-card rounded-[20px] bg-white p-5">
-                      <dt className="text-3xl font-semibold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
-                      <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
-                    </div>
+                  <Reveal key={s.label} delay={i * 0.08}>
+                    <dt className="font-display text-4xl font-bold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
+                    <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
                   </Reveal>
                 ))}
               </dl>
-              <div className="mt-10 pt-8 border-t border-slate-200">
+              <Reveal className="mt-12 pt-8 border-t border-slate-300/70">
                 <p className="text-sm text-slate-500 mb-4">The team behind the work, in years</p>
                 <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {teamExpertise.map(t => (
                     <div key={t.area}>
-                      <dt className="text-2xl font-semibold"><CountUp value={t.years} /></dt>
+                      <dt className="font-display text-2xl font-bold"><CountUp value={t.years} /></dt>
                       <dd className="text-sm text-slate-600">{t.area}</dd>
                     </div>
                   ))}
                 </dl>
-              </div>
+              </Reveal>
             </div>
           </div>
         </section>
 
         {/* ===== FAQ ===== */}
-        <section id="faq" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
-          <div className="max-w-[860px] mx-auto">
-            <SectionHead chip="FAQ" title="Questions before" grad="the call." intro="The short answers. The long ones happen on the call." />
-            <Reveal className="mt-12">
-              <Accordion type="single" collapsible className="flex flex-col gap-3">
+        <section id="faq" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
+            <div className="lg:sticky lg:top-32 self-start">
+              <LiveHead title="Questions before the call" intro="The short answers. The long ones happen on the call." />
+            </div>
+            <Reveal>
+              <Accordion type="single" collapsible className="border-t border-slate-200">
                 {faqs.map(f => (
-                  <AccordionItem key={f.q} value={f.q} className="cx-soft-shadow rounded-[18px] bg-white px-6 border-none">
-                    <AccordionTrigger className="py-5 text-left text-lg font-semibold hover:no-underline">{f.q}</AccordionTrigger>
-                    <AccordionContent className="pb-5 text-[15px] text-slate-600 leading-relaxed">{f.a}</AccordionContent>
+                  <AccordionItem key={f.q} value={f.q} className="border-slate-200">
+                    <AccordionTrigger className="py-6 text-left font-display text-xl md:text-2xl font-semibold tracking-[-0.02em] hover:no-underline hover:text-[#357BD8] transition-colors">
+                      {f.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-6 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">{f.a}</AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -559,25 +656,29 @@ export default function Home() {
         </section>
 
         {/* ===== BOOK A CALL ===== */}
-        <section id="contact" className="scroll-mt-24 px-3 md:px-6 pb-6">
-          <div className="relative overflow-hidden rounded-[32px] bg-[#0B1426] text-white px-6 md:px-12 py-20 md:py-28">
-            <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-35" />
-            <div className="relative max-w-[1200px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
-              <Reveal>
-                <h2 className="text-[length:clamp(36px,5vw,72px)] leading-[1.05] font-semibold tracking-[-0.03em]">
-                  Ready to see what <GradText>proven marketing systems</GradText> can do?
-                </h2>
-                <p className="mt-6 text-lg text-[#B9C6DD] max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
-                <GradButton className="mt-9">Book a strategy call</GradButton>
-              </Reveal>
+        <section id="contact" className="scroll-mt-24 p-2 md:p-3">
+          <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px]">
+            <SilkField />
+            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-36 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+              <div>
+                <Reveal>
+                  <h2 className="font-display text-5xl md:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
+                    Ready to see what proven marketing systems can do?
+                  </h2>
+                </Reveal>
+                <Reveal delay={0.1}>
+                  <p className="mt-6 text-lg text-slate-700 max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
+                  <CtaButton className="mt-9">Book a strategy call</CtaButton>
+                </Reveal>
+              </div>
               <Reveal delay={0.15}>
-                <div className="rounded-[24px] bg-white/10 backdrop-blur-xl border border-white/15 p-7">
+                <div className="rounded-[28px] bg-white/75 backdrop-blur-xl border border-white p-7 md:p-8">
                   <h3 className="font-semibold">What happens next</h3>
                   <ol className="mt-5 space-y-4">
                     {nextSteps.map((t, i) => (
                       <li key={t} className="flex gap-4">
-                        <span className="flex-none w-7 h-7 rounded-full bg-white/10 border border-white/25 backdrop-blur text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
-                        <span className="pt-0.5 text-[#DCE4F2]">{t}</span>
+                        <span className="flex-none w-7 h-7 rounded-full bg-[#0E1B33] text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
+                        <span className="pt-0.5 text-slate-700">{t}</span>
                       </li>
                     ))}
                   </ol>
@@ -588,8 +689,8 @@ export default function Home() {
         </section>
 
         {/* ===== FOOTER ===== */}
-        <footer className="px-6 md:px-10 py-10">
-          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
+        <footer className="px-6 md:px-10 pt-16 pb-10 overflow-hidden">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
             <div className="flex items-center gap-3">
               <img src={cortexuumBrain} alt="" className="w-7 h-7 object-contain" />
               <span className="font-semibold text-[#0E1B33]">Cortexuum</span>
@@ -605,7 +706,18 @@ export default function Home() {
               </span>
             </nav>
           </div>
+          <motion.p
+            aria-hidden
+            initial={{ y: "40%", opacity: 0 }}
+            whileInView={{ y: "0%", opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: EASE }}
+            className="mt-14 font-display font-bold text-[#0E1B33] text-[19vw] leading-[0.8] tracking-[-0.06em] text-center select-none"
+          >
+            Cortexuum
+          </motion.p>
         </footer>
+        </div>
       </div>
     </MotionConfig>
   );
