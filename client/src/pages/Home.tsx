@@ -152,14 +152,6 @@ const nextSteps = [
   "Launch your first campaign in weeks",
 ];
 
-// Headline numbers for the statement band. Each one is documented elsewhere on the page.
-const proofStrip = [
-  { value: "$250M+", label: "Ad spend personally managed" },
-  { value: "34.89x", label: "Return on ad spend for Splash Media" },
-  { value: "10,313", label: "Leads in 30 days for one info brand" },
-  { value: "200+", label: "Team members, grown from 15" },
-];
-
 // The eight funnel steps, paired into the four phases of the 90-day buildout.
 const phases = [
   { title: "Build the message", steps: funnelSteps.slice(0, 2) },
@@ -439,7 +431,7 @@ export default function Home() {
         {/* ===== RESULTS: dark cards that unfold on hover ===== */}
         <section id="proof" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-center px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
           <div className="relative w-full max-w-[1200px]">
-            <SectionHead light title="Real accounts, real spend," grad="real return." intro="Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
+            <SectionHead light title="The receipts," grad="not the promises." intro="Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
           </div>
           <div className="relative grid w-full max-w-[1100px] grid-cols-1 gap-4 md:grid-cols-2">
             {documentedResults.map((r, i) => (
@@ -495,15 +487,6 @@ export default function Home() {
               className="font-display text-[2.1rem] sm:text-5xl lg:text-[4.3rem] font-semibold tracking-[-0.035em] leading-[1.06]"
               text="Most marketing gets judged on activity. Ours gets judged on the receipt: every ad, funnel, and follow-up built around what the data proves converts."
             />
-            <dl className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-              {proofStrip.map((s, i) => (
-                <Reveal key={s.label} delay={i * 0.08} className="border-t border-slate-200 pt-6">
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-display text-4xl md:text-6xl font-bold tracking-[-0.04em]"><CountUp value={s.value} /></dd>
-                  <dd className="mt-2 text-sm md:text-[15px] text-slate-500">{s.label}</dd>
-                </Reveal>
-              ))}
-            </dl>
           </div>
         </section>
 
