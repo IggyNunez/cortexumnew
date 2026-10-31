@@ -212,7 +212,7 @@ function Chip({ children, className = "" }: { children: ReactNode; className?: s
   );
 }
 
-// Gradient-rimmed button: navy face that clears to the brand gradient on hover.
+// Navy button that flips to white on hover.
 function GradButton({ children, href = CTA_URL, className = "" }: { children: ReactNode; href?: string; className?: string }) {
   const external = href.startsWith("http");
   return (
@@ -220,12 +220,10 @@ function GradButton({ children, href = CTA_URL, className = "" }: { children: Re
       <a
         href={href}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        className="cx-grad-bg group inline-flex rounded-xl p-px outline-none focus-visible:ring-[3px] focus-visible:ring-[#357BD8]/50"
+        className="inline-flex items-center gap-2 rounded-xl border border-[#0E1B33] bg-[#0E1B33] px-7 py-3 text-base font-medium text-white shadow-[0_0_0_1px_rgba(255,255,255,0.15)] transition-colors duration-300 hover:bg-white hover:text-[#0E1B33] outline-none focus-visible:ring-[3px] focus-visible:ring-[#357BD8]/50"
       >
-        <span className="inline-flex items-center gap-2 rounded-[11px] bg-[#0E1B33] px-7 py-3 text-base font-medium text-white transition-colors duration-300 group-hover:bg-transparent">
-          {children}
-          <ArrowRight className="w-4 h-4" />
-        </span>
+        {children}
+        <ArrowRight className="w-4 h-4" />
       </a>
     </Magnetic>
   );
