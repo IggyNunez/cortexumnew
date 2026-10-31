@@ -378,13 +378,10 @@
 
 
 /* NexaCore-style pieces in Cortexuum colors. */
-.cx-grad-text {
-  background-image: linear-gradient(90deg, #357bd8, #00bcd4 35%, #e63e8b 70%, #f5841f);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
+/* Accent text: solid brand blue on white, light cyan on the dark hero and dark cards. */
+.cx-grad-text { color: #357bd8; }
+#top .cx-grad-text,
+#benefits .cx-grad-text { color: #7fd3e6; }
 .cx-grad-bg { background-image: linear-gradient(90deg, #357bd8, #00bcd4 35%, #e63e8b 70%, #f5841f); }
 .cx-grad-line { background-image: linear-gradient(#357bd8, #00bcd4 30%, #e63e8b 60%, #f5841f 85%, rgba(245, 132, 31, 0)); }
 .cx-soft-shadow { box-shadow: 0 3px 9px rgba(14, 27, 51, 0.05), 0 1px 29px rgba(14, 27, 51, 0.09); }
