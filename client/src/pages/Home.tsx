@@ -424,7 +424,7 @@ export default function Home() {
         </section>
 
         {/* ===== PROCESS: the delivery staircase ===== */}
-        <section id="process" className="bg-white bg-[url('/media/nexacore-ribbon.webp')] bg-cover bg-center bg-no-repeat scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[clamp(48px,5.5vw,80px)]">
+        <section id="process" className="bg-white bg-[url('/media/nexacore-ribbon.webp')] bg-no-repeat bg-[length:260%_auto] bg-bottom sm:bg-cover sm:bg-center scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[260px] sm:pb-[clamp(48px,5.5vw,80px)]">
           <SectionHead chip="90-day buildout" title="From strategy to consistent conversions" grad="in 90 days." intro="A systematic buildout engineered to create a predictable pipeline." />
           <div className="w-full max-w-[82vw]">
             <div className="relative hidden h-[32vw] w-[82vw] sm:block">
