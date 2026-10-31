@@ -374,7 +374,7 @@ export default function Home() {
             <motion.h1 {...fade(0.2)} className="text-[length:clamp(40px,6vw,88px)] leading-[1.05] font-semibold tracking-[-0.03em] text-white">
               Marketing systems proven on <GradText>$250M+</GradText> of ad spend.
             </motion.h1>
-            <motion.p {...fade(0.35)} className="max-w-2xl text-[length:clamp(16px,1.3vw,20px)] leading-relaxed text-[#B9C6DD]">
+            <motion.p {...fade(0.35)} className="max-w-2xl text-[length:clamp(16px,1.3vw,20px)] leading-relaxed text-white [text-shadow:0_1px_12px_rgba(0,2,1,0.7)]">
               We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
             </motion.p>
             <motion.div {...fade(0.5)} className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
