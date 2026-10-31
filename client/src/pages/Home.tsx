@@ -247,7 +247,7 @@ function SectionHead({ chip, title, grad, intro, light = false }: { chip?: strin
 
 function LogoTile({ brand }: { brand: Brand }) {
   return (
-    <div className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"}`}>
+    <div className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(14,27,51,0.35)] ${brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"}`}>
       <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
     </div>
   );
@@ -277,13 +277,14 @@ function RosterGroup({ title, note, brands, gridClass }: { title: string; note: 
   );
 }
 
-// Dark card that unfolds on hover: a glow drops in from the top and the detail
-// and link rise from the bottom. Touch screens get the unfolded state.
+// Dark card that unfolds on hover without changing size: a soft glow drops in
+// from the top and the detail and link rise into the empty space. Touch screens
+// get the unfolded state and grow to fit it.
 function ResultCard({ r }: { r: (typeof documentedResults)[number] }) {
-  const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-56 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
+  const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-80 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
   return (
-    <div className="group relative flex min-h-[clamp(360px,34vw,520px)] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
-      <div aria-hidden className="absolute inset-x-0 top-0 h-[55%] -translate-y-[30%] opacity-70 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(230,62,139,0.4),transparent_70%),linear-gradient(160deg,rgba(53,123,216,0.4),transparent_60%)]" />
+    <div className="group relative flex h-[540px] md:max-lg:h-[560px] [@media(hover:none)]:h-auto [@media(hover:none)]:min-h-[420px] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-[55%] -translate-y-[30%] opacity-50 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-70 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(230,62,139,0.22),transparent_70%),linear-gradient(160deg,rgba(53,123,216,0.22),transparent_60%)]" />
       <div className="relative flex h-full flex-col p-[clamp(20px,2.2vw,32px)]">
         <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[13px] text-white">
           <span className="w-2 h-2 rounded-full bg-[#00BCD4]" />
@@ -390,12 +391,13 @@ export default function Home() {
           <div className="relative w-full max-w-[1200px]">
             <SectionHead light title="Real accounts, real spend," grad="real return." intro="Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
           </div>
-          <div className="relative grid w-full max-w-[1200px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="relative grid w-full max-w-[1100px] grid-cols-1 gap-4 md:grid-cols-2">
             {documentedResults.map((r, i) => (
               <Reveal key={r.headline} delay={i * 0.08} className="h-full"><ResultCard r={r} /></Reveal>
             ))}
           </div>
-          <p className="relative max-w-2xl text-center text-sm text-[#B9C6DD]">A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.</p>
+          {/* Sits where the glow turns white, so it gets its own glass card and dark text */}
+          <p className="relative z-10 max-w-2xl rounded-2xl border border-white bg-white/75 backdrop-blur-xl cx-soft-shadow px-6 py-4 text-center text-[15px] leading-relaxed text-[#0E1B33]">A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.</p>
           <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fff)]" />
         </section>
 
@@ -441,7 +443,7 @@ export default function Home() {
             <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {services.map((s, i) => (
                 <Reveal key={s.title} delay={i * 0.06} className="h-full">
-                  <div className="cx-soft-shadow group relative h-full rounded-[24px] bg-white p-7 transition-transform duration-500 hover:-translate-y-1">
+                  <div className="cx-soft-shadow cx-hover-card group relative h-full rounded-[24px] bg-white p-7">
                     <span aria-hidden className="cx-grad-bg absolute inset-x-7 top-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
                     <h3 className="text-xl font-semibold tracking-[-0.01em]">{s.title}</h3>
                     <p className="mt-3 text-[15px] leading-relaxed text-slate-500">{s.description}</p>
@@ -474,7 +476,7 @@ export default function Home() {
             <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {benefits.map((b, i) => (
                 <Reveal key={b.title} delay={i * 0.06} className="h-full">
-                  <div className="cx-soft-shadow h-full rounded-[24px] bg-white p-7">
+                  <div className="cx-soft-shadow cx-hover-card h-full rounded-[24px] bg-white p-7">
                     <p className="text-lg font-semibold"><GradText>{b.stat}</GradText></p>
                     <h3 className="mt-6 font-semibold">{b.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-slate-500">{b.description}</p>
@@ -501,8 +503,8 @@ export default function Home() {
         <section id="founder" className="scroll-mt-24 bg-[#F7F8FC] px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
           <div className="max-w-[1200px] mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16 items-start">
             <Reveal className="relative">
-              <div className="cx-grad-bg rounded-[32px] p-[2px]">
-                <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full aspect-[4/5] object-cover object-top rounded-[30px]" />
+              <div className="cx-glass-light rounded-[32px] p-2">
+                <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full aspect-[4/5] object-cover object-top rounded-[26px]" />
               </div>
             </Reveal>
             <div>
@@ -519,7 +521,7 @@ export default function Home() {
               <dl className="mt-10 grid sm:grid-cols-3 gap-4">
                 {founderStats.map((s, i) => (
                   <Reveal key={s.label} delay={i * 0.06}>
-                    <div className="cx-soft-shadow rounded-[20px] bg-white p-5">
+                    <div className="cx-soft-shadow cx-hover-card rounded-[20px] bg-white p-5">
                       <dt className="text-3xl font-semibold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
                       <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
                     </div>
@@ -560,7 +562,8 @@ export default function Home() {
 
         {/* ===== BOOK A CALL ===== */}
         <section id="contact" className="scroll-mt-24 px-3 md:px-6 pb-6">
-          <div className="relative overflow-hidden rounded-[32px] bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-bottom text-white px-6 md:px-12 py-20 md:py-28">
+          <div className="relative overflow-hidden rounded-[32px] bg-[#0B1426] text-white px-6 md:px-12 py-20 md:py-28">
+            <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-35" />
             <div className="relative max-w-[1200px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
               <Reveal>
                 <h2 className="text-[length:clamp(36px,5vw,72px)] leading-[1.05] font-semibold tracking-[-0.03em]">
@@ -575,7 +578,7 @@ export default function Home() {
                   <ol className="mt-5 space-y-4">
                     {nextSteps.map((t, i) => (
                       <li key={t} className="flex gap-4">
-                        <span className="flex-none w-7 h-7 rounded-full cx-grad-bg text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
+                        <span className="flex-none w-7 h-7 rounded-full bg-white/10 border border-white/25 backdrop-blur text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
                         <span className="pt-0.5 text-[#DCE4F2]">{t}</span>
                       </li>
                     ))}
@@ -598,7 +601,10 @@ export default function Home() {
               {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
                 <a key={l.label} href={l.href} className="hover:text-[#0E1B33] transition-colors">{l.label}</a>
               ))}
-              <a href="/login" className="text-slate-400 hover:text-slate-600 transition-colors">Admin</a>
+              <span className="text-slate-400">
+                Made by{" "}
+                <a href="https://plaintalk.dev" target="_blank" rel="noopener" className="text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[#0E1B33] transition-colors">plaintalk.dev</a>
+              </span>
             </nav>
           </div>
         </footer>
