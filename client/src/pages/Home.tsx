@@ -204,7 +204,7 @@ function Chip({ children, className = "" }: { children: ReactNode; className?: s
   );
 }
 
-// Navy button that flips to white on hover.
+// The one button style on the page: navy, rounded corners, flips to white on hover.
 function GradButton({ children, href = CTA_URL, className = "" }: { children: ReactNode; href?: string; className?: string }) {
   const external = href.startsWith("http");
   return (
@@ -251,7 +251,7 @@ function BenefitCard({ b }: { b: (typeof benefits)[number] }) {
         <div className="flex-grow" />
         <p className="text-[15px] leading-relaxed text-[#DCE4F2] transition-transform duration-500 group-hover:-translate-y-1">{b.description}</p>
         <div className={reveal}>
-          <a href={CTA_URL} target="_blank" rel="noopener noreferrer" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#7FD3E6] transition-colors">
+          <a href={CTA_URL} target="_blank" rel="noopener noreferrer" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-white bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#0E1B33] hover:text-white transition-colors duration-300">
             Book a strategy call <ArrowRight className="w-4 h-4" />
           </a>
         </div>
@@ -305,26 +305,6 @@ function SilkField() {
       <div className="silk-field" />
       <div className="silk-grain" />
     </div>
-  );
-}
-
-function CtaButton({ children, className = "", tone = "navy" }: { children: React.ReactNode; className?: string; tone?: "navy" | "white" }) {
-  const colors = tone === "white" ? "bg-white text-[#0E1B33] hover:bg-[#7FD3E6]" : "bg-[#0E1B33] text-white hover:bg-[#357BD8]";
-  return (
-    <Magnetic className={className}>
-      <a
-        href={CTA_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`group inline-flex items-center gap-2 rounded-full font-semibold px-7 py-4 text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${colors}`}
-      >
-        {children}
-        <span className="relative w-4 h-4 overflow-hidden">
-          <ArrowRight className="absolute inset-0 w-4 h-4 transition-transform duration-300 group-hover:translate-x-5" />
-          <ArrowRight className="absolute inset-0 w-4 h-4 -translate-x-5 transition-transform duration-300 group-hover:translate-x-0" />
-        </span>
-      </a>
-    </Magnetic>
   );
 }
 
@@ -581,7 +561,7 @@ export default function Home() {
               <p className="font-display text-3xl font-bold tracking-[-0.03em] leading-[1.1]">More accounts sit under NDA.</p>
               <div>
                 <p className="text-slate-600 leading-relaxed">Those screenshots and numbers get walked through live, one to one.</p>
-                <CtaButton className="mt-6">See them on a call</CtaButton>
+                <GradButton className="mt-6">See them on a call</GradButton>
               </div>
             </div>
           </HorizontalScroll>
@@ -686,7 +666,7 @@ export default function Home() {
                 </Reveal>
                 <Reveal delay={0.1}>
                   <p className="mt-6 text-lg text-slate-700 max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
-                  <CtaButton className="mt-9">Book a strategy call</CtaButton>
+                  <GradButton className="mt-9">Book a strategy call</GradButton>
                 </Reveal>
               </div>
               <Reveal delay={0.15}>

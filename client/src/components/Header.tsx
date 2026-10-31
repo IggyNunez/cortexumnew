@@ -113,7 +113,7 @@ const Header = () => {
                 href={CTA_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden lg:inline-flex items-center gap-1.5 bg-[#0E1B33] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:bg-[#357BD8] transition-colors"
+                className="hidden lg:inline-flex items-center gap-1.5 rounded-xl border border-[#0E1B33] bg-[#0E1B33] text-white text-[13px] font-semibold px-4 py-2 hover:bg-white hover:text-[#0E1B33] transition-colors duration-300"
               >
                 Book a Call
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -158,7 +158,7 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeMenu}
-              className="mt-10 inline-flex items-center justify-center gap-2 bg-[#0E1B33] text-white font-semibold py-4 rounded-full"
+              className="mt-10 inline-flex items-center justify-center gap-2 rounded-xl border border-[#0E1B33] bg-[#0E1B33] text-white font-semibold py-4 hover:bg-white hover:text-[#0E1B33] transition-colors duration-300"
             >
               Book a Strategy Call
               <ArrowRight className="w-4 h-4" />
