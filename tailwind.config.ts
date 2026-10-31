@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["'Bricolage Grotesque'", "Inter", "sans-serif"],
+        jakarta: ["'Plus Jakarta Sans'", "Inter", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

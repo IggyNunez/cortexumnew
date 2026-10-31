@@ -1,14 +1,14 @@
-import { useRef } from "react";
-import { motion, MotionConfig, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, Minus } from "lucide-react";
+// Homepage laid out after Hirael's NexaCore template (MIT, Mohammad Shehadeh,
+// https://hirael.com/templates/nexacore), rebuilt with Cortexuum's content and colors.
+import type { ReactNode } from "react";
+import { motion, MotionConfig } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
 import christianColgate from "../assets/christian-colgate.webp";
 import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  CountUp, EASE, HorizontalScroll, Magnetic, MaskLines, Reveal, ScaleBars,
-  ScrollProgress, ScrollWords, Spotlight, StackCards, ZoomImage,
-} from "@/components/motion";
+import { CountUp, EASE, Magnetic, Reveal, ScrollProgress } from "@/components/motion";
+import { cn } from "@/lib/utils";
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
 
@@ -177,51 +177,77 @@ const faqs = [
   { q: "What happens on the strategy call?", a: "It's a free 30 minutes. We dig into your business goals, and if there's a fit you get a custom marketing systems proposal. From there, the first campaign launches in weeks." },
 ];
 
-function SilkField() {
+
+// Who it's for, split the way NexaCore splits chaos from control.
+const fitYes = [
+  "Courses and coaching",
+  "Communities and events",
+  "Paid newsletters",
+  "DTC ecommerce brands",
+  "Offers already closing on the phone or at checkout",
+  "Brands that need more qualified volume at the top",
+];
+const fitNo = [
+  "Amazon advertising",
+  "Standalone email marketing",
+  "Anything we'd rather hand back than run badly",
+];
+
+// The 90-day buildout as a staircase: each phase with its two steps.
+// start/bottom are vw offsets from the template's desktop staircase.
+const stairs = phases.map((p, i) => ({ ...p, start: [2.8, 22.4, 41.2, 61.1][i], bottom: [7, 9.08, 11.16, 13.24][i] }));
+
+// ---------- NexaCore-style pieces ----------
+
+function GradText({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <span className={cn("cx-grad-text", className)}>{children}</span>;
+}
+
+function Chip({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="silk-field" />
-      <div className="silk-grain" />
-    </div>
+    <span className={cn("inline-flex items-center gap-2 rounded-full bg-[#F4F6FA] px-4 py-2 text-[15px] font-medium text-[#0E1B33]", className)}>
+      <img src={cortexuumBrain} alt="" className="w-4 h-4 object-contain" />
+      {children}
+    </span>
   );
 }
 
-function CtaButton({ children, className = "", tone = "navy" }: { children: React.ReactNode; className?: string; tone?: "navy" | "white" }) {
-  const colors = tone === "white" ? "bg-white text-[#0E1B33] hover:bg-[#7FD3E6]" : "bg-[#0E1B33] text-white hover:bg-[#357BD8]";
+// Gradient-rimmed button: navy face that clears to the brand gradient on hover.
+function GradButton({ children, href = CTA_URL, className = "" }: { children: ReactNode; href?: string; className?: string }) {
+  const external = href.startsWith("http");
   return (
     <Magnetic className={className}>
       <a
-        href={CTA_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`group inline-flex items-center gap-2 rounded-full font-semibold px-7 py-4 text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#357BD8] focus-visible:ring-offset-2 ${colors}`}
+        href={href}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className="cx-grad-bg group inline-flex rounded-xl p-px outline-none focus-visible:ring-[3px] focus-visible:ring-[#357BD8]/50"
       >
-        {children}
-        <span className="relative w-4 h-4 overflow-hidden">
-          <ArrowRight className="absolute inset-0 w-4 h-4 transition-transform duration-300 group-hover:translate-x-5" />
-          <ArrowRight className="absolute inset-0 w-4 h-4 -translate-x-5 transition-transform duration-300 group-hover:translate-x-0" />
+        <span className="inline-flex items-center gap-2 rounded-[11px] bg-[#0E1B33] px-7 py-3 text-base font-medium text-white transition-colors duration-300 group-hover:bg-transparent">
+          {children}
+          <ArrowRight className="w-4 h-4" />
         </span>
       </a>
     </Magnetic>
   );
 }
 
-function SectionHead({ title, intro, light = false }: { title: string; intro?: string; light?: boolean }) {
+function SectionHead({ chip, title, grad, intro, light = false }: { chip?: string; title: string; grad: string; intro?: string; light?: boolean }) {
   return (
-    <Reveal className="max-w-3xl mb-12 md:mb-16">
-      <h2 className={`font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1] ${light ? "text-white" : "text-[#0E1B33]"}`}>{title}</h2>
-      {intro && <p className={`mt-5 text-lg leading-relaxed max-w-2xl ${light ? "text-white/65" : "text-slate-600"}`}>{intro}</p>}
+    <Reveal className="flex flex-col items-center gap-6 text-center max-w-3xl mx-auto">
+      {chip && <Chip className={light ? "bg-white/10 text-white" : ""}>{chip}</Chip>}
+      <h2 className={cn("text-[length:clamp(32px,4vw,56px)] leading-[1.15] font-semibold tracking-[-0.02em]", light ? "text-white" : "text-[#0E1B33]")}>
+        {title}
+        <br />
+        <GradText className="inline-block pb-1">{grad}</GradText>
+      </h2>
+      {intro && <p className={cn("text-[length:clamp(15px,1.2vw,19px)] leading-relaxed", light ? "text-[#B9C6DD]" : "text-slate-500")}>{intro}</p>}
     </Reveal>
   );
 }
 
 function LogoTile({ brand }: { brand: Brand }) {
   return (
-    <div
-      className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${
-        brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"
-      }`}
-    >
+    <div className={`flex items-center justify-center rounded-2xl p-4 h-24 overflow-hidden border transition-transform duration-500 hover:-translate-y-1 ${brand.dark ? "bg-[#111111] border-[#111111]" : "bg-white border-slate-200"}`}>
       <img src={`/logos/${brand.file}.png`} alt={brand.name} loading="lazy" className="max-h-full max-w-full object-contain" />
     </div>
   );
@@ -229,9 +255,9 @@ function LogoTile({ brand }: { brand: Brand }) {
 
 function RosterGroup({ title, note, brands, gridClass }: { title: string; note: string; brands: Brand[]; gridClass: string }) {
   return (
-    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-300/70">
+    <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-12 py-10 border-t border-slate-200">
       <Reveal>
-        <h3 className="font-display text-xl font-semibold text-[#0E1B33]">{title}</h3>
+        <h3 className="text-xl font-semibold">{title}</h3>
         <p className="mt-2 text-sm text-slate-500 leading-relaxed">{note}</p>
       </Reveal>
       <motion.div
@@ -251,361 +277,285 @@ function RosterGroup({ title, note, brands, gridClass }: { title: string; note: 
   );
 }
 
-// Hero stat pills: each figure is documented further down the page.
-const heroStats = [
-  { value: "$250M+", label: "ad spend managed" },
-  { value: "34.89x", label: "ROAS for Splash Media" },
-  { value: "10,313", label: "leads in 30 days" },
-];
-
-function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const fieldScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const after = (delay: number) => ({
-    initial: { opacity: 0, y: 18 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay, ease: EASE },
-  });
-
+// Dark card that unfolds on hover: a glow drops in from the top and the detail
+// and link rise from the bottom. Touch screens get the unfolded state.
+function ResultCard({ r }: { r: (typeof documentedResults)[number] }) {
+  const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-56 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
   return (
-    <section ref={ref} id="top" className="relative p-2 md:p-3">
-      <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px] min-h-[100svh] md:min-h-[calc(100svh-24px)] flex flex-col">
-        <motion.div className="absolute inset-0" style={reduce ? undefined : { scale: fieldScale }}>
-          <SilkField />
-        </motion.div>
-
-        <motion.div
-          style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
-          className="relative z-10 flex-1 w-full max-w-6xl mx-auto px-6 md:px-10 pt-28 md:pt-32 pb-8 flex flex-col items-center justify-center text-center"
-        >
-          {/* The logo brain with slow orbit rings, carried over from the previous hero */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: EASE }}
-            className="relative w-16 h-16 md:w-20 md:h-20 mb-8 md:mb-10"
+    <div className="group relative flex min-h-[clamp(360px,34vw,520px)] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-[55%] -translate-y-[30%] opacity-70 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(230,62,139,0.4),transparent_70%),linear-gradient(160deg,rgba(53,123,216,0.4),transparent_60%)]" />
+      <div className="relative flex h-full flex-col p-[clamp(20px,2.2vw,32px)]">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[13px] text-white">
+          <span className="w-2 h-2 rounded-full bg-[#00BCD4]" />
+          {r.scope.split(",")[0]}
+        </span>
+        <p className="mt-8 text-[length:clamp(40px,4vw,60px)] font-semibold tracking-[-0.03em] leading-none"><GradText><CountUp value={r.stats[0].value} /></GradText></p>
+        <p className="mt-2 text-sm text-[#B9C6DD]">{r.stats[0].label}</p>
+        <div className="flex-grow" />
+        <h3 className="mt-8 text-[length:clamp(17px,1.5vw,22px)] leading-snug font-medium text-white transition-transform duration-500 group-hover:-translate-y-1">{r.headline}</h3>
+        <ul className="mt-4 flex flex-col gap-2">
+          {r.stats.slice(1).map(s => (
+            <li key={s.label} className="flex items-start gap-2 text-sm text-[#B9C6DD]">
+              <span className="mt-1.5 w-2 h-2 shrink-0 rounded-full border border-[#E63E8B]" />
+              <span>{s.label}: <span className="text-white"><CountUp value={s.value} /></span></span>
+            </li>
+          ))}
+        </ul>
+        <div className={reveal}>
+          <p className="mt-4 text-sm text-[#B9C6DD] leading-relaxed">{r.detail}</p>
+          <a
+            href={r.href ?? CTA_URL}
+            {...(r.href ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#7FD3E6] transition-colors"
           >
-            <span aria-hidden className="absolute -inset-3 rounded-full bg-white/70 blur-xl" />
-            <span aria-hidden className="absolute -inset-4 rounded-full border border-dashed border-[#357BD8]/30 animate-[spin_40s_linear_infinite] motion-reduce:animate-none" />
-            <span aria-hidden className="absolute -inset-9 rounded-full border border-[#00BCD4]/20 animate-[spin_60s_linear_infinite_reverse] motion-reduce:animate-none">
-              <span className="absolute top-1/2 -left-1 w-2 h-2 rounded-full bg-[#E63E8B]/70" />
-            </span>
-            <img src={cortexuumBrain} alt="Cortexuum" className="relative w-full h-full object-contain drop-shadow-[0_10px_18px_rgba(14,27,51,0.25)]" />
-          </motion.div>
-
-          <h1 className="font-display text-[3.1rem] leading-[0.95] sm:text-7xl lg:text-[6.2rem] xl:text-[6.8rem] font-bold tracking-[-0.045em] lg:whitespace-nowrap">
-            <MaskLines lines={["Marketing systems", "proven on $250M+", "of ad spend."]} delay={0.2} />
-          </h1>
-          <motion.p {...after(0.6)} className="mt-7 text-lg md:text-xl text-slate-700 leading-relaxed max-w-2xl">
-            We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
-          </motion.p>
-
-          <motion.div {...after(0.7)} className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <CtaButton>Book a strategy call</CtaButton>
-            <a href="#proof" className="text-[15px] font-semibold text-[#0E1B33] underline decoration-[#357BD8]/40 underline-offset-[6px] hover:decoration-[#357BD8] transition-colors">
-              See the results
-            </a>
-          </motion.div>
-
-          {/* Proof as one quiet line under the CTA, not badges above it */}
-          <motion.ul {...after(0.85)} className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-sm text-slate-600">
-            {heroStats.map((s, i) => (
-              <li key={s.label} className="flex items-center gap-1.5">
-                {i > 0 && <span aria-hidden className="hidden sm:inline mr-3.5 text-slate-400">·</span>}
-                <CountUp value={s.value} className="font-semibold text-[#0E1B33]" />
-                {s.label}
-              </li>
-            ))}
-          </motion.ul>
-        </motion.div>
-
-        {/* Logo marquee */}
-        {/* Multiply sits on this layer root: the logos' white drops into the field.
-            Set on the imgs it would only blend inside the transformed marquee layer. */}
-        <motion.div {...after(0.9)} className="relative z-10 pb-8 md:pb-10 mix-blend-multiply">
-          <p className="max-w-7xl mx-auto px-6 md:px-10 mb-4 text-sm text-slate-600">Brands we've built the machine for</p>
-          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-            <div className="flex w-max animate-scroll-x [animation-duration:45s] hover:[animation-play-state:paused]">
-              {[...marqueeBrands, ...marqueeBrands].map((b, i) => (
-                <img
-                  key={i}
-                  src={`/logos/${b.file}.png`}
-                  alt={i < marqueeBrands.length ? b.name : ""}
-                  aria-hidden={i >= marqueeBrands.length}
-                  className="h-14 md:h-16 w-auto mx-5 md:mx-8 grayscale opacity-80"
-                />
-              ))}
-            </div>
-          </div>
-        </motion.div>
+            {r.href ? "Read the case study" : "See it on a call"} <ArrowUpRight className="w-4 h-4" />
+          </a>
+          <p className="mt-3 text-xs text-white/40">{r.client}</p>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
+function FitRow({ children, yes = false }: { children: ReactNode; yes?: boolean }) {
+  return (
+    <div className="cx-soft-shadow flex items-center gap-3 rounded-[18px] bg-white px-5 py-4">
+      {yes ? <Check className="w-5 h-5 shrink-0 text-[#357BD8]" strokeWidth={2.5} /> : <X className="w-5 h-5 shrink-0 text-slate-400" strokeWidth={2.5} />}
+      <span className={cn("text-[15px]", yes ? "text-[#0E1B33]" : "text-slate-400")}>{children}</span>
+    </div>
+  );
+}
+
+function Stair({ s, i, small = false }: { s: (typeof stairs)[number]; i: number; small?: boolean }) {
+  return (
+    <>
+      <span className="inline-flex items-center gap-2 rounded-[20px] bg-[linear-gradient(135deg,#fff,rgba(255,255,255,0.65))] cx-soft-shadow font-semibold text-[#0E1B33] px-[clamp(14px,1.6vw,26px)] py-[clamp(8px,0.9vw,14px)] text-[clamp(14px,1.2vw,18px)] whitespace-nowrap">
+        <span className="text-slate-400 font-medium tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+        {s.title}
+      </span>
+      <div className={cn("relative mt-2", small && "flex gap-4")}>
+        <motion.div
+          className={cn("cx-grad-line w-px origin-top", small ? "min-h-[110px]" : "h-[14vw]")}
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.2 + i * 0.15, ease: EASE }}
+        />
+        <div className={cn("flex flex-col gap-3 text-left", !small && "absolute left-[1.9vw] top-[0.6vw] w-max")}>
+          {s.steps.map(st => (
+            <div key={st.label} className="whitespace-nowrap">
+              <p className="text-[15px] font-medium text-[#0E1B33]">{st.label}</p>
+              <p className="text-[13px] text-slate-500">{st.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ---------- Page ----------
+
 export default function Home() {
-  const [featured, ...moreResults] = documentedResults;
+  const fade = (delay: number) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, delay, ease: EASE } });
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="bg-white text-[#0E1B33] font-sans antialiased overflow-x-clip">
+      <div className="font-jakarta bg-white text-[#0E1B33] antialiased overflow-x-clip">
         <ScrollProgress />
         <Header />
-        <Hero />
 
-        {/* ===== STATEMENT ===== */}
-        <section className="px-6 md:px-10 pt-28 md:pt-44 pb-20 md:pb-28">
-          <div className="max-w-6xl mx-auto">
-            <ScrollWords
-              className="font-display text-[2.1rem] sm:text-5xl lg:text-[4.3rem] font-semibold tracking-[-0.035em] leading-[1.06]"
-              text="Most marketing gets judged on activity. Ours gets judged on the receipt: every ad, funnel, and follow-up built around what the data proves converts."
-            />
-            <dl className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-              {proofStrip.map((s, i) => (
-                <Reveal key={s.label} delay={i * 0.08} className="border-t border-slate-200 pt-6">
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-display text-4xl md:text-6xl font-bold tracking-[-0.04em]"><CountUp value={s.value} /></dd>
-                  <dd className="mt-2 text-sm md:text-[15px] text-slate-500">{s.label}</dd>
-                </Reveal>
+        {/* ===== HERO: moving brand light in place of the template's video ===== */}
+        <section id="top" className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[#0B1426] px-4">
+          <div aria-hidden className="cx-flow absolute -inset-[10%]" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_30%,rgba(11,20,38,0.75)_100%)]" />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(to_bottom,transparent,#0B1426)]" />
+
+          <div className="relative z-10 flex max-w-4xl flex-col items-center gap-6 text-center pt-16">
+            <motion.div {...fade(0.1)}><GradText className="text-lg font-medium">Psychology-based marketing</GradText></motion.div>
+            <motion.h1 {...fade(0.2)} className="text-[length:clamp(40px,6vw,88px)] leading-[1.05] font-semibold tracking-[-0.03em] text-white">
+              Marketing systems proven on <GradText>$250M+</GradText> of ad spend.
+            </motion.h1>
+            <motion.p {...fade(0.35)} className="max-w-2xl text-[length:clamp(16px,1.3vw,20px)] leading-relaxed text-[#B9C6DD]">
+              We study how your customers actually make decisions, then engineer every ad, funnel, and follow-up around what the data proves converts.
+            </motion.p>
+            <motion.div {...fade(0.5)} className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+              <GradButton>Book a strategy call</GradButton>
+              <a href="#proof" className="text-[15px] font-medium text-white underline decoration-white/30 underline-offset-[6px] hover:decoration-white transition-colors">See the results</a>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ===== RESULTS: dark cards that unfold on hover ===== */}
+        <section id="proof" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#0B1426] px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
+          <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-40" />
+          <div className="relative w-full max-w-[1200px]">
+            <SectionHead light title="Real accounts, real spend," grad="real return." intro="Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
+          </div>
+          <div className="relative grid w-full max-w-[1200px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {documentedResults.map((r, i) => (
+              <Reveal key={r.headline} delay={i * 0.08} className="h-full"><ResultCard r={r} /></Reveal>
+            ))}
+          </div>
+          <p className="relative max-w-2xl text-center text-sm text-[#B9C6DD]">A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.</p>
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fff)]" />
+        </section>
+
+        {/* ===== FIT: no versus yes around the brain orb ===== */}
+        <section id="fit" className="flex flex-col items-center gap-10 bg-white px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,96px)]">
+          <SectionHead chip="Fit" title="Built for offers that already sell." grad="Honest about what we don't run." />
+          <div className="flex w-full max-w-[1300px] flex-col items-center gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-10">
+            <div className="order-2 flex w-full flex-col gap-3 lg:order-none">
+              {fitNo.map((t, i) => <Reveal key={t} delay={i * 0.06}><FitRow>{t}</FitRow></Reveal>)}
+            </div>
+            <div className="order-first lg:order-none relative size-[clamp(220px,22vw,380px)] rounded-full overflow-hidden">
+              <div aria-hidden className="cx-orb absolute -inset-[30%]" />
+              <div className="absolute inset-[16%] rounded-full bg-white/85 backdrop-blur-xl flex items-center justify-center shadow-[inset_0_-12px_30px_rgba(14,27,51,0.12)]">
+                <img src={cortexuumBrain} alt="" className="w-[62%]" />
+              </div>
+            </div>
+            <div className="order-3 flex w-full flex-col gap-3 lg:order-none">
+              {fitYes.map((t, i) => <Reveal key={t} delay={i * 0.06}><FitRow yes>{t}</FitRow></Reveal>)}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== PROCESS: the delivery staircase ===== */}
+        <section id="process" className="cx-stair-bg scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[clamp(48px,5.5vw,80px)]">
+          <SectionHead chip="90-day buildout" title="From strategy to consistent conversions" grad="in 90 days." intro="A systematic buildout engineered to create a predictable pipeline." />
+          <div className="w-full max-w-[82vw]">
+            <div className="relative hidden h-[32vw] w-[82vw] sm:block">
+              {stairs.map((s, i) => (
+                <div key={s.title} className="absolute flex flex-col items-start" style={{ left: `${s.start}vw`, bottom: `${s.bottom}vw` }}>
+                  <Stair s={s} i={i} />
+                </div>
               ))}
-            </dl>
+            </div>
+            <div className="flex w-full flex-col gap-10 sm:hidden">
+              {stairs.map((s, i) => (
+                <div key={s.title} className="flex flex-col items-start"><Stair s={s} i={i} small /></div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ===== SERVICES ===== */}
-        <section id="services" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
-            <div className="lg:sticky lg:top-32 self-start">
-              <SectionHead
-                title="What we run for you"
-                intro="Every service built on psychological principles and proven performance data."
-              />
-            </div>
-            <div>
+        <section id="services" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
+          <div className="max-w-[1200px] mx-auto">
+            <SectionHead chip="Services" title="What we run for you." grad="Built on proven performance data." intro="Every service built on psychological principles and proven performance data." />
+            <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {services.map((s, i) => (
-                <Reveal key={s.title} delay={i * 0.05}>
-                  <div className="group relative grid md:grid-cols-[220px_1fr] gap-3 md:gap-10 py-8 border-t border-slate-200">
-                    <span aria-hidden className="absolute left-0 top-[-1px] h-px w-0 bg-[#357BD8] transition-all duration-700 ease-out group-hover:w-full" />
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#357BD8]">{s.title}</h3>
-                    <p className="text-slate-600 leading-relaxed">{s.description}</p>
+                <Reveal key={s.title} delay={i * 0.06} className="h-full">
+                  <div className="cx-soft-shadow group relative h-full rounded-[24px] bg-white p-7 transition-transform duration-500 hover:-translate-y-1">
+                    <span aria-hidden className="cx-grad-bg absolute inset-x-7 top-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
+                    <h3 className="text-xl font-semibold tracking-[-0.01em]">{s.title}</h3>
+                    <p className="mt-3 text-[15px] leading-relaxed text-slate-500">{s.description}</p>
                   </div>
                 </Reveal>
               ))}
-
-              <div className="mt-10 grid sm:grid-cols-2 gap-4">
-                <Reveal>
-                  <Spotlight className="h-full rounded-3xl bg-[#EAF6F1] p-7">
-                    <h3 className="flex items-center gap-2 font-semibold"><Check className="w-4 h-4 text-emerald-700" /> Where we're the right call</h3>
-                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
-                      Info products of every shape: courses, coaching, communities, events, and paid newsletters, plus DTC ecommerce. Offers already closing on phone or checkout that need more qualified volume at the&nbsp;top.
-                    </p>
-                  </Spotlight>
-                </Reveal>
-                <Reveal delay={0.08}>
-                  <Spotlight className="h-full rounded-3xl bg-[#F3F6FB] p-7">
-                    <h3 className="flex items-center gap-2 font-semibold"><Minus className="w-4 h-4 text-slate-500" /> Where we're not</h3>
-                    <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
-                      Amazon advertising and standalone email marketing. We would rather hand those back than run them badly.
-                    </p>
-                  </Spotlight>
-                </Reveal>
-              </div>
+              <Reveal delay={0.3} className="h-full">
+                <div className="h-full rounded-[24px] bg-[#0E1B33] p-7 flex flex-col justify-between gap-6 text-white">
+                  <p className="text-xl font-semibold">Take one service, or let us run the whole system.</p>
+                  <GradButton>Book a strategy call</GradButton>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
 
-        {/* ===== RESULTS: pinned, scrolls sideways on desktop ===== */}
-        <section id="proof" className="scroll-mt-24 bg-[#F3F6FB] py-24 lg:py-0">
-          <HorizontalScroll
-            header={
-              <div className="w-full max-w-7xl mx-auto px-6 md:px-10 mb-10 lg:mb-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                <div className="max-w-2xl">
-                  <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">The receipts, not the promises</h2>
-                  <p className="mt-5 text-lg text-slate-600 leading-relaxed">Real accounts, real spend, real return. Platform-reported figures, unaltered.</p>
-                </div>
-                <p className="hidden lg:block text-sm text-slate-500">Keep scrolling</p>
-              </div>
-            }
-          >
-            <Spotlight tone="dark" className="md:col-span-2 lg:w-[720px] lg:flex-none rounded-[32px] bg-[#0E1B33] text-white p-8 md:p-10 flex flex-col">
-              <a href={featured.href} className="group flex flex-col h-full">
-                <p className="text-sm text-white/60">{featured.client} · {featured.scope}</p>
-                <h3 className="mt-4 font-display text-3xl md:text-[2.6rem] font-bold tracking-[-0.03em] leading-[1.04]">{featured.headline}</h3>
-                <p className="mt-4 text-white/70 leading-relaxed max-w-xl">{featured.detail}</p>
-                <div className="mt-8">
-                  <ScaleBars
-                    tone="dark"
-                    bars={[
-                      { label: "Ad spend", value: "$4,783", amount: 4783, color: "#7FD3E6" },
-                      { label: "Contracts closed", value: "$150,000", amount: 150000, color: "#357BD8" },
-                    ]}
-                  />
-                </div>
-                <p className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-[#7FD3E6] group-hover:gap-2.5 transition-all">
-                  Read the full case study <ArrowUpRight className="w-4 h-4" />
-                </p>
-              </a>
-            </Spotlight>
-
-            {moreResults.map(r => (
-              <Spotlight key={r.headline} className="lg:w-[420px] lg:flex-none rounded-[32px] bg-white p-8 flex flex-col">
-                <p className="text-sm text-slate-500">{r.scope}</p>
-                <p className="mt-6 font-display text-6xl font-bold tracking-[-0.04em] text-[#357BD8]"><CountUp value={r.stats[0].value} /></p>
-                <p className="mt-1 text-sm text-slate-500">{r.stats[0].label}</p>
-                <h3 className="mt-6 font-display text-2xl font-bold tracking-[-0.02em] leading-[1.15]">{r.headline}</h3>
-                <p className="mt-3 text-[15px] text-slate-600 leading-relaxed flex-1">{r.detail}</p>
-                <dl className="mt-6 space-y-2.5 border-t border-dashed border-slate-300 pt-5 text-[15px]">
-                  {r.stats.slice(1).map(s => (
-                    <div key={s.label} className="flex justify-between gap-4">
-                      <dt className="text-slate-500">{s.label}</dt>
-                      <dd className="font-semibold"><CountUp value={s.value} /></dd>
-                    </div>
-                  ))}
-                </dl>
-                <p className="mt-5 text-xs text-slate-400">{r.client}</p>
-              </Spotlight>
-            ))}
-
-            <div className="md:col-span-2 lg:w-[380px] lg:flex-none rounded-[32px] border-2 border-dashed border-slate-300 p-8 flex flex-col justify-between gap-8">
-              <p className="font-display text-3xl font-bold tracking-[-0.03em] leading-[1.1]">More accounts sit under NDA.</p>
-              <div>
-                <p className="text-slate-600 leading-relaxed">Those screenshots and numbers get walked through live, one to one.</p>
-                <CtaButton className="mt-6">See them on a call</CtaButton>
-              </div>
-            </div>
-          </HorizontalScroll>
-        </section>
-
-        {/* ===== WHY IT WORKS ===== */}
-        <section id="benefits" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto">
-            <SectionHead
-              title="Marketing that understands how people think"
-              intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't."
-            />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* ===== HOW PEOPLE THINK ===== */}
+        <section id="benefits" className="scroll-mt-24 bg-[#F7F8FC] px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
+          <div className="max-w-[1200px] mx-auto">
+            <SectionHead chip="Why it works" title="Marketing that understands" grad="how people think." intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't." />
+            <dl className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+              {proofStrip.map((s, i) => (
+                <Reveal key={s.label} delay={i * 0.06}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="text-4xl md:text-5xl font-semibold tracking-[-0.03em]"><GradText><CountUp value={s.value} /></GradText></dd>
+                  <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
+                </Reveal>
+              ))}
+            </dl>
+            <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {benefits.map((b, i) => (
-                <Reveal key={b.title} delay={i * 0.08} className="h-full">
-                  <Spotlight className="h-full rounded-[28px] border border-slate-200 bg-white p-7">
-                    <p className="font-display text-2xl font-bold tracking-[-0.02em] text-[#357BD8]">{b.stat}</p>
-                    <h3 className="mt-8 font-semibold">{b.title}</h3>
-                    <p className="mt-2 text-[15px] text-slate-600 leading-relaxed">{b.description}</p>
-                  </Spotlight>
+                <Reveal key={b.title} delay={i * 0.06} className="h-full">
+                  <div className="cx-soft-shadow h-full rounded-[24px] bg-white p-7">
+                    <p className="text-lg font-semibold"><GradText>{b.stat}</GradText></p>
+                    <h3 className="mt-6 font-semibold">{b.title}</h3>
+                    <p className="mt-2 text-[15px] leading-relaxed text-slate-500">{b.description}</p>
+                  </div>
                 </Reveal>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== PROCESS: stacking cards ===== */}
-        <section id="process" className="scroll-mt-24 p-2 md:p-3">
-          <div className="rounded-[28px] md:rounded-[40px] bg-[#0E1B33] text-white px-6 md:px-10 py-24 md:py-32">
-            <div className="max-w-5xl mx-auto">
-              <SectionHead light title="From strategy to consistent conversions in 90 days" intro="A systematic buildout engineered to create a predictable pipeline." />
-              <StackCards>
-                {phases.map((p, i) => (
-                  <div key={p.title} className="rounded-[28px] bg-[#16284A] border border-white/10 p-8 md:p-12 grid md:grid-cols-[1fr_1.3fr] gap-8 md:gap-12 min-h-[340px] shadow-[0_-20px_60px_-30px_rgba(0,0,0,0.6)]">
-                    <div className="flex flex-col justify-between gap-8">
-                      <span className="font-display text-7xl md:text-8xl font-bold tracking-[-0.05em] text-[#7FD3E6]/90 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                      <h3 className="font-display text-3xl md:text-4xl font-semibold tracking-[-0.02em]">{p.title}</h3>
-                    </div>
-                    <ul className="self-end divide-y divide-white/10">
-                      {p.steps.map(s => (
-                        <li key={s.label} className="py-5 flex items-baseline justify-between gap-6">
-                          <span className="font-display text-xl font-semibold">{s.label}</span>
-                          <span className="text-right text-white/60">{s.desc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </StackCards>
             </div>
           </div>
         </section>
 
         {/* ===== CLIENT ROSTER ===== */}
-        <section id="clients" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
-          <div className="max-w-7xl mx-auto">
-            <SectionHead title="Brands we've built the machine for" />
-            <RosterGroup
-              title="Information and education brands"
-              note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book."
-              brands={infoBrands}
-              gridClass="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-            />
-            <RosterGroup
-              title="Ecommerce, DTC and service brands"
-              note="The same engine applied outside info products. Additional named brands are held under NDA, disclosable on request."
-              brands={commerceBrands}
-              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
-            />
-            <RosterGroup
-              title="Inside the industry's leading agencies"
-              note="Contracted in to build out infrastructure and lead the teams behind their largest accounts."
-              brands={agencyBrands}
-              gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1"
-            />
+        <section id="clients" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
+          <div className="max-w-[1200px] mx-auto">
+            <SectionHead chip="Clients" title="Brands we've" grad="built the machine for." />
+            <div className="mt-12">
+              <RosterGroup title="Information and education brands" note="Courses, coaching, communities, events, and paid newsletters. This is the core of the book." brands={infoBrands} gridClass="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" />
+              <RosterGroup title="Ecommerce, DTC and service brands" note="The same engine applied outside info products. Additional named brands are held under NDA, disclosable on request." brands={commerceBrands} gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1" />
+              <RosterGroup title="Inside the industry's leading agencies" note="Contracted in to build out infrastructure and lead the teams behind their largest accounts." brands={agencyBrands} gridClass="grid-cols-2 sm:grid-cols-3 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1" />
+            </div>
           </div>
         </section>
 
         {/* ===== FOUNDER ===== */}
-        <section id="founder" className="scroll-mt-24 bg-[#F3F6FB] px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-20 items-start">
-            <Reveal className="lg:sticky lg:top-28">
-              <ZoomImage src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="rounded-[32px] aspect-[4/5] max-w-md bg-white" />
+        <section id="founder" className="scroll-mt-24 bg-[#F7F8FC] px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
+          <div className="max-w-[1200px] mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16 items-start">
+            <Reveal className="relative">
+              <div className="cx-grad-bg rounded-[32px] p-[2px]">
+                <img src={christianColgate} alt="Christian Colgate, CEO and founder of Cortexuum" className="w-full aspect-[4/5] object-cover object-top rounded-[30px]" />
+              </div>
             </Reveal>
             <div>
               <Reveal>
-                <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">Christian Colgate</h2>
-                <p className="mt-3 text-lg text-slate-500">CEO and founder</p>
+                <Chip>Founder</Chip>
+                <h2 className="mt-6 text-[length:clamp(32px,4vw,56px)] leading-[1.1] font-semibold tracking-[-0.02em]">Christian Colgate</h2>
+                <p className="mt-2 text-lg"><GradText>CEO and founder</GradText></p>
               </Reveal>
-              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg text-slate-700 leading-relaxed max-w-2xl">
+              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg text-slate-600 leading-relaxed max-w-2xl">
                 <p>Christian leads the paid media division at Cortexuum, scaling brands across Meta, Google, and TikTok.</p>
                 <p>He founded and scaled multiple six-figure organizations and played a central role in building the eCommerce department of a leading performance marketing agency from the ground&nbsp;up.</p>
                 <p>He has managed the systems and marketing behind Alex Hormozi's portfolio, Gary Brecka's brands, and a roster of household names across MMA, music, real estate, and entertainment held under NDA. Those engagements are reviewed live rather than printed&nbsp;here.</p>
               </Reveal>
-              <dl className="mt-12 grid sm:grid-cols-3 gap-8">
+              <dl className="mt-10 grid sm:grid-cols-3 gap-4">
                 {founderStats.map((s, i) => (
-                  <Reveal key={s.label} delay={i * 0.08}>
-                    <dt className="font-display text-4xl font-bold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
-                    <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
+                  <Reveal key={s.label} delay={i * 0.06}>
+                    <div className="cx-soft-shadow rounded-[20px] bg-white p-5">
+                      <dt className="text-3xl font-semibold tracking-[-0.03em]"><CountUp value={s.value} /></dt>
+                      <dd className="mt-1 text-sm text-slate-500">{s.label}</dd>
+                    </div>
                   </Reveal>
                 ))}
               </dl>
-              <Reveal className="mt-12 pt-8 border-t border-slate-300/70">
+              <div className="mt-10 pt-8 border-t border-slate-200">
                 <p className="text-sm text-slate-500 mb-4">The team behind the work, in years</p>
                 <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {teamExpertise.map(t => (
                     <div key={t.area}>
-                      <dt className="font-display text-2xl font-bold"><CountUp value={t.years} /></dt>
+                      <dt className="text-2xl font-semibold"><CountUp value={t.years} /></dt>
                       <dd className="text-sm text-slate-600">{t.area}</dd>
                     </div>
                   ))}
                 </dl>
-              </Reveal>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ===== FAQ ===== */}
-        <section id="faq" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
-            <div className="lg:sticky lg:top-32 self-start">
-              <SectionHead title="Questions before the call" intro="The short answers. The long ones happen on the call." />
-            </div>
-            <Reveal>
-              <Accordion type="single" collapsible className="border-t border-slate-200">
+        <section id="faq" className="scroll-mt-24 px-[clamp(16px,4vw,40px)] py-[clamp(64px,8vw,120px)]">
+          <div className="max-w-[860px] mx-auto">
+            <SectionHead chip="FAQ" title="Questions before" grad="the call." intro="The short answers. The long ones happen on the call." />
+            <Reveal className="mt-12">
+              <Accordion type="single" collapsible className="flex flex-col gap-3">
                 {faqs.map(f => (
-                  <AccordionItem key={f.q} value={f.q} className="border-slate-200">
-                    <AccordionTrigger className="py-6 text-left font-display text-xl md:text-2xl font-semibold tracking-[-0.02em] hover:no-underline hover:text-[#357BD8] transition-colors">
-                      {f.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-6 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">{f.a}</AccordionContent>
+                  <AccordionItem key={f.q} value={f.q} className="cx-soft-shadow rounded-[18px] bg-white px-6 border-none">
+                    <AccordionTrigger className="py-5 text-left text-lg font-semibold hover:no-underline">{f.q}</AccordionTrigger>
+                    <AccordionContent className="pb-5 text-[15px] text-slate-600 leading-relaxed">{f.a}</AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -614,29 +564,25 @@ export default function Home() {
         </section>
 
         {/* ===== BOOK A CALL ===== */}
-        <section id="contact" className="scroll-mt-24 p-2 md:p-3">
-          <div className="relative overflow-hidden rounded-[28px] md:rounded-[40px]">
-            <SilkField />
-            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-36 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
-              <div>
-                <Reveal>
-                  <h2 className="font-display text-5xl md:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
-                    Ready to see what proven marketing systems can do?
-                  </h2>
-                </Reveal>
-                <Reveal delay={0.1}>
-                  <p className="mt-6 text-lg text-slate-700 max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
-                  <CtaButton className="mt-9">Book a strategy call</CtaButton>
-                </Reveal>
-              </div>
+        <section id="contact" className="scroll-mt-24 px-3 md:px-6 pb-6">
+          <div className="relative overflow-hidden rounded-[32px] bg-[#0B1426] text-white px-6 md:px-12 py-20 md:py-28">
+            <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-70" />
+            <div className="relative max-w-[1200px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+              <Reveal>
+                <h2 className="text-[length:clamp(36px,5vw,72px)] leading-[1.05] font-semibold tracking-[-0.03em]">
+                  Ready to see what <GradText>proven marketing systems</GradText> can do?
+                </h2>
+                <p className="mt-6 text-lg text-[#B9C6DD] max-w-xl">Book a free 30-minute strategy call. No obligations, just real insights for your business.</p>
+                <GradButton className="mt-9">Book a strategy call</GradButton>
+              </Reveal>
               <Reveal delay={0.15}>
-                <div className="rounded-[28px] bg-white/75 backdrop-blur-xl border border-white p-7 md:p-8">
+                <div className="rounded-[24px] bg-white/10 backdrop-blur-xl border border-white/15 p-7">
                   <h3 className="font-semibold">What happens next</h3>
                   <ol className="mt-5 space-y-4">
                     {nextSteps.map((t, i) => (
                       <li key={t} className="flex gap-4">
-                        <span className="flex-none w-7 h-7 rounded-full bg-[#0E1B33] text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
-                        <span className="pt-0.5 text-slate-700">{t}</span>
+                        <span className="flex-none w-7 h-7 rounded-full cx-grad-bg text-white text-sm font-semibold flex items-center justify-center">{i + 1}</span>
+                        <span className="pt-0.5 text-[#DCE4F2]">{t}</span>
                       </li>
                     ))}
                   </ol>
@@ -647,8 +593,8 @@ export default function Home() {
         </section>
 
         {/* ===== FOOTER ===== */}
-        <footer className="px-6 md:px-10 pt-16 pb-10 overflow-hidden">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
+        <footer className="px-6 md:px-10 py-10">
+          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
             <div className="flex items-center gap-3">
               <img src={cortexuumBrain} alt="" className="w-7 h-7 object-contain" />
               <span className="font-semibold text-[#0E1B33]">Cortexuum</span>
@@ -661,16 +607,6 @@ export default function Home() {
               <a href="/login" className="text-slate-400 hover:text-slate-600 transition-colors">Admin</a>
             </nav>
           </div>
-          <motion.p
-            aria-hidden
-            initial={{ y: "40%", opacity: 0 }}
-            whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: EASE }}
-            className="mt-14 font-display font-bold text-[#0E1B33] text-[19vw] leading-[0.8] tracking-[-0.06em] text-center select-none"
-          >
-            Cortexuum
-          </motion.p>
         </footer>
       </div>
     </MotionConfig>

@@ -68,7 +68,7 @@ const Header = () => {
     <>
       {/* Desktop + mobile top pill */}
       <header className="fixed top-3 md:top-5 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
-        <div className="max-w-6xl mx-auto pointer-events-auto">
+        <div className={`mx-auto pointer-events-auto transition-[max-width] duration-500 ease-in-out ${scrolled ? "max-w-5xl" : "max-w-6xl"}`}>
           <div
             className={`flex items-center justify-between gap-4 rounded-full transition-all duration-300 border ${
               scrolled
