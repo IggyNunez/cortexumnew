@@ -272,7 +272,7 @@ export function ScaleBars({ bars, tone = "light" }: { bars: { label: string; val
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 1.4, delay: 0.2 + i * 0.25, ease: EASE }}
+              transition={{ duration: 2.6, delay: 0.3 + i * 0.4, ease: EASE }}
             />
           </div>
         </div>

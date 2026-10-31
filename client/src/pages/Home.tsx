@@ -399,6 +399,7 @@ export default function Home() {
           <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(to_bottom,transparent,#000201)]" />
 
           <div className="relative z-10 flex max-w-4xl flex-col items-center gap-6 text-center pt-16">
+            <motion.img {...fade(0)} src={cortexuumBrain} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain -mb-2" />
             <motion.div {...fade(0.1)}><GradText className="text-lg font-medium">Psychology-based marketing</GradText></motion.div>
             <motion.h1 {...fade(0.2)} className="text-[length:clamp(40px,6vw,88px)] leading-[1.05] font-semibold tracking-[-0.03em] text-white">
               Marketing systems proven on <GradText>$250M+</GradText> of ad spend.
@@ -537,8 +538,8 @@ export default function Home() {
                   <ScaleBars
                     tone="dark"
                     bars={[
-                      { label: "Ad spend", value: "$4,783", amount: 4783, color: "#7FD3E6" },
-                      { label: "Contracts closed", value: "$150,000", amount: 150000, color: "#357BD8" },
+                      { label: "Ad spend", value: "$4,783", amount: 4783, color: "linear-gradient(90deg, #8ED8E8, #6FB6E2)" },
+                      { label: "Contracts closed", value: "$150,000", amount: 150000, color: "linear-gradient(90deg, #5BB8D9, #4C86D3 55%, #8E7CC9)" },
                     ]}
                   />
                 </div>
