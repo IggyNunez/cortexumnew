@@ -7,7 +7,7 @@ import christianColgate from "../assets/christian-colgate.webp";
 import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CountUp, EASE, Magnetic, Reveal, ScrollProgress, ScrollWords, Spotlight, ZoomImage } from "@/components/motion";
+import { CountUp, EASE, HorizontalScroll, Magnetic, Reveal, ScaleBars, ScrollProgress, ScrollWords, Spotlight, ZoomImage } from "@/components/motion";
 import { cn } from "@/lib/utils";
 
 const CTA_URL = "https://calendly.com/cortexuummarketing/30min";
@@ -235,41 +235,25 @@ function SectionHead({ chip, title, grad, intro, light = false }: { chip?: strin
   );
 }
 
-// Dark card that unfolds on hover without changing size: a soft glow drops in
-// from the top and the detail and link rise into the empty space. Touch screens
-// get the unfolded state and grow to fit it.
-function ResultCard({ r }: { r: (typeof documentedResults)[number] }) {
-  const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-80 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
+// Dark card from the template: fixed size, a soft glow drops in on hover and the
+// button rises into the empty space. Touch screens show the button and grow to fit.
+function BenefitCard({ b }: { b: (typeof benefits)[number] }) {
+  const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
   return (
-    <div className="group relative flex h-[540px] md:max-lg:h-[560px] [@media(hover:none)]:h-auto [@media(hover:none)]:min-h-[420px] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
+    <div className="group relative flex h-[440px] [@media(hover:none)]:h-auto [@media(hover:none)]:min-h-[340px] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
       <div aria-hidden className="absolute inset-x-0 top-0 h-[55%] -translate-y-[30%] opacity-50 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-70 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(230,62,139,0.22),transparent_70%),linear-gradient(160deg,rgba(53,123,216,0.22),transparent_60%)]" />
-      <div className="relative flex h-full flex-col p-[clamp(20px,2.2vw,32px)]">
+      <div className="relative flex h-full flex-col p-[clamp(20px,2vw,28px)]">
         <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[13px] text-white">
           <span className="w-2 h-2 rounded-full bg-[#00BCD4]" />
-          {r.scope.split(",")[0]}
+          {b.title}
         </span>
-        <p className="mt-8 text-[length:clamp(40px,4vw,60px)] font-semibold tracking-[-0.03em] leading-none"><GradText><CountUp value={r.stats[0].value} /></GradText></p>
-        <p className="mt-2 text-sm text-[#B9C6DD]">{r.stats[0].label}</p>
+        <p className="mt-8 text-[length:clamp(28px,2.4vw,38px)] font-semibold tracking-[-0.03em] leading-[1.05]"><GradText>{b.stat}</GradText></p>
         <div className="flex-grow" />
-        <h3 className="mt-8 text-[length:clamp(17px,1.5vw,22px)] leading-snug font-medium text-white transition-transform duration-500 group-hover:-translate-y-1">{r.headline}</h3>
-        <ul className="mt-4 flex flex-col gap-2">
-          {r.stats.slice(1).map(s => (
-            <li key={s.label} className="flex items-start gap-2 text-sm text-[#B9C6DD]">
-              <span className="mt-1.5 w-2 h-2 shrink-0 rounded-full border border-[#E63E8B]" />
-              <span>{s.label}: <span className="text-white"><CountUp value={s.value} /></span></span>
-            </li>
-          ))}
-        </ul>
+        <p className="text-[15px] leading-relaxed text-[#DCE4F2] transition-transform duration-500 group-hover:-translate-y-1">{b.description}</p>
         <div className={reveal}>
-          <p className="mt-4 text-sm text-[#B9C6DD] leading-relaxed">{r.detail}</p>
-          <a
-            href={r.href ?? CTA_URL}
-            {...(r.href ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#7FD3E6] transition-colors"
-          >
-            {r.href ? "Read the case study" : "See it on a call"} <ArrowUpRight className="w-4 h-4" />
+          <a href={CTA_URL} target="_blank" rel="noopener noreferrer" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#7FD3E6] transition-colors">
+            Book a strategy call <ArrowRight className="w-4 h-4" />
           </a>
-          <p className="mt-3 text-xs text-white/40">{r.client}</p>
         </div>
       </div>
     </div>
@@ -400,6 +384,7 @@ const heroStats = [
 // ---------- Page ----------
 
 export default function Home() {
+  const [featured, ...moreResults] = documentedResults;
   const fade = (delay: number) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, delay, ease: EASE } });
 
   return (
@@ -428,18 +413,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== RESULTS: dark cards that unfold on hover ===== */}
-        <section id="proof" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-center px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
+        {/* ===== HOW PEOPLE THINK: the template's dark cards that unfold on hover ===== */}
+        <section id="benefits" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-center px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
           <div className="relative w-full max-w-[1200px]">
-            <SectionHead light title="The receipts," grad="not the promises." intro="Real accounts, real spend, real return. Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
+            <SectionHead light title="Marketing that understands" grad="how people think." intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't." />
           </div>
-          <div className="relative grid w-full max-w-[1100px] grid-cols-1 gap-4 md:grid-cols-2">
-            {documentedResults.map((r, i) => (
-              <Reveal key={r.headline} delay={i * 0.08} className="h-full"><ResultCard r={r} /></Reveal>
+          <div className="relative grid w-full max-w-[1200px] grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {benefits.map((b, i) => (
+              <Reveal key={b.title} delay={i * 0.08} className="h-full"><BenefitCard b={b} /></Reveal>
             ))}
           </div>
-          {/* Sits where the glow turns white, so it gets its own glass card and dark text */}
-          <p className="relative z-10 max-w-2xl rounded-2xl border border-white bg-white/75 backdrop-blur-xl cx-soft-shadow px-6 py-4 text-center text-[15px] leading-relaxed text-[#0E1B33]">A large share of the work sits under confidentiality with agency partners and their clients. Those accounts, screenshots, and numbers can be walked through live, one to one.</p>
           <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fff)]" />
         </section>
 
@@ -532,26 +515,77 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== WHY IT WORKS ===== */}
-        <section id="benefits" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-36">
-          <div className="max-w-7xl mx-auto">
-            <LiveHead
-              title="Marketing that understands how people think"
-              intro="With over $250 million in managed ad spend and 7+ years of combined industry experience, we've seen what works and what doesn't."
-            />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {benefits.map((b, i) => (
-                <Reveal key={b.title} delay={i * 0.08} className="h-full">
-                  <Spotlight className="h-full rounded-[28px] border border-slate-200 bg-white p-7">
-                    <p className="font-display text-2xl font-bold tracking-[-0.02em] text-[#357BD8]">{b.stat}</p>
-                    <h3 className="mt-8 font-semibold">{b.title}</h3>
-                    <p className="mt-2 text-[15px] text-slate-600 leading-relaxed">{b.description}</p>
-                  </Spotlight>
-                </Reveal>
-              ))}
+        {/* ===== RESULTS: pinned, scrolls sideways on desktop ===== */}
+        <section id="proof" className="scroll-mt-24 bg-[#F3F6FB] py-24 lg:py-0">
+          <HorizontalScroll
+            header={
+              <div className="w-full max-w-7xl mx-auto px-6 md:px-10 mb-10 lg:mb-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                <div className="max-w-2xl">
+                  <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1]">The receipts, not the promises</h2>
+                  <p className="mt-5 text-lg text-slate-600 leading-relaxed">Real accounts, real spend, real return. Platform-reported figures, unaltered.</p>
+                </div>
+                <p className="hidden lg:block text-sm text-slate-500">Keep scrolling</p>
+              </div>
+            }
+          >
+            <Spotlight tone="dark" className="md:col-span-2 lg:w-[720px] lg:flex-none rounded-[32px] bg-[#0E1B33] text-white p-8 md:p-10 flex flex-col">
+              <a href={featured.href} className="group flex flex-col h-full">
+                <p className="text-sm text-white/60">{featured.client} · {featured.scope}</p>
+                <h3 className="mt-4 font-display text-3xl md:text-[2.6rem] font-bold tracking-[-0.03em] leading-[1.04]">{featured.headline}</h3>
+                <p className="mt-4 text-white/70 leading-relaxed max-w-xl">{featured.detail}</p>
+                <div className="mt-8">
+                  <ScaleBars
+                    tone="dark"
+                    bars={[
+                      { label: "Ad spend", value: "$4,783", amount: 4783, color: "#7FD3E6" },
+                      { label: "Contracts closed", value: "$150,000", amount: 150000, color: "#357BD8" },
+                    ]}
+                  />
+                </div>
+                <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-white/15 pt-6">
+                  {featured.stats.map(st => (
+                    <div key={st.label}>
+                      <dt className="sr-only">{st.label}</dt>
+                      <dd className="font-display text-2xl md:text-3xl font-bold"><CountUp value={st.value} /></dd>
+                      <dd className="mt-1 text-xs md:text-sm text-white/60">{st.label}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-[#7FD3E6] group-hover:gap-2.5 transition-all">
+                  Read the full case study <ArrowUpRight className="w-4 h-4" />
+                </p>
+              </a>
+            </Spotlight>
+
+            {moreResults.map(r => (
+              <Spotlight key={r.headline} className="lg:w-[420px] lg:flex-none rounded-[32px] bg-white p-8 flex flex-col">
+                <p className="text-sm text-slate-500">{r.scope}</p>
+                <p className="mt-6 font-display text-6xl font-bold tracking-[-0.04em] text-[#357BD8]"><CountUp value={r.stats[0].value} /></p>
+                <p className="mt-1 text-sm text-slate-500">{r.stats[0].label}</p>
+                <h3 className="mt-6 font-display text-2xl font-bold tracking-[-0.02em] leading-[1.15]">{r.headline}</h3>
+                <p className="mt-3 text-[15px] text-slate-600 leading-relaxed flex-1">{r.detail}</p>
+                <dl className="mt-6 space-y-2.5 border-t border-dashed border-slate-300 pt-5 text-[15px]">
+                  {r.stats.slice(1).map(s => (
+                    <div key={s.label} className="flex justify-between gap-4">
+                      <dt className="text-slate-500">{s.label}</dt>
+                      <dd className="font-semibold"><CountUp value={s.value} /></dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-5 text-xs text-slate-400">{r.client}</p>
+              </Spotlight>
+            ))}
+
+            <div className="md:col-span-2 lg:w-[380px] lg:flex-none rounded-[32px] border-2 border-dashed border-slate-300 p-8 flex flex-col justify-between gap-8">
+              <p className="font-display text-3xl font-bold tracking-[-0.03em] leading-[1.1]">More accounts sit under NDA.</p>
+              <div>
+                <p className="text-slate-600 leading-relaxed">Those screenshots and numbers get walked through live, one to one.</p>
+                <CtaButton className="mt-6">See them on a call</CtaButton>
+              </div>
             </div>
-          </div>
+          </HorizontalScroll>
         </section>
+
 
         {/* ===== CLIENT ROSTER ===== */}
         <section id="clients" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
