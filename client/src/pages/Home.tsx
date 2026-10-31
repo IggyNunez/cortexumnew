@@ -365,11 +365,10 @@ export default function Home() {
         <ScrollProgress />
         <Header />
 
-        {/* ===== HERO: moving brand light in place of the template's video ===== */}
-        <section id="top" className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[#0B1426] px-4">
-          <div aria-hidden className="cx-flow absolute -inset-[10%]" />
-          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_30%,rgba(11,20,38,0.75)_100%)]" />
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(to_bottom,transparent,#0B1426)]" />
+        {/* ===== HERO: the template's looping video, self-hosted; reduced motion gets its still frame ===== */}
+        <section id="top" className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[#000201] bg-[url('/media/nexacore-hero.jpg')] bg-cover bg-center px-4">
+          <video className="absolute inset-0 size-full object-cover motion-reduce:hidden" src="/media/nexacore-hero.mp4" poster="/media/nexacore-hero.jpg" autoPlay muted loop playsInline aria-hidden />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(to_bottom,transparent,#000201)]" />
 
           <div className="relative z-10 flex max-w-4xl flex-col items-center gap-6 text-center pt-16">
             <motion.div {...fade(0.1)}><GradText className="text-lg font-medium">Psychology-based marketing</GradText></motion.div>
@@ -387,8 +386,7 @@ export default function Home() {
         </section>
 
         {/* ===== RESULTS: dark cards that unfold on hover ===== */}
-        <section id="proof" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#0B1426] px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
-          <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-40" />
+        <section id="proof" className="relative scroll-mt-24 flex flex-col items-center gap-16 md:gap-24 overflow-hidden bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-center px-[clamp(16px,4vw,40px)] pt-[clamp(80px,10vw,140px)] pb-[clamp(100px,12vw,160px)]">
           <div className="relative w-full max-w-[1200px]">
             <SectionHead light title="Real accounts, real spend," grad="real return." intro="Platform-reported figures, unaltered. Client names withheld where the engagement is under confidentiality." />
           </div>
@@ -401,18 +399,15 @@ export default function Home() {
           <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fff)]" />
         </section>
 
-        {/* ===== FIT: no versus yes around the brain orb ===== */}
+        {/* ===== FIT: no versus yes around the template's ring video ===== */}
         <section id="fit" className="flex flex-col items-center gap-10 bg-white px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,96px)]">
           <SectionHead chip="Fit" title="Built for offers that already sell." grad="Honest about what we don't run." />
           <div className="flex w-full max-w-[1300px] flex-col items-center gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-10">
             <div className="order-2 flex w-full flex-col gap-3 lg:order-none">
               {fitNo.map((t, i) => <Reveal key={t} delay={i * 0.06}><FitRow>{t}</FitRow></Reveal>)}
             </div>
-            <div className="order-first lg:order-none relative size-[clamp(220px,22vw,380px)] rounded-full overflow-hidden">
-              <div aria-hidden className="cx-orb absolute -inset-[30%]" />
-              <div className="absolute inset-[16%] rounded-full bg-white/85 backdrop-blur-xl flex items-center justify-center shadow-[inset_0_-12px_30px_rgba(14,27,51,0.12)]">
-                <img src={cortexuumBrain} alt="" className="w-[62%]" />
-              </div>
+            <div className="order-first lg:order-none relative size-[clamp(220px,22vw,400px)] rounded-full overflow-hidden bg-[url('/media/nexacore-ring.jpg')] bg-[length:160%] bg-center">
+              <video className="absolute top-1/2 left-1/2 size-[160%] -translate-x-1/2 -translate-y-1/2 object-cover motion-reduce:hidden" src="/media/nexacore-ring.mp4" autoPlay muted loop playsInline aria-hidden />
             </div>
             <div className="order-3 flex w-full flex-col gap-3 lg:order-none">
               {fitYes.map((t, i) => <Reveal key={t} delay={i * 0.06}><FitRow yes>{t}</FitRow></Reveal>)}
@@ -421,7 +416,7 @@ export default function Home() {
         </section>
 
         {/* ===== PROCESS: the delivery staircase ===== */}
-        <section id="process" className="cx-stair-bg scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[clamp(48px,5.5vw,80px)]">
+        <section id="process" className="bg-white bg-[url('/media/nexacore-ribbon.webp')] bg-cover bg-center bg-no-repeat scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[clamp(48px,5.5vw,80px)]">
           <SectionHead chip="90-day buildout" title="From strategy to consistent conversions" grad="in 90 days." intro="A systematic buildout engineered to create a predictable pipeline." />
           <div className="w-full max-w-[82vw]">
             <div className="relative hidden h-[32vw] w-[82vw] sm:block">
@@ -565,8 +560,7 @@ export default function Home() {
 
         {/* ===== BOOK A CALL ===== */}
         <section id="contact" className="scroll-mt-24 px-3 md:px-6 pb-6">
-          <div className="relative overflow-hidden rounded-[32px] bg-[#0B1426] text-white px-6 md:px-12 py-20 md:py-28">
-            <div aria-hidden className="cx-flow absolute -inset-[10%] opacity-70" />
+          <div className="relative overflow-hidden rounded-[32px] bg-[#000201] bg-[url('/media/nexacore-glow.webp')] bg-cover bg-bottom text-white px-6 md:px-12 py-20 md:py-28">
             <div className="relative max-w-[1200px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
               <Reveal>
                 <h2 className="text-[length:clamp(36px,5vw,72px)] leading-[1.05] font-semibold tracking-[-0.03em]">
