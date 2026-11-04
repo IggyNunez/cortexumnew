@@ -1,8 +1,8 @@
 // Homepage laid out after Hirael's NexaCore template (MIT, Mohammad Shehadeh,
 // https://hirael.com/templates/nexacore), rebuilt with Cortexuum's content and colors.
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, MotionConfig } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, Minus, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Minus, Play, X } from "lucide-react";
 import christianColgate from "../assets/christian-colgate.webp";
 import cortexuumBrain from "../assets/cortexuum-brain.png";
 import Header from "@/components/Header";
@@ -317,6 +317,83 @@ function LiveHead({ title, intro, light = false }: { title: string; intro?: stri
   );
 }
 
+// Client video testimonial. Plays muted while on screen (poster only under reduced
+// motion); "Play with sound" restarts it from the top with audio and controls.
+const testimonial = {
+  name: "Ryan White",
+  handle: "@ceoryanwhite",
+  role: "Founder, Social Revelation",
+  detail: "3M followers on Instagram",
+  // His exact words from the video (transcript in the .vtt captions).
+  quote: "What really separates him is his understanding of marketing psychology.",
+  result: "We've had ads hitting over 9% click-through rates with opt-ins as low as $5.25 on retargeting.",
+  src: "/media/ryan-white-testimonial.mp4",
+  poster: "/media/ryan-white-testimonial.jpg",
+  captions: "/media/ryan-white-testimonial.vtt",
+};
+
+function VideoTestimonial() {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [sound, setSound] = useState(false);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    v.muted = true;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    }, { threshold: 0.4 });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
+  const playWithSound = () => {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = false;
+    v.loop = false;
+    v.currentTime = 0;
+    if (v.textTracks[0]) v.textTracks[0].mode = "showing";
+    v.play().catch(() => {});
+    setSound(true);
+  };
+
+  return (
+    <div className="relative mx-auto w-full max-w-[360px] aspect-[9/16] overflow-hidden rounded-[28px] bg-[#0E1B33] shadow-[0_30px_80px_-30px_rgba(14,27,51,0.55)]">
+      <video
+        ref={ref}
+        className="absolute inset-0 h-full w-full object-cover"
+        src={testimonial.src}
+        poster={testimonial.poster}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        controls={sound}
+        aria-label={`Video testimonial from ${testimonial.name}`}
+      >
+        <track kind="captions" src={testimonial.captions} srcLang="en" label="English" />
+      </video>
+      {!sound && (
+        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl bg-[#0E1B33]/80 backdrop-blur-md px-4 py-3 text-white">
+          <div className="min-w-0">
+            <p className="font-semibold leading-tight">{testimonial.name}</p>
+            <p className="text-xs text-white/70 truncate">{testimonial.handle}</p>
+          </div>
+          <button
+            type="button"
+            onClick={playWithSound}
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-white bg-white px-4 py-2.5 text-sm font-medium text-[#0E1B33] transition-colors duration-300 hover:bg-[#0E1B33] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7FD3E6]"
+          >
+            <Play className="w-4 h-4" /> Play with sound
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function LogoTile({ brand }: { brand: Brand }) {
   return (
     <div
@@ -567,6 +644,33 @@ export default function Home() {
           </HorizontalScroll>
         </section>
 
+
+        {/* ===== VIDEO TESTIMONIAL ===== */}
+        <section id="testimonial" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <Reveal>
+                <p className="text-sm font-semibold text-[#357BD8]">In their words</p>
+                <blockquote className="mt-5 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.08]">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </blockquote>
+                <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{testimonial.result}&rdquo;</p>
+              </Reveal>
+              <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
+                <img src={testimonial.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
+                <div>
+                  <p className="font-semibold text-lg">{testimonial.name}</p>
+                  <p className="text-slate-500">{testimonial.role}</p>
+                  <p className="text-sm text-slate-400">{testimonial.handle} · {testimonial.detail}</p>
+                </div>
+              </Reveal>
+              <Reveal delay={0.15} className="mt-10">
+                <GradButton>Book a strategy call</GradButton>
+              </Reveal>
+            </div>
+            <Reveal className="order-1 lg:order-2"><VideoTestimonial /></Reveal>
+          </div>
+        </section>
 
         {/* ===== CLIENT ROSTER ===== */}
         <section id="clients" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">

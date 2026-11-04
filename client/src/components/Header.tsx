@@ -4,9 +4,8 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import cortexuumBrain from "@/assets/cortexuum-brain.png";
 import { LiquidNavbar } from "@/components/ui/liquid-glass-navbar";
 
-// Homepage sections in page order. The water drop sits under whichever one is
-// on screen; sections without a link (benefits, contact) keep the one above,
-// and the hero has none lit.
+// Homepage section links. The water drop sits under whichever linked section is
+// on screen; sections without a link keep the one above, and the hero has none lit.
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Results", href: "#proof" },
@@ -37,10 +36,13 @@ const Header = () => {
     const spy = () => {
       if (Date.now() < clickLock.current) return;
       const line = window.innerHeight * 0.4;
+      // Light the link whose section starts closest above the line; the page order
+      // doesn't have to match the link order.
       let i = -1;
+      let best = -Infinity;
       NAV_LINKS.forEach((l, j) => {
-        const el = document.getElementById(l.href.slice(1));
-        if (el && el.getBoundingClientRect().top <= line) i = j;
+        const top = document.getElementById(l.href.slice(1))?.getBoundingClientRect().top;
+        if (top !== undefined && top <= line && top > best) { best = top; i = j; }
       });
       setActive(i);
     };
