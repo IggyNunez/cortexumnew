@@ -240,7 +240,7 @@ function SectionHead({ chip, title, grad, intro, light = false }: { chip?: strin
 function BenefitCard({ b }: { b: (typeof benefits)[number] }) {
   const reveal = "max-h-0 translate-y-5 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:max-h-none [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100";
   return (
-    <div className="group relative flex h-[440px] [@media(hover:none)]:h-auto [@media(hover:none)]:min-h-[340px] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
+    <div className="group relative flex h-[340px] xl:h-[440px] [@media(hover:none)]:h-auto [@media(hover:none)]:min-h-[340px] flex-col overflow-hidden rounded-[32px] bg-[rgba(9,16,32,0.88)] backdrop-blur-2xl">
       <div aria-hidden className="absolute inset-x-0 top-0 h-[55%] -translate-y-[30%] opacity-50 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-70 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(230,62,139,0.22),transparent_70%),linear-gradient(160deg,rgba(53,123,216,0.22),transparent_60%)]" />
       <div className="relative flex h-full flex-col p-[clamp(20px,2vw,28px)]">
         <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[13px] text-white">
@@ -249,7 +249,7 @@ function BenefitCard({ b }: { b: (typeof benefits)[number] }) {
         </span>
         <p className="mt-8 text-[length:clamp(28px,2.4vw,38px)] font-semibold tracking-[-0.03em] leading-[1.05]"><GradText>{b.stat}</GradText></p>
         <div className="flex-grow" />
-        <p className="text-[15px] leading-relaxed text-[#DCE4F2] transition-transform duration-500 group-hover:-translate-y-1">{b.description}</p>
+        <p className="text-[15px] leading-relaxed text-[#DCE4F2] transition-transform duration-500 group-hover:-translate-y-1 [@media(hover:none)]:mt-5">{b.description}</p>
         <div className={reveal}>
           <a href={CTA_URL} target="_blank" rel="noopener noreferrer" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-white bg-white py-3 text-sm font-medium text-[#0E1B33] hover:bg-[#0E1B33] hover:text-white transition-colors duration-300">
             Book a strategy call <ArrowRight className="w-4 h-4" />
@@ -466,7 +466,7 @@ export default function Home() {
             </motion.p>
             <motion.div {...fade(0.5)} className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <GradButton>Book a strategy call</GradButton>
-              <a href="#proof" className="text-[15px] font-medium text-white underline decoration-white/30 underline-offset-[6px] hover:decoration-white transition-colors">See the results</a>
+              <a href="#proof" className="inline-block py-3 text-[15px] font-medium text-white underline decoration-white/30 underline-offset-[6px] hover:decoration-white transition-colors">See the results</a>
             </motion.div>
           </div>
         </section>
@@ -501,17 +501,18 @@ export default function Home() {
         </section>
 
         {/* ===== PROCESS: the delivery staircase ===== */}
-        <section id="process" className="bg-white bg-[url('/media/nexacore-ribbon.webp')] bg-no-repeat bg-[length:260%_auto] bg-bottom sm:bg-cover sm:bg-center scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[260px] sm:pb-[clamp(48px,5.5vw,80px)]">
+        <section id="process" className="bg-white bg-[url('/media/nexacore-ribbon.webp')] bg-no-repeat bg-[length:260%_auto] sm:bg-[length:140%_auto] bg-bottom xl:bg-cover xl:bg-center scroll-mt-24 flex flex-col items-center gap-[clamp(32px,4vw,56px)] px-[clamp(16px,4vw,60px)] pt-[clamp(48px,8vw,120px)] pb-[260px] sm:pb-[320px] xl:pb-[clamp(48px,5.5vw,80px)]">
           <SectionHead chip="90-day buildout" title="From strategy to consistent conversions" grad="in 90 days." intro="A systematic buildout engineered to create a predictable pipeline." />
           <div className="w-full max-w-[82vw]">
-            <div className="relative hidden h-[32vw] w-[82vw] sm:block">
+            {/* The vw-placed staircase only fits from xl; below that its fixed-size text collides */}
+            <div className="relative hidden h-[32vw] w-[82vw] xl:block">
               {stairs.map((s, i) => (
                 <div key={s.title} className="absolute flex flex-col items-start" style={{ left: `${s.start}vw`, bottom: `${s.bottom}vw` }}>
                   <Stair s={s} i={i} />
                 </div>
               ))}
             </div>
-            <div className="flex w-full flex-col gap-10 sm:hidden">
+            <div className="grid w-full gap-10 sm:grid-cols-2 sm:gap-x-12 xl:hidden">
               {stairs.map((s, i) => (
                 <div key={s.title} className="flex flex-col items-start"><Stair s={s} i={i} small /></div>
               ))}
@@ -764,7 +765,7 @@ export default function Home() {
             <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-36 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
               <div>
                 <Reveal>
-                  <h2 className="font-display text-5xl md:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
+                  <h2 className="font-display text-5xl md:text-7xl lg:text-6xl xl:text-7xl font-bold tracking-[-0.04em] leading-[0.95]">
                     Ready to see what proven marketing systems can do?
                   </h2>
                 </Reveal>
@@ -800,11 +801,11 @@ export default function Home() {
             </div>
             <nav className="flex flex-wrap gap-x-6 gap-y-2">
               {[{ label: "Privacy", href: "/privacy" }, { label: "Terms", href: "/terms" }, { label: "Cookies", href: "/cookies" }].map(l => (
-                <a key={l.label} href={l.href} className="hover:text-[#0E1B33] transition-colors">{l.label}</a>
+                <a key={l.label} href={l.href} className="inline-block py-3 hover:text-[#0E1B33] transition-colors">{l.label}</a>
               ))}
               <span className="text-slate-400">
                 Made by{" "}
-                <a href="https://plaintalk.dev" target="_blank" rel="noopener" className="text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[#0E1B33] transition-colors">plaintalk.dev</a>
+                <a href="https://plaintalk.dev" target="_blank" rel="noopener" className="inline-block py-3 text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[#0E1B33] transition-colors">plaintalk.dev</a>
               </span>
             </nav>
           </div>

@@ -124,7 +124,7 @@ const Header = () => {
                 type="button"
                 onClick={() => setMobileMenuOpen(v => !v)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                className="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#0E1B33] text-white shadow-sm"
+                className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#0E1B33] text-white shadow-sm"
               >
                 {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
               </button>

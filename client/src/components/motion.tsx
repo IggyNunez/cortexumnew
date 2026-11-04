@@ -144,12 +144,13 @@ function Word({ children, progress, range }: { children: string; progress: Motio
 }
 
 // Pins the section and slides its row of cards sideways with vertical scroll.
-// Below 1024px, or with reduced motion, the cards render as a plain stack.
+// Below 1024px wide or 800px tall, or with reduced motion, the cards render as a plain stack.
 export function HorizontalScroll({ children, header }: { children: ReactNode; header?: ReactNode }) {
   const section = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const wide = useMediaQuery("(min-width: 1024px)");
+  // Pin only where the tallest card fits on screen; short laptops and landscape iPads get the stack.
+  const wide = useMediaQuery("(min-width: 1024px) and (min-height: 800px)");
   const pinned = wide && !reduce;
   const [distance, setDistance] = useState(0);
   // Scroll spent pinned and still before the cards start moving, so the first one can be read.
