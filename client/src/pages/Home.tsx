@@ -648,28 +648,31 @@ export default function Home() {
 
         {/* ===== VIDEO TESTIMONIAL ===== */}
         <section id="testimonial" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <Reveal>
-                <p className="text-sm font-semibold text-[#357BD8]">In their words</p>
-                <blockquote className="mt-5 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.08]">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </blockquote>
-                <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{testimonial.result}&rdquo;</p>
-              </Reveal>
-              <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
-                <img src={testimonial.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
-                <div>
-                  <p className="font-semibold text-lg">{testimonial.name}</p>
-                  <p className="text-slate-500">{testimonial.role}</p>
-                  <p className="text-sm text-slate-400">{testimonial.handle} · {testimonial.detail}</p>
-                </div>
-              </Reveal>
-              <Reveal delay={0.15} className="mt-10">
-                <GradButton>Book a strategy call</GradButton>
-              </Reveal>
+          <div className="max-w-6xl mx-auto">
+            {/* Section title sits above the grid so more client videos can stack under it */}
+            <LiveHead title="What our clients have to say" />
+            <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+              <div className="order-2 lg:order-1">
+                <Reveal>
+                  <blockquote className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.08]">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </blockquote>
+                  <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{testimonial.result}&rdquo;</p>
+                </Reveal>
+                <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
+                  <img src={testimonial.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
+                  <div>
+                    <p className="font-semibold text-lg">{testimonial.name}</p>
+                    <p className="text-slate-500">{testimonial.role}</p>
+                    <p className="text-sm text-slate-400">{testimonial.handle} · {testimonial.detail}</p>
+                  </div>
+                </Reveal>
+                <Reveal delay={0.15} className="mt-10">
+                  <GradButton>Book a strategy call</GradButton>
+                </Reveal>
+              </div>
+              <Reveal className="order-1 lg:order-2"><VideoTestimonial /></Reveal>
             </div>
-            <Reveal className="order-1 lg:order-2"><VideoTestimonial /></Reveal>
           </div>
         </section>
 
