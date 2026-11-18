@@ -317,22 +317,44 @@ function LiveHead({ title, intro, light = false }: { title: string; intro?: stri
   );
 }
 
-// Client video testimonial. Plays muted while on screen (poster only under reduced
-// motion); "Play with sound" restarts it from the top with audio and controls.
-const testimonial = {
-  name: "Ryan White",
-  handle: "@ceoryanwhite",
-  role: "Founder, Social Revelation",
-  detail: "3M followers on Instagram",
-  // His exact words from the video (transcript in the .vtt captions).
-  quote: "What really separates him is his understanding of marketing psychology.",
-  result: "We've had ads hitting over 9% click-through rates with opt-ins as low as $5.25 on retargeting.",
-  src: "/media/ryan-white-testimonial.mp4",
-  poster: "/media/ryan-white-testimonial.jpg",
-  captions: "/media/ryan-white-testimonial.vtt",
+// Client video testimonials, newest last. Each plays muted while on screen (poster only
+// under reduced motion); "Play with sound" restarts it from the top with audio and
+// controls, and mutes the others. Quotes are the clients' exact words from the video.
+type Testimonial = {
+  name: string;
+  role: string;
+  handle?: string;
+  detail?: string;
+  quote: string;
+  result: string;
+  src: string;
+  poster: string;
+  captions?: string; // omit when captions are burned into the video
 };
 
-function VideoTestimonial() {
+const testimonials: Testimonial[] = [
+  {
+    name: "Ryan White",
+    role: "Founder, Social Revelation",
+    handle: "@ceoryanwhite",
+    detail: "3M followers on Instagram",
+    quote: "What really separates him is his understanding of marketing psychology.",
+    result: "We've had ads hitting over 9% click-through rates with opt-ins as low as $5.25 on retargeting.",
+    src: "/media/ryan-white-testimonial.mp4",
+    poster: "/media/ryan-white-testimonial.jpg",
+    captions: "/media/ryan-white-testimonial.vtt",
+  },
+  {
+    name: "Tom Quinzi",
+    role: "Quantiva Pro",
+    quote: "What sets Christian apart is how holistic he is. Most agencies look at the ad account and pretty much nothing else.",
+    result: "Our cost per booked call has dropped significantly, around 40%.",
+    src: "/media/tom-quinzi-testimonial.mp4",
+    poster: "/media/tom-quinzi-testimonial.jpg",
+  },
+];
+
+function VideoTestimonial({ t }: { t: Testimonial }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [sound, setSound] = useState(false);
 
@@ -351,6 +373,7 @@ function VideoTestimonial() {
   const playWithSound = () => {
     const v = ref.current;
     if (!v) return;
+    document.querySelectorAll<HTMLVideoElement>("#testimonial video").forEach(o => { if (o !== v) o.muted = true; });
     v.muted = false;
     v.loop = false;
     v.currentTime = 0;
@@ -364,22 +387,22 @@ function VideoTestimonial() {
       <video
         ref={ref}
         className="absolute inset-0 h-full w-full object-cover"
-        src={testimonial.src}
-        poster={testimonial.poster}
+        src={t.src}
+        poster={t.poster}
         muted
         loop
         playsInline
         preload="metadata"
         controls={sound}
-        aria-label={`Video testimonial from ${testimonial.name}`}
+        aria-label={`Video testimonial from ${t.name}`}
       >
-        <track kind="captions" src={testimonial.captions} srcLang="en" label="English" />
+        {t.captions && <track kind="captions" src={t.captions} srcLang="en" label="English" />}
       </video>
       {!sound && (
         <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl bg-[#0E1B33]/80 backdrop-blur-md px-4 py-3 text-white">
           <div className="min-w-0">
-            <p className="font-semibold leading-tight">{testimonial.name}</p>
-            <p className="text-xs text-white/70 truncate">{testimonial.handle}</p>
+            <p className="font-semibold leading-tight">{t.name}</p>
+            <p className="text-xs text-white/70 truncate">{t.handle ?? t.role}</p>
           </div>
           <button
             type="button"
@@ -646,33 +669,37 @@ export default function Home() {
         </section>
 
 
-        {/* ===== VIDEO TESTIMONIAL ===== */}
+        {/* ===== VIDEO TESTIMONIALS ===== */}
         <section id="testimonial" className="scroll-mt-24 px-6 md:px-10 py-24 md:py-32">
           <div className="max-w-6xl mx-auto">
-            {/* Section title sits above the grid so more client videos can stack under it */}
+            {/* One row per client video, alternating sides on desktop */}
             <LiveHead title="What our clients have to say" />
-            <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
-              <div className="order-2 lg:order-1">
-                <Reveal>
-                  <blockquote className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.08]">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </blockquote>
-                  <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{testimonial.result}&rdquo;</p>
-                </Reveal>
-                <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
-                  <img src={testimonial.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
-                  <div>
-                    <p className="font-semibold text-lg">{testimonial.name}</p>
-                    <p className="text-slate-500">{testimonial.role}</p>
-                    <p className="text-sm text-slate-400">{testimonial.handle} · {testimonial.detail}</p>
+            <div className="space-y-24 md:space-y-32">
+              {testimonials.map((t, i) => (
+                <div key={t.name} className={`grid gap-12 lg:gap-16 items-center ${i % 2 ? "lg:grid-cols-[1fr_1.15fr]" : "lg:grid-cols-[1.15fr_1fr]"}`}>
+                  <div className={`order-2 ${i % 2 ? "lg:order-2" : "lg:order-1"}`}>
+                    <Reveal>
+                      <blockquote className="font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] leading-[1.08]">
+                        &ldquo;{t.quote}&rdquo;
+                      </blockquote>
+                      <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{t.result}&rdquo;</p>
+                    </Reveal>
+                    <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
+                      <img src={t.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
+                      <div>
+                        <p className="font-semibold text-lg">{t.name}</p>
+                        <p className="text-slate-500">{t.role}</p>
+                        {t.handle && <p className="text-sm text-slate-400">{t.handle}{t.detail && ` · ${t.detail}`}</p>}
+                      </div>
+                    </Reveal>
                   </div>
-                </Reveal>
-                <Reveal delay={0.15} className="mt-10">
-                  <GradButton>Book a strategy call</GradButton>
-                </Reveal>
-              </div>
-              <Reveal className="order-1 lg:order-2"><VideoTestimonial /></Reveal>
+                  <Reveal className={`order-1 ${i % 2 ? "lg:order-1" : "lg:order-2"}`}><VideoTestimonial t={t} /></Reveal>
+                </div>
+              ))}
             </div>
+            <Reveal className="mt-20 md:mt-24 flex justify-center">
+              <GradButton>Book a strategy call</GradButton>
+            </Reveal>
           </div>
         </section>
 
