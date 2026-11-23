@@ -329,6 +329,7 @@ type Testimonial = {
   result: string;
   src: string;
   poster: string;
+  avatar?: string; // small round photo by the name; defaults to the poster
   captions?: string; // omit when captions are burned into the video
 };
 
@@ -351,6 +352,16 @@ const testimonials: Testimonial[] = [
     result: "Our cost per booked call has dropped significantly, around 40%.",
     src: "/media/tom-quinzi-testimonial.mp4",
     poster: "/media/tom-quinzi-testimonial.jpg",
+  },
+  {
+    name: "Shea Dove",
+    role: "Gallaher Edge",
+    quote: "Your work has been absolutely stunning. You've been an amazing partner in every way.",
+    // "…" marks her dropped "almost, God," stumble; the rest is word for word.
+    result: "I've had PPC partners for… almost 15 years. You're one of the really rare good ones.",
+    src: "/media/shea-dove-testimonial.mp4",
+    poster: "/media/shea-dove-testimonial.jpg",
+    avatar: "/media/shea-dove-avatar.jpg",
   },
 ];
 
@@ -569,7 +580,7 @@ export default function Home() {
                 <Reveal key={s.title} delay={i * 0.05}>
                   <div className="group relative grid md:grid-cols-[220px_1fr] gap-3 md:gap-10 py-8 border-t border-slate-200">
                     <span aria-hidden className="absolute left-0 top-[-1px] h-px w-0 bg-[#357BD8] transition-all duration-700 ease-out group-hover:w-full" />
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#357BD8]">{s.title}</h3>
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] transition-colors duration-300 group-hover:text-[#357BD8]">{s.title.replace(/ (\S+)$/, "\u00a0$1")}</h3>
                     <p className="text-slate-600 leading-relaxed">{s.description}</p>
                   </div>
                 </Reveal>
@@ -685,7 +696,7 @@ export default function Home() {
                       <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">&ldquo;{t.result}&rdquo;</p>
                     </Reveal>
                     <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
-                      <img src={t.poster} alt="" className="w-14 h-14 rounded-full object-cover object-[50%_25%]" />
+                      <img src={t.avatar ?? t.poster} alt="" className={`w-14 h-14 rounded-full object-cover ${t.avatar ? "" : "object-[50%_25%]"}`} />
                       <div>
                         <p className="font-semibold text-lg">{t.name}</p>
                         <p className="text-slate-500">{t.role}</p>
